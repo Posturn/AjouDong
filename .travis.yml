@@ -5,3 +5,6 @@ script:
 -python manage.py test
 notifications:
   slack: swcapposturn:qW81nIoC5VXTF6TgjIqqE8bG
+  on_success: always
+  on_failure: always
+  on_error: always
