@@ -3,3 +3,5 @@ python:
 -"3.7.3"
 script:
 -python manage.py test
+notifications:
+  slack: swcapposturn:Qk8hf7XMNKQZm2FxlcbV0iGQ
