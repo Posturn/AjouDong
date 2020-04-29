@@ -6,4 +6,5 @@
     <color name="ajouLogoBlue">#005BAC</color>
     <color name="ajouLogoOrange">#F5A21E</color>
     <color name="colorAccent">#F5A21E</color>
+    <color name="white">#FFFFFF</color>
 </resources>
