@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:background="@color/white">
+
+            <ImageView
+                android:id="@+id/logoimageview"
+                android:layout_width="342dp"
+                android:layout_height="76dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/logo_word" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/editclubinfoLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:background="@color/ajouLogoSky">
+
+            <ImageView
+                android:id="@+id/editclubinfoimageview"
+                android:layout_width="69dp"
+                android:layout_height="108dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.047"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.476"
+                app:srcCompat="@drawable/ic_edit" />
+
+            <TextView
+                android:id="@+id/editclubinfotextView"
+                android:layout_width="197dp"
+                android:layout_height="59dp"
+                android:shadowColor="#33000000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="20"
+                android:text="정보수정"
+                android:textColor="@color/white"
+                android:textSize="36dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.434"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/editclubinfodesctextView"
+                android:layout_width="299dp"
+                android:layout_height="33dp"
+                android:shadowColor="#33000000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="20"
+                android:text="동아리의 기본 정보를 변경하세요."
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.83"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.818" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/managementclubmemberLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:background="@color/ajouLogoBlue">
+
+            <ImageView
+                android:id="@+id/managementclubmemberimageView"
+                android:layout_width="93dp"
+                android:layout_height="87dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.022"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.484"
+                app:srcCompat="@drawable/ic_humancheck" />
+
+            <TextView
+                android:id="@+id/managementclubmembertextView"
+                android:layout_width="197dp"
+                android:layout_height="59dp"
+                android:shadowColor="#33000000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="20"
+                android:text="회원관리"
+                android:textColor="@color/white"
+                android:textSize="36dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.434"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.508" />
+
+            <TextView
+                android:id="@+id/managementclubmemberdesctextView"
+                android:layout_width="299dp"
+                android:layout_height="33dp"
+                android:shadowColor="#33000000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="20"
+                android:text="회원을 추가/삭제할 수 있어요."
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.83"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.818" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/neweventLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:background="@color/ajouLogoOrange">
+
+            <ImageView
+                android:id="@+id/neweventimageView"
+                android:layout_width="72dp"
+                android:layout_height="75dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.047"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.511"
+                app:srcCompat="@drawable/ic_music" />
+
+            <TextView
+                android:id="@+id/neweventtextView"
+                android:layout_width="309dp"
+                android:layout_height="53dp"
+                android:shadowColor="#33000000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="20"
+                android:text="행사등록"
+                android:textColor="@color/white"
+                android:textSize="36dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.911"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.507" />
+
+            <TextView
+                android:id="@+id/neweventdesctextView"
+                android:layout_width="299dp"
+                android:layout_height="33dp"
+                android:shadowColor="#33000000"
+                android:shadowDx="3"
+                android:shadowDy="3"
+                android:shadowRadius="20"
+                android:text="동아리의 공연/행사를 홍보하세요."
+                android:textColor="@color/white"
+                android:textSize="18dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.83"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.818" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

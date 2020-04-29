@@ -11,7 +11,13 @@
         android:roundIcon="@mipmap/ic_launcher_ajoudong_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ManagerMainActivity"></activity>
+        <activity android:name=".ManagerClubInfoEdit"></activity>
+        <activity android:name=".ManagerMemberManagementActivity" />
+        <activity android:name=".ManagerNewEventActivity" />
+        <activity android:name=".UserNewClubListActivity" />
+        <activity android:name=".UserMainClubListActivity" />
+        <activity android:name=".UserMajorClubListActivity" />
+        <activity android:name=".ManagerMainActivity" />
         <activity android:name=".UserMainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
