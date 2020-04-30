@@ -2,16 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ajoudongfe">
 
-
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_ajoudong"
-        android:label="AjouDong"
+        android:label=""
         android:roundIcon="@mipmap/ic_launcher_ajoudong_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ManagerClubInfoEdit"></activity>
+        <activity android:name=".ManagerMemberManagementActivity" />
+        <activity android:name=".ManagerNewEventActivity" />
+        <activity android:name=".UserNewClubListActivity" />
+        <activity android:name=".UserMainClubListActivity" />
+        <activity android:name=".UserMajorClubListActivity" />
+        <activity android:name=".ManagerMainActivity" />
+        <activity android:name=".UserMainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
