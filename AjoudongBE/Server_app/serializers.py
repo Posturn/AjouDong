@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from Server_app.models import Test
+from Server_app.models import userAccount
 
 class TestSerializer(serializers.ModelSerializer):
     class Meta:
-        model=Test
-        fields=('test', )
+        model=userAccount
+        fields=('uID', 'uPW', )

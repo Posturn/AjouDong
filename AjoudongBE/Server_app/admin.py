@@ -1,6 +1,6 @@
 from django.contrib import admin
-from Server_app.models import Test
+from Server_app.models import userAccount
 # Register your models here.
 
 
-admin.site.register(Test)
+admin.site.register(userAccount)
