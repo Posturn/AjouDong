@@ -11,10 +11,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -39,6 +43,8 @@ public class UserMainActivity extends AppCompatActivity {
         ConstraintLayout mainclub = (ConstraintLayout)findViewById(R.id.mainclubLayout);
         ConstraintLayout newclub = (ConstraintLayout)findViewById(R.id.newclubLayout);
 
+        ImageButton eventButton = (ImageButton)findViewById(R.id.usereventlist);
+
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_main);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_main);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -50,14 +56,29 @@ public class UserMainActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
 
-                if(id == R.id.account){
-                    Toast.makeText(context, "계정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
+                if(id == R.id.user_info_edit){
+                    Intent intent = new Intent(getApplicationContext(), UserMyAjouDongActivity.class);
+                    startActivity(intent);
                 }
-                else if(id == R.id.setting){
-                    Toast.makeText(context, "설정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
+                else if(id == R.id.user_apply_result){
+                    Intent intent = new Intent(getApplicationContext(), UserApplicationResultActivity.class);
+                    startActivity(intent);
                 }
-                else if(id == R.id.logout){
-                    Toast.makeText(context, "로그아웃 시도중", Toast.LENGTH_SHORT).show();
+                else if(id == R.id.user_bookmarked_list){
+                    Intent intent = new Intent(getApplicationContext(), UserBookmarkClubActivity.class);
+                    startActivity(intent);
+                }
+                else if(id == R.id.user_new_club_alarm){
+                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.user_apply_state_alarm){
+                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.user_new_event_alarm){
+                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.user_logout){
+                    Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
@@ -90,6 +111,14 @@ public class UserMainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        eventButton.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Intent intent = new Intent(getApplicationContext(), UserNewClubListActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
