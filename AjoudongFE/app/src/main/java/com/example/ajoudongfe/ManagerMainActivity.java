@@ -34,6 +34,7 @@ public class ManagerMainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_hamburger);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
 
         ConstraintLayout editclubinfo = (ConstraintLayout)findViewById(R.id.editclubinfoLayout);
         ConstraintLayout membermanagement = (ConstraintLayout)findViewById(R.id.managementclubmemberLayout);
@@ -50,14 +51,19 @@ public class ManagerMainActivity extends AppCompatActivity {
                 int id = menuItem.getItemId();
                 String title = menuItem.getTitle().toString();
 
-                if(id == R.id.account){
-                    Toast.makeText(context, "계정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
+                if(id == R.id.club_apply_setting){
+                    Intent intent = new Intent(getApplicationContext(), ManagerClubApplySettingActivity.class);
+                    startActivity(intent);
                 }
-                else if(id == R.id.setting){
-                    Toast.makeText(context, "설정 정보를 확인합니다.", Toast.LENGTH_SHORT).show();
+                else if(id == R.id.club_filter_setting){
+                    Intent intent = new Intent(getApplicationContext(), ManagerClubFilterSettingActivity.class);
+                    startActivity(intent);
                 }
-                else if(id == R.id.logout){
-                    Toast.makeText(context, "로그아웃 시도중", Toast.LENGTH_SHORT).show();
+                else if(id == R.id.club_apply_alarm){
+                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
+                }
+                else if(id == R.id.club_logout){
+                    Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
