@@ -6,8 +6,8 @@ env:
 before_install:
     - sudo apt-get install python3-pip
 install:
-    - sudo pip3 install -q Django=$DJANGO_VERSION
-    - sudo pip3 install -q -r requirements.txt
+    - sudo pip3 install -r requirements.txt
+    - sudo pip3 install Django=$DJANGO_VERSION
 before_script: 
     - cd AjoudongBE
 script:
