@@ -3,6 +3,8 @@ python:
     - "3.7"
 env:
     - DJANGO_VERSION==2.2.5
+before install:
+    - sudo apt-get install python3-pip
 install:
     - pip3 install -q Django=$DJANGO_VERSION
 before_script: 
