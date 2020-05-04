@@ -1,26 +1,23 @@
-matrix:
-    include:
-        - language: python
-        python:
-        install:
-            - pip3 install -r requirements.txt
-        before_script: 
-            - cd AjoudongBE
-        script:
-            - python manage.py test
+language: python
+python:
+install:
+    - pip install -r requirements.txt
+before_script: 
+    - cd AjoudongBE
+script:
+- python manage.py test
 
-        - language: android
-        dist: trusty
-        jdk: oraclejdk8
-        android:
-            components:
-                - tools
-                - android-27
-                - build-tools-29.0.3
-        before_script:
-            - cd AjouDongFE
-        script:
-            - ./gradlew build connectedCheck
+language: android
+jdk: oraclejdk8
+android:
+    components:
+        - tools
+        - android-27
+        - build-tools-29.0.3
+before_script:
+    - cd AjouDongFE
+script:
+    - ./gradlew build connectedCheck
 
-        notifications:
-          slack: swcapposturn:qW81nIoC5VXTF6TgjIqqE8bG
+notifications:
+    slack: swcapposturn:qW81nIoC5VXTF6TgjIqqE8bG
