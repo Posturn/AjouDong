@@ -3,8 +3,7 @@ python:
 env:
     - DJANGO_VERSION==2.2.5
 install:
-    - pip3 install -q Django=$DJANGO_VERSION
-    - pip3 install djangorestframework
+    - pip3 install -r requirements.txt
 script:
   - python AjoudongBE/manage.py test
 notifications:
