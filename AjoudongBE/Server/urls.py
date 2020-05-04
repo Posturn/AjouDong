@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
+from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import routers
 
@@ -24,7 +25,7 @@ from Server_app import views
 # router.register(r'tests', views.TestViewSet)
 
 urlpatterns = [
-    path('login', views.login.as_view()),
-    path('sign-up', views.signup.as_view()),
+    path('login', csrf_exempt(views.login.as_view())),
+    path('sign-up', csrf_exempt(views.signup.as_view())),
     re_path('admin/', admin.site.urls),
 ]
