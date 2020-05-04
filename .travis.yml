@@ -1,11 +1,10 @@
 language: python
 python:
     - "3.7"
-before install:
-    - pip install --upgrade pip
+env:
+    - DJANGO_VERSION==2.2.5
 install:
-    - sudo pip install -r requirements.txt
-    
+    - pip3 install -q Django=$DJANGO_VERSION
 before_script: 
     - cd AjoudongBE
 script:
