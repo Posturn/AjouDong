@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from Server_app.models import userAccount, managerAccount
+from .models import userAccount, managerAccount
 
 class login(View):
     @csrf_exempt
@@ -18,9 +18,9 @@ class login(View):
         data = json.loads(request.body)
 
         try:
-            if userAccount.object.filter(uID = data['uID']).exists():
+            if userAccount.objects.filter(uID = data['uID']).exists():
                 return JsonResponse({'message' : 1}, status=200)
-            elif managerAccount.object.filter(mID = data['mID']).exists():
+            elif managerAccount.objects.filter(mID = data['mID']).exists():
                 return JsonResponse({'message' : 1}, status=200)
 
             return HttpResponse(status = 400)
@@ -35,9 +35,9 @@ class signup(View):
         data = json.loads(request.body)
         
         try:
-            if userAccount.object.filter(uID = data['uID']).exists():
+            if userAccount.objects.filter(uID = data['uID']).exists():
                  return JsonResponse({'message' : 'Exists email'}, status=400)
-            userAccount.object.create(
+            userAccount.objects.create(
                 uID = data['uID'],
                 uPW = data['uPW'],
                 uName = data['uName'],
