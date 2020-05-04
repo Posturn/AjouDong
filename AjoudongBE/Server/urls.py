@@ -20,11 +20,11 @@ from rest_framework import routers
 
 from Server_app import views
 
-router=routers.DefaultRouter()
-router.register(r'tests', views.TestViewSet)
+# router=routers.DefaultRouter()
+# router.register(r'tests', views.TestViewSet)
 
 urlpatterns = [
-    path('Server_app/', include('Server_app.urls')),
-    path('', include(router.urls)),
+    path('login', views.login.as_view()),
+    path('sign-up', views.signup.as_view()),
     re_path('admin/', admin.site.urls),
 ]
