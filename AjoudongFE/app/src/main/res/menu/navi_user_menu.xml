@@ -1,21 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/user_group1"
+        android:checkableBehavior="single">
         <item
-            android:id="@+id/account"
-            android:icon="@drawable/ic_launcher_foreground"
+            android:id="@+id/user_info_edit"
+            android:icon="@drawable/ic_user"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:title="계정"
+            android:title="My AjouDong"
+            />
+
+        <item
+            android:id="@+id/user_apply_result"
+            android:icon="@drawable/ic_listboard"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="지원 결과 확인"
             />
         <item
-            android:id="@+id/setting"
-            android:icon="@drawable/ic_launcher_foreground"
+            android:id="@+id/user_bookmarked_list"
+            android:icon="@drawable/ic_bookmark"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
-            android:title="설정"
+            android:title="담아둔 동아리/소학회"
+            />
+    </group>
+
+    <group android:id="@+id/user_group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/user_new_club_alarm"
+            android:icon="@drawable/ic_bulb"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="신규 동아리 등록 알림"
+            app:actionLayout="@layout/switch_item"
             />
         <item
-            android:id="@+id/logout"
-            android:icon="@drawable/ic_launcher_foreground"
+            android:id="@+id/user_apply_state_alarm"
+            android:icon="@drawable/ic_humancheck"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="지원상태 변경 알림"
+            app:actionLayout="@layout/switch_item"
+            />
+        <item
+            android:id="@+id/user_new_event_alarm"
+            android:icon="@drawable/ic_music"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="행사 소식 받기"
+            app:actionLayout="@layout/switch_item"
+            />
+    </group>
+
+    <group android:id="@+id/user_group3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/user_logout"
+            android:icon="@drawable/ic_logout"
             style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
             android:title="로그아웃"
             />

@@ -38,6 +38,7 @@ public class UserMainActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_hamburger);
         actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
 
         ConstraintLayout majorclub = (ConstraintLayout)findViewById(R.id.majorclubLayout);
         ConstraintLayout mainclub = (ConstraintLayout)findViewById(R.id.mainclubLayout);
