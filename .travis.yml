@@ -1,5 +1,7 @@
 language: python
 python:
+before_install: 
+    - pip install --upgrade pip
 install:
     - pip3 install -r requirements.txt
 before_script: 
