@@ -4,9 +4,9 @@ python:
 env:
     - DJANGO_VERSION==3.0.4 
 before_install:
-    - sudo apt-get install python3-pip
+    - sudo apt-get install python3 python3-pip python3-dev python3-setuptools
     - sudo pip3 install --upgrade pip
-    - sudo pip3 install --upgrade setuptools
+    - pip3 install paramiko socketio aiohttp python-socketio call --user 
 install:
     - sudo pip3 install -r requirements.txt
     - sudo pip3 install Django=$DJANGO_VERSION
