@@ -5,7 +5,7 @@ env:
     - DJANGO_VERSION==3.0.4
 before_install:
     - sudo apt-get install python3-pip
-    - sudo pip3 install --upgrade pip
+    
     - sudo pip3 install --upgrade setuptools
 install:
     - sudo pip3 install -r requirements.txt
