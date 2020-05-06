@@ -1,6 +1,12 @@
 package com.example.ajoudongfe;
 
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -11,16 +17,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 public class LoginActivity extends AppCompatActivity
 {
-    public static String BASE_URL= "http://127.0.0.1:8000/";
+    public static String BASE_URL= "http://10.0.2.2:8000";
 
     Button loginButton;
     TextInputLayout idLayout;
@@ -34,7 +36,7 @@ public class LoginActivity extends AppCompatActivity
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
-    RetroService retroService;
+    Retrofit retrofit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,6 +56,11 @@ public class LoginActivity extends AppCompatActivity
 
 
 
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
         pref = getSharedPreferences("aldata", MODE_PRIVATE);
         editor = pref.edit();
 
@@ -62,14 +69,37 @@ public class LoginActivity extends AppCompatActivity
         findPW.setClickable(true);
         signup.setClickable(true);
 
+        Toast.makeText(getApplicationContext(), "Base url = http://127.0.0.1:8000", Toast.LENGTH_LONG).show();
 
         loginButton.setOnClickListener(new Button.OnClickListener(){
             @Override
             public void onClick(View view)
             {
-                String ID = idText.getText().toString();
-                String PW = pwText.getText().toString();
+                LoginObject loginObject = new LoginObject(idText.getText().toString(), pwText.getText().toString());
 
+                RetroService retroService = retrofit.create(RetroService.class);
+                Call<ResponseModel> call = retroService.login(loginObject);
+
+                call.enqueue(new Callback<ResponseModel>() {
+                    @Override
+                    public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                        ResponseModel data = response.body();
+                        if(data.getMessage() == 1)//로그인 성공
+                        {
+                            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_LONG).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseModel> call, Throwable t) {
+                        t.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "연결 실패", Toast.LENGTH_LONG).show();
+                    }
+                });
 
             }
         });

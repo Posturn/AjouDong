@@ -1,13 +1,13 @@
 package com.example.ajoudongfe;
 
 public class ResponseModel {
-    private String message;
+    private int message;
 
-    public void setMessage(String message)
+    public void setMessage(int message)
     {
         this.message = message;
     }
-    public String getMessage()
+    public int getMessage()
     {
         return this.message;
     }

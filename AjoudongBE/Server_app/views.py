@@ -16,14 +16,14 @@ class login(View):
     @csrf_exempt
     def post(self, request):
         data = json.loads(request.body)
-
+        print(data)
         try:
             if userAccount.objects.filter(uID = data['uID']).exists():
                 return JsonResponse({'message' : 1}, status=200)
             elif managerAccount.objects.filter(mID = data['mID']).exists():
                 return JsonResponse({'message' : 1}, status=200)
 
-            return HttpResponse(status = 400)
+            return JsonResponse({'message' : -1}, status = 400)
 
         except KeyError:
             return JsonResponse({'message' : "Invalid Keys"}, status = 400)
