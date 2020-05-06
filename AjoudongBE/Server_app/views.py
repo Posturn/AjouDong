@@ -19,11 +19,11 @@ class login(View):
         print(data)
         try:
             if userAccount.objects.filter(uID = data['uID']).exists():
-                return JsonResponse({'message' : 1}, status=200)
+                return JsonResponse({'message' : 'user'}, status=200)
             elif managerAccount.objects.filter(mID = data['mID']).exists():
-                return JsonResponse({'message' : 1}, status=200)
+                return JsonResponse({'message' : 'manager'}, status=200)
 
-            return JsonResponse({'message' : -1}, status = 400)
+            return JsonResponse({'message' : 'Wrong ID or PW'}, status = 400)
 
         except KeyError:
             return JsonResponse({'message' : "Invalid Keys"}, status = 400)

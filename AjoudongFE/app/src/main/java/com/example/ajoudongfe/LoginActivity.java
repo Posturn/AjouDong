@@ -1,6 +1,5 @@
 package com.example.ajoudongfe;
 
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -68,8 +67,6 @@ public class LoginActivity extends AppCompatActivity
         findID.setClickable(true);
         findPW.setClickable(true);
         signup.setClickable(true);
-
-        Toast.makeText(getApplicationContext(), "Base url = http://127.0.0.1:8000", Toast.LENGTH_LONG).show();
 
         loginButton.setOnClickListener(new Button.OnClickListener(){
             @Override
