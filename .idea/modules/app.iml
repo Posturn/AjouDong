@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <module external.linked.project.id="app" external.linked.project.path="$MODULE_DIR$/../../AjoudongFE/app" external.root.project.path="$MODULE_DIR$/../../AjoudongFE/app" external.system.id="GRADLE" type="JAVA_MODULE" version="4">
+  <component name="FacetManager">
+    <facet type="android" name="Android">
+      <configuration>
+        <option name="GEN_FOLDER_RELATIVE_PATH_APT" value="/../../AjoudongFE/app/gen" />
+        <option name="GEN_FOLDER_RELATIVE_PATH_AIDL" value="/../../AjoudongFE/app/gen" />
+        <option name="MANIFEST_FILE_RELATIVE_PATH" value="/../../AjoudongFE/app/AndroidManifest.xml" />
+        <option name="RES_FOLDER_RELATIVE_PATH" value="/../../AjoudongFE/app/res" />
+        <option name="ASSETS_FOLDER_RELATIVE_PATH" value="/../../AjoudongFE/app/assets" />
+        <option name="LIBS_FOLDER_RELATIVE_PATH" value="/../../AjoudongFE/app/libs" />
+        <option name="PROGUARD_LOGS_FOLDER_RELATIVE_PATH" value="/../../AjoudongFE/app/proguard_logs" />
+      </configuration>
+    </facet>
+  </component>
   <component name="NewModuleRootManager">
-    <content url="file://$MODULE_DIR$/../../AjoudongFE/app" />
+    <content url="file://$MODULE_DIR$/../../AjoudongFE/app">
+      <sourceFolder url="file://$MODULE_DIR$/../../AjoudongFE/app/gen" isTestSource="false" generated="true" />
+    </content>
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>
