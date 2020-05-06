@@ -6,6 +6,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -81,9 +82,18 @@ public class LoginActivity extends AppCompatActivity
                     @Override
                     public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                         ResponseModel data = response.body();
-                        if(data.getMessage() == 1)//로그인 성공
+                        System.out.println(data.getMessage());
+                        if(data.getMessage() == "user")//사용자
                         {
-                            Toast.makeText(getApplicationContext(), "로그인 성공", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getApplicationContext(), "사용자 로그인 성공", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
+                            startActivity(intent);
+                        }
+                        else if(data.getMessage() == "manager")//간부
+                        {
+                            Toast.makeText(getApplicationContext(), "동아리 간부 로그인 성공", Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+                            startActivity(intent);
                         }
                         else
                         {

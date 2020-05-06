@@ -1,14 +1,14 @@
 package com.example.ajoudongfe;
 
 public class ResponseModel {
-    private int message;
+    private int response;
 
-    public void setMessage(int message)
-    {
-        this.message = message;
+
+    public int getResponse() {
+        return response;
     }
-    public int getMessage()
-    {
-        return this.message;
+
+    public void setResponse(int response) {
+        this.response = response;
     }
 }
