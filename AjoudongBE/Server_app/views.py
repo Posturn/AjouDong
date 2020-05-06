@@ -18,11 +18,11 @@ class login(View):
         data = json.loads(request.body)
         print(data)
         try:
-            if userAccount.objects.filter(uID = data['uID']).exists():
-                print("user")
+            if userAccount.objects.filter(uID = data['uID'], uPW = data['uPW']).exists():
+                
                 return JsonResponse({'response' : 1}, status=200)
-            elif managerAccount.objects.filter(mID = data['mID']).exists():
-                print("manager")
+            elif managerAccount.objects.filter(mID = data['uID'], mPW = data['uPW']).exists():
+                
                 return JsonResponse({'response' : 2}, status=200)
 
             return JsonResponse({'response' : -1}, status = 400)

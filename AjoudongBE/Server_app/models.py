@@ -16,6 +16,7 @@ class userAccount(models.Model):
 
 class managerAccount(models.Model):
     mID = models.CharField(max_length=20, primary_key=True)
+    mPW = models.CharField(max_length=20)
     clubID = models.IntegerField()
     clubName = models.CharField(max_length=5,)
     clubIMG = models.CharField(max_length=128,)
