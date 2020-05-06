@@ -1,8 +1,11 @@
 package com.example.ajoudongfe;
 
+import retrofit2.Retrofit;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,17 +15,26 @@ import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+
 public class LoginActivity extends AppCompatActivity
 {
+    public static String BASE_URL= "http://127.0.0.1:8000/";
+
     Button loginButton;
     TextInputLayout idLayout;
     TextInputLayout pwLayout;
     TextInputEditText idText;
     TextInputEditText pwText;
-    Chip autoLogin;
+    RadioButton autoLogin;
     TextView findID;
     TextView findPW;
     TextView signup;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
+    RetroService retroService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,10 +47,15 @@ public class LoginActivity extends AppCompatActivity
         pwLayout = (TextInputLayout) findViewById(R.id.pwLayout);
         idText = (TextInputEditText) findViewById(R.id.idInputText);
         pwText = (TextInputEditText) findViewById(R.id.pwInputText);
-        autoLogin = (Chip) findViewById(R.id.autoLogin);
+        autoLogin = (RadioButton) findViewById(R.id.autoLogin);
         findID = (TextView)findViewById(R.id.findID);
         findPW = (TextView)findViewById(R.id.findPW);
         signup = (TextView)findViewById(R.id.signup);
+
+
+
+        pref = getSharedPreferences("aldata", MODE_PRIVATE);
+        editor = pref.edit();
 
         loginButton.setClickable(true);
         findID.setClickable(true);
@@ -53,7 +70,7 @@ public class LoginActivity extends AppCompatActivity
                 String ID = idText.getText().toString();
                 String PW = pwText.getText().toString();
 
-                Toast.makeText(getApplicationContext(), ID, Toast.LENGTH_LONG).show();
+
             }
         });
 

@@ -10,11 +10,11 @@
         android:id="@+id/loginButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="11dp"
+        android:layout_marginBottom="130dp"
         android:text="로그인버튼"
-        app:layout_constraintStart_toEndOf="@+id/autoLogin"
-        app:layout_constraintTop_toBottomOf="@+id/autoLogin" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/AJOUDONGLogo"
@@ -27,23 +27,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/logo_word" />
 
-    <TextView
-        android:id="@+id/autoLoginText"
+    <RadioButton
+        android:id="@+id/autoLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="2dp"
-        android:text="자동 로그인 여부"
-        app:layout_constraintBaseline_toBaselineOf="@+id/autoLogin"
-        app:layout_constraintStart_toEndOf="@+id/autoLogin" />
-
-    <TextView
-        android:id="@+id/findID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:text="아이디 찾기"
-        app:layout_constraintBaseline_toBaselineOf="@+id/findPW"
-        app:layout_constraintEnd_toStartOf="@+id/loginButton" />
+        android:text="autoLogin"
+        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/findPW"
@@ -64,14 +55,32 @@
         app:layout_constraintBaseline_toBaselineOf="@+id/findPW"
         app:layout_constraintStart_toEndOf="@+id/findPW" />
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/autoLogin"
+    <TextView
+        android:id="@+id/findID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="103dp"
-        android:layout_marginTop="52dp"
-        app:layout_constraintStart_toStartOf="@+id/idLayout"
-        app:layout_constraintTop_toBottomOf="@+id/idLayout" />
+        android:layout_marginEnd="4dp"
+        android:text="아이디 찾기"
+        app:layout_constraintBaseline_toBaselineOf="@+id/findPW"
+        app:layout_constraintEnd_toStartOf="@+id/loginButton" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/pwLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/pwInputText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="hint" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/idLayout"
@@ -86,23 +95,6 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/idInputText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="hint" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/pwLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toTopOf="@+id/autoLoginText"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/pwInputText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="hint" />
