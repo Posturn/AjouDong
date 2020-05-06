@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="120dp"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="@drawable/grid_button_shape"
+    android:elevation="5dp"
+
+    >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp">
+
+        <com.example.ajoudongfe.RoundImageView
+            android:id="@+id/imageView1"
+            android:layout_width="120dp"
+            android:layout_height="150dp"
+            android:background="@drawable/grid_button_image_shape"
+            android:scaleType="fitXY" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:layout_gravity="bottom"
+            android:width="120dp"
+            android:height="5dp"
+            android:background="@color/white" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="120dp"
+        android:layout_height="30dp"
+        android:gravity="center_vertical|center"
+        />
+
+</LinearLayout>
