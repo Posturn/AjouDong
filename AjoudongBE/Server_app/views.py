@@ -20,15 +20,15 @@ class login(View):
         try:
             if userAccount.objects.filter(uID = data['uID']).exists():
                 print("user")
-                return JsonResponse({'message' : 1}, status=200)
+                return JsonResponse({'response' : 1}, status=200)
             elif managerAccount.objects.filter(mID = data['mID']).exists():
                 print("manager")
-                return JsonResponse({'message' : 2}, status=200)
+                return JsonResponse({'response' : 2}, status=200)
 
-            return JsonResponse({'message' : -1}, status = 400)
+            return JsonResponse({'response' : -1}, status = 400)
 
         except KeyError:
-            return JsonResponse({'message' : -2}, status = 400)
+            return JsonResponse({'response' : -2}, status = 400)
 
 class signup(View):
     @csrf_exempt

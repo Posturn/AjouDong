@@ -82,14 +82,14 @@ public class LoginActivity extends AppCompatActivity
                     @Override
                     public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                         ResponseModel data = response.body();
-                        System.out.println(data.getMessage());
-                        if(data.getMessage() == "user")//사용자
+                        System.out.println(data.getResponse());
+                        if(data.getResponse() == 1)//사용자
                         {
                             Toast.makeText(getApplicationContext(), "사용자 로그인 성공", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
                             startActivity(intent);
                         }
-                        else if(data.getMessage() == "manager")//간부
+                        else if(data.getResponse() == 2)//간부
                         {
                             Toast.makeText(getApplicationContext(), "동아리 간부 로그인 성공", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
