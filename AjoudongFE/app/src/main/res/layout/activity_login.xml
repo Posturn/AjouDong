@@ -8,13 +8,27 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="wrap_content"
+        android:layout_width="315dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="130dp"
-        android:text="로그인버튼"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/loginbutton"
+        android:text="로그인"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/autoLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="50dp"
+        android:text="자동 로그인 하기"
+        android:buttonTint="#8EC0EB"
+        app:layout_constraintBottom_toBottomOf="@+id/loginButton"
+        app:layout_constraintStart_toStartOf="@+id/loginButton" />
 
     <ImageView
         android:id="@+id/AJOUDONGLogo"
@@ -27,77 +41,78 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/logo_word" />
 
-    <RadioButton
-        android:id="@+id/autoLogin"
+    <TextView
+        android:id="@+id/signup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="autoLogin"
-        app:layout_constraintBottom_toTopOf="@+id/loginButton"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="6dp"
+        android:text="회원가입"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/findPW"
+        app:layout_constraintTop_toBottomOf="@+id/loginButton" />
+
+    <TextView
+        android:id="@+id/findID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="아이디 찾기"
+        app:layout_constraintBaseline_toBaselineOf="@+id/findPW"
+        app:layout_constraintEnd_toStartOf="@+id/findPW"
         app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/findPW"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="14dp"
-        android:layout_marginTop="42dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginEnd="19dp"
         android:text="비밀번호 찾기"
+        app:layout_constraintEnd_toStartOf="@+id/signup"
         app:layout_constraintStart_toEndOf="@+id/findID"
         app:layout_constraintTop_toBottomOf="@+id/loginButton" />
 
-    <TextView
-        android:id="@+id/signup"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="회원가입"
-        app:layout_constraintBaseline_toBaselineOf="@+id/findPW"
-        app:layout_constraintStart_toEndOf="@+id/findPW" />
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.442">
 
-    <TextView
-        android:id="@+id/findID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:text="아이디 찾기"
-        app:layout_constraintBaseline_toBaselineOf="@+id/findPW"
-        app:layout_constraintEnd_toStartOf="@+id/loginButton" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/idInputText"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/edittext_border"
+            android:hint="@string/IDTEXT"
+            android:inputType="textNoSuggestions" />/>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/pwLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/idLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/pwInputText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="hint" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/idLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginEnd="1dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/idInputText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="hint" />
+            android:layout_height="50dp"
+            android:background="@drawable/edittext_border"
+            android:hint="@string/PWTEXT"
+            android:inputType="textPassword|textNoSuggestions" />
     </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

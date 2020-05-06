@@ -11,7 +11,10 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +32,7 @@ public class LoginActivity extends AppCompatActivity
     TextInputLayout pwLayout;
     TextInputEditText idText;
     TextInputEditText pwText;
-    RadioButton autoLogin;
+    CheckBox autoLogin;
     TextView findID;
     TextView findPW;
     TextView signup;
@@ -49,25 +52,28 @@ public class LoginActivity extends AppCompatActivity
         pwLayout = (TextInputLayout) findViewById(R.id.pwLayout);
         idText = (TextInputEditText) findViewById(R.id.idInputText);
         pwText = (TextInputEditText) findViewById(R.id.pwInputText);
-        autoLogin = (RadioButton) findViewById(R.id.autoLogin);
+        autoLogin = (CheckBox) findViewById(R.id.autoLogin);
         findID = (TextView)findViewById(R.id.findID);
         findPW = (TextView)findViewById(R.id.findPW);
         signup = (TextView)findViewById(R.id.signup);
-
-
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        pref = getSharedPreferences("aldata", MODE_PRIVATE);
+        pref = getSharedPreferences("autologin", MODE_PRIVATE);
         editor = pref.edit();
 
         loginButton.setClickable(true);
         findID.setClickable(true);
         findPW.setClickable(true);
         signup.setClickable(true);
+
+        if(pref.getBoolean("Auto_Login_Enabled", false))//자동로그인
+        {
+            Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
+        }
 
         loginButton.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -87,12 +93,26 @@ public class LoginActivity extends AppCompatActivity
                         {
                             Toast.makeText(getApplicationContext(), "사용자 로그인 성공", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
+                            if(autoLogin.isChecked()) {
+                                startActivity(intent);
+                                editor.putBoolean("Auto_Login_Enabled", true);
+                                editor.putString("ID", idText.getText().toString());
+                                editor.putString("PW", pwText.getText().toString());
+                                editor.commit();
+                            }
                             startActivity(intent);
                         }
                         else if(data.getResponse() == 2)//간부
                         {
                             Toast.makeText(getApplicationContext(), "동아리 간부 로그인 성공", Toast.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+                            if(autoLogin.isChecked()) {
+                                startActivity(intent);
+                                editor.putBoolean("Auto_Login_Enabled", true);
+                                editor.putString("ID", idText.getText().toString());
+                                editor.putString("PW", pwText.getText().toString());
+                                editor.commit();
+                            }
                             startActivity(intent);
                         }
                         else
@@ -109,6 +129,18 @@ public class LoginActivity extends AppCompatActivity
                 });
 
             }
+        });
+
+        autoLogin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if(!(autoLogin.isChecked())){
+                    editor.clear();
+                    editor.commit();
+                    Toast.makeText(getApplicationContext(), "자동 로그인 해제", Toast.LENGTH_LONG).show();
+                }
+            }
+
         });
 
         findID.setOnClickListener(new TextView.OnClickListener(){
