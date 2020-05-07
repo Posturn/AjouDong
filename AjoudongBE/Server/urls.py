@@ -26,7 +26,7 @@ from Server_app.signup import signup
 
 urlpatterns = [
     path('login', csrf_exempt(login.login.as_view())),
-    #path('sign-up', csrf_exempt(views.signup.as_view())),
+    path('sign-up', csrf_exempt(signup.signup.as_view())),
     #path('sign-up/sameID', ),
     re_path('admin/', admin.site.urls),
 ]
