@@ -21,12 +21,10 @@ from rest_framework import routers
 
 from Server_app.login import login
 from Server_app.signup import signup 
-# router=routers.DefaultRouter()
-# router.register(r'tests', views.TestViewSet)
 
 urlpatterns = [
     path('login', csrf_exempt(login.login.as_view())),
     path('sign-up', csrf_exempt(signup.signup.as_view())),
-    #path('sign-up/sameID', ),
+    path('sign-up/sameID', csrf_exempt(signup.checkSameID.as_view())),
     re_path('admin/', admin.site.urls),
 ]
