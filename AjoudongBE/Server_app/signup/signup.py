@@ -18,8 +18,6 @@ class signup(View):
         data = json.loads(request.body)
         
         try:
-            if userAccount.objects.filter(uID = data['uID']).exists():
-                 return JsonResponse({'message' : 'Exists email'}, status=400)
             userAccount.objects.create(
                 uID = data['uID'],
                 uPW = data['uPW'],
@@ -34,4 +32,19 @@ class signup(View):
             return HttpResponse(status = 200)
 
         except KeyError:
-            return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
+            return JsonResponse({'response' : -1}, status = 400)
+
+class checkSameID(View):
+    @csrf_exempt
+    def post(self, request):
+        data = json.loads(request.body)
+
+        try:
+            if userAccount.objects.filter(uID = data['uID']).exists():
+                 return JsonResponse({'response' : 0}, status=400)
+            return JsonResponse({'response' : 1}, status=200)
+
+        except KeyError:
+            return JsonResponse({'response' : -1}, status = 400)
+            
+
