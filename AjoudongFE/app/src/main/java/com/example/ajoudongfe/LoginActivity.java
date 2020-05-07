@@ -26,6 +26,8 @@ public class LoginActivity extends AppCompatActivity
     public static String BASE_URL= "http://10.0.2.2:8000";
 
     Button loginButton;
+    Button userLogin;
+    Button managerLogin;
     TextInputLayout idLayout;
     TextInputLayout pwLayout;
     TextInputEditText idText;
@@ -46,6 +48,8 @@ public class LoginActivity extends AppCompatActivity
         setContentView(R.layout.activity_login);
 
         loginButton = (Button) findViewById(R.id.loginButton);
+        userLogin = (Button) findViewById(R.id.userLogin);
+        managerLogin = (Button) findViewById(R.id.managerLogin);
         idLayout = (TextInputLayout) findViewById(R.id.idLayout);
         pwLayout = (TextInputLayout) findViewById(R.id.pwLayout);
         idText = (TextInputEditText) findViewById(R.id.idInputText);
@@ -64,6 +68,8 @@ public class LoginActivity extends AppCompatActivity
         editor = pref.edit();
 
         loginButton.setClickable(true);
+        userLogin.setClickable(true);
+        managerLogin.setClickable(true);
         findID.setClickable(true);
         findPW.setClickable(true);
         signup.setClickable(true);
@@ -72,6 +78,8 @@ public class LoginActivity extends AppCompatActivity
         {
             Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
         }
+
+
 
         loginButton.setOnClickListener(new Button.OnClickListener(){
             @Override

@@ -50,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
 public static String BASE_URL= "http://10.0.2.2:8000";
 
     Button loginButton;
+    Button userLogin;
+    Button managerLogin;
     TextInputLayout idLayout;
     TextInputLayout pwLayout;
     TextInputEditText idText;
@@ -70,6 +72,8 @@ public static String BASE_URL= "http://10.0.2.2:8000";
         setContentView(R.layout.activity_login);
 
         loginButton = (Button) findViewById(R.id.loginButton);
+        userLogin = (Button) findViewById(R.id.userLogin);
+        managerLogin = (Button) findViewById(R.id.managerLogin);
         idLayout = (TextInputLayout) findViewById(R.id.idLayout);
         pwLayout = (TextInputLayout) findViewById(R.id.pwLayout);
         idText = (TextInputEditText) findViewById(R.id.idInputText);
@@ -96,6 +100,26 @@ public static String BASE_URL= "http://10.0.2.2:8000";
         {
             Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
         }
+        userLogin.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
+                Toast.makeText(getApplicationContext(), "사용자 화면 이동", Toast.LENGTH_LONG).show();//테스트용 파일
+                startActivity(intent);
+            }
+        });
+
+        managerLogin.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+                Toast.makeText(getApplicationContext(), "동아리 간부 화면 이동", Toast.LENGTH_LONG).show();//테스트용 파일
+                startActivity(intent);
+            }
+        });
+
 
         loginButton.setOnClickListener(new Button.OnClickListener(){
             @Override
