@@ -1,6 +1,10 @@
 package com.example.ajoudongfe;
 
-import androidx.appcompat.app.AppCompatActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,42 +16,14 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
-
-public class MainActivity extends AppCompatActivity {
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        Button user_button = (Button)findViewById(R.id.button_user_main);
-//        Button manager_button = (Button)findViewById(R.id.button_manager_main);
-//
-//        user_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        manager_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-public static String BASE_URL= "http://10.0.2.2:8000";
+public class LoginActivity extends AppCompatActivity
+{
+    public static String BASE_URL= "http://10.0.2.2:8000";
 
     Button loginButton;
     TextInputLayout idLayout;
@@ -190,3 +166,4 @@ public static String BASE_URL= "http://10.0.2.2:8000";
         });
     }
 }
+

@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">AjoudongFE</string>
+    <string name="app_name">\ AjoudongFE</string>
+    <string name="IDTEXT">\ 아이디</string>
+    <string name="PWTEXT">\ 비밀번호</string>
 </resources>

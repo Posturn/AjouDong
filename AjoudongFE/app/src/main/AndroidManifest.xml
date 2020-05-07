@@ -10,6 +10,7 @@
         android:label="AJOUDONG"
         android:roundIcon="@mipmap/ic_launcher_ajoudong_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
         <activity android:name=".UserEventListActivity"></activity>
         <activity android:name=".UserBookmarkClubActivity" />
