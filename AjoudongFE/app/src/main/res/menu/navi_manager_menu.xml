@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/manager_group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/club_apply_setting"
+            android:icon="@drawable/ic_listboard"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="동아리 지원 설정"
+            />
+        <item
+            android:id="@+id/club_filter_setting"
+            android:icon="@drawable/ic_filter"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="동아리 필터 설정"
+            />
+    </group>
+
+    <group android:id="@+id/manager_group2"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/club_apply_alarm"
+            android:icon="@drawable/ic_humancheck"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="신규 지원자 알림"
+            app:actionLayout="@layout/switch_item">
+        </item>
+    </group>
+
+    <group android:id="@+id/manager_group3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/club_logout"
+            android:icon="@drawable/ic_logout"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+            android:title="로그아웃"
+            />
+    </group>
+</menu>
