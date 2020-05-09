@@ -23,31 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-//
-//        Button user_button = (Button)findViewById(R.id.button_user_main);
-//        Button manager_button = (Button)findViewById(R.id.button_manager_main);
-//
-//        user_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//
-//        manager_button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
-//    }
-public static String BASE_URL= "http://10.0.2.2:8000";
+
+    public static String BASE_URL= "http://10.0.2.2:8000";
 
     Button loginButton;
     Button userLogin;
@@ -69,7 +46,7 @@ public static String BASE_URL= "http://10.0.2.2:8000";
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_main);
 
         loginButton = (Button) findViewById(R.id.loginButton);
         userLogin = (Button) findViewById(R.id.userLogin);
@@ -99,6 +76,7 @@ public static String BASE_URL= "http://10.0.2.2:8000";
         if(pref.getBoolean("Auto_Login_Enabled", false))//자동로그인
         {
             Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
+
         }
         userLogin.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -125,46 +103,17 @@ public static String BASE_URL= "http://10.0.2.2:8000";
             @Override
             public void onClick(View view)
             {
-                LoginObject loginObject = new LoginObject(idText.getText().toString(), pwText.getText().toString());
-
-                RetroService retroService = retrofit.create(RetroService.class);
-                Call<ResponseModel> call = retroService.login(loginObject);
+                Call<ResponseModel> call = sendRequest(idText.getText().toString(), pwText.getText().toString());
 
                 call.enqueue(new Callback<ResponseModel>() {
                     @Override
                     public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                         ResponseModel data = response.body();
-                        System.out.println(data.getResponse());
-                        if(data.getResponse() == 1)//사용자
+                        if(getResponse(data) > 0)
                         {
-                            Toast.makeText(getApplicationContext(), "사용자 로그인 성공", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
-                            if(autoLogin.isChecked()) {
-                                startActivity(intent);
-                                editor.putBoolean("Auto_Login_Enabled", true);
-                                editor.putString("ID", idText.getText().toString());
-                                editor.putString("PW", pwText.getText().toString());
-                                editor.commit();
-                            }
-                            startActivity(intent);
+                            checkAutoLogin();
                         }
-                        else if(data.getResponse() == 2)//간부
-                        {
-                            Toast.makeText(getApplicationContext(), "동아리 간부 로그인 성공", Toast.LENGTH_LONG).show();
-                            Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
-                            if(autoLogin.isChecked()) {
-                                startActivity(intent);
-                                editor.putBoolean("Auto_Login_Enabled", true);
-                                editor.putString("ID", idText.getText().toString());
-                                editor.putString("PW", pwText.getText().toString());
-                                editor.commit();
-                            }
-                            startActivity(intent);
-                        }
-                        else
-                        {
-                            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_LONG).show();
-                        }
+
                     }
 
                     @Override
@@ -212,5 +161,41 @@ public static String BASE_URL= "http://10.0.2.2:8000";
                 Toast.makeText(getApplicationContext(), "회원가입", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private int getResponse(ResponseModel data) {
+        if(data.getResponse() == 1)//사용자
+        {
+            Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
+            startActivity(intent);
+            return 1;
+        }
+        else if(data.getResponse() == 2)//간부
+        {
+            Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+            startActivity(intent);
+            return 1;
+        }
+        else
+        {
+            Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_LONG).show();
+            return 0;
+        }
+    }
+
+    private void checkAutoLogin() {
+        if (autoLogin.isChecked()) {
+            editor.putBoolean("Auto_Login_Enabled", true);
+            editor.putString("ID", idText.getText().toString());
+            editor.putString("PW", pwText.getText().toString());
+            editor.commit();
+        }
+    }
+
+    private Call<ResponseModel> sendRequest(String ID, String PW) {
+        LoginObject loginObject = new LoginObject(ID, PW);
+
+        RetroService retroService = retrofit.create(RetroService.class);
+        return retroService.login(loginObject);
     }
 }
