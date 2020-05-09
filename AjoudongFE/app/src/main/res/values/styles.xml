@@ -16,6 +16,8 @@
     <style name="LightToolBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:background">@color/ajouLogoSky</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_back</item>
     </style>
 
     <style name="DarkToolBarTheme" parent="Theme.AppCompat.Light.NoActionBar">

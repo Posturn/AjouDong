@@ -20,6 +20,7 @@
         <activity android:name=".ManagerClubFilterSettingActivity" />
         <activity android:name=".ManagerClubApplySettingActivity" />
         <activity android:name=".ManagerClubInfoEdit" />
+        <activity android:name=".ManagerClubActivityEdit" />
         <activity android:name=".ManagerMemberManagementActivity" />
         <activity android:name=".ManagerNewEventActivity" />
         <activity android:name=".UserNewClubListActivity" />
