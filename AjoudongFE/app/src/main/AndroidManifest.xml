@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".UserEventListActivity"></activity>
         <activity android:name=".UserBookmarkClubActivity" />
         <activity android:name=".UserApplicationResultActivity" />
@@ -26,6 +27,7 @@
         <activity android:name=".UserMajorClubListActivity" />
         <activity android:name=".ManagerMainActivity" />
         <activity android:name=".UserMainActivity" />
+        <activity android:name=".SignupActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
