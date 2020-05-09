@@ -17,6 +17,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
@@ -37,6 +40,15 @@ public class UserMainClubListActivity extends AppCompatActivity {
         final GridView gridView = findViewById(R.id.gridView01);
 
         final MajorImageAdapter adapter = new MajorImageAdapter();
+        gridView.setAdapter(adapter);
+
+        gridView.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), ClubInfomation.class);
+                startActivity(intent);
+        }
+        });
 
         adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_0), "동아리1"));
         adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_1), "동아리2"));
@@ -417,7 +429,6 @@ public class UserMainClubListActivity extends AppCompatActivity {
                 ButtonArt.setBackgroundResource(R.drawable.grid_category_click_shape);
                 ButtonSub.setBackgroundResource(R.drawable.grid_category_unclick_shape);
 
-                gridView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
             }
         });
