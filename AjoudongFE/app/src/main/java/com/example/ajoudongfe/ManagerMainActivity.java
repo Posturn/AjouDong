@@ -64,6 +64,9 @@ public class ManagerMainActivity extends AppCompatActivity {
                 }
                 else if(id == R.id.club_logout){
                     Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
                 }
 
                 return true;
