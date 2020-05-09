@@ -15,6 +15,9 @@ import android.widget.Toast;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -197,5 +200,27 @@ public class MainActivity extends AppCompatActivity {
 
         RetroService retroService = retrofit.create(RetroService.class);
         return retroService.login(loginObject);
+    }
+
+    private String makeSHA256(String originPW)
+    {
+        String EncryptedPW = "";
+        try {
+            MessageDigest sh = MessageDigest.getInstance("SHA-256");
+            sh.update(originPW.getBytes());
+            byte byteData[] = sh.digest();
+            StringBuffer stringBuffer = new StringBuffer();
+            for (int i = 0; i < byteData.length; i++)
+            {
+                stringBuffer.append(Integer.toString((byteData[i]&0xff) + 0x100, 16).substring(1));
+            }
+            EncryptedPW = stringBuffer.toString();
+        }
+        catch(NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+            EncryptedPW = null;
+        }
+        return EncryptedPW;
     }
 }
