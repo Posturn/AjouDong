@@ -25,6 +25,7 @@
         <activity android:name=".UserMajorClubListActivity" />
         <activity android:name=".ManagerMainActivity" />
         <activity android:name=".UserMainActivity" />
+        <activity android:name=".UserMajorSelectActivity"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
