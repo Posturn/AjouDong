@@ -3,6 +3,8 @@ package com.example.ajoudongfe;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -78,7 +80,20 @@ public class UserMajorSelectActivity extends AppCompatActivity {
                 drawerlayout.openDrawer(GravityCompat.START);
                 return true;
             }
+            case R.id.toolbarSearch:{
+                return true;
+            }
+            case R.id.toolbarFilter:{
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.user_mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }

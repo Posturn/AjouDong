@@ -13,6 +13,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -48,6 +50,7 @@ public class UserMainClubListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.mainclubtoolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_hamburger);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
@@ -459,6 +462,7 @@ public class UserMainClubListActivity extends AppCompatActivity {
         });
         ButtonAll.performClick();
     };
+    //툴바 버튼
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -466,8 +470,21 @@ public class UserMainClubListActivity extends AppCompatActivity {
                 drawerlayout.openDrawer(GravityCompat.START);
                 return true;
             }
+            case R.id.toolbarSearch:{
+                return true;
+            }
+            case R.id.toolbarFilter:{
+                return true;
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.user_mainmenu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
 
