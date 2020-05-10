@@ -10,7 +10,9 @@
         android:label="AJOUDONG"
         android:roundIcon="@mipmap/ic_launcher_ajoudong_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
+
         <activity android:name=".UserEventListActivity"></activity>
         <activity android:name=".UserBookmarkClubActivity" />
         <activity android:name=".UserApplicationResultActivity" />
@@ -27,7 +29,16 @@
         <activity android:name=".UserMainActivity" />
         <activity android:name=".UserMajorSelectActivity"/>
         <activity android:name=".ClubInfomation"/>
+        <activity android:name=".SignupActivity"/>
+        <activity android:name=".AuthActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity android:name=".MainActivity">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

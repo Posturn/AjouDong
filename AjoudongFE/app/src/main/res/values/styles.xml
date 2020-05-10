@@ -48,9 +48,4 @@
     <style name="NaNumCheckboxStyle" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
         <item name="android:fontFamily">@font/nanumbarungothic</item>
     </style>
-    <style name="Bold">
-        <item name="android:textStyle">bold</item>
-    </style>
-
-
 </resources>
