@@ -6,12 +6,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -71,6 +75,129 @@ public class UserMajorSelectActivity extends AppCompatActivity {
                 return true;
             }
         });
+        LinearLayout all = (LinearLayout) findViewById(R.id.majorAll);
+        LinearLayout engin = (LinearLayout) findViewById(R.id.majorEngin);
+        LinearLayout com = (LinearLayout)findViewById(R.id.majorCom);
+
+        LinearLayout science = (LinearLayout)findViewById(R.id.majorScience);
+        LinearLayout bus = (LinearLayout)findViewById(R.id.majorBus);
+        LinearLayout human = (LinearLayout)findViewById(R.id.majorHuman);
+
+        LinearLayout social = (LinearLayout)findViewById(R.id.majorSocial);
+        LinearLayout medic = (LinearLayout)findViewById(R.id.majorMedic);
+        LinearLayout nurse = (LinearLayout)findViewById(R.id.majorNurse);
+
+        LinearLayout phar = (LinearLayout)findViewById(R.id.majorPhar);
+        LinearLayout dasan = (LinearLayout)findViewById(R.id.majorDasan);
+        LinearLayout national = (LinearLayout)findViewById(R.id.majorNational);
+
+        all.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        engin.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        com.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        science.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        bus.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        human.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        social.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        medic.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        nurse.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        phar.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        dasan.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
+
+        national.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                startActivity(intent);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -96,4 +223,6 @@ public class UserMajorSelectActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.user_mainmenu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+
 }
