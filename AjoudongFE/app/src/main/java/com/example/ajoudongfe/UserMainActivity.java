@@ -94,7 +94,7 @@ public class UserMainActivity extends AppCompatActivity {
         majorclub.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), UserMajorSelectActivity.class);
                 startActivity(intent);
                 return false;
             }
