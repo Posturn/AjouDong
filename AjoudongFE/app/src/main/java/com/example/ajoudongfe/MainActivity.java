@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -44,12 +45,14 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
     Retrofit retrofit;
+    RetroRequest retroRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); //키보드 UI 가림 방지
 
         loginButton = (Button) findViewById(R.id.loginButton);
         userLogin = (Button) findViewById(R.id.userLogin);
