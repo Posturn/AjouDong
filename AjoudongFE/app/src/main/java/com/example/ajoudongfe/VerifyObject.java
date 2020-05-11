@@ -1,22 +1,22 @@
 package com.example.ajoudongfe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class VerifyObject {
-    String userName;
-    String verifyCode;
+    int templateSid;
+    List<String> recipents;
 
-    public String getUserName() {
-        return userName;
+
+    public void appendRecipents(String address, List<String> parameter)
+    {
+
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+    public List<String> appendParameter(String who_signup, String verify_code)
+    {
+        List<String> parameter = new ArrayList<>(){
 
-    public String getVerifyCode() {
-        return verifyCode;
-    }
-
-    public void setVerifyCode(String verifyCode) {
-        this.verifyCode = verifyCode;
+        };
     }
 }
