@@ -14,15 +14,24 @@
         android:fillViewport="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.864">
+        app:layout_constraintVertical_bias="1.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/LightToolBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
                 android:id="@+id/camera_btn"
@@ -43,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="271dp"
                 android:layout_marginTop="48dp"
-                android:contentDescription="TODO"
+                android:contentDescription="club_profile_image"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -85,6 +94,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/imageView"
                 app:layout_constraintVertical_bias="0.0" />
 
+            <View
+                android:id="@+id/view2"
+                android:layout_width="390dp"
+                android:layout_height="1dp"
+                android:background="#D3D3D3"
+                app:layout_constraintBottom_toTopOf="@+id/editText2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText"
+                app:layout_constraintVertical_bias="0.255" />
+
             <TextView
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
@@ -118,6 +138,17 @@
                 app:layout_constraintTop_toBottomOf="@+id/editText"
                 app:layout_constraintVertical_bias="0.08" />
 
+            <View
+                android:id="@+id/view3"
+                android:layout_width="390dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="36dp"
+                android:background="#D3D3D3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.523"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText2" />
+
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
@@ -136,7 +167,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:layout_marginBottom="10dp"
-                android:text="회장단 연락처"
+                android:text="FAQ(자주 묻는 질문)"
                 android:textSize="18sp"
                 app:layout_constraintBottom_toTopOf="@+id/editText3"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -147,9 +178,58 @@
 
             <EditText
                 android:id="@+id/editText3"
-                android:layout_width="364dp"
-                android:layout_height="219dp"
-                android:layout_marginBottom="92dp"
+                android:layout_width="380dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="1dp"
+                android:background="@drawable/textbox"
+                android:fontFamily="@font/nanumbarungothic"
+                android:gravity="top"
+                android:hint="FAQ를 입력해주세요."
+                android:inputType="textMultiLine"
+                android:maxLength="100"
+                android:paddingLeft="3dp"
+                android:paddingTop="3dp"
+                android:textSize="13sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.491"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+            <View
+                android:id="@+id/view6"
+                android:layout_width="390dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="9dp"
+                android:background="#D3D3D3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editText3" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="18dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="297dp"
+                android:text="회장단 연락처"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.333"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view6" />
+
+            <EditText
+                android:id="@+id/editText7"
+                android:layout_width="380dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginBottom="56dp"
                 android:background="@drawable/textbox"
                 android:fontFamily="@font/nanumbarungothic"
                 android:gravity="top"
@@ -159,63 +239,34 @@
                 android:paddingLeft="3dp"
                 android:paddingTop="3dp"
                 android:textSize="13sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.491"
-                app:layout_constraintStart_toStartOf="parent" />
-
-            <View
-                android:id="@+id/view2"
-                android:layout_width="390dp"
-                android:layout_height="1dp"
-                android:background="#D3D3D3"
-                app:layout_constraintBottom_toTopOf="@+id/editText2"
+                app:layout_constraintBottom_toTopOf="@+id/view5"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText"
-                app:layout_constraintVertical_bias="0.255" />
-
-            <View
-                android:id="@+id/view3"
-                android:layout_width="390dp"
-                android:layout_height="1dp"
-                android:layout_marginTop="36dp"
-                android:background="#D3D3D3"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.523"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText2" />
+                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                app:layout_constraintVertical_bias="0.0" />
 
             <View
                 android:id="@+id/view4"
                 android:layout_width="390dp"
                 android:layout_height="1dp"
-                android:layout_marginBottom="40dp"
+                android:layout_marginBottom="44dp"
                 android:background="#D3D3D3"
                 app:layout_constraintBottom_toTopOf="@+id/editText3"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.809"
+                app:layout_constraintHorizontal_bias="0.666"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <View
                 android:id="@+id/view5"
                 android:layout_width="390dp"
                 android:layout_height="1dp"
-                android:layout_marginTop="45dp"
+                android:layout_marginTop="94dp"
                 android:background="#FFFFFF"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.548"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editText3" />
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:theme="@style/LightToolBarTheme"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@+id/editText7" />
 
             <LinearLayout
                 android:id="@+id/linear2"
@@ -238,7 +289,6 @@
                     android:scrollbars="vertical"
                     android:verticalSpacing="10dp" />
             </LinearLayout>
-
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
