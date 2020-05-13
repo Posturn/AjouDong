@@ -1,8 +1,7 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- 상단바 -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
@@ -13,21 +12,25 @@
         <item name="android:textViewStyle">@style/NaNumTextViewStyle</item>
     </style>
 
-    <style name="LightToolBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="LightToolBarTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@color/ajouLogoSky</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:actionMenuTextColor">@color/white</item>
         <item name="android:homeAsUpIndicator">@drawable/ic_back</item>
     </style>
 
-    <style name="DarkToolBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="DarkToolBarTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@color/ajouLogoBlue</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_back</item>
     </style>
 
-    <style name="AccentToolBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AccentToolBarTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="android:background">@color/ajouLogoOrange</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="android:homeAsUpIndicator">@drawable/ic_back</item>
     </style>
 
     <style name="TransparentToolBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -35,6 +38,7 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <!-- 폰트 -->
     <style name="NaNumTextViewStyle" parent="@android:style/Widget.DeviceDefault.TextView">
         <item name="android:fontFamily">@font/nanumbarungothic</item>
     </style>
@@ -49,5 +53,24 @@
     </style>
     <style name="NaNumCheckboxStyle" parent="@android:style/Widget.DeviceDefault.CompoundButton.CheckBox">
         <item name="android:fontFamily">@font/nanumbarungothic</item>
+    </style>
+
+    <!-- TextView -->
+    <style name="CustomFilterButton" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textColor">@color/darkgary</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="FilterTitle" parent="@android:style/Widget.TextView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:background">@color/lightgray</item>
     </style>
 </resources>
