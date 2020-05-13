@@ -121,7 +121,7 @@ public class UserMainClubFilterActivity extends AppCompatActivity implements Vie
                 Toast.makeText(getApplicationContext(),"버튼눌림",Toast.LENGTH_SHORT).show();
             }
         });
-        
+
     }
 
     @Override
