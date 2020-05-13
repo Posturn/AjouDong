@@ -43,13 +43,24 @@
                     android:background="@color/lightgray"
                     android:text="모집" />
 
-                <Button
-                    android:background="@color/ajouLogoSky"
-                    android:id="@+id/button4"
-                    android:layout_width="wrap_content"
+                <com.nex3z.flowlayout.FlowLayout
+                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="16dp"
-                    android:text="모집중" />
+                    app:flChildSpacing="auto"
+                    app:flChildSpacingForLastRow="align"
+                    app:flRowSpacing="8dp">
+
+
+                    <Button
+                        android:background="@color/ajouLogoSky"
+                        android:id="@+id/button4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="16dp"
+                        android:text="모집중" />
+
+                </com.nex3z.flowlayout.FlowLayout>
 
                 <TextView
                     android:id="@+id/textViewMajor"
