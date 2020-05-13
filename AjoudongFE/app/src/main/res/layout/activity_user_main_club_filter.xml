@@ -6,4 +6,117 @@
     android:layout_height="match_parent"
     tools:context=".UserMainClubFilterActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/DarkToolBarTheme" />
+
+        <ScrollView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewRecruit"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingTop="8dp"
+                    android:paddingLeft="12dp"
+                    android:textSize="18dp"
+                    android:background="@color/lightgray"
+                    android:text="모집" />
+
+                <Button
+                    android:background="@color/ajouLogoSky"
+                    android:id="@+id/button4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:text="모집중" />
+
+                <TextView
+                    android:id="@+id/textViewMajor"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingTop="8dp"
+                    android:paddingLeft="12dp"
+                    android:textSize="18dp"
+                    android:background="@color/lightgray"
+                    android:text="분야" />
+
+                <TextView
+                    android:id="@+id/textViewCluture"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingTop="8dp"
+                    android:paddingLeft="12dp"
+                    android:textSize="18dp"
+                    android:background="@color/lightgray"
+                    android:text="동아리 문화" />
+
+                <TextView
+                    android:id="@+id/textViewMoney"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingTop="8dp"
+                    android:paddingLeft="12dp"
+                    android:textSize="18dp"
+                    android:background="@color/lightgray"
+                    android:text="회비" />
+
+                <TextView
+                    android:id="@+id/textViewDay"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingTop="8dp"
+                    android:paddingLeft="12dp"
+                    android:textSize="18dp"
+                    android:background="@color/lightgray"
+                    android:text="활동 요일" />
+
+                <TextView
+                    android:id="@+id/textViewTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:paddingTop="8dp"
+                    android:paddingLeft="12dp"
+                    android:textSize="18dp"
+                    android:background="@color/lightgray"
+                    android:text="활동 시간" />
+
+            </LinearLayout>
+        </ScrollView>
+
+
+
+        <Button
+            android:layout_gravity="bottom"
+            android:id="@+id/mainfilterbtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bottom_button_round"
+            android:text="필터링"
+            android:textColor="@color/white"
+            android:textSize="18dp" />
+
+    </LinearLayout>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
