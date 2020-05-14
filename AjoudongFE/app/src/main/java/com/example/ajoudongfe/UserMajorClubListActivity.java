@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -485,6 +486,8 @@ public class UserMajorClubListActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.toolbarFilter:{
+                Intent intent = new Intent(getApplicationContext(), UserMajorClubFilterActivity.class);
+                startActivity(intent);
                 return true;
             }
         }
@@ -495,6 +498,23 @@ public class UserMajorClubListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.user_mainmenu, menu);
+        SearchView searchView = (SearchView)menu.findItem(R.id.toolbarSearch).getActionView();
+        searchView.setIconifiedByDefault(true);
+        searchView.setMaxWidth(Integer.MAX_VALUE);
+        searchView.setQueryHint("동아리명을 입력하세요.");
+        searchView.setBackgroundColor(255);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {//검색 완료시
+                Toast.makeText(getApplicationContext(),"검색완료",Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) { //검색어 입력시
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 }
