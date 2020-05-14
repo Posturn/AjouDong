@@ -11,6 +11,8 @@ from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
 from .models import userAccount, managerAccount
+from Server_app.serializers import MajorSerializer
+from .models import major_Affiliation
 
 class login(View):
     @csrf_exempt
@@ -54,3 +56,8 @@ class signup(View):
 
         except KeyError:
             return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
+
+
+class MajorViewSet(viewsets.ModelViewSet):
+    queryset=major_Affiliation.objects.all()
+    serializer_class=MajorSerializer

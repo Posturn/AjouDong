@@ -21,3 +21,7 @@ class managerAccount(models.Model):
     clubName = models.CharField(max_length=5,)
     clubIMG = models.CharField(max_length=128,)
     newbieAlarm = models.BooleanField(default=True)
+
+class major_Affiliation(models.Model):
+    majorName = models.CharField(max_length=20, primary_key=True)
+    majorCollege = models.CharField(max_length=20,)

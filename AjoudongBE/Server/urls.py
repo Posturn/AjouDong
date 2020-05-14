@@ -16,15 +16,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.decorators.csrf import csrf_exempt
-
+from Server_app import views
 from rest_framework import routers
+
 
 from Server_app.login import login
 from Server_app.signup import signup 
+
+
+router=routers.DefaultRouter()
+router.register(r'SERVER_APP/Major_affiliations', views.MajorViewSet)
 
 urlpatterns = [
     path('login', csrf_exempt(login.login.as_view())),
     path('sign-up', csrf_exempt(signup.signup.as_view())),
     path('sign-up/sameID', csrf_exempt(signup.checkSameID.as_view())),
+    path('', include(router.urls)),
     re_path('admin/', admin.site.urls),
 ]
