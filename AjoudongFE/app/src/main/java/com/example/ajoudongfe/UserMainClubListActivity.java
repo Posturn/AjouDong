@@ -50,7 +50,7 @@ public class UserMainClubListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 Intent intent = new Intent(getApplicationContext(), ClubInfomation.class);
                 startActivity(intent);
-        }
+            }
         });
 
         adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_0), "동아리1"));
@@ -520,5 +520,3 @@ public class UserMainClubListActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 }
-
-

@@ -22,6 +22,7 @@ class managerAccount(models.Model):
     clubIMG = models.CharField(max_length=128,)
     newbieAlarm = models.BooleanField(default=True)
 
+
 class club(models.Model):
      clubID = models.IntegerField(primary_key=True)
      clubName = models.CharField(max_length=32)
