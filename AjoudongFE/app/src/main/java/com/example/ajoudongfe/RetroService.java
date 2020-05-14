@@ -11,6 +11,9 @@ public interface RetroService {
     @POST("/login")
     Call<ResponseModel> login(@Body LoginObject loginObject);
 
+    @POST("/sign-up/sameID")
+    Call<ResponseModel> checkSameID(@Body CheckID checkID);
+
     @POST("/sign-up/emailverify")
     Call<ResponseModel> emailVerify(@Header("x-ncp-apigw-timestamp") String timestamp,
                                     @Header("x-ncp-iam-access-key") String accesskey,

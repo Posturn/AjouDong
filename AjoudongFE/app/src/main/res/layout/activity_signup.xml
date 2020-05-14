@@ -34,6 +34,7 @@
 
     <Spinner
         android:id="@+id/collegeSpinner"
+        android:entries="@array/단과대학교"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
@@ -216,5 +217,13 @@
             android:hint="hint"
             android:inputType="number" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+        android:id="@+id/checkSameID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="중복확인"
+        tools:layout_editor_absoluteX="306dp"
+        tools:layout_editor_absoluteY="17dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
