@@ -45,6 +45,6 @@ class checkSameID(View):
             return JsonResponse({'response' : 1}, status=200)
 
         except KeyError:
-            return JsonResponse({'response' : -1}, status = 400)
+            return JsonResponse({'response' : -1}, status = 400)\
             
 

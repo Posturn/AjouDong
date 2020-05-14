@@ -20,11 +20,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import routers
 
 from Server_app.login import login
-from Server_app.signup import signup 
+# from Server_app.signup import signup
 
 urlpatterns = [
-    path('login', csrf_exempt(login.login.as_view())),
-    path('sign-up', csrf_exempt(signup.signup.as_view())),
-    path('sign-up/sameID', csrf_exempt(signup.checkSameID.as_view())),
+    path('login', include('Server_app.login.urls')),
+    path('sign-up', include('Server_app.signup.urls')),
     re_path('admin/', admin.site.urls),
 ]
