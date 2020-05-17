@@ -32,6 +32,9 @@ public class ClubInfomation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_info_list);
 
+        String clubName=getIntent().getStringExtra("clubName");
+        // ↑ 그리드 클릭시 넘어오는 동아리 이름
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.majorselecttoolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
