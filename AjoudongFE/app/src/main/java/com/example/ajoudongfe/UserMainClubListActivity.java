@@ -17,50 +17,81 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import java.util.List;
 
-public class UserMainClubListActivity extends AppCompatActivity {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class UserMainClubListActivity extends AppCompatActivity implements View.OnClickListener {
 
     private DrawerLayout drawerlayout;
     private Context context = this;
+
+    public static String BASE_URL= "http://10.0.2.2:8000";
+    Retrofit retrofit;
+
+
+    public MajorImageAdapter adapter;
+    private GridView mGridView;
+
+
+    private void populateGridView(List<ClubModel> clubModelList) {
+        mGridView = findViewById(R.id.gridView01);
+        adapter = new MajorImageAdapter(this,clubModelList);
+        mGridView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+    }
+
+    final String ajoublue ="#005BAC";
+    final String gray ="#707070";
+    String selectedCategory;
+
+    private Button[] mainButton=new Button[9];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main_club_list);
 
+        mainButton[0] = (Button) findViewById(R.id.cateAll);
+        mainButton[1] = (Button) findViewById(R.id.cateSports);
+        mainButton[2] = (Button) findViewById(R.id.cateReligion);
+        mainButton[3] = (Button) findViewById(R.id.cateSocial);
+        mainButton[4] = (Button) findViewById(R.id.cateCreate);
+        mainButton[5] = (Button) findViewById(R.id.cateStudy);
+        mainButton[6] = (Button) findViewById(R.id.catePE);
+        mainButton[7] = (Button) findViewById(R.id.cateArt);
+        mainButton[8] = (Button) findViewById(R.id.cateSub);
 
-        final GridView gridView = findViewById(R.id.gridView01);
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        final MajorImageAdapter adapter = new MajorImageAdapter();
-        gridView.setAdapter(adapter);
+        RetroService retroService = retrofit.create(RetroService.class);
 
-        gridView.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), ClubInfomation.class);
-                startActivity(intent);
-            }
-        });
+        Call<List<ClubModel>> call = retroService.getClubGridAll();
+        call.enqueue(new Callback<List<ClubModel>>() {
 
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_0), "동아리1"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_1), "동아리2"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_2), "동아리3"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_3), "동아리4"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_4), "동아리5"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_5), "동아리6"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_6), "동아리7"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_7), "동아리8"));
+                         @Override
+                         public void onResponse(Call<List<ClubModel>> call, Response<List<ClubModel>> response) {
+                             populateGridView(response.body());
+                         }
+
+                         @Override
+                         public void onFailure(Call<List<ClubModel>> call, Throwable throwable) {
+                             Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                         }
+                     });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.mainclubtoolbar);
         setSupportActionBar(toolbar);
@@ -110,372 +141,38 @@ public class UserMainClubListActivity extends AppCompatActivity {
             }
         });
 
-        final String ajoublue ="#005BAC";
-        final String gray ="#707070";
-
-        final Button ButtonAll = (Button) findViewById(R.id.cateAll);
-        final Button ButtonSports = (Button) findViewById(R.id.cateSports);
-        final Button ButtonReligion = (Button) findViewById(R.id.cateReligion);
-        final Button ButtonSocial = (Button) findViewById(R.id.cateSocial);
-        final Button ButtonCreate = (Button) findViewById(R.id.cateCreate);
-        final Button ButtonStudy = (Button) findViewById(R.id.cateStudy);
-        final Button ButtonPE = (Button) findViewById(R.id.catePE);
-        final Button ButtonArt = (Button) findViewById(R.id.cateArt);
-        final Button ButtonSub = (Button) findViewById(R.id.cateSub);
-
-        ButtonAll.setOnClickListener(new Button.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                ButtonAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonAll.setTextColor(Color.parseColor(ajoublue));
-                ButtonSports.setTextColor(Color.parseColor(gray));
-                ButtonReligion.setTextColor(Color.parseColor(gray));
-                ButtonSocial.setTextColor(Color.parseColor(gray));
-                ButtonCreate.setTextColor(Color.parseColor(gray));
-                ButtonStudy.setTextColor(Color.parseColor(gray));
-                ButtonPE.setTextColor(Color.parseColor(gray));
-                ButtonArt.setTextColor(Color.parseColor(gray));
-                ButtonSub.setTextColor(Color.parseColor(gray));
-
-
-                ButtonSports.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonReligion.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSocial.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonCreate.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonStudy.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonPE.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonArt.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSub.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonAll.setBackgroundResource(R.drawable.grid_category_click_shape);
-                ButtonSports.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonReligion.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSocial.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonCreate.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonStudy.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonPE.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonArt.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSub.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonSports.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ButtonSports.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonAll.setTextColor(Color.parseColor(gray));
-                ButtonSports.setTextColor(Color.parseColor(ajoublue));
-                ButtonReligion.setTextColor(Color.parseColor(gray));
-                ButtonSocial.setTextColor(Color.parseColor(gray));
-                ButtonCreate.setTextColor(Color.parseColor(gray));
-                ButtonStudy.setTextColor(Color.parseColor(gray));
-                ButtonPE.setTextColor(Color.parseColor(gray));
-                ButtonArt.setTextColor(Color.parseColor(gray));
-                ButtonSub.setTextColor(Color.parseColor(gray));
-
-                ButtonAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonReligion.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSocial.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonCreate.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonStudy.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonPE.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonArt.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSub.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonAll.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSports.setBackgroundResource(R.drawable.grid_category_click_shape);
-                ButtonReligion.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSocial.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonCreate.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonStudy.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonPE.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonArt.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSub.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonReligion.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ButtonReligion.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonAll.setTextColor(Color.parseColor(gray));
-                ButtonSports.setTextColor(Color.parseColor(gray));
-                ButtonReligion.setTextColor(Color.parseColor(ajoublue));
-                ButtonSocial.setTextColor(Color.parseColor(gray));
-                ButtonCreate.setTextColor(Color.parseColor(gray));
-                ButtonStudy.setTextColor(Color.parseColor(gray));
-                ButtonPE.setTextColor(Color.parseColor(gray));
-                ButtonArt.setTextColor(Color.parseColor(gray));
-                ButtonSub.setTextColor(Color.parseColor(gray));
-
-                ButtonAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSports.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSocial.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonCreate.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonStudy.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonPE.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonArt.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSub.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonAll.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSports.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonReligion.setBackgroundResource(R.drawable.grid_category_click_shape);
-                ButtonSocial.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonCreate.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonStudy.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonPE.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonArt.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSub.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonSocial.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ButtonSocial.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonAll.setTextColor(Color.parseColor(gray));
-                ButtonSports.setTextColor(Color.parseColor(gray));
-                ButtonReligion.setTextColor(Color.parseColor(gray));
-                ButtonSocial.setTextColor(Color.parseColor(ajoublue));
-                ButtonCreate.setTextColor(Color.parseColor(gray));
-                ButtonStudy.setTextColor(Color.parseColor(gray));
-                ButtonPE.setTextColor(Color.parseColor(gray));
-                ButtonArt.setTextColor(Color.parseColor(gray));
-                ButtonSub.setTextColor(Color.parseColor(gray));
-
-                ButtonAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSports.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonReligion.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonCreate.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonStudy.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonPE.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonArt.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSub.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonAll.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSports.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonReligion.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSocial.setBackgroundResource(R.drawable.grid_category_click_shape);
-                ButtonCreate.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonStudy.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonPE.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonArt.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSub.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonCreate.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ButtonCreate.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonAll.setTextColor(Color.parseColor(gray));
-                ButtonSports.setTextColor(Color.parseColor(gray));
-                ButtonReligion.setTextColor(Color.parseColor(gray));
-                ButtonSocial.setTextColor(Color.parseColor(gray));
-                ButtonCreate.setTextColor(Color.parseColor(ajoublue));
-                ButtonStudy.setTextColor(Color.parseColor(gray));
-                ButtonPE.setTextColor(Color.parseColor(gray));
-                ButtonArt.setTextColor(Color.parseColor(gray));
-                ButtonSub.setTextColor(Color.parseColor(gray));
-
-                ButtonAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSports.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonReligion.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSocial.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonStudy.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonPE.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonArt.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSub.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonAll.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSports.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonReligion.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSocial.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonCreate.setBackgroundResource(R.drawable.grid_category_click_shape);
-                ButtonStudy.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonPE.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonArt.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSub.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonStudy.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ButtonStudy.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonAll.setTextColor(Color.parseColor(gray));
-                ButtonSports.setTextColor(Color.parseColor(gray));
-                ButtonReligion.setTextColor(Color.parseColor(gray));
-                ButtonSocial.setTextColor(Color.parseColor(gray));
-                ButtonCreate.setTextColor(Color.parseColor(gray));
-                ButtonStudy.setTextColor(Color.parseColor(ajoublue));
-                ButtonPE.setTextColor(Color.parseColor(gray));
-                ButtonArt.setTextColor(Color.parseColor(gray));
-                ButtonSub.setTextColor(Color.parseColor(gray));
-
-                ButtonAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSports.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonReligion.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSocial.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonCreate.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonPE.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonArt.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSub.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonAll.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSports.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonReligion.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSocial.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonCreate.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonStudy.setBackgroundResource(R.drawable.grid_category_click_shape);
-                ButtonPE.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonArt.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSub.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonPE.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ButtonPE.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonAll.setTextColor(Color.parseColor(gray));
-                ButtonSports.setTextColor(Color.parseColor(gray));
-                ButtonReligion.setTextColor(Color.parseColor(gray));
-                ButtonSocial.setTextColor(Color.parseColor(gray));
-                ButtonCreate.setTextColor(Color.parseColor(gray));
-                ButtonStudy.setTextColor(Color.parseColor(gray));
-                ButtonPE.setTextColor(Color.parseColor(ajoublue));
-                ButtonArt.setTextColor(Color.parseColor(gray));
-                ButtonSub.setTextColor(Color.parseColor(gray));
-
-                ButtonAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSports.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonReligion.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSocial.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonCreate.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonStudy.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonArt.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSub.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonAll.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSports.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonReligion.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSocial.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonCreate.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonStudy.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonPE.setBackgroundResource(R.drawable.grid_category_click_shape);
-                ButtonArt.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSub.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonArt.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ButtonArt.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonAll.setTextColor(Color.parseColor(gray));
-                ButtonSports.setTextColor(Color.parseColor(gray));
-                ButtonReligion.setTextColor(Color.parseColor(gray));
-                ButtonSocial.setTextColor(Color.parseColor(gray));
-                ButtonCreate.setTextColor(Color.parseColor(gray));
-                ButtonStudy.setTextColor(Color.parseColor(gray));
-                ButtonPE.setTextColor(Color.parseColor(gray));
-                ButtonArt.setTextColor(Color.parseColor(ajoublue));
-                ButtonSub.setTextColor(Color.parseColor(gray));
-
-                ButtonAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSports.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonReligion.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSocial.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonCreate.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonStudy.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonPE.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSub.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonAll.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSports.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonReligion.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSocial.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonCreate.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonStudy.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonPE.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonArt.setBackgroundResource(R.drawable.grid_category_click_shape);
-                ButtonSub.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonSub.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ButtonSub.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonAll.setTextColor(Color.parseColor(gray));
-                ButtonSports.setTextColor(Color.parseColor(gray));
-                ButtonReligion.setTextColor(Color.parseColor(gray));
-                ButtonSocial.setTextColor(Color.parseColor(gray));
-                ButtonCreate.setTextColor(Color.parseColor(gray));
-                ButtonStudy.setTextColor(Color.parseColor(gray));
-                ButtonPE.setTextColor(Color.parseColor(gray));
-                ButtonArt.setTextColor(Color.parseColor(gray));
-                ButtonSub.setTextColor(Color.parseColor(ajoublue));
-
-                ButtonAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSports.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonReligion.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonSocial.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonCreate.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonStudy.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonPE.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonArt.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonAll.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSports.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonReligion.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSocial.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonCreate.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonStudy.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonPE.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonArt.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonSub.setBackgroundResource(R.drawable.grid_category_click_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-        ButtonAll.performClick();
+        for(int i = 0 ; i < 9 ; i++) {
+            mainButton[i].setOnClickListener(this);
+        }
+        mainButton[0].performClick();
     };
+
+    @Override
+    public void onClick(View v) {
+        Button newButton = (Button) v;
+
+        for(Button tempButton : mainButton)
+        {
+            if(tempButton == newButton)
+            {
+                categoryUnclicked();
+                tempButton.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
+                tempButton.setTextColor(Color.parseColor(ajoublue));
+                tempButton.setBackgroundResource(R.drawable.grid_category_click_shape);
+                selectedCategory= (String) tempButton.getText();
+                Toast.makeText(this, tempButton.getText(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void categoryUnclicked(){
+        for (int i = 0; i < 9; i++) {
+            mainButton[i].setTextColor(Color.parseColor(gray));
+            mainButton[i].setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
+            mainButton[i].setBackgroundResource(R.drawable.grid_category_unclick_shape);
+        }
+    }
+
     //툴바 버튼
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

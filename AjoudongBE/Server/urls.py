@@ -26,6 +26,7 @@ from Server_app.signup import signup
 
 router=routers.DefaultRouter()
 router.register(r'SERVER_APP/Major_affiliations', views.MajorViewSet)
+router.register(r'SERVER_APP/club', views.ClubViewSet)
 
 urlpatterns = [
     path('login', csrf_exempt(login.login.as_view())),

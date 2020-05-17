@@ -12,7 +12,9 @@ from rest_framework.generics import ListAPIView
 
 from .models import userAccount, managerAccount
 from Server_app.serializers import MajorSerializer
+from Server_app.serializers import ClubSerializer
 from .models import major_Affiliation
+from .models import club
 
 class login(View):
     @csrf_exempt
@@ -61,3 +63,7 @@ class signup(View):
 class MajorViewSet(viewsets.ModelViewSet):
     queryset=major_Affiliation.objects.all()
     serializer_class=MajorSerializer
+
+class ClubViewSet(viewsets.ModelViewSet):
+    queryset=club.objects.all()
+    serializer_class=ClubSerializer

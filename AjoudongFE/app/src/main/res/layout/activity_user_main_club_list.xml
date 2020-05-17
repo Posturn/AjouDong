@@ -42,6 +42,7 @@
                         android:textColor="@color/grid_category_click"
                         android:textColorHighlight="@color/grid_category_click"
                         android:textColorLink="@color/grid_category_click"
+
                         android:text="전체"
                         />
 
@@ -138,6 +139,7 @@
                     android:layout_alignParentRight="true"
                     android:entries="@array/clubsort"
                     android:textSize="4sp"
+                    android:textColor="@color/gray"
                     android:gravity="right"
                     app:layout_constraintHorizontal_bias="1"
                     app:layout_constraintBottom_toBottomOf="parent"

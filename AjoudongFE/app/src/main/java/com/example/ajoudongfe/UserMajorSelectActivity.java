@@ -1,5 +1,6 @@
 package com.example.ajoudongfe;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -94,6 +95,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 1);
                 startActivity(intent);
                 return false;
             }
@@ -103,6 +105,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 2);
                 startActivity(intent);
                 return false;
             }
@@ -112,6 +115,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 3);
                 startActivity(intent);
                 return false;
             }
@@ -121,6 +125,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 4);
                 startActivity(intent);
                 return false;
             }
@@ -130,6 +135,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 5);
                 startActivity(intent);
                 return false;
             }
@@ -139,6 +145,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 6);
                 startActivity(intent);
                 return false;
             }
@@ -148,6 +155,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 7);
                 startActivity(intent);
                 return false;
             }
@@ -157,6 +165,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 8);
                 startActivity(intent);
                 return false;
             }
@@ -166,6 +175,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 9);
                 startActivity(intent);
                 return false;
             }
@@ -175,6 +185,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 10);
                 startActivity(intent);
                 return false;
             }
@@ -184,6 +195,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 11);
                 startActivity(intent);
                 return false;
             }
@@ -193,6 +205,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                intent.putExtra("college", 12);
                 startActivity(intent);
                 return false;
             }

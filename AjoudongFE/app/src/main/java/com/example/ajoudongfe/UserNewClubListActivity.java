@@ -22,47 +22,78 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
-public class UserNewClubListActivity extends AppCompatActivity {
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
+public class UserNewClubListActivity extends AppCompatActivity implements View.OnClickListener{
 
     private DrawerLayout drawerlayout;
     private Context context = this;
+
+    public static String BASE_URL= "http://10.0.2.2:8000";
+    Retrofit retrofit;
+
+    public List<ClubModel> clubModels;
+    public MajorImageAdapter adapter;
+    private GridView mGridView;
+
+    private void populateGridView(List<ClubModel> clubModelList) {
+        mGridView = findViewById(R.id.gridView01);
+        adapter = new MajorImageAdapter(this,clubModelList);
+        mGridView.setAdapter(adapter);
+    }
+
+    final String ajouorange="#F5A21E";
+    final String gray ="#707070";
+    String selectedCategory;
+
+    private Button[] newfoundButton=new Button[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_new_club_list);
 
+        newfoundButton[0] = (Button) findViewById(R.id.cateNewAll);
+        newfoundButton[1] = (Button) findViewById(R.id.cateNewNew);
+        newfoundButton[2] = (Button) findViewById(R.id.cateNewStartup);
 
-        final GridView gridView = findViewById(R.id.gridView01);
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
-        final MajorImageAdapter adapter = new MajorImageAdapter();
-        gridView.setAdapter(adapter);
+        RetroService retroService = retrofit.create(RetroService.class);
 
-        gridView.setOnItemClickListener(new OnItemClickListener() {
+        Call<List<ClubModel>> call = retroService.getClubGridAll();
+        call.enqueue(new Callback<List<ClubModel>>() {
+
             @Override
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Intent intent = new Intent(getApplicationContext(), ClubInfomation.class);
-                startActivity(intent);
+            public void onResponse(Call<List<ClubModel>> call, Response<List<ClubModel>> response) {
+                populateGridView(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<ClubModel>> call, Throwable throwable) {
+                Toast.makeText(UserNewClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_0), "동아리1"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_1), "동아리2"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_2), "동아리3"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_3), "동아리4"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_4), "동아리5"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_5), "동아리6"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_6), "동아리7"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.sample_7), "동아리8"));
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.newclubtoolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
+        assert actionBar != null;
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_hamburger);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -108,82 +139,40 @@ public class UserNewClubListActivity extends AppCompatActivity {
             }
         });
 
-        final String ajoublue ="#005BAC";
-        final String ajouorange="#F5A21E";
-        final String gray ="#707070";
-
-        final Button ButtonNewAll = (Button) findViewById(R.id.cateNewAll);
-        final Button ButtonNewNew = (Button) findViewById(R.id.cateNewNew);
-        final Button ButtonNewStartup = (Button) findViewById(R.id.cateNewStartup);
-
-
-        ButtonNewAll.setOnClickListener(new Button.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                ButtonNewAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonNewAll.setTextColor(Color.parseColor(ajouorange));
-                ButtonNewNew.setTextColor(Color.parseColor(gray));
-                ButtonNewStartup.setTextColor(Color.parseColor(gray));
-
-                ButtonNewNew.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonNewStartup.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonNewAll.setBackgroundResource(R.drawable.grid_new_category_click_shape);
-                ButtonNewNew.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonNewStartup.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonNewNew.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ButtonNewNew.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonNewAll.setTextColor(Color.parseColor(gray));
-                ButtonNewNew.setTextColor(Color.parseColor(ajouorange));
-                ButtonNewStartup.setTextColor(Color.parseColor(gray));
-
-                ButtonNewAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonNewStartup.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonNewAll.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonNewNew.setBackgroundResource(R.drawable.grid_new_category_click_shape);
-                ButtonNewStartup.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonNewStartup.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ButtonNewStartup.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
-
-                ButtonNewAll.setTextColor(Color.parseColor(gray));
-                ButtonNewNew.setTextColor(Color.parseColor(gray));
-                ButtonNewStartup.setTextColor(Color.parseColor(ajouorange));
-
-
-                ButtonNewAll.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-                ButtonNewNew.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
-
-                ButtonNewAll.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonNewNew.setBackgroundResource(R.drawable.grid_category_unclick_shape);
-                ButtonNewStartup.setBackgroundResource(R.drawable.grid_new_category_click_shape);
-
-                gridView.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-            }
-        });
-
-        ButtonNewAll.performClick();
+        for(int i = 0 ; i < 3 ; i++) {
+            newfoundButton[i].setOnClickListener(this);
+        }
+        newfoundButton[0].performClick();
     };
+
+    @Override
+    public void onClick(View v) {
+        Button newButton = (Button) v;
+
+        for(Button tempButton : newfoundButton)
+        {
+            if(tempButton == newButton)
+            {
+                categoryUnclicked();
+                tempButton.setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothicbold.ttf"));
+                tempButton.setTextColor(Color.parseColor(ajouorange));
+                tempButton.setBackgroundResource(R.drawable.grid_new_category_click_shape);
+                selectedCategory= (String) tempButton.getText();
+                Toast.makeText(this, tempButton.getText(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    public void categoryUnclicked(){
+        for (int i = 0; i < 3; i++) {
+            newfoundButton[i].setTextColor(Color.parseColor(gray));
+            newfoundButton[i].setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
+            newfoundButton[i].setBackgroundResource(R.drawable.grid_category_unclick_shape);
+        }
+    }
+
+
+
     //툴바 버튼
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
