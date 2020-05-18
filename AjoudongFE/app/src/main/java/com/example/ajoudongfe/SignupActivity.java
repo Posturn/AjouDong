@@ -37,21 +37,21 @@ public class SignupActivity extends AppCompatActivity {
 
 
     public static String BASE_URL= "http://10.0.2.2:8000";
-    ArrayAdapter<CharSequence> majorAdapter;
-    Retrofit retrofit;
-    Retrofit verifyRetrofit;
-    TextView checkSameID;
-    TextInputEditText idInputText;
-    TextInputEditText pwInputText;
-    TextInputEditText pwCheckInputText;
-    TextInputEditText nameInputText;
-    TextInputEditText schoolIDInputText;
-    Spinner collegeSpinner;
-    Spinner majorSpinner;
-    TextInputEditText phoneNumberInputText;
-    Toolbar toolbar;
-    RadioGroup genderRadioGroup;
-    int IDChecker = 0;
+    private ArrayAdapter<CharSequence> majorAdapter;
+    private Retrofit retrofit;
+    private Retrofit verifyRetrofit;
+    private TextView checkSameID;
+    private TextInputEditText idInputText;
+    private TextInputEditText pwInputText;
+    private TextInputEditText pwCheckInputText;
+    private TextInputEditText nameInputText;
+    private TextInputEditText schoolIDInputText;
+    private Spinner collegeSpinner;
+    private Spinner majorSpinner;
+    private TextInputEditText phoneNumberInputText;
+    private Toolbar toolbar;
+    private RadioGroup genderRadioGroup;
+    private int IDChecker = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
