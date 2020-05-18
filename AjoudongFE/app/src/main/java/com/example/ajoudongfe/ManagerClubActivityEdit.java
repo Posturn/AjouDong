@@ -2,11 +2,13 @@ package com.example.ajoudongfe;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.Toast;
 
@@ -15,7 +17,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class ManagerClubActivityEdit extends AppCompatActivity {
+
+    final  String TAG = getClass().getSimpleName();
+
+    final String BASE_URL = "http://10.0.2.2:8000/activities/";
+    RetroService retroService;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +40,40 @@ public class ManagerClubActivityEdit extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
+        Button delete_btn = (Button)findViewById(R.id.action_btn2);
+        delete_btn.setClickable(true);
+        delete_btn.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG,"DELETE");
+                // pk 값은 임의로 변경가능
+                Call<ClubActivityObject> deleteCall = retroService.delete_activities_pk(1);
+                deleteCall.enqueue(new Callback<ClubActivityObject>() {
+                    @Override
+                    public void onResponse(Call<ClubActivityObject> call, Response<ClubActivityObject> response) {
+                        if(response.isSuccessful()){
+                            Log.d(TAG,"삭제 완료");
+                        }else {
+                            Log.d(TAG,"Status Code : " + response.code());
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ClubActivityObject> call, Throwable t) {
+                        Log.d(TAG,"Fail msg : " + t.getMessage());
+                    }
+                });
+                Toast.makeText(getApplicationContext(), "활동 내역이 삭제되었습니다!", Toast.LENGTH_LONG).show();
+                onBackPressed();
+            }
+        });
+
+
         GridView gridView = findViewById(R.id.grid_ac_image);
         ClubActivityImageAdapter adapter = new ClubActivityImageAdapter();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); //키보드 UI 가림 방지
 
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.add_ac_image_btn), ""));
+        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.ic_add), ""));
         adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.grid1), ""));
         gridView.setNestedScrollingEnabled(true);
         gridView.setAdapter(adapter);
@@ -53,6 +93,7 @@ public class ManagerClubActivityEdit extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.manager_clubactivitymenu, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {       //뒤로가기, 등록 버튼 기능 구현
