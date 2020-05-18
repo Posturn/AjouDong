@@ -33,13 +33,7 @@
         <activity android:name=".SignupActivity"/>
         <activity android:name=".UserMajorSelectActivity" />
         <activity android:name=".ClubInfomationActivity" />
-        <activity android:name=".AuthActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".AuthActivity"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
