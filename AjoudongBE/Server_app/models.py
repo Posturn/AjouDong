@@ -58,7 +58,7 @@ class EventIMG(models.Model):
     eventIMG = models.CharField(max_length=128)
     eventID = models.ForeignKey('Event', on_delete=models.CASCADE)
 
-class markedClubList(models.Model):
+class MarkedClubList(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
     uSchoolID = models.ForeignKey('UserAccount', on_delete=models.CASCADE,)
 
