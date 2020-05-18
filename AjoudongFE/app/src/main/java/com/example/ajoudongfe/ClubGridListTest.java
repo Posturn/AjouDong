@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 
 public class ClubGridListTest {
     private Drawable mThumbIds;
-    String name;
+    private String name;
 
     public ClubGridListTest(Drawable mThumbIds, String name)
     {

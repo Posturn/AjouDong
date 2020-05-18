@@ -42,7 +42,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
     private Context context = this;
 
     public static String BASE_URL= "http://10.0.2.2:8000";
-    Retrofit retrofit;
+    private Retrofit retrofit;
 
     public List<ClubModel> clubModels;
     public MajorImageAdapter adapter;
@@ -56,7 +56,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
 
     final String ajouorange="#F5A21E";
     final String gray ="#707070";
-    String selectedCategory;
+    private String selectedCategory;
 
     private Button[] newfoundButton=new Button[3];
 
