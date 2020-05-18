@@ -164,4 +164,7 @@ Thumbs.db
 .idea/datasources.xml
 .idea/dataSources.ids
 
+# Secret
+secrets.json
+
 
