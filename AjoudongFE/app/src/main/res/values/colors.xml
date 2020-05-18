@@ -2,13 +2,17 @@
 <resources>
     <color name="colorPrimary">#91C0EB</color>
     <color name="colorPrimaryDark">#6485A3</color>
+    <color name="colorAccent">#F5A21E</color>
     <color name="ajouLogoSky">#91C0EB</color>
+    <color name="ajouLogoSkyLight">#B8DDFF</color>
     <color name="ajouLogoBlue">#005BAC</color>
     <color name="ajouLogoOrange">#F5A21E</color>
-    <color name="colorAccent">#F5A21E</color>
+    <color name="ajouLogoOrangeLight">#FBCB7E</color>
     <color name="white">#FFFFFF</color>
+    <color name="lightgray">#E2E2E2</color>
     <color name="gray">#B6B6B6</color>
     <color name="darkgary">#707070</color>
+    <color name="transparent">#00000000</color>
 
 
 </resources>
