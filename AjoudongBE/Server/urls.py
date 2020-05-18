@@ -21,11 +21,16 @@ from rest_framework import routers
 
 from Server_app import views
 
-# router=routers.DefaultRouter()
-# router.register(r'tests', views.TestViewSet)
+router=routers.DefaultRouter()
+router.register(r'promotions', views.promotionViewSet)
+router.register(r'activities', views.clubActivityViewSet)
 
 urlpatterns = [
     path('login', csrf_exempt(views.login.as_view())),
     path('sign-up', csrf_exempt(views.signup.as_view())),
+    path('promotions/', include('Server_app.urls')),
+    path('activities/', include('Server_app.urls')),
+    #path('/promotions/<int:promotion_id>', views.getPromotion.as_view()),
+    path('', include(router.urls)),
     re_path('admin/', admin.site.urls),
 ]
