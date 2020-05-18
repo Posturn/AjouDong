@@ -37,7 +37,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
     private Context context = this;
 
     public static String BASE_URL= "http://10.0.2.2:8000";
-    Retrofit retrofit;
+    private Retrofit retrofit;
 
     public MajorImageAdapter adapter;
     private GridView mGridView;
@@ -49,9 +49,9 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
         adapter.notifyDataSetChanged();
     }
 
-    String ajoublue ="#91C0EB";
-    String gray ="#707070";
-    String selectedCategory;
+    private String ajoublue ="#91C0EB";
+    private String gray ="#707070";
+    private String selectedCategory;
 
     private Button[] majorButton=new Button[41];
 

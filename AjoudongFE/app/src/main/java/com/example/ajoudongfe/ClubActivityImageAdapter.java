@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class ClubActivityImageAdapter extends BaseAdapter {
-    ArrayList<ClubGridListTest> items = new ArrayList<ClubGridListTest>();
+    private ArrayList<ClubGridListTest> items = new ArrayList<ClubGridListTest>();
     private Context mContext;
 
     public void addItem(ClubGridListTest item)

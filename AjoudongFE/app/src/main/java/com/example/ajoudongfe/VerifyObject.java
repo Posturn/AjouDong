@@ -5,7 +5,7 @@ import java.util.List;
 
 public class VerifyObject {
     int templateSid;
-    List<Object> recipents;
+    private List<Object> recipents;
 
     public void appendRecipents(String address, List<String> parameter)
     {

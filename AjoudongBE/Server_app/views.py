@@ -13,8 +13,6 @@ from rest_framework.generics import ListAPIView
 
 from .models import userAccount, managerAccount, club, clubPromotion, clubActivity, major_Affiliation
 from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer
-from .models import 
-from .models import 
 
 
 class login(View):

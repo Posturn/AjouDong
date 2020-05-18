@@ -26,7 +26,7 @@ public class ManagerClubActivityEdit extends AppCompatActivity {
     final  String TAG = getClass().getSimpleName();
 
     final String BASE_URL = "http://10.0.2.2:8000/activities/";
-    RetroService retroService;
+    private RetroService retroService;
 
 
     @Override
