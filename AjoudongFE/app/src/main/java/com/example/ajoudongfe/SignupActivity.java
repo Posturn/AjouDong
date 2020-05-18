@@ -2,8 +2,11 @@ package com.example.ajoudongfe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,7 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -31,6 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class SignupActivity extends AppCompatActivity {
+
 
     public static String BASE_URL= "http://10.0.2.2:8000";
     ArrayAdapter<CharSequence> majorAdapter;
@@ -54,7 +58,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-        //toolbar = (Toolbar)findViewById(R.id.signupToolbar);
+        toolbar = (Toolbar)findViewById(R.id.signupToolbar);
         idInputText = (TextInputEditText)findViewById(R.id.idInputText);
         pwInputText = (TextInputEditText)findViewById(R.id.pwInputText);
         pwCheckInputText = (TextInputEditText)findViewById(R.id.pwCheckInputText);
@@ -66,12 +70,17 @@ public class SignupActivity extends AppCompatActivity {
         genderRadioGroup = (RadioGroup)findViewById(R.id.genderRadioGroup);
         checkSameID = (TextView)findViewById(R.id.checkSameID);
 
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         collegeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(!(collegeSpinner.getItemAtPosition(i).equals("--단과대학교선택--")))
                 {
-                    majorAdapter = ArrayAdapter.createFromResource(getApplicationContext(), R.array.간호대학, android.R.layout.simple_spinner_dropdown_item);
+                    int resid = getResources().getIdentifier(collegeSpinner.getItemAtPosition(i).toString(), "array", getPackageName());
+                    majorAdapter = ArrayAdapter.createFromResource(getApplicationContext(), resid, android.R.layout.simple_spinner_dropdown_item);
                     majorSpinner.setAdapter(majorAdapter);
                 }
 
@@ -82,6 +91,25 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
+
+        checkSameID.setOnClickListener(new TextView.OnClickListener(){
+            @Override
+            public void onClick(View view)
+            {
+                Toast.makeText(getApplicationContext(), "아이디 중복 체크", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private Call<ResponseModel> sendSameIDRequest(String toString) {
