@@ -1,6 +1,5 @@
 package com.example.ajoudongfe;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -21,7 +20,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ManagerClubActivityEdit extends AppCompatActivity {
+public class ManagerClubHistoryEditActivity extends AppCompatActivity {
 
     final  String TAG = getClass().getSimpleName();
 
@@ -32,7 +31,7 @@ public class ManagerClubActivityEdit extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager_club_activity_edit);
+        setContentView(R.layout.activity_manager_club_history_edit);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -69,12 +68,12 @@ public class ManagerClubActivityEdit extends AppCompatActivity {
 
 
         GridView gridView = findViewById(R.id.grid_ac_image);
-        ClubActivityImageAdapter adapter = new ClubActivityImageAdapter();
+        ClubHistoryImageAdapter adapter = new ClubHistoryImageAdapter();
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); //키보드 UI 가림 방지
 
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.ic_add), ""));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.grid1), ""));
+        adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.ic_add), ""));
+        adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.grid1), ""));
         gridView.setNestedScrollingEnabled(true);
         gridView.setAdapter(adapter);
 
@@ -90,7 +89,7 @@ public class ManagerClubActivityEdit extends AppCompatActivity {
     }
     @Override       //등록 버튼 생성
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.manager_clubactivitymenu, menu);
+        getMenuInflater().inflate(R.menu.manager_club_history_menu, menu);
         return true;
     }
 

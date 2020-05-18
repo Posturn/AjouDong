@@ -4,12 +4,9 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.loader.content.CursorLoader;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -28,8 +25,6 @@ import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 
-import java.io.InputStream;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -37,7 +32,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class ManagerClubInfoEdit extends AppCompatActivity {
+public class ManagerClubInfoEditActivity extends AppCompatActivity {
 
     final  String TAG = getClass().getSimpleName();
     private final int GET_GALLERY_IMAGE = 200;
@@ -59,7 +54,7 @@ public class ManagerClubInfoEdit extends AppCompatActivity {
         final ImageView IV_clubPoster = (ImageView)findViewById(R.id.clubProfile);
 
         GridView gridView = findViewById(R.id.activity_grid);
-        ClubActivityAdapter adapter = new ClubActivityAdapter();
+        ClubHistoryAdapter adapter = new ClubHistoryAdapter();
 
         findViewById(R.id.camera_btn).bringToFront();
 
@@ -72,21 +67,21 @@ public class ManagerClubInfoEdit extends AppCompatActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); //키보드 UI 가림 방지
 
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.ic_add), ""));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.grid1), "활동1"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.grid2), "활동2"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.grid3), "활동3"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.grid4), "활동4"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.grid5), "활동5"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.grid6), "활동6"));
-        adapter.addItem(new ClubGridListTest(ContextCompat.getDrawable(this, R.drawable.grid7), "활동7"));
+        adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.ic_add), ""));
+        adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.grid1), "활동1"));
+        adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.grid2), "활동2"));
+        adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.grid3), "활동3"));
+        adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.grid4), "활동4"));
+        adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.grid5), "활동5"));
+        adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.grid6), "활동6"));
+        adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.grid7), "활동7"));
         gridView.setNestedScrollingEnabled(true);
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
-                        Intent intent = new Intent(getApplicationContext(), ManagerClubActivityEdit.class);
+                        Intent intent = new Intent(getApplicationContext(), ManagerClubHistoryEditActivity.class);
                         Toast.makeText(getApplicationContext(), "활동 내용 추가", Toast.LENGTH_LONG).show();
                         startActivity(intent);
                     }
@@ -189,7 +184,7 @@ public class ManagerClubInfoEdit extends AppCompatActivity {
 
     @Override       //저장 버튼 생성
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.manager_clubinfomenu, menu);
+        getMenuInflater().inflate(R.menu.manager_club_info_menu, menu);
         return true;
     }
 

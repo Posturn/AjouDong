@@ -1,6 +1,6 @@
 package com.example.ajoudongfe;
 
-public class ResponseModel {
+public class ResponseObject {
     private int response;
 
 

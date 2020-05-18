@@ -2,11 +2,11 @@ package com.example.ajoudongfe;
 
 import android.graphics.drawable.Drawable;
 
-public class ClubGridListTest {
+public class GridListObject {
     private Drawable mThumbIds;
     private String name;
 
-    public ClubGridListTest(Drawable mThumbIds, String name)
+    public GridListObject(Drawable mThumbIds, String name)
     {
         this.mThumbIds = mThumbIds;
         this.name = name;

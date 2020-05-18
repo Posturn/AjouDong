@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -39,13 +38,13 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     public static String BASE_URL= "http://10.0.2.2:8000";
     private Retrofit retrofit;
 
-    public MajorImageAdapter adapter;
+    public ClubGridAdapter adapter;
     private GridView mGridView;
 
 
-    private void populateGridView(List<ClubModel> clubModelList) {
+    private void populateGridView(List<ClubObject> clubObjectList) {
         mGridView = findViewById(R.id.gridView01);
-        adapter = new MajorImageAdapter(this,clubModelList);
+        adapter = new ClubGridAdapter(this, clubObjectList);
         mGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -78,16 +77,16 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
         RetroService retroService = retrofit.create(RetroService.class);
 
-        Call<List<ClubModel>> call = retroService.getClubGridAll();
-        call.enqueue(new Callback<List<ClubModel>>() {
+        Call<List<ClubObject>> call = retroService.getClubGridAll();
+        call.enqueue(new Callback<List<ClubObject>>() {
 
                          @Override
-                         public void onResponse(Call<List<ClubModel>> call, Response<List<ClubModel>> response) {
+                         public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
                              populateGridView(response.body());
                          }
 
                          @Override
-                         public void onFailure(Call<List<ClubModel>> call, Throwable throwable) {
+                         public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
                              Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
                          }
                      });
@@ -195,7 +194,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.user_mainmenu, menu);
+        menuInflater.inflate(R.menu.user_search_menu, menu);
         SearchView searchView = (SearchView)menu.findItem(R.id.toolbarSearch).getActionView();
         searchView.setIconifiedByDefault(true);
         searchView.setMaxWidth(Integer.MAX_VALUE);

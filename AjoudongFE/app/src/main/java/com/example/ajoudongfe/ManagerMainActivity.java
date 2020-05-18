@@ -64,7 +64,7 @@ public class ManagerMainActivity extends AppCompatActivity {
                 }
                 else if(id == R.id.club_logout){
                     Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                 }
@@ -76,7 +76,7 @@ public class ManagerMainActivity extends AppCompatActivity {
         editclubinfo.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Intent intent = new Intent(getApplicationContext(), ManagerClubInfoEdit.class);
+                Intent intent = new Intent(getApplicationContext(), ManagerClubInfoEditActivity.class);
                 startActivity(intent);
                 return false;
             }

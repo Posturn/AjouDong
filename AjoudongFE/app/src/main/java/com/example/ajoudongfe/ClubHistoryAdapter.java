@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ClubActivityAdapter extends BaseAdapter {
-    private ArrayList<ClubGridListTest> items = new ArrayList<ClubGridListTest>();
+public class ClubHistoryAdapter extends BaseAdapter {
+    ArrayList<GridListObject> items = new ArrayList<GridListObject>();
     private Context mContext;
 
-    public void addItem(ClubGridListTest item)
+    public void addItem(GridListObject item)
     {
         items.add(item);
     }
@@ -40,7 +40,7 @@ public class ClubActivityAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         mContext=parent.getContext();
-        ClubGridListTest listitem = items.get(position);
+        GridListObject listitem = items.get(position);
 
         if(convertView==null)
         {

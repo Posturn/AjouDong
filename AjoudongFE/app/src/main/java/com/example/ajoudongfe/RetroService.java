@@ -1,35 +1,30 @@
 package com.example.ajoudongfe;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.DELETE;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Query;
 
 
 public interface RetroService {
     @POST("/login")
-    Call<ResponseModel> login(@Body LoginObject loginObject);
+    Call<ResponseObject> login(@Body LoginObject loginObject);
   
     @POST("/sign-up/sameID")
-    Call<ResponseModel> checkSameID(@Body CheckID checkID);
+    Call<ResponseObject> checkSameID(@Body CheckID checkID);
 
     @POST("/sign-up/emailverify")
-    Call<ResponseModel> emailVerify(@Header("x-ncp-apigw-timestamp") String timestamp,
-                                    @Header("x-ncp-iam-access-key") String accesskey,
-                                    @Header("x-ncp-apigw-signature-v2") String signature,
-                                    @Body  VerifyObject verifyObject);
+    Call<ResponseObject> emailVerify(@Header("x-ncp-apigw-timestamp") String timestamp,
+                                     @Header("x-ncp-iam-access-key") String accesskey,
+                                     @Header("x-ncp-apigw-signature-v2") String signature,
+                                     @Body  VerifyObject verifyObject);
     @GET("/promotions/{pk}/")
     Call<PromotionObject> get_promotions_pk(@Path("pk") int pk);
 
@@ -49,13 +44,13 @@ public interface RetroService {
     Call<ClubActivityObject> delete_activities_pk(@Path("pk") int pk);
   
     @GET ("/SERVER_APP/Major_affiliations")
-    Call<ResponseModel>getMajorstr(@Query("majorCollege") String college);
+    Call<ResponseObject>getMajorstr(@Query("majorCollege") String college);
 
     @GET ("/SERVER_APP/club")
-    Call<List<ClubModel>>getClubGrid(@Query("clubCategory") String clubCategory);
+    Call<List<ClubObject>>getClubGrid(@Query("clubCategory") String clubCategory);
 
     @GET ("/SERVER_APP/club")
-    Call<List<ClubModel>>getClubGridAll();
+    Call<List<ClubObject>>getClubGridAll();
 
 }
 

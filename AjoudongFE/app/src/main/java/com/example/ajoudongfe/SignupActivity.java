@@ -2,15 +2,11 @@ package com.example.ajoudongfe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,18 +15,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.UnsupportedEncodingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
-
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -110,7 +96,7 @@ public class SignupActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private Call<ResponseModel> sendSameIDRequest(String toString) {
+    private Call<ResponseObject> sendSameIDRequest(String toString) {
         CheckID checkID = new CheckID(toString);
 
         RetroService retroService = retrofit.create(RetroService.class);

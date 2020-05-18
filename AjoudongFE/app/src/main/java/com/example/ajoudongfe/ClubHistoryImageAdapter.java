@@ -7,15 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class ClubActivityImageAdapter extends BaseAdapter {
-    private ArrayList<ClubGridListTest> items = new ArrayList<ClubGridListTest>();
+public class ClubHistoryImageAdapter extends BaseAdapter {
+    private ArrayList<GridListObject> items = new ArrayList<GridListObject>();
     private Context mContext;
 
-    public void addItem(ClubGridListTest item)
+    public void addItem(GridListObject item)
     {
         items.add(item);
     }
@@ -40,7 +39,7 @@ public class ClubActivityImageAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         mContext=parent.getContext();
-        ClubGridListTest listitem = items.get(position);
+        GridListObject listitem = items.get(position);
 
         if(convertView==null)
         {

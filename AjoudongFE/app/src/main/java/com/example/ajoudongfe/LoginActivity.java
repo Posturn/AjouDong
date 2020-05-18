@@ -25,7 +25,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class MainActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     public static String BASE_URL= "http://10.0.2.2:8000";
 
@@ -44,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private SharedPreferences.Editor editor;
 
     private Retrofit retrofit;
-    private RetroRequest retroRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -108,12 +107,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Call<ResponseModel> call = sendRequest(idText.getText().toString(), pwText.getText().toString());
+                Call<ResponseObject> call = sendRequest(idText.getText().toString(), pwText.getText().toString());
 
-                call.enqueue(new Callback<ResponseModel>() {
+                call.enqueue(new Callback<ResponseObject>() {
                     @Override
-                    public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                        ResponseModel data = response.body();
+                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                        ResponseObject data = response.body();
                         if(getResponse(data) > 0)
                         {
                             checkAutoLogin();
@@ -122,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<ResponseModel> call, Throwable t) {
+                    public void onFailure(Call<ResponseObject> call, Throwable t) {
                         t.printStackTrace();
                         Toast.makeText(getApplicationContext(), "연결 실패", Toast.LENGTH_LONG).show();
                     }
@@ -168,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private int getResponse(ResponseModel data) {
+    private int getResponse(ResponseObject data) {
         if(data.getResponse() == 1)//사용자
         {
             Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
@@ -197,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private Call<ResponseModel> sendRequest(String ID, String PW) {
+    private Call<ResponseObject> sendRequest(String ID, String PW) {
         LoginObject loginObject = new LoginObject(ID, PW);
 
         RetroService retroService = retrofit.create(RetroService.class);

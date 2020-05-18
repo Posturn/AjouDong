@@ -36,17 +36,17 @@ public class AuthActivity extends AppCompatActivity {
         if(pref.getBoolean("Auto_Login_Enabled", false))//자동로그인
         {
             Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
-            Call<ResponseModel> call = sendRequest(pref.getString("ID", ""), pref.getString("PW", ""));
+            Call<ResponseObject> call = sendRequest(pref.getString("ID", ""), pref.getString("PW", ""));
 
-            call.enqueue(new Callback<ResponseModel>() {
+            call.enqueue(new Callback<ResponseObject>() {
                 @Override
-                public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
-                    ResponseModel data = response.body();
+                public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                    ResponseObject data = response.body();
                     getResponse(data);
                 }
 
                 @Override
-                public void onFailure(Call<ResponseModel> call, Throwable t) {
+                public void onFailure(Call<ResponseObject> call, Throwable t) {
                     Toast.makeText(getApplicationContext(), "연결 실패", Toast.LENGTH_LONG).show();
                 }
             });
@@ -54,13 +54,13 @@ public class AuthActivity extends AppCompatActivity {
         else
         {
             Toast.makeText(getApplicationContext(), "실패", Toast.LENGTH_LONG).show();//테스트용 파일
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
             startActivity(intent);
         }
 
     }
 
-    private int getResponse(ResponseModel data) {
+    private int getResponse(ResponseObject data) {
         if(data.getResponse() == 1)//사용자
         {
             Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
@@ -80,7 +80,7 @@ public class AuthActivity extends AppCompatActivity {
         }
     }
 
-    private Call<ResponseModel> sendRequest(String ID, String PW) {
+    private Call<ResponseObject> sendRequest(String ID, String PW) {
         LoginObject loginObject = new LoginObject(ID, PW);
 
         RetroService retroService = retrofit.create(RetroService.class);

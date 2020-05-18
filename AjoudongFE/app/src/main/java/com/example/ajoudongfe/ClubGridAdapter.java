@@ -1,26 +1,23 @@
 package com.example.ajoudongfe;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
-public class MajorImageAdapter extends BaseAdapter {
+public class ClubGridAdapter extends BaseAdapter {
 
-    private List<ClubModel> clubmodels;
+    private List<ClubObject> clubmodels;
     private Context mContext;
 
-    public MajorImageAdapter(Context mContext, List<ClubModel> clubmodels) {
+    public ClubGridAdapter(Context mContext, List<ClubObject> clubmodels) {
         this.mContext=mContext;
         this.clubmodels=clubmodels;
     }
@@ -52,13 +49,13 @@ public class MajorImageAdapter extends BaseAdapter {
         ImageView clubImage = convertView.findViewById(R.id.imageView1);
         TextView nameText = convertView.findViewById(R.id.textView1);
 
-        final ClubModel thisClubModel= clubmodels.get(position);
+        final ClubObject thisClubObject = clubmodels.get(position);
 
-        nameText.setText(thisClubModel.getName());
+        nameText.setText(thisClubObject.getName());
 
-        if(thisClubModel.getIMG() != null && thisClubModel.getIMG().length()>0)
+        if(thisClubObject.getIMG() != null && thisClubObject.getIMG().length()>0)
         {
-            Picasso.get().load(thisClubModel.getIMG()).into(clubImage);
+            Picasso.get().load(thisClubObject.getIMG()).into(clubImage);
         }else {
             //Toast.makeText(mContext, "Empty Image URL", Toast.LENGTH_LONG).show();
         }
@@ -66,8 +63,8 @@ public class MajorImageAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, ClubInfomation.class);
-                intent.putExtra("clubName", thisClubModel.getName());
+                Intent intent = new Intent(mContext, ClubInfomationActivity.class);
+                intent.putExtra("clubName", thisClubObject.getName());
                 mContext.startActivity(intent);
             }
         });

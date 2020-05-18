@@ -1,20 +1,15 @@
 package com.example.ajoudongfe;
 
-import com.example.ajoudongfe.ExpandableListAdapter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ImageView;
-
 
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClubInfomation extends AppCompatActivity {
+public class ClubInfomationActivity extends AppCompatActivity {
 
     private DrawerLayout drawerlayout;
     private RecyclerView recyclerview;
@@ -98,7 +93,7 @@ public class ClubInfomation extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.club_info_menu, menu);
+        menuInflater.inflate(R.menu.club_bookmark_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 }

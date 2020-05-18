@@ -18,7 +18,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -80,7 +79,7 @@ public class UserMainActivity extends AppCompatActivity {
                 }
                 else if(id == R.id.user_logout){
                     Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
 
