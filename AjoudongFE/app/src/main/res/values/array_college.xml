@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="단과대학교">
+        <item>--단과대학교선택--</item>
+        <item>간호대학</item>
+        <item>경영대학</item>
+        <item>공과대학</item>
+        <item>국제학부</item>
+        <item>다산학부대학</item>
+        <item>사회과학대학</item>
+        <item>약학대학</item>
+        <item>의과대학</item>
+        <item>인문대학</item>
+        <item>자연과학대학</item>
+        <item>정보통신대학</item>
+    </string-array>
+</resources>

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -29,27 +30,29 @@ public class MainActivity extends AppCompatActivity {
 
     public static String BASE_URL= "http://10.0.2.2:8000";
 
-    Button loginButton;
-    Button userLogin;
-    Button managerLogin;
-    TextInputLayout idLayout;
-    TextInputLayout pwLayout;
-    TextInputEditText idText;
-    TextInputEditText pwText;
-    CheckBox autoLogin;
-    TextView findID;
-    TextView findPW;
-    TextView signup;
-    SharedPreferences pref;
-    SharedPreferences.Editor editor;
+    private Button loginButton;
+    private Button userLogin;
+    private Button managerLogin;
+    private TextInputLayout idLayout;
+    private TextInputLayout pwLayout;
+    private TextInputEditText idText;
+    private TextInputEditText pwText;
+    private CheckBox autoLogin;
+    private TextView findID;
+    private TextView findPW;
+    private TextView signup;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
 
-    Retrofit retrofit;
+    private Retrofit retrofit;
+    private RetroRequest retroRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); //키보드 UI 가림 방지
 
         loginButton = (Button) findViewById(R.id.loginButton);
         userLogin = (Button) findViewById(R.id.userLogin);

@@ -19,7 +19,7 @@ from django.views.decorators.csrf import csrf_exempt
 from Server_app import views
 from rest_framework import routers
 from Server_app.login import login
-from Server_app.signup import signup 
+# from Server_app.signup import signup
 
 
 
@@ -30,9 +30,8 @@ router.register(r'promotions', views.promotionViewSet)
 router.register(r'activities', views.clubActivityViewSet)
 
 urlpatterns = [
-    path('login', csrf_exempt(login.login.as_view())),
-    path('sign-up', csrf_exempt(signup.signup.as_view())),
-    path('sign-up/sameID', csrf_exempt(signup.checkSameID.as_view())),
+    path('login', include('Server_app.login.urls')),
+    path('sign-up', include('Server_app.signup.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
     #path('/promotions/<int:promotion_id>', views.getPromotion.as_view()),

@@ -6,6 +6,9 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Header;
 import retrofit2.http.DELETE;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -18,7 +21,15 @@ import retrofit2.http.Query;
 public interface RetroService {
     @POST("/login")
     Call<ResponseModel> login(@Body LoginObject loginObject);
+  
+    @POST("/sign-up/sameID")
+    Call<ResponseModel> checkSameID(@Body CheckID checkID);
 
+    @POST("/sign-up/emailverify")
+    Call<ResponseModel> emailVerify(@Header("x-ncp-apigw-timestamp") String timestamp,
+                                    @Header("x-ncp-iam-access-key") String accesskey,
+                                    @Header("x-ncp-apigw-signature-v2") String signature,
+                                    @Body  VerifyObject verifyObject);
     @GET("/promotions/{pk}/")
     Call<PromotionObject> get_promotions_pk(@Path("pk") int pk);
 
@@ -45,7 +56,6 @@ public interface RetroService {
 
     @GET ("/SERVER_APP/club")
     Call<List<ClubModel>>getClubGridAll();
-
 
 }
 
