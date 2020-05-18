@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from Server_app.models import userAccount, managerAccount
+from Server_app.models import UserAccount, ManagerAccount
 class signup(View):
     @csrf_exempt
     def post(self, request):
@@ -18,7 +18,7 @@ class signup(View):
         data = json.loads(request.body)
         
         try:
-            userAccount.objects.create(
+            UserAccount.objects.create(
                 uID = data['uID'],
                 uPW = data['uPW'],
                 uName = data['uName'],
@@ -40,7 +40,7 @@ class checkSameID(View):
         data = json.loads(request.body)
 
         try:
-            if userAccount.objects.filter(uID = data['uID']).exists():
+            if UserAccount.objects.filter(uID = data['uID']).exists():
                  return JsonResponse({'response' : 0}, status=400)
             return JsonResponse({'response' : 1}, status=200)
 

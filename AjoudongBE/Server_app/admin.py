@@ -1,16 +1,16 @@
 from django.contrib import admin
-from Server_app.models import userAccount
-from Server_app.models import managerAccount
-from Server_app.models import club
-from Server_app.models import clubPromotion
-from Server_app.models import clubActivity
-from Server_app.models import major_Affiliation
+from Server_app.models import UserAccount
+from Server_app.models import ManagerAccount
+from Server_app.models import Club
+from Server_app.models import ClubPromotion
+from Server_app.models import ClubActivity
+from Server_app.models import Major_Affiliation
 # Register your models here.
 
 
-admin.site.register(userAccount)
-admin.site.register(managerAccount)
-admin.site.register(club)
-admin.site.register(clubPromotion)
-admin.site.register(clubActivity)
-admin.site.register(major_Affiliation)
+admin.site.register(UserAccount)
+admin.site.register(ManagerAccount)
+admin.site.register(Club)
+admin.site.register(ClubPromotion)
+admin.site.register(ClubActivity)
+admin.site.register(Major_Affiliation)
