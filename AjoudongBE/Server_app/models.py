@@ -48,6 +48,7 @@ class clubActivity(models.Model):
     clubActivityFile = models.CharField(max_length=128)
     clubActivityInfo = models.CharField(max_length=256)
     clubActivityID = models.IntegerField(primary_key=True)
+    clubActivityDetail = models.CharField(max_length=2048, null=True)
 
 class major_Affiliation(models.Model):
     majorName = models.CharField(max_length=20, primary_key=True)
