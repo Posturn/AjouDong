@@ -16,18 +16,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.decorators.csrf import csrf_exempt
-
-from rest_framework import routers
-
 from Server_app import views
+from rest_framework import routers
+from Server_app.login import login
+from Server_app.signup import signup 
+
+
 
 router=routers.DefaultRouter()
+router.register(r'SERVER_APP/Major_affiliations', views.MajorViewSet)
+router.register(r'SERVER_APP/club', views.ClubViewSet)
 router.register(r'promotions', views.promotionViewSet)
 router.register(r'activities', views.clubActivityViewSet)
 
 urlpatterns = [
-    path('login', csrf_exempt(views.login.as_view())),
-    path('sign-up', csrf_exempt(views.signup.as_view())),
+    path('login', csrf_exempt(login.login.as_view())),
+    path('sign-up', csrf_exempt(signup.signup.as_view())),
+    path('sign-up/sameID', csrf_exempt(signup.checkSameID.as_view())),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
     #path('/promotions/<int:promotion_id>', views.getPromotion.as_view()),

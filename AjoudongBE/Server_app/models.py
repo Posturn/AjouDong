@@ -5,7 +5,7 @@ from django.db import models
 
 class userAccount(models.Model):
     uID = models.CharField(max_length=20,)
-    uPW = models.IntegerField()
+    uPW = models.CharField(max_length=20,)
     uIMG = models.CharField(max_length=128, null=True)
     uName = models.CharField(max_length=10, null=True)
     uJender = models.BooleanField(default=True)
@@ -21,6 +21,7 @@ class managerAccount(models.Model):
     clubName = models.CharField(max_length=5,)
     clubIMG = models.CharField(max_length=128,)
     newbieAlarm = models.BooleanField(default=True)
+
 
 class club(models.Model):
      clubID = models.IntegerField(primary_key=True)

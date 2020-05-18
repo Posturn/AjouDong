@@ -80,6 +80,11 @@ public class UserMainActivity extends AppCompatActivity {
                 }
                 else if(id == R.id.user_logout){
                     Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+
+
                 }
 
                 return true;
@@ -89,7 +94,7 @@ public class UserMainActivity extends AppCompatActivity {
         majorclub.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), UserMajorSelectActivity.class);
                 startActivity(intent);
                 return false;
             }
@@ -107,7 +112,7 @@ public class UserMainActivity extends AppCompatActivity {
         newclub.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Intent intent = new Intent(getApplicationContext(), UserMainClubListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), UserNewClubListActivity.class);
                 startActivity(intent);
                 return false;
             }
@@ -115,7 +120,7 @@ public class UserMainActivity extends AppCompatActivity {
 
         eventButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(), UserNewClubListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), UserEventListActivity.class);
                 startActivity(intent);
             }
         });

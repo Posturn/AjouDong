@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/transparent"
+tools:context=".UserNewClubFilterActivity">
+
+<LinearLayout
+    android:id="@+id/linearLayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1"
+    android:background="@color/transparent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/AccentToolBarTheme" />
+
+    <ScrollView
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textViewRecruit"
+                style="@style/FilterTitle"
+                android:text="모집" />
+
+            <com.nex3z.flowlayout.FlowLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                app:flChildSpacing="auto"
+                app:flChildSpacingForLastRow="align"
+                app:flRowSpacing="8dp">
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/recruit_y"
+                    android:text="모집중"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/recruit_n"
+                    android:text="모집종료"/>
+
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/recruit_interview_n"
+                    android:text="면접 없음"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/recruit_interview_y"
+                    android:text="면접 있음"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/recruit_limit_n"
+                    android:text="지원제한 없음"/>
+
+            </com.nex3z.flowlayout.FlowLayout>
+
+            <TextView
+                android:id="@+id/textViewCluture"
+                style="@style/FilterTitle"
+                android:text="동아리 문화" />
+
+            <com.nex3z.flowlayout.FlowLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                app:flChildSpacing="auto"
+                app:flChildSpacingForLastRow="align"
+                app:flRowSpacing="8dp">
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/atmosphere_show"
+                    android:text="공연"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/atmosphere_competition"
+                    android:text="대회"/>
+
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/atmosphere_regular"
+                    android:text="정기전"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/atmosphere_contest"
+                    android:text="공모전"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/atmosphere_obyb"
+                    android:text="OBYB"/>
+
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/atmosphere_afterparty"
+                    android:text="뒤풀이"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/atmosphere_study"
+                    android:text="스터디"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/atmosphere_friendship"
+                    android:text="친목"/>
+
+            </com.nex3z.flowlayout.FlowLayout>
+
+            <TextView
+                android:id="@+id/textViewMoney"
+                style="@style/FilterTitle"
+                android:text="회비" />
+
+            <com.nex3z.flowlayout.FlowLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                app:flChildSpacing="auto"
+                app:flChildSpacingForLastRow="align"
+                app:flRowSpacing="8dp">
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/moeny_51"
+                    android:text="5천원-1만원"/>
+
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/moeny_12"
+                    android:text="1만원-2만원"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/moeny_23"
+                    android:text="2만원-3만원"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/moeny_3"
+                    android:text="3만원이상"/>
+
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/moeny_1time"
+                    android:text="최초 가입시 1회납부"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/moeny_no"
+                    android:text="없음"/>
+
+
+            </com.nex3z.flowlayout.FlowLayout>
+
+            <TextView
+                android:id="@+id/textViewDay"
+                style="@style/FilterTitle"
+                android:text="활동 요일" />
+
+            <com.nex3z.flowlayout.FlowLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="6dp"
+                app:flChildSpacing="auto"
+                app:flChildSpacingForLastRow="align"
+                app:flRowSpacing="8dp">
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/day_mon"
+                    android:text="월"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/day_tue"
+                    android:text="화"/>
+
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/day_wed"
+                    android:text="수"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/day_thu"
+                    android:text="목"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/day_fri"
+                    android:text="금"/>
+
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/day_sat"
+                    android:text="토"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/day_sun"
+                    android:text="일"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/day_every"
+                    android:text="상시활동"/>
+
+            </com.nex3z.flowlayout.FlowLayout>
+
+            <TextView
+                android:id="@+id/textViewTime"
+                style="@style/FilterTitle"
+                android:text="활동 시간대" />
+
+            <com.nex3z.flowlayout.FlowLayout
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="30dp"
+                app:flChildSpacing="auto"
+                app:flChildSpacingForLastRow="align"
+                app:flRowSpacing="8dp">
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/time_am"
+                    android:text="오전"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/time_pm"
+                    android:text="오후"/>
+
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/time_black"
+                    android:text="공강"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/time_night"
+                    android:text="야간"/>
+
+                <TextView
+                    style="@style/CustomFilterButton"
+                    android:background="@drawable/filterbtn_new"
+                    android:id="@+id/time_all"
+                    android:text="상시활동"/>
+
+            </com.nex3z.flowlayout.FlowLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
+    <Button
+        android:layout_gravity="bottom"
+        android:id="@+id/mainfilterbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_button_round"
+        android:backgroundTint="@color/ajouLogoOrange"
+        android:text="필터링"
+        android:textColor="@color/white"
+        android:textSize="18dp" />
+
+</LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,8 +10,12 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from .models import userAccount, managerAccount, club, clubPromotion, clubActivity
-from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer
+
+from .models import userAccount, managerAccount, club, clubPromotion, clubActivity, major_Affiliation
+from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer
+from .models import 
+from .models import 
+
 
 class login(View):
     @csrf_exempt
@@ -56,6 +60,7 @@ class signup(View):
         except KeyError:
             return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
 
+
 class clubActivityViewSet(viewsets.ModelViewSet):
     queryset = clubActivity.objects.all()
     serializer_class = clubActivitySerializer
@@ -64,51 +69,11 @@ class clubActivityViewSet(viewsets.ModelViewSet):
 class promotionViewSet(viewsets.ModelViewSet):
     queryset = clubPromotion.objects.all()
     serializer_class = clubPromotionSerializer
-"""
-class getClubPromotion(View):
-    @csrf_exempt
-    def get(self, request, club_id):
-        promotion_list = [{
-            'posterIMG': promotion_data.posterIMG,
-            'clubInfo': promotion_data.clubInfo,
-            'clubApply': promotion_data.clubApply,
-            'clubFAQ': promotion_data.clubFAQ,
-            'clubContact': promotion_data.clubContact
-        }for promotion_data in clubPromotion.objects.all().filter(clubID = club_id)]
+    
+class MajorViewSet(viewsets.ModelViewSet):
+    queryset=major_Affiliation.objects.all()
+    serializer_class=MajorSerializer
 
-        return JsonResponse({'clubPromotion_list' : promotion_list}, status = 200)
-
-class updateClubPromotion(View):
-    @csrf_exempt
-    def post(self, request, club_id):
-  
-        data = json.loads(request.body)
-        
-        try:
-            if clubPromotion.objects.filter(promotionID = club_id).exists():
-            clubPromotion.objects.all().(
-                uID = data['uID'],
-                uPW = data['uPW'],
-                uName = data['uName'],
-                uJender = data['uJender'],
-                uSchoolID = data['uSchoolID'],
-                uMajor = data['uMajor'],
-                uPhoneNumber = data['uPhoneNumber'],
-                uCollege = data['uCollege']
-            ).save()
-
-            return HttpResponse(status = 200)
-
-        except KeyError:
-            return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
-
-class getClubActivity(View):
-
-
-class updateClubActivity(View):
-
-class postClubActivity(View):
-
-
-class deleteClubActivity(View):
-"""
+class ClubViewSet(viewsets.ModelViewSet):
+    queryset=club.objects.all()
+    serializer_class=ClubSerializer
