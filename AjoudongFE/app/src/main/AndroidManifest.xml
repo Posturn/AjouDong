@@ -10,16 +10,19 @@
         android:label="AJOUDONG"
         android:roundIcon="@mipmap/ic_launcher_ajoudong_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/AppTheme">
-
-        <activity android:name=".UserEventListActivity"></activity>
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+        <activity android:name=".UserNewClubFilterActivity"></activity>
+        <activity android:name=".UserMajorClubFilterActivity" />
+        <activity android:name=".UserMainClubFilterActivity" />
+        <activity android:name=".UserEventListActivity" />
         <activity android:name=".UserBookmarkClubActivity" />
         <activity android:name=".UserApplicationResultActivity" />
         <activity android:name=".UserMyAjouDongActivity" />
         <activity android:name=".ManagerClubFilterSettingActivity" />
         <activity android:name=".ManagerClubApplySettingActivity" />
         <activity android:name=".ManagerClubInfoEdit" />
+        <activity android:name=".ManagerClubActivityEdit" />
         <activity android:name=".ManagerMemberManagementActivity" />
         <activity android:name=".ManagerNewEventActivity" />
         <activity android:name=".UserNewClubListActivity" />
@@ -27,13 +30,10 @@
         <activity android:name=".UserMajorClubListActivity" />
         <activity android:name=".ManagerMainActivity" />
         <activity android:name=".UserMainActivity" />
-        <activity android:name=".SignupActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".SignupActivity"/>
+        <activity android:name=".UserMajorSelectActivity" />
+        <activity android:name=".ClubInfomation" />
+        <activity android:name=".SignupActivity" />
         <activity android:name=".AuthActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

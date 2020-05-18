@@ -10,7 +10,12 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from .models import userAccount, managerAccount
+
+from .models import userAccount, managerAccount, club, clubPromotion, clubActivity, major_Affiliation
+from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer
+from .models import 
+from .models import 
+
 
 class login(View):
     @csrf_exempt
@@ -54,3 +59,21 @@ class signup(View):
 
         except KeyError:
             return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
+
+
+class clubActivityViewSet(viewsets.ModelViewSet):
+    queryset = clubActivity.objects.all()
+    serializer_class = clubActivitySerializer
+
+
+class promotionViewSet(viewsets.ModelViewSet):
+    queryset = clubPromotion.objects.all()
+    serializer_class = clubPromotionSerializer
+    
+class MajorViewSet(viewsets.ModelViewSet):
+    queryset=major_Affiliation.objects.all()
+    serializer_class=MajorSerializer
+
+class ClubViewSet(viewsets.ModelViewSet):
+    queryset=club.objects.all()
+    serializer_class=ClubSerializer

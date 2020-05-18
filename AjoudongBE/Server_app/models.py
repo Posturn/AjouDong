@@ -52,4 +52,4 @@ class clubActivity(models.Model):
 
 class major_Affiliation(models.Model):
     majorName = models.CharField(max_length=20, primary_key=True)
-
+    majorCollege = models.CharField(max_length=20,)

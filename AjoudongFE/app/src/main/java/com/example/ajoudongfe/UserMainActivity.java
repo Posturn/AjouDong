@@ -94,7 +94,7 @@ public class UserMainActivity extends AppCompatActivity {
         majorclub.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), UserMajorSelectActivity.class);
                 startActivity(intent);
                 return false;
             }
@@ -120,7 +120,7 @@ public class UserMainActivity extends AppCompatActivity {
 
         eventButton.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
-                Intent intent = new Intent(getApplicationContext(), UserNewClubListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), UserEventListActivity.class);
                 startActivity(intent);
             }
         });
