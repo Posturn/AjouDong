@@ -94,7 +94,7 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='arkedClubList',
+            name='MarkedClubList',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('clubID', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='Server_app.Club')),
