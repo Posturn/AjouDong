@@ -9,6 +9,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -25,6 +26,7 @@ public interface RetroService {
                                      @Header("x-ncp-iam-access-key") String accesskey,
                                      @Header("x-ncp-apigw-signature-v2") String signature,
                                      @Body  VerifyObject verifyObject);
+
     @GET("/promotions/{pk}/")
     Call<PromotionObject> get_promotions_pk(@Path("pk") int pk);
 
