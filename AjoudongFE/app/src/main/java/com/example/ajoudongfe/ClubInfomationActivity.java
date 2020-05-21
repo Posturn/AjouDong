@@ -84,6 +84,13 @@ public class ClubInfomationActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.toolbarBookmark:{
+                if (item.isChecked()) {
+                    item.setChecked(false);
+                    
+                } else {
+                    item.setChecked(true);
+                }
+
                 return true;
             }
         }
