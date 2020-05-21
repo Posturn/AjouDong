@@ -71,7 +71,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
 
         RetroService retroService = retrofit.create(RetroService.class);
 
-        Call<List<ClubObject>> call = retroService.getClubGridAll();
+        Call<List<ClubObject>> call = retroService.getClubGridAll(1, 0);
         call.enqueue(new Callback<List<ClubObject>>() {
 
             @Override
