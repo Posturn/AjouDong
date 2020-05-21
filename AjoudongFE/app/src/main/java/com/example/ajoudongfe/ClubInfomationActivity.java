@@ -86,7 +86,7 @@ public class ClubInfomationActivity extends AppCompatActivity {
             case R.id.toolbarBookmark:{
                 if (item.isChecked()) {
                     item.setChecked(false);
-                    
+
                 } else {
                     item.setChecked(true);
                 }
