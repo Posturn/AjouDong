@@ -10,14 +10,12 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-
 from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation
 from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer
 
 class clubActivityViewSet(viewsets.ModelViewSet):
     queryset = ClubActivity.objects.all()
     serializer_class = clubActivitySerializer
-
 
 class promotionViewSet(viewsets.ModelViewSet):
     queryset = ClubPromotion.objects.all()
@@ -28,5 +26,29 @@ class MajorViewSet(viewsets.ModelViewSet):
     serializer_class=MajorSerializer
 
 class ClubViewSet(viewsets.ModelViewSet):
-    queryset= Club.objects.all()
-    serializer_class=ClubSerializer
+    queryset = Club.objects.all()
+    serializer_class = ClubSerializer
+
+    def get_queryset(self):
+        sort = self.kwargs['sort']
+        if sort == 0:
+            return self.queryset.order_by('?')
+        elif sort == 1:
+            return self.queryset.order_by('clubName')
+        elif sort == 2:
+            return self.queryset.order_by('-clubName')
+
+class ClubSearchViewSet(viewsets.ModelViewSet):
+    queryset = Club.objects.all()
+    serializer_class = ClubSerializer
+
+    def get_queryset(self):
+        sort = self.kwargs.get('sort')
+        search = self.kwargs.get('search')
+        self.queryset = self.queryset.filter(clubName__icontains=search)
+        if sort == 0:
+            return self.queryset.order_by('?')
+        elif sort == 1:
+            return self.queryset.order_by('clubName')
+        elif sort == 2:
+            return self.queryset.order_by('-clubName')

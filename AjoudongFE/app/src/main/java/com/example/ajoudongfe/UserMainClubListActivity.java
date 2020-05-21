@@ -12,13 +12,16 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
@@ -38,9 +41,15 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     public static String BASE_URL= "http://10.0.2.2:8000";
     private Retrofit retrofit;
 
+    private RetroService retroService;
+
     public ClubGridAdapter adapter;
     private GridView mGridView;
 
+    private SearchView searchView;
+    private String search_text = null;
+    private boolean search_now = false;
+    private int now_spin = 0;
 
     private void populateGridView(List<ClubObject> clubObjectList) {
         mGridView = findViewById(R.id.gridView01);
@@ -75,21 +84,21 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        RetroService retroService = retrofit.create(RetroService.class);
+        retroService = retrofit.create(RetroService.class);
 
-        Call<List<ClubObject>> call = retroService.getClubGridAll();
+        Call<List<ClubObject>> call = retroService.getClubGridAll(now_spin);
         call.enqueue(new Callback<List<ClubObject>>() {
 
-                         @Override
-                         public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
-                             populateGridView(response.body());
-                         }
+             @Override
+             public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
+                 populateGridView(response.body());
+             }
 
-                         @Override
-                         public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
-                             Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
-                         }
-                     });
+             @Override
+             public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
+                 Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+             }
+         });
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.mainclubtoolbar);
         setSupportActionBar(toolbar);
@@ -143,6 +152,29 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             mainButton[i].setOnClickListener(this);
         }
         mainButton[0].performClick();
+
+        Spinner spinner = (Spinner)findViewById(R.id.mainClubSpinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                now_spin = position;
+                if(search_text==null || search_text.equals("")){
+                    search_now=false;
+                }
+                //0. 정렬(랜덤) 1. 가나다순(오름차순) 2. 가나다순(내림차순)
+                if(search_now == false){
+                    ClubSort(now_spin);
+                }else{
+                    ClubSearch(search_text, now_spin);
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ClubSort(0);
+            }
+        });
+
+
     };
 
     @Override
@@ -195,7 +227,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.user_search_menu, menu);
-        SearchView searchView = (SearchView)menu.findItem(R.id.toolbarSearch).getActionView();
+        searchView = (SearchView)menu.findItem(R.id.toolbarSearch).getActionView();
         searchView.setIconifiedByDefault(true);
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("동아리명을 입력하세요.");
@@ -203,15 +235,51 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {//검색 완료시
-                Toast.makeText(getApplicationContext(),"검색완료",Toast.LENGTH_SHORT).show();
+                search_text = s;
+                search_now = true;
+                ClubSearch(search_text, now_spin);
+                Toast.makeText(getApplicationContext(),"검색중",Toast.LENGTH_SHORT).show();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) { //검색어 입력시
+                search_text = null;
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    protected void ClubSort(int spinner_num){
+        Log.d("ClubSort","spinner_num: "+spinner_num);
+        Call<List<ClubObject>> call = retroService.getClubGridAll(spinner_num);
+        call.enqueue(new Callback<List<ClubObject>>() {
+            @Override
+            public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
+                populateGridView(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
+                Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    protected void ClubSearch(String keyword, int spinner_num){
+        Log.d("ClubSearch","spinner_num: "+spinner_num+", keyword: "+keyword);
+        Call<List<ClubObject>> call = retroService.getClubGridSearch(spinner_num, keyword);
+        call.enqueue(new Callback<List<ClubObject>>() {
+            @Override
+            public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
+                populateGridView(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
+                Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
