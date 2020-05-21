@@ -49,11 +49,11 @@ public interface RetroService {
     @GET ("/SERVER_APP/club")
     Call<List<ClubObject>>getClubGrid(@Query("clubCategory") String clubCategory);
 
-    @GET ("/clublist/{sort}/")
-    Call<List<ClubObject>>getClubGridAll(@Path("sort") int sort);
+    @GET ("/clublist/{club}/{sort}/")
+    Call<List<ClubObject>>getClubGridAll(@Path("club") int club, @Path("sort") int sort);
 
-    @GET ("/clubsearch/{sort}/{search}")
-    Call<List<ClubObject>>getClubGridSearch(@Path("sort") int sort, @Path("search") String search);
+    @GET ("/clubsearch/{club}/{sort}/{search}")
+    Call<List<ClubObject>>getClubGridSearch(@Path("club") int club, @Path("sort") int sort, @Path("search") String search);
 
 }
 

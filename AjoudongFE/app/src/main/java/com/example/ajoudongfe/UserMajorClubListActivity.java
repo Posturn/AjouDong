@@ -132,7 +132,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
 
         RetroService retroService = retrofit.create(RetroService.class);
 
-        Call<List<ClubObject>> call = retroService.getClubGridAll(0);
+        Call<List<ClubObject>> call = retroService.getClubGridAll(13, 0);
         call.enqueue(new Callback<List<ClubObject>>() {
 
             @Override

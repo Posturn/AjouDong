@@ -50,6 +50,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     private String search_text = null;
     private boolean search_now = false;
     private int now_spin = 0;
+    private int club_num = 0;
 
     private void populateGridView(List<ClubObject> clubObjectList) {
         mGridView = findViewById(R.id.gridView01);
@@ -86,7 +87,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
         retroService = retrofit.create(RetroService.class);
 
-        Call<List<ClubObject>> call = retroService.getClubGridAll(now_spin);
+        Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, now_spin);
         call.enqueue(new Callback<List<ClubObject>>() {
 
              @Override
@@ -253,7 +254,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
     protected void ClubSort(int spinner_num){
         Log.d("ClubSort","spinner_num: "+spinner_num);
-        Call<List<ClubObject>> call = retroService.getClubGridAll(spinner_num);
+        Call<List<ClubObject>> call = retroService.getClubGridAll(0, spinner_num);
         call.enqueue(new Callback<List<ClubObject>>() {
             @Override
             public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
@@ -269,7 +270,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
     protected void ClubSearch(String keyword, int spinner_num){
         Log.d("ClubSearch","spinner_num: "+spinner_num+", keyword: "+keyword);
-        Call<List<ClubObject>> call = retroService.getClubGridSearch(spinner_num, keyword);
+        Call<List<ClubObject>> call = retroService.getClubGridSearch(club_num,spinner_num, keyword);
         call.enqueue(new Callback<List<ClubObject>>() {
             @Override
             public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
