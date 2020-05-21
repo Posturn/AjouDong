@@ -49,8 +49,12 @@ public interface RetroService {
     @GET ("/SERVER_APP/club")
     Call<List<ClubObject>>getClubGrid(@Query("clubCategory") String clubCategory);
 
-    @GET ("/SERVER_APP/club")
-    Call<List<ClubObject>>getClubGridAll();
+    @GET ("/clublist/{sort}/")
+    Call<List<ClubObject>>getClubGridAll(@Path("sort") int sort);
+
+
+//    @GET ("/clublist/{sort}/")
+//    Call<List<ClubObject>>getClubGridSort(@Path("sort") int sort);
 
 }
 
