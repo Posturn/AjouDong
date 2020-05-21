@@ -73,7 +73,13 @@ class ClubViewSet(viewsets.ModelViewSet):
     serializer_class = ClubSerializer
 
     def get_queryset(self):
-        sort = self.kwargs['sort']
+        club = self.kwargs.get('club')
+        sort = self.kwargs.get('sort')
+        if club == 13:
+            self.queryset = self.queryset.filter(clubMajor__range=(2,12))
+        else:
+            self.queryset = self.queryset.filter(clubMajor=club)
+
         if sort == 0:
             return self.queryset.order_by('?')
         elif sort == 1:
@@ -86,8 +92,14 @@ class ClubSearchViewSet(viewsets.ModelViewSet):
     serializer_class = ClubSerializer
 
     def get_queryset(self):
+        club = self.kwargs.get('club')
         sort = self.kwargs.get('sort')
         search = self.kwargs.get('search')
+        if club == 13:
+            self.queryset = self.queryset.filter(clubMajor__range=(2,12))
+        else:
+            self.queryset = self.queryset.filter(clubMajor=club)
+
         self.queryset = self.queryset.filter(clubName__icontains=search)
         if sort == 0:
             return self.queryset.order_by('?')
