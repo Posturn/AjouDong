@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -16,11 +17,15 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignupActivity extends AppCompatActivity {
 
-    public static String BASE_URL= "http://10.0.2.2:8000";
+    private static String BASE_URL= "http://10.0.2.2:8000";
+    private static String VERIFY_URL = "https://mail.apigw.ntruss.com/api/v1/mails";
     private ArrayAdapter<CharSequence> majorAdapter;
     private Retrofit retrofit;
     private Retrofit verifyRetrofit;
@@ -35,6 +40,7 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputEditText phoneNumberInputText;
     private Toolbar toolbar;
     private RadioGroup genderRadioGroup;
+    private Button signupButton;
     private int IDChecker = 0;
 
     @Override
@@ -54,6 +60,16 @@ public class SignupActivity extends AppCompatActivity {
         genderRadioGroup = (RadioGroup)findViewById(R.id.genderRadioGroup);
         checkSameID = (TextView)findViewById(R.id.checkSameID);
 
+        verifyRetrofit = new Retrofit.Builder()
+                .baseUrl(VERIFY_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -72,7 +88,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                //아무것도 하지않음
             }
         });
 
@@ -80,7 +96,21 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(), "아이디 중복 체크", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "아이디 중복 체크 : " + idInputText.getText().toString(), Toast.LENGTH_LONG).show();
+                Call<ResponseObject> call = sendSameIDRequest(idInputText.getText().toString());
+
+                call.enqueue(new Callback<ResponseObject>() {
+                    @Override
+                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                        ResponseObject data = response.body();
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseObject> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }
