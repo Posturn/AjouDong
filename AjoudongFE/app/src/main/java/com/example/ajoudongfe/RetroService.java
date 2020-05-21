@@ -21,8 +21,8 @@ public interface RetroService {
     Call<ResponseObject> checkSameID(@Body CheckID checkID);
 
     @POST("/sign-up/emailverify")
-    Call<ResponseObject> emailVerify(@Header("x-ncp-apigw-timestamp") String timestamp,
-                                     @Header("x-ncp-iam-access-key") String accesskey,
+    Call<ResponseObject> emailVerify(@Header("x-ncp-apigw-timestamp") String timeStamp,
+                                     @Header("x-ncp-iam-access-key") String accessKey,
                                      @Header("x-ncp-apigw-signature-v2") String signature,
                                      @Body  VerifyObject verifyObject);
     @GET("/promotions/{pk}/")
