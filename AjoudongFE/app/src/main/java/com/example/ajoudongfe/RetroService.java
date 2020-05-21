@@ -52,9 +52,8 @@ public interface RetroService {
     @GET ("/clublist/{sort}/")
     Call<List<ClubObject>>getClubGridAll(@Path("sort") int sort);
 
-
-//    @GET ("/clublist/{sort}/")
-//    Call<List<ClubObject>>getClubGridSort(@Path("sort") int sort);
+    @GET ("/clubsearch/{sort}/{search}")
+    Call<List<ClubObject>>getClubGridSearch(@Path("sort") int sort, @Path("search") String search);
 
 }
 

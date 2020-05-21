@@ -38,12 +38,17 @@ class ClubViewSet(viewsets.ModelViewSet):
         elif sort == 2:
             return self.queryset.order_by('-clubName')
 
-    # def get_queryset_sort_and_search(self, request, sort, search):
-    #     if sort == 0:
-    #         return queryset.order_by('?')
-    #     elif sort == 1:
-    #         return queryset.order_by('clubName')
-    #     elif sort == 2:
-    #         return queryset.order_by('-clubName')
+class ClubSearchViewSet(viewsets.ModelViewSet):
+    queryset = Club.objects.all()
+    serializer_class = ClubSerializer
 
-    # Model.objects.filter(title__in=['happy cake', 'happi kake'])
+    def get_queryset(self):
+        sort = self.kwargs.get('sort')
+        search = self.kwargs.get('search')
+        self.queryset = self.queryset.filter(clubName__icontains=search)
+        if sort == 0:
+            return self.queryset.order_by('?')
+        elif sort == 1:
+            return self.queryset.order_by('clubName')
+        elif sort == 2:
+            return self.queryset.order_by('-clubName')

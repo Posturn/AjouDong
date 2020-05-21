@@ -238,7 +238,6 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                 search_text = s;
                 search_now = true;
                 ClubSearch(search_text, now_spin);
-//                searchView.onActionViewCollapsed();
                 Toast.makeText(getApplicationContext(),"검색중",Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -256,7 +255,6 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
         Log.d("ClubSort","spinner_num: "+spinner_num);
         Call<List<ClubObject>> call = retroService.getClubGridAll(spinner_num);
         call.enqueue(new Callback<List<ClubObject>>() {
-
             @Override
             public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
                 populateGridView(response.body());
@@ -271,9 +269,8 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
     protected void ClubSearch(String keyword, int spinner_num){
         Log.d("ClubSearch","spinner_num: "+spinner_num+", keyword: "+keyword);
-        Call<List<ClubObject>> call = retroService.getClubGridAll(spinner_num);
+        Call<List<ClubObject>> call = retroService.getClubGridSearch(spinner_num, keyword);
         call.enqueue(new Callback<List<ClubObject>>() {
-
             @Override
             public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
                 populateGridView(response.body());
@@ -284,8 +281,5 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                 Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-//        memolistList= baseHelper.getMemosFind(keyword, folder_name, spinner_num);
-//        Log.d("plaemo MeMoFind","count "+memolistList.size());
-//        adapter.update(memolistList);
     }
 }

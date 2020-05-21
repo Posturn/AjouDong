@@ -11,7 +11,6 @@ from django.conf.urls import url
 
 router=routers.DefaultRouter()
 router.register(r'SERVER_APP/Major_affiliations', views.MajorViewSet)
-# router.register(r'SERVER_APP/club', views.ClubViewSet)
 router.register(r'promotions', views.promotionViewSet)
 router.register(r'activities', views.clubActivityViewSet)
 
@@ -23,5 +22,6 @@ urlpatterns = [
     #path('/promotions/<int:promotion_id>', views.getPromotion.as_view()),
     path('', include(router.urls)),
     path('clublist/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
+    path('clubsearch/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
     re_path('admin/', admin.site.urls),
 ]
