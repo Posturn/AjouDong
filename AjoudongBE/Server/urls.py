@@ -32,6 +32,7 @@ router.register(r'activities', views.clubActivityViewSet)
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
     path('sign-up', include('Server_app.signup.urls')),
+    path('management', include('Server_app.management.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
     #path('/promotions/<int:promotion_id>', views.getPromotion.as_view()),
