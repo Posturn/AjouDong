@@ -11,4 +11,5 @@ public class ResponseObject {
     public void setResponse(int response) {
         this.response = response;
     }
+
 }

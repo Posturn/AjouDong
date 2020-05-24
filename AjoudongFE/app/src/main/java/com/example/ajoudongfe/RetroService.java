@@ -16,15 +16,18 @@ import retrofit2.http.Query;
 public interface RetroService {
     @POST("/login")
     Call<ResponseObject> login(@Body LoginObject loginObject);
+
+    @POST("/sign-up")
+    Call<ResponseObject> signup(@Body SignupObject signupObject);
   
     @POST("/sign-up/sameID")
-    Call<ResponseObject> checkSameID(@Body CheckID checkID);
+    Call<ResponseObject> checkSameID(@Body CheckIDObject checkIDObject);
 
-    @POST("/sign-up/emailverify")
+    @POST("")
     Call<ResponseObject> emailVerify(@Header("x-ncp-apigw-timestamp") String timeStamp,
-                                     @Header("x-ncp-iam-access-key") String accessKey,
-                                     @Header("x-ncp-apigw-signature-v2") String signature,
-                                     @Body  VerifyObject verifyObject);
+                                 @Header("x-ncp-iam-access-key") String accessKey,
+                                 @Header("x-ncp-apigw-signature-v2") String signature,
+                                 @Body  VerifyObject verifyObject);
     @GET("/promotions/{pk}/")
     Call<PromotionObject> get_promotions_pk(@Path("pk") int pk);
 

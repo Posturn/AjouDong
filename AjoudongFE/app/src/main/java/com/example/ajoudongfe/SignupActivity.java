@@ -20,10 +20,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Base64;
-import java.util.Calendar;
 import java.util.Date;
 
 import javax.crypto.Mac;
@@ -56,6 +53,8 @@ public class SignupActivity extends AppCompatActivity {
     private Button signupButton;
     private int IDChecker = 0;
     private String tempID;
+    private String uMajor;
+    private String uCollege;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +94,7 @@ public class SignupActivity extends AppCompatActivity {
                 if(!(collegeSpinner.getItemAtPosition(i).equals("--단과대학교선택--")))
                 {
                     int resid = getResources().getIdentifier(collegeSpinner.getItemAtPosition(i).toString(), "array", getPackageName());
+                    uCollege = collegeSpinner.getItemAtPosition(i).toString();
                     majorAdapter = ArrayAdapter.createFromResource(getApplicationContext(), resid, android.R.layout.simple_spinner_dropdown_item);
                     majorSpinner.setAdapter(majorAdapter);
                 }
@@ -107,22 +107,40 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        majorSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                uMajor = majorSpinner.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //아무것도 하지않음
+            }
+        });
+
         checkSameID.setOnClickListener(new TextView.OnClickListener(){
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(), "아이디 중복 체크 : " + idInputText.getText().toString(), Toast.LENGTH_LONG).show();
                 Call<ResponseObject> call = sendSameIDRequest(idInputText.getText().toString());
 
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
                     public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                         ResponseObject data = response.body();
-                        if(data.getResponse() == 1)
+                        try {
+                            if (data.getResponse() == 1) {
+                                Toast.makeText(getApplicationContext(), "사용가능한 아이디입니다!!", Toast.LENGTH_LONG).show();//좀더 개선 필요, 실사용 앱처럼 아이디 변경시 다시 체크하도록 만들것
+                                IDChecker = 1;
+                                tempID = idInputText.getText().toString();
+                            } else {
+                                Toast.makeText(getApplicationContext(), "이미 사용중인 아이디 입니다!!", Toast.LENGTH_LONG).show();
+                            }
+                        }
+                        catch(NullPointerException e)
                         {
-                            Toast.makeText(getApplicationContext(), "사용가능한 아이디입니다!!", Toast.LENGTH_LONG).show();//좀더 개선 필요, 실사용 앱처럼 아이디 변경시 다시 체크하도록 만들것
-                            IDChecker = 1;
-                            tempID = idInputText.getText().toString();
+                            e.printStackTrace();
                         }
                     }
 
@@ -138,13 +156,28 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Call<ResponseObject> call = emailVerifyRequest(idInputText.getText().toString());
+                Call<ResponseObject> call = signupRequest(new SignupObject(
+                        idInputText.getText().toString(),
+                        pwInputText.getText().toString(),
+                        nameInputText.getText().toString(),
+                        1,
+                        Integer.parseInt(schoolIDInputText.getText().toString()),
+                        uMajor,
+                        uCollege,
+                        Integer.parseInt(phoneNumberInputText.getText().toString())));
 
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
                     public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                        ResponseObject data = response.body();
-                        Log.d(Integer.toString(data.getResponse()), "메일 요청 결과");
+                        try {
+                            Toast.makeText(getApplicationContext(), "회원가입 성공!", Toast.LENGTH_LONG).show();
+                            finish();
+                            Log.d("Response", response.body().toString());
+                        }
+                        catch(NullPointerException e)
+                        {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -169,15 +202,17 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private Call<ResponseObject> sendSameIDRequest(String toString) {
-        CheckID checkID = new CheckID(toString);
+        CheckIDObject checkIDObject = new CheckIDObject(toString);
 
         RetroService retroService = retrofit.create(RetroService.class);
-        return retroService.checkSameID(checkID);
+        return retroService.checkSameID(checkIDObject);
     }
 
-    private Call<ResponseObject> emailVerifyRequest(String toString)
+    private Call<ResponseObject> emailVerifyRequest(String toString, String name)
     {
         VerifyObject verifyObject = new VerifyObject();
+        RecipientForRequest recipientForRequest = new RecipientForRequest();
+        Parameters parameters = new Parameters();
         String verify_code = new String();
         String secretKey = "AxVnaaKAL8tFnTlI5EUKCBH8wRSR2CRVZEMt3zcD";
         String accessKey = "f8jYvSP0idEEd97qTu5l";
@@ -195,14 +230,27 @@ public class SignupActivity extends AppCompatActivity {
             verify_code = verify_code + Integer.toString(n*j);
             j = j*10;
         }
+        recipientForRequest.setAddress(toString);
+        recipientForRequest.setName(null);
+        recipientForRequest.setType("R");
+
+        parameters.setWho_signup(name);
+        parameters.setVerify_code(verify_code);
+
+        recipientForRequest.setParameters(parameters);
 
         encrptedKey = makeSignature("POST", timeStamp, accessKey, secretKey, "/api/v1/mails");
         Log.d(encrptedKey, "암호화된 비밀키");
-        verifyObject.appendParameter(toString, verify_code);
-
-        RetroService retroService = retrofit.create(RetroService.class);
         Log.d(timeStamp.toString(), "타임스탬프");
+
+        RetroService retroService = verifyRetrofit.create(RetroService.class);
         return retroService.emailVerify(timeStamp.toString(), accessKey, encrptedKey, verifyObject);
+    }
+
+    private Call<ResponseObject> signupRequest(SignupObject signupObject)
+    {
+        RetroService retroService = retrofit.create(RetroService.class);
+        return retroService.signup(signupObject);
     }
 
     public String makeSignature(String method, String timestamp, String accessKey, String secretKey, String url)
@@ -229,8 +277,6 @@ public class SignupActivity extends AppCompatActivity {
 
             byte[] rawHmac = mac.doFinal(message.getBytes("UTF-8"));
             signature = encoder.encodeToString(rawHmac);
-            Log.d(signature, "암호화된 서명");
-
         }
         catch (NoSuchAlgorithmException e){
             e.printStackTrace();
