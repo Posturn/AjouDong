@@ -2,4 +2,7 @@
     <string name="app_name">\ AjoudongFE</string>
     <string name="IDTEXT">\ 아이디</string>
     <string name="PWTEXT">\ 비밀번호</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

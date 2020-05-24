@@ -22,7 +22,15 @@
         <activity android:name=".ManagerClubApplySettingActivity" />
         <activity android:name=".ManagerClubInfoEditActivity" />
         <activity android:name=".ManagerClubHistoryEditActivity" />
-        <activity android:name=".ManagerMemberManagementActivity" />
+        <activity android:name=".ManagerMemberManagementActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity android:name=".ManagerNewEventActivity" />
         <activity android:name=".UserNewClubListActivity" />
         <activity android:name=".UserMainClubListActivity" />
