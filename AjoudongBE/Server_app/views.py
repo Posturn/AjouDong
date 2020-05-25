@@ -63,6 +63,15 @@ class clubActivityViewSet(viewsets.ModelViewSet):
     queryset = ClubActivity.objects.all()
     serializer_class = clubActivitySerializer
 
+    def get_queryset(self):
+        gridclubID = self.kwargs['clubID']
+        self.queryset = self.queryset.filter(clubID = gridclubID)
+        return self.queryset
+
+class clubActivityDetailViewSet(viewsets.ModelViewSet):
+    queryset = ClubActivity.objects.all()
+    serializer_class = clubActivitySerializer
+
 class promotionViewSet(viewsets.ModelViewSet):
     queryset = ClubPromotion.objects.all()
     serializer_class = clubPromotionSerializer
@@ -92,11 +101,10 @@ class ClubSearchViewSet(viewsets.ModelViewSet):
     serializer_class = ClubSerializer
 
     def get_queryset(self):
-        club = self.kwargs.get('club')
         sort = self.kwargs.get('sort')
         search = self.kwargs.get('search')
         category = self.kwargs.get('category')
-        
+      
         self.queryset = filter_club(club, self.queryset)
         self.queryset = filter_category(category, self.queryset)
         self.queryset = self.queryset.filter(clubName__icontains=search)

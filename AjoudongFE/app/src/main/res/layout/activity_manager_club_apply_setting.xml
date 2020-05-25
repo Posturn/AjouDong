@@ -6,4 +6,131 @@
     android:layout_height="match_parent"
     tools:context=".ManagerClubApplySettingActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/LightToolBarTheme" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="607dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView18"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:paddingTop="10dp"
+                android:text="동아리 전용 요청 추가 질문"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.073"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/plusQuestion"
+                android:layout_width="380dp"
+                android:layout_height="200dp"
+                android:background="@drawable/textbox"
+                android:fontFamily="@font/nanumbarungothic"
+                android:gravity="top"
+                android:hint="추가 질문을 입력해주세요."
+                android:inputType="textMultiLine"
+                android:maxLength="500"
+                android:paddingLeft="3dp"
+                android:paddingTop="3dp"
+                android:scrollbars="vertical"
+                android:textSize="13sp"
+                app:layout_constraintBottom_toTopOf="@+id/startDate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView18" />
+
+            <TextView
+                android:id="@+id/startDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:paddingTop="10dp"
+                android:text="모집시작날짜"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/recruitDate1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.069"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/recruitDate1"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:layout_marginBottom="14dp"
+                android:ems="10"
+                android:inputType="date"
+                app:layout_constraintBottom_toTopOf="@+id/endDate"
+                app:layout_constraintEnd_toStartOf="@+id/calendar1"
+                app:layout_constraintHorizontal_bias="0.7"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <ImageButton
+                android:id="@+id/calendar1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="65dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginBottom="65dp"
+                app:layout_constraintBottom_toTopOf="@+id/calendar2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/plusQuestion"
+                app:srcCompat="@drawable/ic_calendar" />
+
+            <TextView
+                android:id="@+id/endDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="180dp"
+                android:paddingTop="10dp"
+                android:text="모집종료날짜"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.069"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <EditText
+                android:id="@+id/recruitDate2"
+                android:layout_width="330dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="4dp"
+                android:ems="10"
+                android:inputType="date"
+                app:layout_constraintEnd_toStartOf="@+id/calendar2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/endDate" />
+
+            <ImageButton
+                android:id="@+id/calendar2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="64dp"
+                android:layout_marginEnd="7dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/recruitDate2"
+                app:layout_constraintTop_toBottomOf="@+id/calendar1"
+                app:srcCompat="@drawable/ic_calendar" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

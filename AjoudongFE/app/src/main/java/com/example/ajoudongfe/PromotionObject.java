@@ -1,6 +1,7 @@
 package com.example.ajoudongfe;
 
-import android.text.Editable;
+
+import java.util.Date;
 
 public class PromotionObject {
     private String posterIMG;
@@ -8,6 +9,33 @@ public class PromotionObject {
     private String clubFAQ;
     private String clubApply;
     private String clubContact;
+    private String additionalApply;
+    private String recruitStartDate;
+    private String recruitEndDate;
+
+    public String getAdditionalApply() {
+        return additionalApply;
+    }
+
+    public void setAdditionalApply(String additionalApply) {
+        this.additionalApply = additionalApply;
+    }
+
+    public String getRecruitStartDate() {
+        return recruitStartDate;
+    }
+
+    public void setRecruitStartDate(String recruitStartDate) {
+        this.recruitStartDate = recruitStartDate;
+    }
+
+    public String getRecruitEndDate() {
+        return recruitEndDate;
+    }
+
+    public void setRecruitEndDate(String recruitEndDate) {
+        this.recruitEndDate = recruitEndDate;
+    }
 
     public String getClubInfo() {
         return clubInfo;

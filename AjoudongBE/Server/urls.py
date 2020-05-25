@@ -27,16 +27,17 @@ from Server_app.signup import signup
 router=routers.DefaultRouter()
 router.register(r'SERVER_APP/Major_affiliations', views.MajorViewSet)
 router.register(r'promotions', views.promotionViewSet)
-router.register(r'activities', views.clubActivityViewSet)
+router.register(r'activities', views.clubActivityDetailViewSet)
 router.register(r'clubs', views.ClubsViewSet)
 router.register(r'bookmarks', views.BookmarkSearchViewSet)
+
 
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
     path('sign-up', include('Server_app.signup.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
-    #path('/promotions/<int:promotion_id>', views.getPromotion.as_view()),
+    path('activities/grid/<int:clubID>/', views.clubActivityViewSet.as_view({"get": "list"}), name="activitygrid"),
     path('', include(router.urls)),
     path('clublist/<int:club>/<str:category>/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
     path('clubsearch/<int:club>/<str:category>/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
@@ -44,5 +45,6 @@ urlpatterns = [
     path('bookmarksearch/<int:schoolID>/', views.BookmarkSearchViewSet.as_view({"get":"list"}), name="bookmarklist"),
     path('postbookmark/', csrf_exempt(views.PostBookmark.as_view())),
     path('deletebookmark/<int:clubID>/<int:schoolID>', csrf_exempt(views.DeleteBookmark.as_view())),,
+
     re_path('admin/', admin.site.urls),
 ]

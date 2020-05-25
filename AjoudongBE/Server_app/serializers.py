@@ -4,12 +4,12 @@ from Server_app.models import UserAccount, Club, ClubActivity, ClubPromotion, Ma
 class clubPromotionSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubPromotion
-        fields = ('posterIMG', 'clubInfo', 'clubFAQ', 'clubApply', 'clubContact')
+        fields = ('posterIMG', 'clubInfo', 'clubFAQ', 'clubApply', 'clubContact', 'additionalApply', 'recruitStartDate', 'recruitEndDate')
 
 class clubActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubActivity
-        fields = ('clubActivityFile', 'clubActivityInfo', 'clubActivityID','clubID_id','clubActivityDetail')
+        fields = ('clubActivityFile', 'clubActivityInfo', 'clubActivityID','clubID','clubActivityDetail')
         
 class MajorSerializer(serializers.ModelSerializer):
     class Meta:

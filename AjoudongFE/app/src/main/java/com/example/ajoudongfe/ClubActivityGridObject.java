@@ -1,11 +1,19 @@
 package com.example.ajoudongfe;
 
-public class ClubActivityObject {
+public class ClubActivityGridObject {
     private String clubActivityFile;
     private String clubActivityInfo;
     private int clubActivityID;
     private int clubID;
     private String clubActivityDetail;
+
+    public ClubActivityGridObject(int clubID, String clubActivityFile, String clubActivityInfo, String clubActivityDetail, int clubActivityID) {
+        this.clubID = clubID;
+        this.clubActivityInfo = clubActivityInfo;
+        this.clubActivityDetail = clubActivityDetail;
+        this.clubActivityFile = clubActivityFile;
+        this.clubActivityID = clubActivityID;
+    }
 
     public int getClubID() {
         return clubID;
