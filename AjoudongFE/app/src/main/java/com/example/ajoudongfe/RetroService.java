@@ -1,12 +1,16 @@
 package com.example.ajoudongfe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.DELETE;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
@@ -52,11 +56,15 @@ public interface RetroService {
     @GET ("/clubs/{clubID}")
     Call<ClubObject>getClubGrid(@Path("clubID") int clubID);
 
-    @GET ("/clublist/{club}/{sort}/")
-    Call<List<ClubObject>>getClubGridAll(@Path("club") int club, @Path("sort") int sort);
+    @GET ("/clublist/{club}/{category}/{sort}/")
+    Call<List<ClubObject>>getClubGridAll(@Path("club") int club, @Path("category") String category, @Path("sort") int sort);
 
-    @GET ("/clubsearch/{club}/{sort}/{search}")
-    Call<List<ClubObject>>getClubGridSearch(@Path("club") int club, @Path("sort") int sort, @Path("search") String search);
+    @GET ("/clubsearch/{club}/{category}/{sort}/{search}")
+    Call<List<ClubObject>>getClubGridSearch(@Path("club") int club, @Path("category") String category, @Path("sort") int sort, @Path("search") String search);
+
+
+    @POST("/clubfiltering/")
+    Call<List<ClubObject>> getClubGridFilter(@Body ClubFilterObject clubFilterObject);
 
     @GET ("/bookmarksearch/{schoolID}/")
     Call<List<BookmarkObject>>getBookmark(@Path("schoolID") int schoolID);
@@ -66,10 +74,6 @@ public interface RetroService {
 
     @DELETE("/deletebookmark/{clubID}/{schoolID}/")
     Call<BookmarkObject>deleteBookmark(@Path("clubID") int clubID, @Path("schoolID") int schoolID);
-
-
-
-
 
 }
 
