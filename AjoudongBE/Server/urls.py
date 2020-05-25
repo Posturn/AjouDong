@@ -12,16 +12,16 @@ from django.conf.urls import url
 router=routers.DefaultRouter()
 router.register(r'SERVER_APP/Major_affiliations', views.MajorViewSet)
 router.register(r'promotions', views.promotionViewSet)
-router.register(r'activities', views.clubActivityViewSet)
+router.register(r'activities', views.clubActivityDetailViewSet)
 
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
     path('sign-up', include('Server_app.signup.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
-    #path('/promotions/<int:promotion_id>', views.getPromotion.as_view()),
+    path('activities/grid/<int:clubID>/', views.clubActivityViewSet.as_view({"get": "list"}), name="activitygrid"),
     path('', include(router.urls)),
-    path('clublist/<int:club>/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
-    path('clubsearch/<int:club>/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
+    path('clublist/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
+    path('clubsearch/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
     re_path('admin/', admin.site.urls),
 ]
