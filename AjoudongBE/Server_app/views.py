@@ -171,10 +171,10 @@ class PostBookmark(View):
 
 class DeleteBookmark(View):
     @csrf_exempt
-    def delete(self, request):
+    def post(self, request, clubID, schoolID):
 
-        clubID_id = self.kwargs.get('clubID')
-        uSchoolID_id = self.kwargs.get('schoolID')
+        clubID_id = clubID
+        uSchoolID_id = schoolID
         
         MarkedClubList.objects.filter(clubID_id = clubID_id,
                 uSchoolID_id = uSchoolID_id).delete()
