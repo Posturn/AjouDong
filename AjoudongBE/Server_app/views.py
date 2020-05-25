@@ -38,7 +38,6 @@ class ClubViewSet(viewsets.ModelViewSet):
         category = self.kwargs.get('category')
         self.queryset = filter_club(club, self.queryset)
         self.queryset = filter_category(category, self.queryset)
-
         return sort_clublist(sort, self.queryset)
 
 class ClubSearchViewSet(viewsets.ModelViewSet):
@@ -55,7 +54,6 @@ class ClubSearchViewSet(viewsets.ModelViewSet):
         self.queryset = filter_category(category, self.queryset)
         self.queryset = self.queryset.filter(clubName__icontains=search)
         queryset_serialized = serializers.serialize('json', sort_clublist(sort, self.queryset))
-        print(queryset_serialized)
         return sort_clublist(sort, self.queryset)
 
 class ClubFilter(generics.GenericAPIView):
@@ -69,19 +67,9 @@ class ClubFilter(generics.GenericAPIView):
         sort = request.data["sort"]
         print(tags)
 
-        # self.queryset = filter_taglist(tags, self.queryset)
         self.queryset = filter_club(club, self.queryset)
-        # self.queryset = sort_clublist(sort, self.queryset)
-        # result = self.serializer_class(data=self.queryset)
-        # if result.is_valid():
-        #     result.save()
-        #     return Response(result.data, )
-        queryset_serialized = serializers.serialize('json', sort_clublist(sort, self.queryset), fields=('clubID','clubName','clubCategory','clubIMG','clubMajor','clubDues'))
-        # queryset_serialized = self.serializer_class(data=sort_clublist(sort, self.queryset).data)
-        print(queryset_serialized)
-        return Response(queryset_serialized)
-        # return sort_clublist(sort, self.queryset)
-        # return sort_clublist(sort, self.queryset)
+        queryset_serialized = self.serializer_class(sort_clublist(1, self.queryset),many=True)
+        return Response(queryset_serialized.data)
 
 
 def sort_clublist(sort, queryset):
@@ -105,8 +93,6 @@ def filter_club(club, queryset):
         return queryset.filter(clubMajor=club)
 
 def filter_taglist(tags, queryset):
+    # id_list = []
     # for tag in tags:
-    # tag를 포함한 동아리 id return 계속해서 그 동아리 아이디를 추려나감
-    # for문 종료후 해당 동아리 id를 갖는 동아리 queryset을 리턴
-    # https://taebbong.github.io/2019/11/07/2019-11-07-drf-3-post/
     return queryset

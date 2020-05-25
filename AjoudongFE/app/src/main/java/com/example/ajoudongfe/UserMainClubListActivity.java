@@ -262,7 +262,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     }
 
     protected void ClubFilter(){
-        final ClubFilterObject clubFilterObject = new ClubFilterObject(club_num, 1, tags);
+        final ClubFilterObject clubFilterObject = new ClubFilterObject(club_num, now_spin, tags);
         Call<List<ClubObject>> call = retroService.getClubGridFilter(clubFilterObject);
         CallEnqueueClubObject(call);
     }

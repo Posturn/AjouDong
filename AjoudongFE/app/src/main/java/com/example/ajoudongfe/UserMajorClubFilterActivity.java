@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,9 +13,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class UserMajorClubFilterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView[] filterViews = new TextView[37];
+    private ArrayList<String> tags = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,17 +71,21 @@ public class UserMajorClubFilterActivity extends AppCompatActivity implements Vi
             filterViews[i].setOnClickListener(this);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar) ;
+        setSupportActionBar(toolbar) ;
+        ActionBar actionBar = getSupportActionBar() ;
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
         Button filterButton = (Button) findViewById(R.id.mainfilterbtn);
-        filterButton.setOnClickListener(new Button.OnClickListener() {
+        filterButton.setOnClickListener(new Button.OnClickListener(){
             @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "버튼눌림", Toast.LENGTH_SHORT).show();
+            public void onClick(View view)
+            {
+                Intent intent = new Intent();
+                intent.putStringArrayListExtra("TAGLIST",tags);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -92,24 +100,31 @@ public class UserMajorClubFilterActivity extends AppCompatActivity implements Vi
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case android.R.id.home :
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
                 finish();
                 return true;
             case R.id.toolbarFilter:
-                for(int i = 0 ; i < 37 ; i++) {
+                for(int i = 0 ; i < 40 ; i++) {
+                    tags.clear();
                     filterViews[i].setSelected(false);
                 }
                 return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            default :
+                return super.onOptionsItemSelected(item) ;
         }
     }
 
     @Override
     public void onClick(View v) {
+        TextView textView = findViewById(v.getId());
+        String now_tag = (String)textView.getText();
         if (v.isSelected()) {
+            tags.remove(now_tag);
             v.setSelected(false);
         } else {
+            tags.add(now_tag);
             v.setSelected(true);
         }
     }

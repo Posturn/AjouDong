@@ -210,7 +210,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
             }
             case R.id.toolbarFilter:{
                 Intent intent = new Intent(getApplicationContext(), UserNewClubFilterActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
                 return true;
             }
         }
@@ -246,6 +246,21 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(resultCode==RESULT_OK && requestCode == 1){
+            tags = data.getStringArrayListExtra("TAGLIST");
+            if(tags.size() == 0 || tags.isEmpty()) tag_now = false;
+            else{
+                tag_now = true;
+                ClubFilter();
+            }
+        }else{
+            tag_now = false;
+        }
+    }
+
     protected void ClubSort(){
         Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, selectedCategory, now_spin);
         CallEnqueueClubObject(call);
@@ -257,7 +272,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
     }
 
     protected void ClubFilter(){
-        final ClubFilterObject clubFilterObject = new ClubFilterObject(club_num, 1, tags);
+        final ClubFilterObject clubFilterObject = new ClubFilterObject(club_num, now_spin, tags);
         Call<List<ClubObject>> call = retroService.getClubGridFilter(clubFilterObject);
         CallEnqueueClubObject(call);
     }

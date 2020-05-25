@@ -24,6 +24,5 @@ urlpatterns = [
     path('clublist/<int:club>/<str:category>/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
     path('clubsearch/<int:club>/<str:category>/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
     path('clubfiltering/', csrf_exempt(views.ClubFilter.as_view()), name="clubfiltering"),
-    path('clubfilteringSearch/', views.ClubFilter.as_view, name="clubfilteringSearch"),
     re_path('admin/', admin.site.urls),
 ]
