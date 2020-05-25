@@ -13,6 +13,7 @@ public class ClubObject
 
     public ClubObject(int clubID, String clubName, String clubCategory, String clubIMG, int clubMajor, double clubDues) {
         this.clubID = clubID;
+        this.clubName = clubName;
         this.clubCategory = clubCategory;
         this.clubIMG = clubIMG;
         this.clubMajor = clubMajor;
@@ -22,6 +23,8 @@ public class ClubObject
     public  String getName(){
         return clubName;
     }
+
+    public int getClubID() { return clubID;}
 
     public String getIMG(){
         return clubIMG;

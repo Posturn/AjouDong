@@ -40,11 +40,11 @@ class checkSameID(View):
         data = json.loads(request.body)
 
         try:
-            if UserAccount.objects.filter(uID = data['uID']).exists():
-                 return JsonResponse({'response' : 0}, status=400)
+            if UserAccount.objects.filter(uID = data['checkedID']).exists():
+                return JsonResponse({'response' : -1}, status=200)
             return JsonResponse({'response' : 1}, status=200)
 
         except KeyError:
-            return JsonResponse({'response' : -1}, status = 400)\
+            return JsonResponse({'response' : -2}, status = 401)
             
 
