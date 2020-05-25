@@ -9,7 +9,6 @@ import retrofit2.http.DELETE;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -44,6 +43,9 @@ public interface RetroService {
 
     @DELETE("/activities/{pk}/")
     Call<ClubActivityObject> delete_activities_pk(@Path("pk") int pk);
+
+    @GET("/activities/grid/{clubID}/")
+    Call<List<ClubActivityGridObject>> get_activitiesGrid(@Path("clubID") int clubID);
   
     @GET ("/SERVER_APP/Major_affiliations")
     Call<ResponseObject>getMajorstr(@Query("majorCollege") String college);

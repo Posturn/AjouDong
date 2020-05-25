@@ -1,7 +1,7 @@
 package com.example.ajoudongfe;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,52 +9,79 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 public class ClubHistoryAdapter extends BaseAdapter {
-    ArrayList<GridListObject> items = new ArrayList<GridListObject>();
+    private List<ClubActivityGridObject> clubmodels;
     private Context mContext;
+    private int checkGrid = 0;
+    //private ArrayList<GridListObject> items = new ArrayList<GridListObject>();
 
-    public void addItem(GridListObject item)
-    {
-        items.add(item);
+   // public void addItem(GridListObject item){items.add(item);}
+
+    public ClubHistoryAdapter(Context mContext, List<ClubActivityGridObject> clubmodels) {
+        this.mContext = mContext;
+        this.clubmodels = clubmodels;
+        if(checkGrid == 0){
+            clubmodels.add(0, new ClubActivityGridObject(0,"0","0","0",0));
+        }
+        checkGrid++;
+    }
+    //출력될 이미지 데이터셋(res/drawable 폴더)
+
+    public int getCount(){
+        return clubmodels.size();
+    }
+
+    public Object getItem(int pos){
+        return clubmodels.get(pos);
     }
 
     @Override
-    public int getCount() {
-
-        return items.size();
+    public long getItemId(int pos) {
+        return pos;
     }
 
-    @Override
-    public Object getItem(int position) {
-        return items.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @SuppressLint("ResourceType")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        mContext=parent.getContext();
-        GridListObject listitem = items.get(position);
+        mContext = parent.getContext();
 
         if(convertView==null)
         {
-            LayoutInflater inflater=(LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.grid_shape_activity, parent, false);
-
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.grid_shape_activity, parent, false);
         }
 
         ImageView clubImage = convertView.findViewById(R.id.imageView1);
         TextView nameText = convertView.findViewById(R.id.textView1);
 
-        clubImage.setImageDrawable(listitem.getmThumbIds());
-        nameText.setText(listitem.getName());
+        final ClubActivityGridObject thisClubActivityObject = clubmodels.get(position);
 
+            if(thisClubActivityObject.getClubActivityID() == 0){
+                nameText.setText("");
+                clubImage.setImageResource(R.drawable.ic_add);
+            }
+            else{
+                nameText.setText(thisClubActivityObject.getClubActivityInfo());
+
+                if(thisClubActivityObject.getClubActivityFile() != null && thisClubActivityObject.getClubActivityFile().length()>0)
+                {
+                    Picasso.get().load(thisClubActivityObject.getClubActivityFile()).into(clubImage);
+                }else {
+                    //Toast.makeText(mContext, "Empty Image URL", Toast.LENGTH_LONG).show();
+                }
+            }
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, ManagerClubHistoryEditActivity.class);
+                intent.putExtra("activityID", thisClubActivityObject.getClubActivityID());
+               // Toast.makeText(mContext, "활동 내용 추가", Toast.LENGTH_LONG).show();
+                mContext.startActivity(intent);
+            }
+        });
         return convertView;
     }
 }
