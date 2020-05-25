@@ -96,15 +96,28 @@ class ClubViewSet(viewsets.ModelViewSet):
         self.queryset = filter_category(category, self.queryset)
         return sort_clublist(sort, self.queryset)
 
+class ClubViewSet(viewsets.ModelViewSet):
+    queryset = Club.objects.all()
+    serializer_class = ClubSerializer
+
+    def get_queryset(self):
+        club = self.kwargs.get('club')
+        sort = self.kwargs.get('sort')
+        category = self.kwargs.get('category')
+        self.queryset = filter_club(club, self.queryset)
+        self.queryset = filter_category(category, self.queryset)
+        return sort_clublist(sort, self.queryset)
+
 class ClubSearchViewSet(viewsets.ModelViewSet):
     queryset = Club.objects.all()
     serializer_class = ClubSerializer
 
     def get_queryset(self):
+        club = self.kwargs.get('club')
         sort = self.kwargs.get('sort')
         search = self.kwargs.get('search')
         category = self.kwargs.get('category')
-      
+        
         self.queryset = filter_club(club, self.queryset)
         self.queryset = filter_category(category, self.queryset)
         self.queryset = self.queryset.filter(clubName__icontains=search)
@@ -125,6 +138,7 @@ class ClubFilter(generics.GenericAPIView):
         self.queryset = filter_club(club, self.queryset)
         queryset_serialized = self.serializer_class(sort_clublist(1, self.queryset),many=True)
         return Response(queryset_serialized.data)
+
 
 def sort_clublist(sort, queryset):
     if sort == 0:
