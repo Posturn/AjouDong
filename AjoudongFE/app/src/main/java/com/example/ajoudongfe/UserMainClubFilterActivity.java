@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,11 +14,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class UserMainClubFilterActivity extends AppCompatActivity implements View.OnClickListener{
 
 
     private TextView[] filterViews = new TextView[40];
-
+    private ArrayList<String> tags = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +88,10 @@ public class UserMainClubFilterActivity extends AppCompatActivity implements Vie
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(),"버튼눌림",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putStringArrayListExtra("TAGLIST",tags);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -101,10 +107,13 @@ public class UserMainClubFilterActivity extends AppCompatActivity implements Vie
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home :
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
                 finish();
                 return true;
             case R.id.toolbarFilter:
                 for(int i = 0 ; i < 40 ; i++) {
+                    tags.clear();
                     filterViews[i].setSelected(false);
                 }
                 return true;
@@ -115,9 +124,13 @@ public class UserMainClubFilterActivity extends AppCompatActivity implements Vie
 
     @Override
     public void onClick(View v) {
+        TextView textView = findViewById(v.getId());
+        String now_tag = (String)textView.getText();
         if (v.isSelected()) {
+            tags.remove(now_tag);
             v.setSelected(false);
         } else {
+            tags.add(now_tag);
             v.setSelected(true);
         }
     }

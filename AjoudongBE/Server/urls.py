@@ -21,7 +21,9 @@ urlpatterns = [
     path('activities/', include('Server_app.urls')),
     #path('/promotions/<int:promotion_id>', views.getPromotion.as_view()),
     path('', include(router.urls)),
-    path('clublist/<int:club>/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
-    path('clubsearch/<int:club>/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
+    path('clublist/<int:club>/<str:category>/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
+    path('clubsearch/<int:club>/<str:category>/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
+    path('clubfiltering/', csrf_exempt(views.ClubFilter.as_view()), name="clubfiltering"),
+    path('clubfilteringSearch/', views.ClubFilter.as_view, name="clubfilteringSearch"),
     re_path('admin/', admin.site.urls),
 ]

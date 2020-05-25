@@ -12,17 +12,21 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -39,8 +43,20 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
     public static String BASE_URL= "http://10.0.2.2:8000";
     private Retrofit retrofit;
 
+    private RetroService retroService;
+
     public ClubGridAdapter adapter;
     private GridView mGridView;
+
+    private SearchView searchView;
+    private String search_text = null;
+    private boolean search_now = false;
+    private int now_spin = 0;
+    private int club_num = 13;
+    private String selectedCategory = "전체";
+    private boolean tag_now = false;
+
+    private ArrayList<String> tags = new ArrayList<String>();
 
     private void populateGridView(List<ClubObject> clubObjectList) {
         mGridView = findViewById(R.id.gridView01);
@@ -51,7 +67,6 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
 
     private String ajoublue ="#91C0EB";
     private String gray ="#707070";
-    private String selectedCategory;
 
     private Button[] majorButton=new Button[41];
 
@@ -130,21 +145,10 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        RetroService retroService = retrofit.create(RetroService.class);
+        retroService = retrofit.create(RetroService.class);
 
-        Call<List<ClubObject>> call = retroService.getClubGridAll(13, 0);
-        call.enqueue(new Callback<List<ClubObject>>() {
-
-            @Override
-            public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
-                populateGridView(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
-                Toast.makeText(UserMajorClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+        Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, selectedCategory, now_spin);
+        CallEnqueueClubObject(call);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.majorclubtoolbar);
         setSupportActionBar(toolbar);
@@ -194,49 +198,61 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
         });
 
         if(collegeNum==1){
+            club_num = 13;
             makeButtonInvisible();
             makeButtonVisible(0, 0);
         }
         else if(collegeNum==2){
+            club_num = 2;
             makeButtonInvisible();
             makeButtonVisible(1, 9);
         }
         else if(collegeNum==3){
+            club_num = 3;
             makeButtonInvisible();
             makeButtonVisible(10, 14);
         }
         else if(collegeNum==4){
+            club_num = 4;
             makeButtonInvisible();
             makeButtonVisible(15, 18);
         }
         else if(collegeNum==5){
+            club_num = 5;
             makeButtonInvisible();
             makeButtonVisible(19, 22);
         }
         else if(collegeNum==6){
+            club_num = 6;
             makeButtonInvisible();
             makeButtonVisible(23, 27);
         }
         else if(collegeNum==7){
+            club_num = 7;
             makeButtonInvisible();
             makeButtonVisible(28, 33);
         }
         else if(collegeNum==8){
+            club_num = 8;
             makeButtonInvisible();
             makeButtonVisible(34, 34);
         }
         else if(collegeNum==9){
+            club_num = 9;
             makeButtonInvisible();
             makeButtonVisible(35, 35);
         }
         else if(collegeNum==10){
+            club_num = 10;
             makeButtonInvisible();
             makeButtonVisible(36, 36);
         }
         else if(collegeNum==11){
+            club_num = 11;
             makeButtonInvisible();
         }
         else if(collegeNum==12){
+            club_num = 12;
             makeButtonInvisible();
             makeButtonVisible(37, 40);
         }
@@ -246,6 +262,31 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
 
         }
         majorButton[0].performClick();
+
+        Spinner spinner = (Spinner)findViewById(R.id.majorClubSpinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                now_spin = position;
+                if(search_text==null || search_text.equals("")){
+                    search_now=false;
+                }
+                //0. 정렬(랜덤) 1. 가나다순(오름차순) 2. 가나다순(내림차순)
+                if(search_now == false && tag_now == false){
+                    ClubSort();
+                }else if(search_now == true && tag_now == false){
+                    ClubSearch();
+                }else if(search_now == false && tag_now == true){
+                    ClubFilter();
+                }else{
+                    ClubFilterSearch();
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                ClubSort();
+            }
+        });
     };
 
     @Override
@@ -262,7 +303,8 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
                 tempButton.setTextColor(Color.parseColor(ajoublue));
                 tempButton.setBackgroundResource(R.drawable.grid_major_category_click_shape);
                 selectedCategory= (String) tempButton.getText();
-                Toast.makeText(this, tempButton.getText(), Toast.LENGTH_SHORT).show();
+                Log.d("sssss", selectedCategory);
+                ClubSort();
             }
         }
     }
@@ -312,7 +354,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.user_search_menu, menu);
-        SearchView searchView = (SearchView)menu.findItem(R.id.toolbarSearch).getActionView();
+        searchView = (SearchView)menu.findItem(R.id.toolbarSearch).getActionView();
         searchView.setIconifiedByDefault(true);
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("동아리명을 입력하세요.");
@@ -320,15 +362,53 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {//검색 완료시
-                Toast.makeText(getApplicationContext(),"검색완료",Toast.LENGTH_SHORT).show();
+                search_text = s;
+                search_now = true;
+                if(tag_now == false) ClubSearch();
+                else ClubFilterSearch();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String s) { //검색어 입력시
+                search_text = null;
                 return false;
             }
         });
         return super.onCreateOptionsMenu(menu);
+    }
+
+    protected void ClubSort(){
+        Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, selectedCategory, now_spin);
+        CallEnqueueClubObject(call);
+    }
+
+    protected void ClubSearch(){
+        Call<List<ClubObject>> call = retroService.getClubGridSearch(club_num, selectedCategory, now_spin, search_text);
+        CallEnqueueClubObject(call);
+    }
+
+    protected void ClubFilter(){
+        final ClubFilterObject clubFilterObject = new ClubFilterObject(club_num, 1, tags);
+        Call<List<ClubObject>> call = retroService.getClubGridFilter(clubFilterObject);
+        CallEnqueueClubObject(call);
+    }
+
+    protected void ClubFilterSearch(){
+        Log.d("test", "구현 필요");
+    }
+
+    protected void CallEnqueueClubObject(Call<List<ClubObject>> call){
+        call.enqueue(new Callback<List<ClubObject>>() {
+            @Override
+            public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
+                populateGridView(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
+                Toast.makeText(UserMajorClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

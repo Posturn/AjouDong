@@ -1,11 +1,15 @@
 package com.example.ajoudongfe;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Header;
 import retrofit2.http.DELETE;
+import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
@@ -49,11 +53,17 @@ public interface RetroService {
     @GET ("/SERVER_APP/club")
     Call<List<ClubObject>>getClubGrid(@Query("clubCategory") String clubCategory);
 
-    @GET ("/clublist/{club}/{sort}/")
-    Call<List<ClubObject>>getClubGridAll(@Path("club") int club, @Path("sort") int sort);
+    @GET ("/clublist/{club}/{category}/{sort}/")
+    Call<List<ClubObject>>getClubGridAll(@Path("club") int club, @Path("category") String category, @Path("sort") int sort);
 
-    @GET ("/clubsearch/{club}/{sort}/{search}")
-    Call<List<ClubObject>>getClubGridSearch(@Path("club") int club, @Path("sort") int sort, @Path("search") String search);
+    @GET ("/clubsearch/{club}/{category}/{sort}/{search}")
+    Call<List<ClubObject>>getClubGridSearch(@Path("club") int club, @Path("category") String category, @Path("sort") int sort, @Path("search") String search);
 
+    @POST("/clubfiltering/")
+    Call<List<ClubObject>> getClubGridFilter(@Body ClubFilterObject clubFilterObject);
+
+//    @FormUrlEncoded
+//    @POST("/clubfilteringSearch/")
+//    Call<List<ClubObject>>getClubGridFilterSearch(@Field("tags[]")ArrayList<String> tags, @Field("club") int club, @Field("sort") int sort,  @Field("search") String search);
 }
 

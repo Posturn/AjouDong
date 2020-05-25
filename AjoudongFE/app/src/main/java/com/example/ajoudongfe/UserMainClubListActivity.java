@@ -25,8 +25,12 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,6 +55,10 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     private boolean search_now = false;
     private int now_spin = 0;
     private int club_num = 0;
+    private String selectedCategory = "전체";
+    private boolean tag_now = false;
+
+    private ArrayList<String> tags = new ArrayList<String>();
 
     private void populateGridView(List<ClubObject> clubObjectList) {
         mGridView = findViewById(R.id.gridView01);
@@ -61,7 +69,6 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
     final String ajoublue ="#005BAC";
     final String gray ="#707070";
-    String selectedCategory;
 
     private Button[] mainButton=new Button[9];
 
@@ -87,19 +94,8 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
         retroService = retrofit.create(RetroService.class);
 
-        Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, now_spin);
-        call.enqueue(new Callback<List<ClubObject>>() {
-
-             @Override
-             public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
-                 populateGridView(response.body());
-             }
-
-             @Override
-             public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
-                 Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
-             }
-         });
+        Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, selectedCategory, now_spin);
+        CallEnqueueClubObject(call);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.mainclubtoolbar);
         setSupportActionBar(toolbar);
@@ -163,18 +159,21 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                     search_now=false;
                 }
                 //0. 정렬(랜덤) 1. 가나다순(오름차순) 2. 가나다순(내림차순)
-                if(search_now == false){
-                    ClubSort(now_spin);
+                if(search_now == false && tag_now == false){
+                    ClubSort();
+                }else if(search_now == true && tag_now == false){
+                    ClubSearch();
+                }else if(search_now == false && tag_now == true){
+                    ClubFilter();
                 }else{
-                    ClubSearch(search_text, now_spin);
+                    ClubFilterSearch();
                 }
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                ClubSort(0);
+                ClubSort();
             }
         });
-
 
     };
 
@@ -191,7 +190,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                 tempButton.setTextColor(Color.parseColor(ajoublue));
                 tempButton.setBackgroundResource(R.drawable.grid_category_click_shape);
                 selectedCategory= (String) tempButton.getText();
-                Toast.makeText(this, tempButton.getText(), Toast.LENGTH_SHORT).show();
+                ClubSort();
             }
         }
     }
@@ -217,7 +216,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             }
             case R.id.toolbarFilter:{
                 Intent intent = new Intent(getApplicationContext(), UserMainClubFilterActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
                 return true;
             }
         }
@@ -238,8 +237,8 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             public boolean onQueryTextSubmit(String s) {//검색 완료시
                 search_text = s;
                 search_now = true;
-                ClubSearch(search_text, now_spin);
-                Toast.makeText(getApplicationContext(),"검색중",Toast.LENGTH_SHORT).show();
+                if(tag_now == false) ClubSearch();
+                else ClubFilterSearch();
                 return false;
             }
 
@@ -252,25 +251,42 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
         return super.onCreateOptionsMenu(menu);
     }
 
-    protected void ClubSort(int spinner_num){
-        Log.d("ClubSort","spinner_num: "+spinner_num);
-        Call<List<ClubObject>> call = retroService.getClubGridAll(0, spinner_num);
-        call.enqueue(new Callback<List<ClubObject>>() {
-            @Override
-            public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
-                populateGridView(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
-                Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
+    protected void ClubSort(){
+        Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, selectedCategory, now_spin);
+        CallEnqueueClubObject(call);
     }
 
-    protected void ClubSearch(String keyword, int spinner_num){
-        Log.d("ClubSearch","spinner_num: "+spinner_num+", keyword: "+keyword);
-        Call<List<ClubObject>> call = retroService.getClubGridSearch(club_num,spinner_num, keyword);
+    protected void ClubSearch(){
+        Call<List<ClubObject>> call = retroService.getClubGridSearch(club_num, selectedCategory, now_spin, search_text);
+        CallEnqueueClubObject(call);
+    }
+
+    protected void ClubFilter(){
+        final ClubFilterObject clubFilterObject = new ClubFilterObject(club_num, 1, tags);
+        Call<List<ClubObject>> call = retroService.getClubGridFilter(clubFilterObject);
+        CallEnqueueClubObject(call);
+    }
+
+    protected void ClubFilterSearch(){
+        Log.d("test", "구현 필요");
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if(resultCode==RESULT_OK && requestCode == 1){
+            tags = data.getStringArrayListExtra("TAGLIST");
+            if(tags.size() == 0 || tags.isEmpty()) tag_now = false;
+            else{
+                tag_now = true;
+                ClubFilter();
+            }
+        }else{
+            tag_now = false;
+        }
+    }
+
+    protected void CallEnqueueClubObject(Call<List<ClubObject>> call){
         call.enqueue(new Callback<List<ClubObject>>() {
             @Override
             public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
