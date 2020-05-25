@@ -32,7 +32,17 @@
 
         </androidx.appcompat.widget.Toolbar>
         <GridView
+            android:id="@+id/bookmarkgrid"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="0.2"
+            android:verticalSpacing="10dp"
+            android:horizontalSpacing="10dp"
+            android:numColumns="3"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,8 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation
-from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer
+from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList
+from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer, BookmarkSerializer
 
 class login(View):
     @csrf_exempt
@@ -68,6 +68,10 @@ class MajorViewSet(viewsets.ModelViewSet):
     queryset= Major_Affiliation.objects.all()
     serializer_class=MajorSerializer
 
+class ClubsViewSet(viewsets.ModelViewSet):
+    queryset = Club.objects.all()
+    serializer_class=ClubSerializer
+
 class ClubViewSet(viewsets.ModelViewSet):
     queryset = Club.objects.all()
     serializer_class = ClubSerializer
@@ -107,3 +111,41 @@ class ClubSearchViewSet(viewsets.ModelViewSet):
             return self.queryset.order_by('clubName')
         elif sort == 2:
             return self.queryset.order_by('-clubName')
+
+    
+class BookmarkSearchViewSet(viewsets.ModelViewSet):
+    queryset = MarkedClubList.objects.all()
+    serializer_class=BookmarkSerializer
+
+    #def get_queryset(self):
+    #    schoolID=self.kwargs.get('schoolID')
+    #    self.queryset=self.queryset.filter(uSchoolID_id=schoolID)
+
+class PostBookmark(View):
+    @csrf_exempt
+    def post(self, request):
+  
+        data = json.loads(request.body)
+        
+        try:
+            MarkedClubList.objects.create(
+                clubID_id = data['clubID'],
+                uSchoolID_id = data['uSchoolID']
+            ).save()
+
+            return HttpResponse(status = 200)
+
+        except KeyError:
+            return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
+
+class DeleteBookmark(View):
+    @csrf_exempt
+    def delete(self, request):
+
+        clubID_id = self.kwargs.get('clubID')
+        uSchoolID_id = self.kwargs.get('schoolID')
+        
+        MarkedClubList.objects.filter(clubID_id = clubID_id,
+                uSchoolID_id = uSchoolID_id).delete()
+        return HttpResponse(status = 200)
+

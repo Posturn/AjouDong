@@ -4,6 +4,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.DELETE;
 import retrofit2.http.PATCH;
@@ -48,14 +49,27 @@ public interface RetroService {
     @GET ("/SERVER_APP/Major_affiliations")
     Call<ResponseObject>getMajorstr(@Query("majorCollege") String college);
 
-    @GET ("/SERVER_APP/club")
-    Call<List<ClubObject>>getClubGrid(@Query("clubCategory") String clubCategory);
+    @GET ("/clubs/{clubID}")
+    Call<ClubObject>getClubGrid(@Path("clubID") int clubID);
 
     @GET ("/clublist/{club}/{sort}/")
     Call<List<ClubObject>>getClubGridAll(@Path("club") int club, @Path("sort") int sort);
 
     @GET ("/clubsearch/{club}/{sort}/{search}")
     Call<List<ClubObject>>getClubGridSearch(@Path("club") int club, @Path("sort") int sort, @Path("search") String search);
+
+    @GET ("/bookmarksearch/{schoolID}/")
+    Call<List<BookmarkObject>>getBookmark(@Path("schoolID") int schoolID);
+
+    @POST ("/postbookmark/")
+    Call<BookmarkObject>postBookmark(@Body BookmarkObject bookmarkObject);
+
+    @DELETE("/deletebookmark/{clubID}/{schoolID}/")
+    Call<BookmarkObject>deleteBookmark(@Path("clubID") int clubID, @Path("schoolID") int schoolID);
+
+
+
+
 
 }
 

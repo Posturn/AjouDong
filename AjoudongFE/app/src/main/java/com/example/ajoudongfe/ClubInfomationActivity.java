@@ -1,9 +1,12 @@
 package com.example.ajoudongfe;
 
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 
 import androidx.annotation.Nullable;
@@ -17,10 +20,28 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class ClubInfomationActivity extends AppCompatActivity {
 
     private DrawerLayout drawerlayout;
     private RecyclerView recyclerview;
+
+    private int schoolID=201421234;
+    private int parameterclubID;
+    private String parameterclubName;
+
+    private int bkmark;
+
+
+    public static String BASE_URL= "http://10.0.2.2:8000";
+    private Retrofit retrofit;
+
+    private RetroService retroService;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,15 +50,19 @@ public class ClubInfomationActivity extends AppCompatActivity {
 
         String clubName=getIntent().getStringExtra("clubName");
         // ↑ 그리드 클릭시 넘어오는 동아리 이름
+        int clubID=getIntent().getIntExtra("clubID", 0);
+        // ↑ 그리드 클릭시 넘어오는 동아리 ID
+        parameterclubID=clubID;
+        parameterclubName=clubName;
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.majorselecttoolbar);
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
-        actionBar.setDisplayShowTitleEnabled(false);
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
 
+        retroService = retrofit.create(RetroService.class);
+
+        isBookmarked(schoolID);
 
         recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -84,14 +109,15 @@ public class ClubInfomationActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.toolbarBookmark:{
-                if (item.isChecked()) {
-                    item.setChecked(false);
-
-                } else {
-                    item.setChecked(true);
-                }
-
-                return true;
+                if(bkmark == 1){
+                deleteBookmark(parameterclubID, schoolID);
+                item.setIcon(R.drawable.ic_bookmark);//changing the icon
+                bkmark = 0;
+            }else{
+                postBookmark(parameterclubID, schoolID);
+                item.setIcon(R.drawable.ic_bookmarked);//changing the icon
+                bkmark = 1;
+            }
             }
         }
         return super.onOptionsItemSelected(item);
@@ -99,8 +125,87 @@ public class ClubInfomationActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.club_bookmark_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+
+        if(bkmark == 0){
+            getMenuInflater().inflate(R.menu.club_bookmark_menu, menu);
+        }else{
+            getMenuInflater().inflate(R.menu.club_bookmarked_menu, menu);
+        }
+        return true;
     }
+
+    public void postBookmark(int clubID, int schoolID){
+        BookmarkObject bookmark = new BookmarkObject(clubID, schoolID);
+
+        Call<BookmarkObject>call = retroService.postBookmark(bookmark);
+        call.enqueue(new Callback<BookmarkObject>() {
+
+            @Override
+            public void onResponse(Call<BookmarkObject> call, Response<BookmarkObject> response) {
+                Toast.makeText(ClubInfomationActivity.this, parameterclubName+" 동아리를 담아두었습니다." , Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<BookmarkObject> call, Throwable throwable) {
+                Toast.makeText(ClubInfomationActivity.this, parameterclubName+"동아리를 담아두었습니다." , Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void deleteBookmark(int clubID, int schoolID){
+        BookmarkObject bookmark = new BookmarkObject(clubID, schoolID);
+
+        Call<BookmarkObject>call = retroService.deleteBookmark(clubID, schoolID);
+        call.enqueue(new Callback<BookmarkObject>() {
+            @Override
+            public void onResponse(Call<BookmarkObject> call, Response<BookmarkObject> response) {
+                Toast.makeText(ClubInfomationActivity.this, parameterclubName+" 동아리 담아두기를 해제하였습니다." , Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onFailure(Call<BookmarkObject> call, Throwable t) {
+                Toast.makeText(ClubInfomationActivity.this, parameterclubName+" 동아리 담아두기를 해제하였습니다." , Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void isBookmarked(int schoolID){
+
+        Call<List<BookmarkObject>> call = retroService.getBookmark(schoolID);
+        call.enqueue(new Callback<List<BookmarkObject>>() {
+
+            @Override
+            public void onResponse(Call<List<BookmarkObject>> call, Response<List<BookmarkObject>> response) {
+                for(BookmarkObject b : response.body()){
+                    if(b.getClubID()==parameterclubID){
+                        Log.v("clubid", String.valueOf(b.getClubID()));
+                        Log.v("paraclubid", String.valueOf(parameterclubID));
+                        bkmark=1;
+                        Log.v("bkmark2", String.valueOf(bkmark));
+
+                        Toolbar toolbar = (Toolbar) findViewById(R.id.majorselecttoolbar);
+                        setSupportActionBar(toolbar);
+                        ActionBar actionBar = getSupportActionBar();
+                        actionBar.setDisplayShowCustomEnabled(true);
+                        actionBar.setDisplayHomeAsUpEnabled(true);
+                        actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
+                        actionBar.setDisplayShowTitleEnabled(false);
+                    }
+                    Toolbar toolbar = (Toolbar) findViewById(R.id.majorselecttoolbar);
+                    setSupportActionBar(toolbar);
+                    ActionBar actionBar = getSupportActionBar();
+                    actionBar.setDisplayShowCustomEnabled(true);
+                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
+                    actionBar.setDisplayShowTitleEnabled(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<BookmarkObject>> call, Throwable throwable) {
+
+            }
+        });
+    }
+
 }

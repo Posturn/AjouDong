@@ -92,6 +92,10 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
              @Override
              public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
+                 for(ClubObject v : response.body())
+                 {
+                     Log.v("value", String.valueOf(v.getClubID()));
+                 }
                  populateGridView(response.body());
              }
 
