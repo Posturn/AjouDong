@@ -72,7 +72,7 @@ public interface RetroService {
     @POST ("/postbookmark/")
     Call<BookmarkObject>postBookmark(@Body BookmarkObject bookmarkObject);
 
-    @DELETE("/deletebookmark/{clubID}/{schoolID}/")
+    @POST("/deletebookmark/{clubID}/{schoolID}")
     Call<BookmarkObject>deleteBookmark(@Path("clubID") int clubID, @Path("schoolID") int schoolID);
 
 }
