@@ -72,7 +72,7 @@ class newmember(View):
 
 class deletemember(View):
     @csrf_exempt
-    def delete(self, request, clubID, uSchoolID):
+    def post(self, request, clubID, uSchoolID):
         try :
             ClubMember.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
             return JsonResponse({'response' : 1}, status = 200)

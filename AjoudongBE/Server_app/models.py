@@ -121,8 +121,9 @@ class ClubActivity(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,null=True)
     clubActivityFile = models.CharField(max_length=128)
     clubActivityInfo = models.CharField(max_length=256)
-    clubActivityID = models.IntegerField(primary_key=True, auto_created=True)
+    clubActivityID = models.AutoField(primary_key=True)
     clubActivityDetail = models.CharField(max_length=2048, null=True)
+    clubActivityThumbnail = models.CharField(max_length=256, null=True)
 
 class Major_Affiliation(models.Model):
     majorName = models.CharField(max_length=20, primary_key=True)
