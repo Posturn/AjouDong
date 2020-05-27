@@ -41,6 +41,14 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        GetBookmarkGrid(schoolID);
+    }
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_bookmark_club);
@@ -61,6 +69,10 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
 
         retroService = retrofit.create(RetroService.class);
 
+    }
+
+
+    protected void GetBookmarkGrid(int schoolID){
         Call<List<BookmarkObject>> call = retroService.getBookmark(schoolID);
         call.enqueue(new Callback<List<BookmarkObject>>() {
 
@@ -70,6 +82,7 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
                 bookmarkmodels=response.body();
                 for(BookmarkObject value : response.body()){
                     GridSearch(value);
+                    clubmodels=new ArrayList<>();
                 }
                 Log.v("그리드 객체", String.valueOf(clubmodels));
                 //populateGridView(clubmodels);
@@ -81,12 +94,14 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
             }
         });
     }
+
 protected void GridSearch(BookmarkObject value){
     Call<ClubObject> callclub = retroService.getClubGrid(value.getClubID());
     callclub.enqueue(new Callback<ClubObject>() {
 
         @Override
         public void onResponse(Call<ClubObject> call, Response<ClubObject> response) {
+
             clubmodels.add(response.body());
             Log.v("클럽객체", String.valueOf(response.body()));
             Log.v("add 후 객체", String.valueOf(clubmodels));
