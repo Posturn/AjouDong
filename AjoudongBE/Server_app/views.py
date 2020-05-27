@@ -170,9 +170,11 @@ class BookmarkSearchViewSet(viewsets.ModelViewSet):
     queryset = MarkedClubList.objects.all()
     serializer_class=BookmarkSerializer
 
-    #def get_queryset(self):
-    #    schoolID=self.kwargs.get('schoolID')
-    #    self.queryset=self.queryset.filter(uSchoolID_id=schoolID)
+    def get_queryset(self):
+        schoolID=self.kwargs.get('schoolID')
+        self.queryset=self.queryset.filter(uSchoolID=schoolID)
+
+        return self.queryset
 
 class PostBookmark(View):
     @csrf_exempt
