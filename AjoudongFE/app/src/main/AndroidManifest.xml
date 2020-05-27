@@ -18,6 +18,7 @@
         android:usesCleartextTraffic="true">
         <service android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
+        <activity android:name=".UserApplyActivity" />
         <activity android:name=".UserNewClubFilterActivity"></activity>
         <activity android:name=".UserMajorClubFilterActivity" />
         <activity android:name=".UserMainClubFilterActivity" />
