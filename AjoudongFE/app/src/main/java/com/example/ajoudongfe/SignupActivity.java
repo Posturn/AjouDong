@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,8 +51,11 @@ public class SignupActivity extends AppCompatActivity {
     private TextInputEditText phoneNumberInputText;
     private Toolbar toolbar;
     private RadioGroup genderRadioGroup;
+    private RadioButton maleRadioButton;
+    private RadioButton femaleRadioButton;
     private Button signupButton;
-    private int IDChecker = 0;
+    private int IDChecker = -1;
+    private int gender = -1;
     private String tempID;
     private String uMajor;
     private String uCollege;
@@ -71,6 +75,8 @@ public class SignupActivity extends AppCompatActivity {
         collegeSpinner = (Spinner)findViewById(R.id.collegeSpinner);
         majorSpinner = (Spinner)findViewById(R.id.majorSpinner);
         genderRadioGroup = (RadioGroup)findViewById(R.id.genderRadioGroup);
+        maleRadioButton = (RadioButton)findViewById(R.id.maleRadioButton);
+        femaleRadioButton = (RadioButton)findViewById(R.id.femaleRadioButton);
         checkSameID = (TextView)findViewById(R.id.checkSameID);
         signupButton = (Button)findViewById(R.id.signupButton);
 
@@ -87,6 +93,23 @@ public class SignupActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        RadioGroup.OnCheckedChangeListener genderRadioCheck = new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if(radioGroup.getId() == R.id.genderRadioGroup)
+                {
+                    if(i == R.id.maleRadioButton)
+                    {
+                        gender = 1;
+                    }
+                    else
+                    {
+                        gender = 0;
+                    }
+                }
+            }
+        };
 
         collegeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -156,38 +179,57 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Call<ResponseObject> call = signupRequest(new SignupObject(
-                        idInputText.getText().toString(),
-                        pwInputText.getText().toString(),
-                        nameInputText.getText().toString(),
-                        1,
-                        Integer.parseInt(schoolIDInputText.getText().toString()),
-                        uMajor,
-                        uCollege,
-                        Integer.parseInt(phoneNumberInputText.getText().toString())));
+                if(checkParameter() != null)
+                {
+                    Toast.makeText(getApplicationContext(), checkParameter(), Toast.LENGTH_LONG).show();
 
-                call.enqueue(new Callback<ResponseObject>() {
-                    @Override
-                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                        try {
-                            Toast.makeText(getApplicationContext(), "회원가입 성공!", Toast.LENGTH_LONG).show();
-                            finish();
-                            Log.d("Response", response.body().toString());
-                        }
-                        catch(NullPointerException e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
+                }
+                else {
+                    Call<ResponseObject> call = signupRequest(new SignupObject(
+                            idInputText.getText().toString(),
+                            pwInputText.getText().toString(),
+                            nameInputText.getText().toString(),
+                            gender,
+                            Integer.parseInt(schoolIDInputText.getText().toString()),
+                            uMajor,
+                            uCollege,
+                            Integer.parseInt(phoneNumberInputText.getText().toString())));
 
-                    @Override
-                    public void onFailure(Call<ResponseObject> call, Throwable t) {
-                        Log.e("메일 요청 결과", "통신 실패");
-                    }
-                });
+                    call.enqueue(new Callback<ResponseObject>() {
+                        @Override
+                        public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                            try {
+                                Toast.makeText(getApplicationContext(), "회원가입 성공!", Toast.LENGTH_LONG).show();
+                                finish();
+                                Log.d("Response", response.body().toString());
+                            } catch (NullPointerException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseObject> call, Throwable t) {
+                            Log.e("메일 요청 결과", "통신 실패");
+                        }
+                    });
+                }
             }
         });
 
+    }
+
+    private String checkParameter()
+    {
+        if(idInputText.getText() == null)
+            return "이메일을 입력해주십시오.";
+        else if(IDChecker < 0)
+            return "이메일 중복확인은 필수입니다.";
+        else if(gender < 0)
+            return "성별을 선택해 주십시오";
+        else if(pwInputText.getText().toString() != pwCheckInputText.getText().toString())
+            return "비밀번호와 확인이 맞지 않습니다.";
+        else
+            return null;
     }
 
     @Override

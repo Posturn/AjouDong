@@ -5,13 +5,16 @@ public class MemberInfoObject {
     private String uMajor;
     private String uName;
     private String uIMG;
+    private String additionalApplyContent;
 
-    public MemberInfoObject(int uSchoolID, String uMajor, String uName, String uIMG) {
+    public MemberInfoObject(int uSchoolID, String uMajor, String uName, String uIMG, String additionalApplyContent) {
         this.uSchoolID = uSchoolID;
         this.uMajor = uMajor;
         this.uName = uName;
         this.uIMG = uIMG;
+        this.additionalApplyContent = additionalApplyContent;
     }
+
 
     public int getuSchoolID() {
         return uSchoolID;
@@ -43,5 +46,13 @@ public class MemberInfoObject {
 
     public void setuIMG(String uIMG) {
         this.uIMG = uIMG;
+    }
+
+    public String getAdditionalApplyContent() {
+        return additionalApplyContent;
+    }
+
+    public void setAdditionalApplyContent(String additionalApplyContent) {
+        this.additionalApplyContent = additionalApplyContent;
     }
 }

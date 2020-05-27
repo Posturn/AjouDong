@@ -16,6 +16,12 @@ import java.util.List;
 
 public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecyclerAdapter.ItemViewHolder> {
     private List<MemberInfoObject> listData = new ArrayList<>();
+
+    public NewMemberRecyclerAdapter(List<MemberInfoObject> listData) {
+        this.listData = listData;
+    }
+
+
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.newember_recycler_item, parent, false);

@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".VerifyActivity"></activity>
+        <activity android:name=".VerifyActivity" />
         <activity android:name=".UserNewClubFilterActivity" />
         <activity android:name=".UserMajorClubFilterActivity" />
         <activity android:name=".UserMainClubFilterActivity" />
@@ -23,13 +23,6 @@
         <activity android:name=".ManagerClubInfoEditActivity" />
         <activity android:name=".ManagerClubHistoryEditActivity" />
         <activity android:name=".ManagerMemberManagementActivity">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
         </activity>
         <activity android:name=".ManagerNewEventActivity" />
         <activity android:name=".UserNewClubListActivity" />

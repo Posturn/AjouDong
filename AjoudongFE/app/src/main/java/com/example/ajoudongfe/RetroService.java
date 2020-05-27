@@ -28,6 +28,19 @@ public interface RetroService {
                                  @Header("x-ncp-iam-access-key") String accessKey,
                                  @Header("x-ncp-apigw-signature-v2") String signature,
                                  @Body  VerifyObject verifyObject);
+
+    @GET("management/memberlist/{clubID}")
+    Call<UserListObject> getMemberList(@Path("clubID") int clubID);
+
+    @GET("management/applieduserlist/{clubID}")
+    Call<UserListObject> getAppliedUserList(@Path("clubID") int clubID);
+
+    @POST("management/newmember")
+    Call<ResponseObject> newMember(@Body MemberObject newMemberObject);
+
+    @POST("management/deletemember/{clubID}/{uSchoolID}")
+    Call<ResponseObject> deleteMember(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
+
     @GET("/promotions/{pk}/")
     Call<PromotionObject> get_promotions_pk(@Path("pk") int pk);
 

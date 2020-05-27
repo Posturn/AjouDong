@@ -13,24 +13,13 @@
             android:id="@+id/memberManagementTabLayout"
             android:layout_width="match_parent"
             android:layout_height="30dp">
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/newMemberTablItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="신규회원"/>
-
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/MemberTablItem"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="전체회원"/>
-
         </com.google.android.material.tabs.TabLayout>
 
         <androidx.viewpager.widget.ViewPager
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/managementViewPager"/>
+            android:id="@+id/memberManagementViewPager" />
+
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
