@@ -2,12 +2,14 @@ package com.example.ajoudongfe;
 
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +50,22 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
 
     private RetroService retroService;
 
-    FloatingActionButton apply;
+    private FloatingActionButton applybutton;
+
+    private PromotionObject clubinfo;
+    private ClubObject clubobject;
+
+    private ImageView infoback;
+
+    List<ExpandableListAdapter.Item> data = new ArrayList<>();
+
+    ExpandableListAdapter.Item intro = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, "동아리 소개");
+    ExpandableListAdapter.Item apply = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, "지원 요강");
+    ExpandableListAdapter.Item record = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null,"활동 내역");
+    ExpandableListAdapter.Item ratio = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null,"회원 비율");
+    ExpandableListAdapter.Item contact = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null,"회장단 연락처");
+    ExpandableListAdapter.Item faq = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null,"자주 하는 질문");
+
 
 
     @Override
@@ -62,8 +80,11 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
         parameterclubID = clubID;
         parameterclubName = clubName;
 
-        apply = (FloatingActionButton) findViewById(R.id.applybutton);
-        apply.setOnClickListener(this);
+        infoback = (ImageView) findViewById((R.id.clubinfoimage));
+
+
+        applybutton = (FloatingActionButton) findViewById(R.id.applybutton);
+        applybutton.setOnClickListener(this);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -72,42 +93,20 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
 
         retroService = retrofit.create(RetroService.class);
 
-        isBookmarked(schoolID);
-
         recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        List<ExpandableListAdapter.Item> data = new ArrayList<>();
 
-        ExpandableListAdapter.Item intro = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "동아리 소개");
-        intro.invisibleChildren = new ArrayList<>();
-        intro.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "사진 동영상 등"));
-        intro.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "소개 텍스트"));
 
-        ExpandableListAdapter.Item apply = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "지원 요강");
-        apply.invisibleChildren = new ArrayList<>();
-        apply.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "지원 자격"));
-        apply.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "온라인으로 지원하세요"));
-
-        ExpandableListAdapter.Item record = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "활동 내역");
-        record.invisibleChildren = new ArrayList<>();
-        record.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "활동내역 화면으로 이동"));
-
-        ExpandableListAdapter.Item ratio = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "회원 비율");
-        ratio.invisibleChildren = new ArrayList<>();
-        ratio.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "그래프"));
-
-        ExpandableListAdapter.Item contact = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, "회장단 연락처");
-        contact.invisibleChildren = new ArrayList<>();
-        contact.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "Instargram : ajoudong"));
-        contact.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "회장 : 010-1234-5678"));
-        contact.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, "부회장 : 010-1234-5678"));
-
+        isBookmarked(schoolID);
+        getClubObject(parameterclubID);
+        getClubInfo(parameterclubID);
 
         data.add(intro);
         data.add(apply);
         data.add(record);
         data.add(ratio);
         data.add(contact);
+        data.add(faq);
 
 
         recyclerview.setAdapter(new ExpandableListAdapter(data));
@@ -227,6 +226,61 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
             }
         });
     }
+
+    public void getClubInfo(int parameterclubID){
+        Call<PromotionObject> call = retroService.get_promotions_pk(parameterclubID);
+        call.enqueue(new Callback<PromotionObject>(){
+
+            @Override
+            public void onResponse(Call<PromotionObject> call, Response<PromotionObject> response) {
+                clubinfo=response.body();
+                intro.invisibleChildren = new ArrayList<>();
+                intro.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, clubinfo.getPosterIMG(), clubinfo.getClubInfo()));
+
+                apply.invisibleChildren = new ArrayList<>();
+                apply.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, null, clubinfo.getClubApply()));
+
+                record.invisibleChildren = new ArrayList<>();
+                record.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, null,"활동내역 화면으로 이동"));
+
+                ratio.invisibleChildren = new ArrayList<>();
+                ratio.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, null,"그래프"));
+
+                contact.invisibleChildren = new ArrayList<>();
+                contact.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD,null,clubinfo.getClubContact()));
+
+                faq.invisibleChildren = new ArrayList<>();
+                faq.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD,null,clubinfo.getClubFAQ()));
+            }
+
+            @Override
+            public void onFailure(Call<PromotionObject> call, Throwable t) {
+
+            }
+        });
+
+    }
+
+
+    protected void getClubObject(int clubID){
+        Call<ClubObject> call = retroService.getClubGrid(clubID);
+
+        call.enqueue(new Callback<ClubObject>() {
+            @Override
+            public void onResponse(Call<ClubObject> call, Response<ClubObject> response) {
+                clubobject=response.body();
+
+                Picasso.get().load(clubobject.getIMG()).into(infoback);
+            }
+
+            @Override
+            public void onFailure(Call<ClubObject> call, Throwable throwable) {
+                Toast.makeText(ClubInfomationActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+
 
     @Override
     public void onClick(View v) {
