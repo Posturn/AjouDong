@@ -28,17 +28,14 @@ public interface RetroService {
     @POST("/sign-up/sameID")
     Call<ResponseObject> checkSameID(@Body CheckIDObject checkIDObject);
 
-    @POST("")
-    Call<ResponseObject> emailVerify(@Header("x-ncp-apigw-timestamp") String timeStamp,
-                                 @Header("x-ncp-iam-access-key") String accessKey,
-                                 @Header("x-ncp-apigw-signature-v2") String signature,
-                                 @Body  VerifyObject verifyObject);
-
     @GET("management/memberlist/{clubID}")
     Call<UserListObject> getMemberList(@Path("clubID") int clubID);
 
     @GET("management/applieduserlist/{clubID}")
     Call<UserListObject> getAppliedUserList(@Path("clubID") int clubID);
+
+    @POST("management/applieduserlist/delete/{clubID}/{uSchoolID}")
+    Call<ResponseObject> deleteAppliedUser(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
 
     @POST("management/newmember")
     Call<ResponseObject> newMember(@Body MemberObject newMemberObject);

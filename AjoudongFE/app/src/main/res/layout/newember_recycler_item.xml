@@ -74,7 +74,7 @@
             android:layout_marginStart="10dp"
             app:layout_constraintTop_toTopOf="@id/newmemberItemLayout"
             app:layout_constraintBottom_toBottomOf="@id/newmemberItemLayout"
-            app:layout_constraintStart_toEndOf="@id/userInfoLayout"
+            app:layout_constraintEnd_toStartOf="@id/rejectbutton"
             android:src="@drawable/accept_button" />
 
         <ImageButton
@@ -88,7 +88,7 @@
             android:layout_marginStart="10dp"
             app:layout_constraintTop_toTopOf="@id/newmemberItemLayout"
             app:layout_constraintBottom_toBottomOf="@id/newmemberItemLayout"
-            app:layout_constraintStart_toEndOf="@id/acceptbutton"
+            app:layout_constraintEnd_toEndOf="@id/newmemberItemLayout"
             android:src="@drawable/reject_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
