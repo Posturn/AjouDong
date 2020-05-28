@@ -77,5 +77,10 @@ public interface RetroService {
     @POST("/deletebookmark/{clubID}/{schoolID}")
     Call<BookmarkObject>deleteBookmark(@Path("clubID") int clubID, @Path("schoolID") int schoolID);
 
+    @GET("/userInformation/{uschoolID}/")
+    Call<UserObject>getUserInformation(@Path("uschoolID") int uschoolID);
+
+    @POST("/clubApply/")
+    Call<ResponseObject> clubApply(@Body ApplyObject applyObject);
 }
 

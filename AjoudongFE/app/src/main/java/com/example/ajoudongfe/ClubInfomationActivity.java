@@ -38,7 +38,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
     private int schoolID = 201421234;
     private int parameterclubID;
     private String parameterclubName;
-
+    private int clubCategory;
     private int bkmark = 0;
 
 
@@ -61,6 +61,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
         // ↑ 그리드 클릭시 넘어오는 동아리 ID
         parameterclubID = clubID;
         parameterclubName = clubName;
+        clubCategory = getIntent().getIntExtra("clubCategory", 0);
 
         apply = (FloatingActionButton) findViewById(R.id.applybutton);
         apply.setOnClickListener(this);
@@ -234,6 +235,10 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
         switch (id) {
             case R.id.applybutton:
                 Intent intent = new Intent(getApplicationContext(), UserApplyActivity.class);
+                intent.putExtra("clubID", parameterclubID);
+                intent.putExtra("userSchoolID", schoolID);
+                intent.putExtra("clubCategory", 1);
+                Log.d("clubCategory", ""+ clubCategory);
                 startActivity(intent);
         }
 

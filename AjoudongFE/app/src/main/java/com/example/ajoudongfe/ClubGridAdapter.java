@@ -67,6 +67,7 @@ public class ClubGridAdapter extends BaseAdapter implements View.OnClickListener
                 Intent intent = new Intent(mContext, ClubInfomationActivity.class);
                 intent.putExtra("clubName", thisClubObject.getName());
                 intent.putExtra("clubID", thisClubObject.getClubID());
+                intent.putExtra("clubCategory", thisClubObject.getCategory());
                 Toast.makeText(mContext, thisClubObject.getName(), Toast.LENGTH_SHORT).show();
                 mContext.startActivity(intent);
             }
