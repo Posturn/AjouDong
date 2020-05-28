@@ -46,6 +46,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import com.example.ajoudongfe.Keys;
+
 
 public class ManagerClubInfoEditActivity extends AppCompatActivity {
 
@@ -57,10 +59,10 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
     final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/";
     private RetroService retroService;
 
-    final String accessKey = "AKIAYDYHJ54M6HIXDUX2";
-    final String secretKey = "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";
+    final String accessKey = Keys.getAccessKey();
+    final String secretKey = Keys.getSecretKey();
     final String bucketName = "ajoudong";
-    static String imgPath, imgName, nowImage;
+    static String imgPath, imgName, nowImage = "";
 
     final int manager_ClubID = 1;
 
@@ -73,7 +75,6 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
     private void populateGridView(List<ClubActivityGridObject> clubActivityObjectList) {
         mGridView = findViewById(R.id.activity_grid);
         adapter = new ClubHistoryAdapter(this, clubActivityObjectList);
-        //adapter.addItem(new GridListObject(ContextCompat.getDrawable(this, R.drawable.ic_add), ""));
         mGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -127,20 +128,6 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
             }
         });
 
-        Call<List<ClubActivityGridObject>> call = retroService.get_activitiesGrid(manager_ClubID);       //grid 생성
-        call.enqueue(new Callback<List<ClubActivityGridObject>>() {
-            @Override
-            public void onResponse(Call<List<ClubActivityGridObject>> call, Response<List<ClubActivityGridObject>> response) {
-                final List<ClubActivityGridObject> item  = response.body();
-                populateGridView(item);
-                mGridView.setNestedScrollingEnabled(true);
-            }
-            @Override
-            public void onFailure(Call<List<ClubActivityGridObject>> call, Throwable t) {
-                Log.d(TAG,"Fail msg : " + t.getMessage());
-            }
-        });
-
         ImageButton profile_btn = (ImageButton)findViewById(R.id.camera_btn);       // 이미지 편집 버튼 기능 구현
         profile_btn.setClickable(true);
         profile_btn.setOnClickListener(new Button.OnClickListener(){
@@ -154,7 +141,6 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
         });
 
 }
-
     @Override
     protected void onResume() {     //재시작시에 그리드 새로고침
         super.onResume();
@@ -172,6 +158,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
         });
     }
 
+
     private void initMyAPI(String baseUrl){     //레트로 핏 설정
         Log.d(TAG,"initMyAPI : " + baseUrl);
         Retrofit retrofit = new Retrofit.Builder()
@@ -181,43 +168,41 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
         retroService = retrofit.create(RetroService.class);
     }
 
-
-
     private void deleteIMG(){       //원래 이미지 버킷에서 삭제
         try {
             s3Client.deleteObject(new DeleteObjectRequest(bucketName, nowImage));
-            Log.d(TAG,nowImage +" is deleted!");
+           // Log.d(TAG,nowImage +" is deleted!");
         } catch (AmazonServiceException ase) {
             Log.e(TAG, ase.getErrorMessage());
         }
     }
 
     private void transferIMG(){     //이미지 S3에 업데이트
-        new DeleteTask().execute();
-        TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(this).build();
-        TransferObserver transferObserver = transferUtility.upload(bucketName, imgName, new File(imgPath), CannedAccessControlList.PublicRead);
-        transferObserver.setTransferListener(new TransferListener() {       //새 이미지 버킷에 전송
-            @Override
-            public void onStateChanged(int id, TransferState state) {
-                Log.d(TAG, "onStateChanged: " + id + ", " + state.toString());
-            }
+        if(imgPath != null){
+            new DeleteTask().execute();
+            TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(this).build();
+            TransferObserver transferObserver = transferUtility.upload(bucketName, imgName, new File(imgPath), CannedAccessControlList.PublicRead);
+            transferObserver.setTransferListener(new TransferListener() {       //새 이미지 버킷에 전송
+                @Override
+                public void onStateChanged(int id, TransferState state) {
+                    Log.d(TAG, "onStateChanged: " + id + ", " + state.toString());
+                }
 
-            @Override
-            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
-                int percentDone = (int)percentDonef;
-                Log.d(TAG, "ID:" + id + " bytesCurrent: " + bytesCurrent + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
-            }
-            @Override
-            public void onError(int id, Exception ex) {
-                Log.e(TAG, ex.getMessage());
-            }
-        });
-
+                @Override
+                public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                    float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
+                    int percentDone = (int)percentDonef;
+                    Log.d(TAG, "ID:" + id + " bytesCurrent: " + bytesCurrent + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
+                }
+                @Override
+                public void onError(int id, Exception ex) {
+                    Log.e(TAG, ex.getMessage());
+                }
+            });
+        }
     }
 
     private void patchProfile(){        // 동아리 이미지 업데이트
-
         final ImageView IV_clubPoster = (ImageView)findViewById(R.id.clubProfile);
         Log.d(TAG,"PATCH");
         PromotionObject item2 = new PromotionObject();
@@ -282,8 +267,10 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
                 return true;
             case R.id.action_btn1:      //저장하기 버튼
                 patchPromo();       //텍스트 저장
-                transferIMG();      //이미지 전송
-                patchProfile();     //이미지 업데이트
+                transferIMG();//이미지 전송
+                if(imgPath != null){
+                    patchProfile();     //이미지 업데이트
+                }
                 Toast.makeText(getApplicationContext(), "저장되었습니다!", Toast.LENGTH_LONG).show();
                 return true;
         }

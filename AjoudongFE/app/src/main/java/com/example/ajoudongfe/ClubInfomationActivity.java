@@ -35,7 +35,7 @@ public class ClubInfomationActivity extends AppCompatActivity {
     private int parameterclubID;
     private String parameterclubName;
 
-    private int bkmark;
+    private int bkmark = 0;
 
 
     public static String BASE_URL= "http://10.0.2.2:8000";
