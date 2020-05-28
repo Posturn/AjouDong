@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/user_group1"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/user_info_edit"
             android:icon="@drawable/ic_user"
@@ -25,7 +25,7 @@
     </group>
 
     <group android:id="@+id/user_group2"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/user_new_club_alarm"
             android:icon="@drawable/ic_bulb"
@@ -50,7 +50,7 @@
     </group>
 
     <group android:id="@+id/user_group3"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/user_logout"
             android:icon="@drawable/ic_logout"

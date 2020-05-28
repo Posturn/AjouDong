@@ -15,6 +15,6 @@ public class UserClubHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_club_history_activity);
 
         parameterclubID = getIntent().getIntExtra("clubID", 0);
-        Toast.makeText(this, parameterclubID, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, parameterclubID, Toast.LENGTH_SHORT).show();
     }
 }

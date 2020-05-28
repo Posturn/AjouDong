@@ -46,16 +46,15 @@ public class UserMainActivity extends AppCompatActivity {
         ImageButton eventButton = (ImageButton)findViewById(R.id.usereventlist);
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_main);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_main);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_main);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
                 drawerlayout.closeDrawers();
-
                 int id = menuItem.getItemId();
-                String title = menuItem.getTitle().toString();
 
+                String title = menuItem.getTitle().toString();
                 if(id == R.id.user_info_edit){
                     Intent intent = new Intent(getApplicationContext(), UserMyAjouDongActivity.class);
                     startActivity(intent);
@@ -82,8 +81,11 @@ public class UserMainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
+                }
 
-
+                int size = navigationView.getMenu().size();
+                for (int i = 0; i < size; i++) {
+                    navigationView.getMenu().getItem(i).setChecked(false);
                 }
 
                 return true;

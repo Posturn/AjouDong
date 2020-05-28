@@ -41,7 +41,7 @@ public class ManagerMainActivity extends AppCompatActivity {
         ConstraintLayout newevent = (ConstraintLayout)findViewById(R.id.neweventLayout);
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_manager_main);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_manager_main);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_manager_main);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -67,6 +67,11 @@ public class ManagerMainActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
+                }
+
+                int size = navigationView.getMenu().size();
+                for (int i = 0; i < size; i++) {
+                    navigationView.getMenu().getItem(i).setChecked(false);
                 }
 
                 return true;
