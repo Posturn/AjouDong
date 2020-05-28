@@ -11,7 +11,7 @@ class Ads(models.Model):
 
 class AppliedClubList(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
-    applyID = models.IntegerField(auto_created=True, primary_key=True)
+    uSchoolID = models.ForeignKey('UserAccount', on_delete=models.CASCADE)
     memberState = models.BooleanField()
 
 class Apply(models.Model):
@@ -121,11 +121,12 @@ class ClubPromotion(models.Model):
     recruitEndDate = models.DateField()
 
 class ClubActivity(models.Model):
-    clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
+    clubID = models.ForeignKey('Club', on_delete=models.CASCADE,null=True)
     clubActivityFile = models.CharField(max_length=128)
     clubActivityInfo = models.CharField(max_length=256)
-    clubActivityID = models.IntegerField(primary_key=True)
+    clubActivityID = models.AutoField(primary_key=True)
     clubActivityDetail = models.CharField(max_length=2048, null=True)
+    clubActivityThumbnail = models.CharField(max_length=256, null=True)
 
 class Major_Affiliation(models.Model):
     majorName = models.CharField(max_length=20, primary_key=True)

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ajoudongfe">
-
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_ajoudong"
@@ -15,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".VerifyActivity" />
+        <activity android:name=".UserNewClubFilterActivity" />
         <activity android:name=".UserClubApplyFormActivity"></activity>
-
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
@@ -32,7 +31,8 @@
         <activity android:name=".ManagerClubApplySettingActivity" />
         <activity android:name=".ManagerClubInfoEditActivity" />
         <activity android:name=".ManagerClubHistoryEditActivity" />
-        <activity android:name=".ManagerMemberManagementActivity" />
+        <activity android:name=".ManagerMemberManagementActivity">
+        </activity>
         <activity android:name=".ManagerNewEventActivity" />
         <activity android:name=".UserNewClubListActivity" />
         <activity android:name=".UserMainClubListActivity" />
@@ -51,5 +51,7 @@
             </intent-filter>
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

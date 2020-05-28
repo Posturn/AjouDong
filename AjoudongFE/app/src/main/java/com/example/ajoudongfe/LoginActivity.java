@@ -163,6 +163,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 Toast.makeText(getApplicationContext(), "회원가입", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -171,12 +173,14 @@ public class LoginActivity extends AppCompatActivity {
         if(data.getResponse() == 1)//사용자
         {
             Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
+            intent.putExtra("uSchoolID", Integer.parseInt(data.getMessage()));
             startActivity(intent);
             return 1;
         }
         else if(data.getResponse() == 2)//간부
         {
             Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+            intent.putExtra("clubID", Integer.parseInt(data.getMessage()));
             startActivity(intent);
             return 1;
         }

@@ -19,13 +19,13 @@ class login(View):
         print(data)
         try:
             if UserAccount.objects.filter(uID = data['uID'], uPW = data['uPW']).exists():
-                
-                return JsonResponse({'response' : 1}, status=200)
+                user = UserAccount.objects.get(uID = data['uID'], uPW = data['uPW'])
+                return JsonResponse({'response' : 1, 'message' : str(user.uSchoolID)}, status=200)
             elif ManagerAccount.objects.filter(mID = data['uID'], mPW = data['uPW']).exists():
-                
-                return JsonResponse({'response' : 2}, status=200)
-
-            return JsonResponse({'response' : -1}, status = 400)
+                manager = ManagerAccount.objects.get(mID = data['uID'], mPW = data['uPW'])
+                return JsonResponse({'response' : 2, 'message' : str(manager.clubID_id)}, status=200)
+            else:
+                return JsonResponse({'response' : -1}, status = 402)
 
         except KeyError:
-            return JsonResponse({'response' : -2}, status = 400)
+            return JsonResponse({'response' : -2}, status = 401)
