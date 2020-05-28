@@ -55,8 +55,8 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
     final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/";
     private RetroService retroService;
 
-    final String accessKey = "AKIAYDYHJ54M6HIXDUX2";
-    final String secretKey = "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";
+    final String accessKey = "A";
+    final String secretKey = "j";
     final String bucketName = "ajoudong";
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성

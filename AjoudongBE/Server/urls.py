@@ -35,6 +35,7 @@ router.register(r'bookmarks', views.BookmarkSearchViewSet)
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
     path('sign-up', include('Server_app.signup.urls')),
+    path('management', include('Server_app.management.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
     path('activities/grid/<int:clubID>/', views.clubActivityViewSet.as_view({"get": "list"}), name="activitygrid"),

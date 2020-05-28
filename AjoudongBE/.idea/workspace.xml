@@ -2,23 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="29de6446-2f61-43c5-b5c4-bfa5114d3618" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Server_app/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/Server_app/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/AuthActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/AuthActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ClubActivityAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ClubActivityAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ClubActivityImageAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ClubActivityImageAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ClubGridListTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ClubGridListTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ClubModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ClubModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/MajorModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/MajorModel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ManagerClubActivityEdit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ManagerClubActivityEdit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ManagerClubInfoEdit.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/ManagerClubInfoEdit.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/SignupActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/SignupActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/UserMainClubListActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/UserMainClubListActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/UserMajorClubListActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/UserMajorClubListActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/UserNewClubListActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/UserNewClubListActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/VerifyObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/../AjoudongFE/app/src/main/java/com/example/ajoudongfe/VerifyObject.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,7 +11,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Server_app/views.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -51,15 +35,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-10" />
-    <option name="y" value="-10" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="-9" />
     <option name="width" value="1940" />
     <option name="height" value="1060" />
   </component>
   <component name="ProjectId" id="1apaOgYIwi1qwgce3TeKxDRXCKF" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectView">
+    <navigator proportions="" version="1">
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes />
+  </component>
   <component name="PropertiesComponent">
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunDashboard">
@@ -88,7 +78,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <frame x="-7" y="0" width="1552" height="848" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.25" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />

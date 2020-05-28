@@ -212,26 +212,38 @@
                             android:layout_height="wrap_content" />
                     </com.google.android.material.textfield.TextInputLayout>
 
+
+                    <TextView
+                        android:id="@+id/checkSameID"
+                        android:layout_width="wrap_content"
+                        android:layout_height="17dp"
+                        android:layout_weight="1"
+                        android:text="중복확인"
+                        android:textColor="@color/ajouLogoSky"
+                        android:textSize="16dp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@id/idLayout"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toTopOf="@id/pwText"
+                        app:layout_constraintTop_toBottomOf="@id/idText"
+                        android:gravity="center"/>
+
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/idLayout"
-                        android:layout_width="0dp"
+                        android:layout_width="300dp"
                         android:layout_height="match_parent"
-                        app:layout_constraintEnd_toEndOf="parent"
+
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/idText">
 
-                        <TextView
-                            android:id="@+id/checkSameID"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="중복확인" />
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/idInputText"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:hint="아주대학교 이메일(ex: user@ajou.ac.kr)" />
+                            android:hint="아주대학교 이메일" />
+
+
 
                     </com.google.android.material.textfield.TextInputLayout>
 
