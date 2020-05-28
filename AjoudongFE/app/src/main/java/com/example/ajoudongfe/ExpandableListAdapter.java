@@ -1,6 +1,7 @@
 package com.example.ajoudongfe;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.List;
 public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public static final int HEADER = 0;
     public static final int CHILD = 1;
+    private Context mContext;
 
     private List<Item> data;
 
@@ -27,6 +29,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+        mContext=parent.getContext();
         View view = null;
         Context context = parent.getContext();
         float dp = context.getResources().getDisplayMetrics().density;
@@ -57,7 +60,23 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                 } else {
                     itemController.btn_expand_toggle.setImageResource(R.drawable.spread);
                 }
+
+                //활동 내역 메뉴만 새 창으로 이동
+                if(itemController.header_title.getText()=="활동 내역                   ") {
+                    itemController.btn_expand_toggle.setVisibility(View.GONE);
+                    itemController.header_title.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, UserClubHistoryActivity.class);
+                            intent.putExtra("clubID", item.clubID);
+                            mContext.startActivity(intent);
+                        }
+                    });
+                }
+
                 itemController.btn_expand_toggle.setOnClickListener(new View.OnClickListener() {
+
                     @Override
                     public void onClick(View v) {
                         if (item.invisibleChildren == null) {
@@ -77,6 +96,7 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                                 data.add(index, i);
                                 index++;
                             }
+
                             notifyItemRangeInserted(pos + 1, index - pos - 1);
                             itemController.btn_expand_toggle.setImageResource(R.drawable.close);
                             item.invisibleChildren = null;
@@ -87,8 +107,8 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
             case CHILD:
                 final ListChildViewHolder inside = (ListChildViewHolder) holder;
                 inside.clubinfotext.setText(data.get(position).text);
-                Picasso.get().load(item.getImg()).into(inside.clubinfoimg);
 
+                Picasso.get().load(item.getImg()).into(inside.clubinfoimg);
 
                 break;
         }
@@ -133,14 +153,16 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public int type;
         public String img;
         public String text;
+        public int clubID;
         public List<Item> invisibleChildren;
 
         public Item() {
         }
 
-        public Item(int type, String img,  String text) {
+        public Item(int type, String img, int clubID,  String text) {
             this.type = type;
             this.img = img;
+            this.clubID = clubID;
             this.text = text;
         }
 
