@@ -46,6 +46,7 @@ urlpatterns = [
     path('bookmarksearch/<int:schoolID>/', views.BookmarkSearchViewSet.as_view({"get":"list"}), name="bookmarklist"),
     path('postbookmark/', csrf_exempt(views.PostBookmark.as_view())),
     path('deletebookmark/<int:clubID>/<int:schoolID>', csrf_exempt(views.DeleteBookmark.as_view())),
-
+    path('userInformation/<int:pk>/', views.UserInfoViewSet.as_view({"get": "retrieve"}), name="userinformation"),
+    path('clubApply/',csrf_exempt(views.UserClubApply.as_view()), name="clubapply"),
     re_path('admin/', admin.site.urls),
 ]

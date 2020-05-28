@@ -9,6 +9,6 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_club_apply_form);
+        setContentView(R.layout.activity_user_my_ajou_dong);
     }
 }
