@@ -62,12 +62,15 @@ class MarkedClubList(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
     uSchoolID = models.ForeignKey('UserAccount', on_delete=models.CASCADE,)
 
+
 class Tag(models.Model):
-    clubTag = models.CharField(max_length=64)
+    clubTag = models.CharField(max_length=64, primary_key=True)
 
 class TaggedClubList(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
-    uSchoolID = models.ForeignKey('UserAccount', on_delete=models.CASCADE,)
+    clubTag = models.ForeignKey('Tag', on_delete=models.CASCADE,)
+    class Meta:
+        unique_together = (('clubID', 'clubTag'),)
 
 class UserAlarm(models.Model):
     uSchoolID = models.ForeignKey('UserAccount', on_delete=models.CASCADE,)

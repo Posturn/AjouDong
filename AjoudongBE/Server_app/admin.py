@@ -8,6 +8,7 @@ from Server_app.models import Major_Affiliation
 from Server_app.models import ClubMember
 from Server_app.models import AppliedClubList
 from Server_app.models import Apply
+from Server_app.models import MarkedClubList
 # Register your models here.
 
 
@@ -20,3 +21,4 @@ admin.site.register(Major_Affiliation)
 admin.site.register(ClubMember)
 admin.site.register(AppliedClubList)
 admin.site.register(Apply)
+admin.site.register(MarkedClubList)

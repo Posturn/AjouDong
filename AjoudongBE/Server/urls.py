@@ -18,16 +18,19 @@ from django.urls import path, include, re_path
 from django.views.decorators.csrf import csrf_exempt
 from Server_app import views
 from rest_framework import routers
-from Server_app.login import login
-# from Server_app.signup import signup
 
+
+from Server_app.login import login
+from Server_app.signup import signup 
 
 
 router=routers.DefaultRouter()
 router.register(r'SERVER_APP/Major_affiliations', views.MajorViewSet)
-router.register(r'SERVER_APP/club', views.ClubViewSet)
 router.register(r'promotions', views.promotionViewSet)
-router.register(r'activities', views.clubActivityViewSet)
+router.register(r'activities', views.clubActivityDetailViewSet)
+router.register(r'clubs', views.ClubsViewSet)
+router.register(r'bookmarks', views.BookmarkSearchViewSet)
+
 
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
@@ -35,7 +38,14 @@ urlpatterns = [
     path('management', include('Server_app.management.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
-    #path('/promotions/<int:promotion_id>', views.getPromotion.as_view()),
+    path('activities/grid/<int:clubID>/', views.clubActivityViewSet.as_view({"get": "list"}), name="activitygrid"),
     path('', include(router.urls)),
+    path('clublist/<int:club>/<str:category>/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
+    path('clubsearch/<int:club>/<str:category>/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
+    path('clubfiltering/', csrf_exempt(views.ClubFilter.as_view()), name="clubfiltering"),
+    path('bookmarksearch/<int:schoolID>/', views.BookmarkSearchViewSet.as_view({"get":"list"}), name="bookmarklist"),
+    path('postbookmark/', csrf_exempt(views.PostBookmark.as_view())),
+    path('deletebookmark/<int:clubID>/<int:schoolID>', csrf_exempt(views.DeleteBookmark.as_view())),
+
     re_path('admin/', admin.site.urls),
 ]

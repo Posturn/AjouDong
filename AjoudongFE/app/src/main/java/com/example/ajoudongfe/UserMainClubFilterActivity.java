@@ -6,6 +6,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,99 +14,68 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 public class UserMainClubFilterActivity extends AppCompatActivity implements View.OnClickListener{
+
+
+    private TextView[] filterViews = new TextView[40];
+    private ArrayList<String> tags = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main_club_filter);
 
-        final TextView recruit_y = (TextView) findViewById(R.id.recruit_y);
-        final TextView recruit_n = (TextView) findViewById(R.id.recruit_n);
-        final TextView recruit_interview_n = (TextView) findViewById(R.id.recruit_interview_n);
-        final TextView recruit_interview_y = (TextView) findViewById(R.id.recruit_interview_y);
-        final TextView recruit_limit_n = (TextView) findViewById(R.id.recruit_limit_n);
-        recruit_y.setOnClickListener(this);
-        recruit_n.setOnClickListener(this);
-        recruit_interview_n.setOnClickListener(this);
-        recruit_interview_y.setOnClickListener(this);
-        recruit_limit_n.setOnClickListener(this);
+        filterViews[0] = (TextView) findViewById(R.id.recruit_y);
+        filterViews[1] = (TextView) findViewById(R.id.recruit_n);
+        filterViews[2] = (TextView) findViewById(R.id.recruit_interview_n);
+        filterViews[3] = (TextView) findViewById(R.id.recruit_interview_y);
+        filterViews[4] = (TextView) findViewById(R.id.recruit_limit_n);
 
-        final TextView field_leisure = (TextView) findViewById(R.id.field_leisure);
-        final TextView field_religion = (TextView) findViewById(R.id.field_religion);
-        final TextView field_social = (TextView) findViewById(R.id.field_social);
-        final TextView field_create = (TextView) findViewById(R.id.field_create);
-        final TextView field_academic = (TextView) findViewById(R.id.field_academic);
-        final TextView field_athletic = (TextView) findViewById(R.id.field_athletic);
-        final TextView field_art = (TextView) findViewById(R.id.field_art);
-        final TextView field_semi = (TextView) findViewById(R.id.field_semi);
-        field_leisure.setOnClickListener(this);
-        field_religion.setOnClickListener(this);
-        field_social.setOnClickListener(this);
-        field_create.setOnClickListener(this);
-        field_academic.setOnClickListener(this);
-        field_athletic.setOnClickListener(this);
-        field_art.setOnClickListener(this);
-        field_semi.setOnClickListener(this);
+        filterViews[5] = (TextView) findViewById(R.id.field_leisure);
+        filterViews[6] = (TextView) findViewById(R.id.field_religion);
+        filterViews[7] = (TextView) findViewById(R.id.field_social);
+        filterViews[8] = (TextView) findViewById(R.id.field_create);
+        filterViews[9] = (TextView) findViewById(R.id.field_academic);
+        filterViews[10] = (TextView) findViewById(R.id.field_athletic);
+        filterViews[11] = (TextView) findViewById(R.id.field_art);
+        filterViews[12] = (TextView) findViewById(R.id.field_semi);
 
-        final TextView atmosphere_show = (TextView) findViewById(R.id.atmosphere_show);
-        final TextView atmosphere_competition = (TextView) findViewById(R.id.atmosphere_competition);
-        final TextView atmosphere_regular = (TextView) findViewById(R.id.atmosphere_regular);
-        final TextView atmosphere_contest = (TextView) findViewById(R.id.atmosphere_contest);
-        final TextView atmosphere_obyb = (TextView) findViewById(R.id.atmosphere_obyb);
-        final TextView atmosphere_afterparty = (TextView) findViewById(R.id.atmosphere_afterparty);
-        final TextView atmosphere_study = (TextView) findViewById(R.id.atmosphere_study);
-        final TextView atmosphere_friendship = (TextView) findViewById(R.id.atmosphere_friendship);
-        atmosphere_show.setOnClickListener(this);
-        atmosphere_competition.setOnClickListener(this);
-        atmosphere_regular.setOnClickListener(this);
-        atmosphere_contest.setOnClickListener(this);
-        atmosphere_obyb.setOnClickListener(this);
-        atmosphere_afterparty.setOnClickListener(this);
-        atmosphere_study.setOnClickListener(this);
-        atmosphere_friendship.setOnClickListener(this);
+        filterViews[13] = (TextView) findViewById(R.id.atmosphere_show);
+        filterViews[14] = (TextView) findViewById(R.id.atmosphere_competition);
+        filterViews[15] = (TextView) findViewById(R.id.atmosphere_regular);
+        filterViews[16] = (TextView) findViewById(R.id.atmosphere_contest);
+        filterViews[17] = (TextView) findViewById(R.id.atmosphere_obyb);
+        filterViews[18] = (TextView) findViewById(R.id.atmosphere_afterparty);
+        filterViews[19] = (TextView) findViewById(R.id.atmosphere_study);
+        filterViews[20] = (TextView) findViewById(R.id.atmosphere_friendship);
 
-        final TextView moeny_51 = (TextView) findViewById(R.id.moeny_51);
-        final TextView moeny_12 = (TextView) findViewById(R.id.moeny_12);
-        final TextView moeny_23 = (TextView) findViewById(R.id.moeny_23);
-        final TextView moeny_3 = (TextView) findViewById(R.id.moeny_3);
-        final TextView moeny_1time = (TextView) findViewById(R.id.moeny_1time);
-        final TextView moeny_no = (TextView) findViewById(R.id.moeny_no);
-        moeny_51.setOnClickListener(this);
-        moeny_12.setOnClickListener(this);
-        moeny_23.setOnClickListener(this);
-        moeny_3.setOnClickListener(this);
-        moeny_1time.setOnClickListener(this);
-        moeny_no.setOnClickListener(this);
+        filterViews[21] = (TextView) findViewById(R.id.moeny_51);
+        filterViews[22] = (TextView) findViewById(R.id.moeny_12);
+        filterViews[23] = (TextView) findViewById(R.id.moeny_23);
+        filterViews[24] = (TextView) findViewById(R.id.moeny_3);
+        filterViews[25] = (TextView) findViewById(R.id.moeny_1time);
+        filterViews[26] = (TextView) findViewById(R.id.moeny_no);
 
-        final TextView day_mon = (TextView) findViewById(R.id.day_mon);
-        final TextView day_tue = (TextView) findViewById(R.id.day_tue);
-        final TextView day_wed = (TextView) findViewById(R.id.day_wed);
-        final TextView day_thu = (TextView) findViewById(R.id.day_thu);
-        final TextView day_fri = (TextView) findViewById(R.id.day_fri);
-        final TextView day_sat = (TextView) findViewById(R.id.day_sat);
-        final TextView day_sun = (TextView) findViewById(R.id.day_sun);
-        final TextView day_every = (TextView) findViewById(R.id.day_every);
-        day_mon.setOnClickListener(this);
-        day_tue.setOnClickListener(this);
-        day_wed.setOnClickListener(this);
-        day_thu.setOnClickListener(this);
-        day_fri.setOnClickListener(this);
-        day_sat.setOnClickListener(this);
-        day_sun.setOnClickListener(this);
-        day_every.setOnClickListener(this);
+        filterViews[27] = (TextView) findViewById(R.id.day_mon);
+        filterViews[28] = (TextView) findViewById(R.id.day_tue);
+        filterViews[29] = (TextView) findViewById(R.id.day_wed);
+        filterViews[30] = (TextView) findViewById(R.id.day_thu);
+        filterViews[31] = (TextView) findViewById(R.id.day_fri);
+        filterViews[32] = (TextView) findViewById(R.id.day_sat);
+        filterViews[33] = (TextView) findViewById(R.id.day_sun);
+        filterViews[34] = (TextView) findViewById(R.id.day_every);
 
+        filterViews[35] = (TextView) findViewById(R.id.time_am);
+        filterViews[36] = (TextView) findViewById(R.id.time_pm);
+        filterViews[37] = (TextView) findViewById(R.id.time_black);
+        filterViews[38] = (TextView) findViewById(R.id.time_night);
+        filterViews[39] = (TextView) findViewById(R.id.time_all);
 
-        final TextView time_am = (TextView) findViewById(R.id.time_am);
-        final TextView time_pm = (TextView) findViewById(R.id.time_pm);
-        final TextView time_black = (TextView) findViewById(R.id.time_black);
-        final TextView time_night = (TextView) findViewById(R.id.time_night);
-        final TextView time_all = (TextView) findViewById(R.id.time_all);
-        time_am.setOnClickListener(this);
-        time_pm.setOnClickListener(this);
-        time_black.setOnClickListener(this);
-        time_night.setOnClickListener(this);
-        time_all.setOnClickListener(this);
+        for(int i = 0 ; i < 40 ; i++) {
+            filterViews[i].setOnClickListener(this);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar) ;
         setSupportActionBar(toolbar) ;
@@ -118,7 +88,10 @@ public class UserMainClubFilterActivity extends AppCompatActivity implements Vie
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(),"버튼눌림",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent();
+                intent.putStringArrayListExtra("TAGLIST",tags);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -134,10 +107,15 @@ public class UserMainClubFilterActivity extends AppCompatActivity implements Vie
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home :
+                Intent intent = new Intent();
+                setResult(RESULT_CANCELED, intent);
                 finish();
                 return true;
             case R.id.toolbarFilter:
-                Toast.makeText(getApplicationContext(),"초기화",Toast.LENGTH_SHORT).show();
+                for(int i = 0 ; i < 40 ; i++) {
+                    tags.clear();
+                    filterViews[i].setSelected(false);
+                }
                 return true;
             default :
                 return super.onOptionsItemSelected(item) ;
@@ -146,9 +124,13 @@ public class UserMainClubFilterActivity extends AppCompatActivity implements Vie
 
     @Override
     public void onClick(View v) {
+        TextView textView = findViewById(v.getId());
+        String now_tag = (String)textView.getText();
         if (v.isSelected()) {
+            tags.remove(now_tag);
             v.setSelected(false);
         } else {
+            tags.add(now_tag);
             v.setSelected(true);
         }
     }

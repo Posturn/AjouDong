@@ -8,11 +8,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
 import java.util.List;
 
-public class ClubGridAdapter extends BaseAdapter {
+public class ClubGridAdapter extends BaseAdapter implements View.OnClickListener  {
 
     private List<ClubObject> clubmodels;
     private Context mContext;
@@ -65,9 +66,16 @@ public class ClubGridAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ClubInfomationActivity.class);
                 intent.putExtra("clubName", thisClubObject.getName());
+                intent.putExtra("clubID", thisClubObject.getClubID());
+                Toast.makeText(mContext, thisClubObject.getName(), Toast.LENGTH_SHORT).show();
                 mContext.startActivity(intent);
             }
         });
         return convertView;
+    }
+
+    @Override
+    public void onClick(View v) {
+
     }
 }
