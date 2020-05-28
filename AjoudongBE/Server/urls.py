@@ -30,11 +30,14 @@ router.register(r'promotions', views.promotionViewSet)
 router.register(r'activities', views.clubActivityDetailViewSet)
 router.register(r'clubs', views.ClubsViewSet)
 router.register(r'bookmarks', views.BookmarkSearchViewSet)
-
+router.register(r'useraccount', views.userAccountViewset)
+router.register(r'manageraccount', views.managerAccountViewset)
 
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
     path('sign-up', include('Server_app.signup.urls')),
+    path('useraccount/', include('Server_app.urls')),
+    path('manageraccount/', include('Server_app.urls')),
     path('management', include('Server_app.management.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),

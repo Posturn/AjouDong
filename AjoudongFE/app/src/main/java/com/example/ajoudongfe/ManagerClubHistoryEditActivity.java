@@ -1,18 +1,27 @@
 package com.example.ajoudongfe;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -20,6 +29,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferListener;
@@ -31,8 +41,12 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.util.List;
@@ -47,16 +61,16 @@ import static java.sql.Types.NULL;
 
 public class ManagerClubHistoryEditActivity extends AppCompatActivity {
 
-    final  String TAG = getClass().getSimpleName();
+    final String TAG = getClass().getSimpleName();
     private final int GET_GALLERY_IMAGE = 200;
-    //static final int GET_GALLERY_VIDEO = 100;
 
     final String BASE_URL = "http://10.0.2.2:8000";
     final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/";
     private RetroService retroService;
 
-    final String accessKey = "A";
-    final String secretKey = "j";
+
+    final String accessKey = Keys.getAccessKey();
+    final String secretKey = Keys.getSecretKey();
     final String bucketName = "ajoudong";
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
@@ -64,9 +78,9 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
 
     private int activityID;
     int manager_clubID = 1;
-    static String imgPath2, imgName2, nowImage2;
-    String checkImgMp4;
+    static String imgPath2, imgName2, nowImage2 = "";
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,80 +99,156 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
         findViewById(R.id.historyImageVideo).bringToFront();
         initMyAPI(BASE_URL);
 
-         final int activityID = getIntent().getIntExtra("activityID", 0);
-         setActivityID(activityID);
-        // ↑ 그리드 클릭시 넘어오는 활동 내역 pk 번호
-
-        final EditText ET_clubActivityInfo = (EditText)findViewById(R.id.editText4);
-        final EditText ET_clubActivityDetail = (EditText)findViewById(R.id.editText5);
-        final ImageView IV_historyPoster = (ImageView)findViewById(R.id.historyImageVideo);
-        final VideoView VV_historyVideo = (VideoView)findViewById(R.id.videoView);
+       // final TextView imgMp4 = (TextView) findViewById(R.id.IMGMP4);
+        final EditText ET_clubActivityInfo = (EditText) findViewById(R.id.editText4);
+        final EditText ET_clubActivityDetail = (EditText) findViewById(R.id.editText5);
+        final ImageView IV_historyPoster = (ImageView) findViewById(R.id.historyImageVideo);
+        final VideoView VV_historyVideo = (VideoView) findViewById(R.id.videoView);
+        ImageView edit_btn = (ImageView) findViewById(R.id.addImgMp4);
         VV_historyVideo.setVisibility(View.GONE);
 
-        if(activityID == 0){
+        // Obtain MotionEvent object
+        long downTime = SystemClock.uptimeMillis();
+        long eventTime = SystemClock.uptimeMillis() + 100;
+        //final float x = 0.0f;
+       // final float y = 0.0f;
+        int metaState = 0;
+        int[] location = new int[2];
+        VV_historyVideo.getLocationOnScreen(location);
+         float x = location[0];
+         float y = location[1];
+        MotionEvent motionEvent = MotionEvent.obtain(
+                downTime,
+                eventTime,
+                MotionEvent.ACTION_UP,
+                x,
+                y,
+                metaState
+        );
+        MotionEvent motionEvent2 = MotionEvent.obtain(
+                downTime,
+                eventTime,
+                MotionEvent.ACTION_DOWN,
+                x,
+                y,
+                metaState
+        );
+       // Log.d(TAG, "좌표는 "+x+", " + y +"\n");
+        final MediaController controller = new MediaController(ManagerClubHistoryEditActivity.this);
+        //미디어컨트롤러 추가하는 부분
+        controller.setAnchorView(VV_historyVideo);
+        VV_historyVideo.setMediaController(controller);
+        VV_historyVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            // 동영상 재생준비가 완료된후 호출되는 메서드
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                //controller.setVisibility(View.INVISIBLE);
+                Toast.makeText(getApplicationContext(),
+                        "동영상 재생가능", Toast.LENGTH_LONG).show();
+                controller.hide();
+            }
+        });
+
+        VV_historyVideo.setOnTouchListener(new View.OnTouchListener() {
+            boolean flag = true;
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                switch (motionEvent.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (flag) {
+                            controller.hide();
+                        }
+                        else {
+                            //controller.setVisibility(View.VISIBLE);
+                            controller.show(0);
+                        }
+                        flag = !flag;
+                        return true;
+                }
+                return false;
+            }
+        });
+
+
+        final int activityID = getIntent().getIntExtra("activityID", 0);
+        setActivityID(activityID);
+        // ↑ 그리드 클릭시 넘어오는 활동 내역 pk 번호
+
+        if (activityID == 0) {
             Log.d(TAG, "empty");        //새로운 빈 활동내역 생성
             IV_historyPoster.setImageResource(R.drawable.image_add_btn);
-        }
-        else{
-            Log.d(TAG,"GET");       //처음 동아리 활동내역 정보 불러오기
+        } else {
+            Log.d(TAG, "GET");       //처음 동아리 활동내역 정보 불러오기
             Call<ClubActivityObject> getCall = retroService.get_activities_pk(activityID);
             getCall.enqueue(new Callback<ClubActivityObject>() {
                 @Override
                 public void onResponse(Call<ClubActivityObject> call, Response<ClubActivityObject> response) {
-                    if( response.isSuccessful()){
-                        ClubActivityObject item  = response.body();
+                    if (response.isSuccessful()) {
+                        ClubActivityObject item = response.body();
                         ET_clubActivityInfo.setText(item.getClubActivityInfo());
                         ET_clubActivityDetail.setText(item.getClubActivityDetail());
-                        nowImage2 = item.getClubActivityFile().substring(item.getClubActivityFile().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
-                        checkImgMp4 = nowImage2.substring(nowImage2.lastIndexOf(".")+1);
+                        nowImage2 = item.getClubActivityFile().substring(item.getClubActivityFile().lastIndexOf("/") + 1);   //현재 이미지 파일 이름 가져오기
+                        if (nowImage2.contains("mp4")) {
+                            VV_historyVideo.setVisibility(View.VISIBLE);
+                            IV_historyPoster.setVisibility(View.GONE);
+                            VV_historyVideo.setVideoURI(Uri.parse(item.getClubActivityFile()));
+                            VV_historyVideo.seekTo(1);
+                           // controller.setVisibility(View.GONE);
+                        } else {
                             Picasso.get().load(item.getClubActivityFile()).into(IV_historyPoster);
-                       // Log.d(TAG, nowImage);
-                    }else {
-                        Log.d(TAG,"Status Code : " + response.code());
+                        }
+                    } else {
+                        Log.d(TAG, "Status Code : " + response.code());
                     }
                 }
+
                 @Override
                 public void onFailure(Call<ClubActivityObject> call, Throwable t) {
-                    Log.d(TAG,"Fail msg : " + t.getMessage());
+                    Log.d(TAG, "Fail msg : " + t.getMessage());
                 }
             });
         }
 
-        IV_historyPoster.setClickable(true);
-        IV_historyPoster.setOnClickListener(new Button.OnClickListener(){
+       // VV_historyVideo.dispatchTouchEvent(motionEvent2);
+       // VV_historyVideo.dispatchTouchEvent(motionEvent);
+
+        edit_btn.setClickable(true);
+        edit_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent. setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/*", "video/*"});
                 startActivityForResult(intent, GET_GALLERY_IMAGE);
-                Toast.makeText(getApplicationContext(), "이미지 등록", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "이미지/동영상 등록", Toast.LENGTH_LONG).show();
             }
         });
 
-        Button delete_btn = (Button)findViewById(R.id.delete_ac_btn);
+        Button delete_btn = (Button) findViewById(R.id.delete_ac_btn);
         delete_btn.setClickable(true);
-        delete_btn.setOnClickListener(new Button.OnClickListener(){
+        delete_btn.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(activityID == 0){
+                if (activityID == 0) {
                     Toast.makeText(getApplicationContext(), "활동 내역이 비어있습니다!", Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Log.d(TAG,"DELETE");
+                } else {
+                    Log.d(TAG, "DELETE");
                     // pk 값은 임의로 변경가능
                     Call<ClubActivityObject> deleteCall = retroService.delete_activities_pk(activityID);
                     deleteCall.enqueue(new Callback<ClubActivityObject>() {
                         @Override
                         public void onResponse(Call<ClubActivityObject> call, Response<ClubActivityObject> response) {
-                            if(response.isSuccessful()){
-                                Log.d(TAG,"삭제 완료");
-                            }else {
-                                Log.d(TAG,"Status Code : " + response.code());
+                            if (response.isSuccessful()) {
+                                Log.d(TAG, "삭제 완료");
+                            } else {
+                                Log.d(TAG, "Status Code : " + response.code());
                             }
                         }
+
                         @Override
                         public void onFailure(Call<ClubActivityObject> call, Throwable t) {
-                            Log.d(TAG,"Fail msg : " + t.getMessage());
+                            Log.d(TAG, "Fail msg : " + t.getMessage());
                         }
                     });
                     Toast.makeText(getApplicationContext(), "활동 내역이 삭제되었습니다!", Toast.LENGTH_LONG).show();
@@ -166,8 +256,6 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
 
     private int getActivityID() {
@@ -180,50 +268,95 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {     //갤러리 사용
-        ImageView IV_historyPoster = (ImageView)findViewById(R.id.historyImageVideo);
+        ImageView IV_historyPoster = (ImageView) findViewById(R.id.historyImageVideo);
+        VideoView VV_historyVideo = (VideoView) findViewById(R.id.videoView);
         if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            String profilePath = getImageNameToUri(data.getData());
-            imgName2 = profilePath.substring(profilePath.lastIndexOf("/")+1);
             Uri selectedImageUri = data.getData();
-            IV_historyPoster.setImageURI(selectedImageUri);
+            if(selectedImageUri.toString().contains("video")){
+                String profilePath = getImageNameToUri(data.getData(), 2);
+                imgName2 = profilePath.substring(profilePath.lastIndexOf("/") + 1);
+            }
+            else{
+                String profilePath = getImageNameToUri(data.getData(), 1);
+                imgName2 = profilePath.substring(profilePath.lastIndexOf("/") + 1);
+            }
+            if (imgName2.contains("mp4")) {
+                VV_historyVideo.setVideoURI(selectedImageUri);
+                VV_historyVideo.setVisibility(View.VISIBLE);
+                IV_historyPoster.setVisibility(View.GONE);
+            } else {
+                IV_historyPoster.setImageURI(selectedImageUri);
+                IV_historyPoster.setVisibility(View.VISIBLE);
+                VV_historyVideo.setVisibility(View.GONE);
+            }
         }
     }
 
-    public String getImageNameToUri(Uri data) {     //이미지 경로 구하기
-        String[] proj = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(data, proj, null, null, null);
-        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        imgPath2 = cursor.getString(column_index);
-        return imgPath2;
+    public String getImageNameToUri(Uri data, int img) {     //이미지 경로 구하기
+        if(img == 1){
+            Cursor cursor = getContentResolver().query(data, null, null, null, null);
+            cursor.moveToFirst();
+            String document_id = cursor.getString(0);
+            document_id = document_id.substring(document_id.lastIndexOf(":")+1);
+            cursor.close();
+
+            cursor = getContentResolver().query(
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                    null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+            cursor.moveToFirst();
+            imgPath2 = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            cursor.close();
+
+            return imgPath2;
+        }
+        else{
+            Cursor cursor = getContentResolver().query(data, null, null, null, null);
+            cursor.moveToFirst();
+            String document_id = cursor.getString(0);
+            document_id = document_id.substring(document_id.lastIndexOf(":")+1);
+            cursor.close();
+
+            cursor = getContentResolver().query(
+                    android.provider.MediaStore.Video.Media.EXTERNAL_CONTENT_URI,
+                    null, MediaStore.Video.Media._ID + " = ? ", new String[]{document_id}, null);
+            cursor.moveToFirst();
+            imgPath2 = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
+            cursor.close();
+
+            return imgPath2;
+        }
     }
 
-    private void transferIMG(){     //이미지 S3에 업데이트
-        TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(this).build();
-        TransferObserver transferObserver = transferUtility.upload(bucketName, imgName2, new File(imgPath2), CannedAccessControlList.PublicRead);
-        transferObserver.setTransferListener(new TransferListener() {       //새 이미지 버킷에 전송
-            @Override
-            public void onStateChanged(int id, TransferState state) {
-                Log.d(TAG, "onStateChanged: " + id + ", " + state.toString());
-            }
-            @Override
-            public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
-                float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
-                int percentDone = (int)percentDonef;
-                Log.d(TAG, "ID:" + id + " bytesCurrent: " + bytesCurrent + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
-            }
-            @Override
-            public void onError(int id, Exception ex) {
-                Log.e(TAG, ex.getMessage());
-            }
-        });
+    private void transferIMG() {     //이미지 S3에 업데이트
+        if(imgPath2 != null){
+            new DeleteTask().execute();
+            TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(this).build();
+            TransferObserver transferObserver = transferUtility.upload(bucketName, imgName2, new File(imgPath2), CannedAccessControlList.PublicRead);
+            transferObserver.setTransferListener(new TransferListener() {       //새 이미지 버킷에 전송
+                @Override
+                public void onStateChanged(int id, TransferState state) {
+                    Log.d(TAG, "onStateChanged: " + id + ", " + state.toString());
+                }
 
+                @Override
+                public void onProgressChanged(int id, long bytesCurrent, long bytesTotal) {
+                    float percentDonef = ((float) bytesCurrent / (float) bytesTotal) * 100;
+                    int percentDone = (int) percentDonef;
+                    Log.d(TAG, "ID:" + id + " bytesCurrent: " + bytesCurrent + " bytesTotal: " + bytesTotal + " " + percentDone + "%");
+                }
+
+                @Override
+                public void onError(int id, Exception ex) {
+                    Log.e(TAG, ex.getMessage());
+                }
+            });
+        }
     }
 
-    private void postNewHistory(int activityID){
-        final EditText ET_clubActivityInfo = (EditText)findViewById(R.id.editText4);
-        final EditText ET_clubActivityDetail = (EditText)findViewById(R.id.editText5);
-        Log.d(TAG,"POST");
+    private void postNewHistory(int activityID) {
+        final EditText ET_clubActivityInfo = (EditText) findViewById(R.id.editText4);
+        final EditText ET_clubActivityDetail = (EditText) findViewById(R.id.editText5);
+        Log.d(TAG, "POST");
         ClubActivityObject item3 = new ClubActivityObject();
         item3.setClubID(manager_clubID);
         item3.setClubActivityID(0);
@@ -234,45 +367,48 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
         postCall.enqueue(new Callback<ClubActivityObject>() {
             @Override
             public void onResponse(Call<ClubActivityObject> call, Response<ClubActivityObject> response) {
-                if(response.isSuccessful()){
-                    Log.d(TAG,"등록 완료");
-                }else {
-                    Log.d(TAG,"Status Code : " + response.code());
-                    Log.d(TAG,response.errorBody().toString());
-                    Log.d(TAG,call.request().body().toString());
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "등록 완료");
+                } else {
+                    Log.d(TAG, "Status Code : " + response.code());
+                    Log.d(TAG, response.errorBody().toString());
+                    Log.d(TAG, call.request().body().toString());
                 }
             }
 
             @Override
             public void onFailure(Call<ClubActivityObject> call, Throwable t) {
-                Log.d(TAG,"Fail msg : " + t.getMessage());
+                Log.d(TAG, "Fail msg : " + t.getMessage());
             }
         });
     }
 
-    private void patchHistory(int activityID){      //글 업데이트 기능 구현
-        final EditText ET_clubActivityInfo = (EditText)findViewById(R.id.editText4);
-        final EditText ET_clubActivityDetail = (EditText)findViewById(R.id.editText5);
-        Log.d(TAG,"PATCH");
+    private void patchHistory(int activityID) {      //글 업데이트 기능 구현
+        final EditText ET_clubActivityInfo = (EditText) findViewById(R.id.editText4);
+        final EditText ET_clubActivityDetail = (EditText) findViewById(R.id.editText5);
+        Log.d(TAG, "PATCH");
         ClubActivityObject item2 = new ClubActivityObject();
+        item2.setClubID(manager_clubID);
         item2.setClubActivityID(activityID);
         item2.setClubActivityInfo(String.valueOf(ET_clubActivityInfo.getText()));
         item2.setClubActivityDetail(String.valueOf(ET_clubActivityDetail.getText()));
-        item2.setClubActivityFile(OBJECT_URL + imgName2); //여기에 바뀐 포스터 이미지 링크 삽입
+        if(imgPath2 != null){
+            item2.setClubActivityFile(OBJECT_URL + imgName2); //여기에 바뀐 포스터 이미지 링크 삽입
+        }
         Call<ClubActivityObject> patchCall = retroService.patch_activities_pk(activityID, item2);
         patchCall.enqueue(new Callback<ClubActivityObject>() {
             @Override
             public void onResponse(Call<ClubActivityObject> call, Response<ClubActivityObject> response) {
-                if(response.isSuccessful()){
-                    Log.d(TAG,"patch 성공");
-                }else{
-                    Log.d(TAG,"Status Code : " + response.code());
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "patch 성공");
+                } else {
+                    Log.d(TAG, "Status Code : " + response.code());
                 }
             }
 
             @Override
             public void onFailure(Call<ClubActivityObject> call, Throwable t) {
-                Log.d(TAG,"Fail msg : " + t.getMessage());
+                Log.d(TAG, "Fail msg : " + t.getMessage());
             }
         });
     }
@@ -285,16 +421,15 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {       //뒤로가기, 등록 버튼 기능 구현
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
                 return true;
             case R.id.action_btn2:
                 int activityID = getActivityID();
-                if(activityID == 0){
+                if (activityID == 0) {
                     postNewHistory(activityID);
-                }
-                else{
+                } else {
                     patchHistory(activityID);
                 }
                 transferIMG();
@@ -305,13 +440,34 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void initMyAPI(String baseUrl){     //레트로 핏 설정
-        Log.d(TAG,"initMyAPI : " + baseUrl);
+    private void initMyAPI(String baseUrl) {     //레트로 핏 설정
+        Log.d(TAG, "initMyAPI : " + baseUrl);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retroService = retrofit.create(RetroService.class);
+    }
+
+    private void deleteIMG(){       //원래 이미지 버킷에서 삭제
+        try {
+            s3Client.deleteObject(new DeleteObjectRequest(bucketName, nowImage2));
+            // Log.d(TAG,nowImage +" is deleted!");
+        } catch (AmazonServiceException ase) {
+            Log.e(TAG, ase.getErrorMessage());
+        }
+    }
+
+    private class DeleteTask extends AsyncTask< Void, Void, String > {
+        @Override
+        protected String doInBackground(Void... voids) {
+            deleteIMG();
+            return null;
+        }
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
+            //result 값을 파싱하여 원하는 작업을 한다
+        }
     }
 
 }

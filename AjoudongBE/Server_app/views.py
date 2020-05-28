@@ -12,8 +12,10 @@ from django.core import serializers
 from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
 
-from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, UserAccount, Apply
-from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer, BookmarkSerializer, UserInfoSerializer
+
+from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply
+from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer, BookmarkSerializer, UserInfoSerializer, UserAccountSerializer, ManagerAccountSerializer
+
 
 class login(View):
     @csrf_exempt
@@ -59,6 +61,14 @@ class signup(View):
             return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
 
 from rest_framework.response import Response
+
+class userAccountViewset(viewsets.ModelViewSet):
+    queryset = UserAccount.objects.all()
+    serializer_class = UserAccountSerializer
+
+class managerAccountViewset(viewsets.ModelViewSet):
+    queryset = ManagerAccount.objects.all()
+    serializer_class = ManagerAccountSerializer
 
 class clubActivityViewSet(viewsets.ModelViewSet):
     queryset = ClubActivity.objects.all()

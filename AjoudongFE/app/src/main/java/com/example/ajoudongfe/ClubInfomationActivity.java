@@ -41,6 +41,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
     private int schoolID = 201421234;
     private int parameterclubID;
     private String parameterclubName;
+
     private int clubCategory;
     private int bkmark = 0;
 
