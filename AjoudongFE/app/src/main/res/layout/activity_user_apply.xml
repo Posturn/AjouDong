@@ -140,8 +140,6 @@
             android:id="@+id/club_apply_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bottom_button_round"
-            android:backgroundTint="@color/ajouLogoBlue"
             android:text="제출하기"
             android:textColor="@color/white"
             android:textSize="18dp" />

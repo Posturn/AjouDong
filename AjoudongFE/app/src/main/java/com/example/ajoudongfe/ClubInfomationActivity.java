@@ -291,8 +291,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
                 Intent intent = new Intent(getApplicationContext(), UserApplyActivity.class);
                 intent.putExtra("clubID", parameterclubID);
                 intent.putExtra("userSchoolID", schoolID);
-                intent.putExtra("clubCategory", 1);
-                Log.d("clubCategory", ""+ clubCategory);
+                intent.putExtra("clubCategory", clubCategory);
                 startActivity(intent);
         }
 
