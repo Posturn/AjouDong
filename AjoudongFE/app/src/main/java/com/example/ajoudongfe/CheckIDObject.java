@@ -1,9 +1,9 @@
 package com.example.ajoudongfe;
 
-class CheckID {
+public class CheckIDObject {
     String checkedID;
 
-    public CheckID(String checkedID) {
+    public CheckIDObject(String checkedID) {
         this.checkedID = checkedID;
     }
 

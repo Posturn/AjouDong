@@ -59,6 +59,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
     final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/";
     private RetroService retroService;
 
+
     final String accessKey = Keys.getAccessKey();
     final String secretKey = Keys.getSecretKey();
     final String bucketName = "ajoudong";

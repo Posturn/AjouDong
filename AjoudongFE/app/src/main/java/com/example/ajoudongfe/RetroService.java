@@ -21,9 +21,30 @@ import retrofit2.http.Query;
 public interface RetroService {
     @POST("/login")
     Call<ResponseObject> login(@Body LoginObject loginObject);
+
+    @POST("/sign-up")
+    Call<ResponseObject> signup(@Body SignupObject signupObject);
   
     @POST("/sign-up/sameID")
-    Call<ResponseObject> checkSameID(@Body CheckID checkID);
+    Call<ResponseObject> checkSameID(@Body CheckIDObject checkIDObject);
+
+    @POST("")
+    Call<ResponseObject> emailVerify(@Header("x-ncp-apigw-timestamp") String timeStamp,
+                                 @Header("x-ncp-iam-access-key") String accessKey,
+                                 @Header("x-ncp-apigw-signature-v2") String signature,
+                                 @Body  VerifyObject verifyObject);
+
+    @GET("management/memberlist/{clubID}")
+    Call<UserListObject> getMemberList(@Path("clubID") int clubID);
+
+    @GET("management/applieduserlist/{clubID}")
+    Call<UserListObject> getAppliedUserList(@Path("clubID") int clubID);
+
+    @POST("management/newmember")
+    Call<ResponseObject> newMember(@Body MemberObject newMemberObject);
+
+    @POST("management/deletemember/{clubID}/{uSchoolID}")
+    Call<ResponseObject> deleteMember(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
 
     @POST("/sign-up/emailverify")
     Call<ResponseObject> emailVerify(@Header("x-ncp-apigw-timestamp") String timestamp,
@@ -89,5 +110,10 @@ public interface RetroService {
     @POST("/deletebookmark/{clubID}/{schoolID}")
     Call<BookmarkObject>deleteBookmark(@Path("clubID") int clubID, @Path("schoolID") int schoolID);
 
+    @GET("/userInformation/{uschoolID}/")
+    Call<UserObject>getUserInformation(@Path("uschoolID") int uschoolID);
+
+    @POST("/clubApply/")
+    Call<ResponseObject> clubApply(@Body ApplyObject applyObject);
 }
 

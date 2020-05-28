@@ -2,6 +2,7 @@ package com.example.ajoudongfe;
 
 
 import java.util.Date;
+import java.util.List;
 
 public class PromotionObject {
     private String posterIMG;
@@ -12,6 +13,8 @@ public class PromotionObject {
     private String additionalApply;
     private String recruitStartDate;
     private String recruitEndDate;
+
+
 
     public String getAdditionalApply() {
         return additionalApply;

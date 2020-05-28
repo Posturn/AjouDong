@@ -5,14 +5,17 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.shortcuts import get_object_or_404
 
 from django.core import serializers
 # Create your views here.
 from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
 
-from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList
-from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer, BookmarkSerializer, UserAccountSerializer, ManagerAccountSerializer
+
+from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply
+from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer, BookmarkSerializer, UserInfoSerializer, UserAccountSerializer, ManagerAccountSerializer
+
 
 class login(View):
     @csrf_exempt
@@ -87,6 +90,15 @@ class promotionViewSet(viewsets.ModelViewSet):
 class MajorViewSet(viewsets.ModelViewSet):
     queryset= Major_Affiliation.objects.all()
     serializer_class=MajorSerializer
+
+class UserInfoViewSet(viewsets.ViewSet):
+    def retrieve(self, request, pk=None):
+        queryset = UserAccount.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = UserInfoSerializer(user)
+        print(serializer.data)
+        return Response(serializer.data)
+
 
 class ClubsViewSet(viewsets.ModelViewSet):
     queryset = Club.objects.all()
@@ -178,9 +190,11 @@ class BookmarkSearchViewSet(viewsets.ModelViewSet):
     queryset = MarkedClubList.objects.all()
     serializer_class=BookmarkSerializer
 
-    #def get_queryset(self):
-    #    schoolID=self.kwargs.get('schoolID')
-    #    self.queryset=self.queryset.filter(uSchoolID_id=schoolID)
+    def get_queryset(self):
+        schoolID=self.kwargs.get('schoolID')
+        self.queryset=self.queryset.filter(uSchoolID=schoolID)
+
+        return self.queryset
 
 class PostBookmark(View):
     @csrf_exempt
@@ -209,3 +223,28 @@ class DeleteBookmark(View):
         MarkedClubList.objects.filter(clubID_id = clubID_id,
                 uSchoolID_id = uSchoolID_id).delete()
         return HttpResponse(status = 200)
+
+
+class UserClubApply(View):
+
+    @csrf_exempt
+    def post(self, request):
+
+        data = json.loads(request.body)
+
+        try:
+            print(data["clubID_id"])
+            print(data["uSchoolID_id"])
+            print(data["additionalApplyContent"])
+            print(type(data["clubID_id"]))
+            print(type(data["uSchoolID_id"]))
+            print(type(data["additionalApplyContent"]))
+            Apply.objects.create(
+                clubID_id = data["clubID_id"],
+                uSchoolID_id = data["uSchoolID_id"],
+                additionalApplyContent = data["additionalApplyContent"],
+            ).save()
+
+            return JsonResponse({'response' : 1}, status=200)
+        except KeyError:
+            return JsonResponse({'response' : -1}, status = 400)

@@ -36,3 +36,8 @@ class BookmarkSerializer(serializers.ModelSerializer):
         model = MarkedClubList
         fields=('clubID', 'uSchoolID',)
 
+class UserInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAccount
+        fields=('uName','uJender','uSchoolID','uMajor','uPhoneNumber','uCollege')
+

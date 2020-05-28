@@ -38,6 +38,7 @@ urlpatterns = [
     path('sign-up', include('Server_app.signup.urls')),
     path('useraccount/', include('Server_app.urls')),
     path('manageraccount/', include('Server_app.urls')),
+    path('management', include('Server_app.management.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
     path('activities/grid/<int:clubID>/', views.clubActivityViewSet.as_view({"get": "list"}), name="activitygrid"),
@@ -48,6 +49,7 @@ urlpatterns = [
     path('bookmarksearch/<int:schoolID>/', views.BookmarkSearchViewSet.as_view({"get":"list"}), name="bookmarklist"),
     path('postbookmark/', csrf_exempt(views.PostBookmark.as_view())),
     path('deletebookmark/<int:clubID>/<int:schoolID>', csrf_exempt(views.DeleteBookmark.as_view())),
-
+    path('userInformation/<int:pk>/', views.UserInfoViewSet.as_view({"get": "retrieve"}), name="userinformation"),
+    path('clubApply/',csrf_exempt(views.UserClubApply.as_view()), name="clubapply"),
     re_path('admin/', admin.site.urls),
 ]
