@@ -4,6 +4,147 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserMyAjouDongActivity">
+    android:background="@color/transparent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    tools:context=".UserNewClubFilterActivity">
 
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1"
+        android:background="@color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/ajoudongtoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/LightToolBarTheme" />
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/userid"
+                    style="@style/ApplyTitle"
+                    android:text="아이디" />
+
+                <TextView
+                    android:id="@+id/useridcontent"
+                    style="@style/ApplyContent"
+                    android:text="user e-mail" />
+
+
+                <TextView
+                    android:id="@+id/usernametitle"
+                    style="@style/ApplyTitle"
+                    android:text="이름" />
+
+                <EditText
+                    android:id="@+id/usernamecontent"
+                    style="@style/AjoudongContent"
+                    android:ems="10"
+                    android:hint="username"
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:id="@+id/usernumbertitle"
+                    style="@style/ApplyTitle"
+                    android:text="학번" />
+
+                <EditText
+                    android:id="@+id/usernumbercontent"
+                    style="@style/AjoudongContent"
+                    android:ems="10"
+                    android:hint="usernumber"
+                    android:inputType="textPersonName" />
+
+                <TextView
+                    android:id="@+id/usercollegetitle"
+                    style="@style/ApplyTitle"
+                    android:text="단과대학교" />
+
+                <Spinner
+                    android:id="@+id/collegeSpinner"
+                    style="@style/AjoudongSpinner"
+                    android:entries="@array/단과대학교" />
+
+                <TextView
+                    android:id="@+id/usermajortitle"
+                    style="@style/ApplyTitle"
+                    android:text="학과" />
+
+                <Spinner
+                    android:id="@+id/majorSpinner"
+                    style="@style/AjoudongSpinner"/>
+
+                <TextView
+                    android:id="@+id/userphonetitle"
+                    style="@style/ApplyTitle"
+                    android:text="전화번호" />
+
+                <EditText
+                    android:id="@+id/edit_phone"
+                    style="@style/AjoudongContent"
+                    android:hint="연락처를 입력해주세요."
+                    android:text="010"
+                    android:inputType="phone"
+                    android:maxLength="13" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/usergender"
+                        style="@style/ApplyTitle"
+                        android:layout_width="60dp"
+                        android:text="성별" />
+
+                    <RadioGroup
+                        android:id="@+id/radioGroup"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/genderM"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="30dp"
+                            android:text="남"
+                            android:textSize="16dp" />
+
+                        <RadioButton
+                            android:id="@+id/genderF"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="30dp"
+                            android:text="여"
+                            android:textSize="16dp" />
+                    </RadioGroup>
+                </LinearLayout>
+                <TextView
+                    android:id="@+id/myajoudong"
+                    style="@style/ApplyTitle"
+                    android:text="MyAJOUDONG" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

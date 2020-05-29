@@ -101,5 +101,25 @@
         <item name="android:layout_marginLeft">25dp</item>
     </style>
 
+    <style name="AjoudongContent" parent="@android:style/Widget.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/darkgary</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_marginLeft">22dp</item>
+        <item name="android:layout_marginRight">25dp</item>
+    </style>
+
+    <style name="AjoudongSpinner" parent="@android:style/Widget.Spinner">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/darkgary</item>
+        <item name="android:backgroundTint">@color/transparent</item>
+        <item name="android:paddingTop">5dp</item>
+        <item name="android:paddingBottom">5dp</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+    </style>
+
 
 </resources>
