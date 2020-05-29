@@ -73,9 +73,15 @@ public class UserMainClubFilterActivity extends AppCompatActivity implements Vie
         filterViews[38] = (TextView) findViewById(R.id.time_night);
         filterViews[39] = (TextView) findViewById(R.id.time_all);
 
+        tags = getIntent().getStringArrayListExtra("TAGLIST");
+
         for(int i = 0 ; i < 40 ; i++) {
             filterViews[i].setOnClickListener(this);
+            if(tags.contains(filterViews[i].getText())){
+                filterViews[i].setSelected(true);
+            }
         }
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar) ;
         setSupportActionBar(toolbar) ;

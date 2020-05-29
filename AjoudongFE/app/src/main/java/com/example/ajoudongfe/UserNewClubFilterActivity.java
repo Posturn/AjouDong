@@ -61,8 +61,13 @@ public class UserNewClubFilterActivity extends AppCompatActivity implements View
         filterViews[30] = (TextView) findViewById(R.id.time_night);
         filterViews[31] = (TextView) findViewById(R.id.time_all);
 
+        tags = getIntent().getStringArrayListExtra("TAGLIST");
+
         for(int i = 0 ; i < 32 ; i++) {
             filterViews[i].setOnClickListener(this);
+            if(tags.contains(filterViews[i].getText())){
+                filterViews[i].setSelected(true);
+            }
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar) ;
@@ -100,7 +105,7 @@ public class UserNewClubFilterActivity extends AppCompatActivity implements View
                 finish();
                 return true;
             case R.id.toolbarFilter:
-                for(int i = 0 ; i < 40 ; i++) {
+                for(int i = 0 ; i < 32 ; i++) {
                     tags.clear();
                     filterViews[i].setSelected(false);
                 }

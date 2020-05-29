@@ -141,12 +141,10 @@ public class UserMainActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
                 drawerlayout.closeDrawers();
-
                 int id = menuItem.getItemId();
-                String title = menuItem.getTitle().toString();
 
+                String title = menuItem.getTitle().toString();
                 if(id == R.id.user_info_edit){
                     Intent intent = new Intent(getApplicationContext(), UserMyAjouDongActivity.class);
                     startActivity(intent);
@@ -174,7 +172,11 @@ public class UserMainActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                 }
-                else if(id == R.id.user_profile_edit){
+                int size = navigationView.getMenu().size();
+                for (int i = 0; i < size; i++) {
+                    navigationView.getMenu().getItem(i).setChecked(false);
+
+                if(id == R.id.user_profile_edit){
                     profile_btn.callOnClick();
                 }
 

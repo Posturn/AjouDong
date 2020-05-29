@@ -164,6 +164,11 @@ public class ManagerMainActivity extends AppCompatActivity {
                     profile_btn.callOnClick();
                 }
 
+                int size = navigationView.getMenu().size();
+                for (int i = 0; i < size; i++) {
+                    navigationView.getMenu().getItem(i).setChecked(false);
+                }
+
                 return true;
             }
         });

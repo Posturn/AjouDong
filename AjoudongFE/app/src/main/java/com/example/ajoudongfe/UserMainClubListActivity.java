@@ -216,6 +216,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             }
             case R.id.toolbarFilter:{
                 Intent intent = new Intent(getApplicationContext(), UserMainClubFilterActivity.class);
+                intent.putStringArrayListExtra("TAGLIST",tags);
                 startActivityForResult(intent, 1);
                 return true;
             }
@@ -276,7 +277,10 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     {
         if(resultCode==RESULT_OK && requestCode == 1){
             tags = data.getStringArrayListExtra("TAGLIST");
-            if(tags.size() == 0 || tags.isEmpty()) tag_now = false;
+            if(tags.size() == 0 || tags.isEmpty()) {
+                tag_now = false;
+                ClubSort();
+            }
             else{
                 tag_now = true;
                 ClubFilter();
