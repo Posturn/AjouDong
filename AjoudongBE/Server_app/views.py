@@ -12,7 +12,7 @@ from django.core import serializers
 from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
 
-from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, UserAccount, Apply
+from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, UserAccount, Apply, TaggedClubList
 from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer, BookmarkSerializer, UserInfoSerializer
 
 class login(View):
@@ -142,10 +142,9 @@ class ClubFilter(generics.GenericAPIView):
         tags = request.data["tags"]
         club = request.data["club"]
         sort = request.data["sort"]
-        print(tags)
-
+        self.queryset = filter_taglist(tags, self.queryset)
         self.queryset = filter_club(club, self.queryset)
-        queryset_serialized = self.serializer_class(sort_clublist(1, self.queryset),many=True)
+        queryset_serialized = self.serializer_class(sort_clublist(sort, self.queryset),many=True)
         return Response(queryset_serialized.data)
 
 
@@ -170,9 +169,19 @@ def filter_club(club, queryset):
         return queryset.filter(clubMajor=club)
 
 def filter_taglist(tags, queryset):
-    # id_list = []
-    # for tag in tags:
-    return queryset
+    clubqueryset = Club.objects.all()
+    clubtaglist = TaggedClubList.objects.all()
+    clubID_list = []
+
+    for club in clubtaglist.values_list():
+        if club[1] not in clubID_list:
+            for tag in tags:
+                if club[2] == tag:
+                    clubID_list.append(club[1])
+                    break
+    
+    clubqueryset = clubqueryset.filter(clubID__in=clubID_list)
+    return clubqueryset
 
     
 class BookmarkSearchViewSet(viewsets.ModelViewSet):

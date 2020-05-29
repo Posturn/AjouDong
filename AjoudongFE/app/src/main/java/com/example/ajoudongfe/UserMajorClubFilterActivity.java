@@ -67,8 +67,13 @@ public class UserMajorClubFilterActivity extends AppCompatActivity implements Vi
         filterViews[35] = (TextView) findViewById(R.id.time_night);
         filterViews[36] = (TextView) findViewById(R.id.time_all);
 
+        tags = getIntent().getStringArrayListExtra("TAGLIST");
+
         for(int i = 0 ; i < 37 ; i++) {
             filterViews[i].setOnClickListener(this);
+            if(tags.contains(filterViews[i].getText())){
+                filterViews[i].setSelected(true);
+            }
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar) ;
@@ -106,7 +111,7 @@ public class UserMajorClubFilterActivity extends AppCompatActivity implements Vi
                 finish();
                 return true;
             case R.id.toolbarFilter:
-                for(int i = 0 ; i < 40 ; i++) {
+                for(int i = 0 ; i < 37 ; i++) {
                     tags.clear();
                     filterViews[i].setSelected(false);
                 }
