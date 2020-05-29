@@ -14,10 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_default_icon"
             android:layout_width="144dp"
             android:layout_height="124dp"
+            android:layout_gravity="center_vertical"
             android:contentDescription="사용자이미지"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -28,7 +29,7 @@
             app:srcCompat="@drawable/ic_default_round" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/user_name"
             android:layout_width="229dp"
             android:layout_height="25dp"
             android:text="이름"
@@ -42,7 +43,7 @@
             app:layout_constraintVertical_bias="0.908" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/user_profile_edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/round_button"

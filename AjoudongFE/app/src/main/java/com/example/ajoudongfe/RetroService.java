@@ -46,6 +46,18 @@ public interface RetroService {
                                      @Header("x-ncp-apigw-signature-v2") String signature,
                                      @Body  VerifyObject verifyObject);
 
+    @GET("useraccount/{pk}/")
+    Call<UserAccountObject> get_useraccount_pk(@Path("pk") int pk);
+
+    @PATCH("useraccount/{pk}/")
+    Call<UserAccountObject> patch_useraccount_pk(@Path("pk") int pk, @Body UserAccountObject user);
+
+    @GET("manageraccount/{pk}/")
+    Call<ManagerAccountObject> get_manageraccount_pk(@Path("pk") String pk);
+
+    @PATCH("manageraccount/{pk}/")
+    Call<ManagerAccountObject> patch_manageraccount_pk(@Path("pk") String pk, @Body ManagerAccountObject manager);
+
     @GET("/promotions/{pk}/")
     Call<PromotionObject> get_promotions_pk(@Path("pk") int pk);
 
