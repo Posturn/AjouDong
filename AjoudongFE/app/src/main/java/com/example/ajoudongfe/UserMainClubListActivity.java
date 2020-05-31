@@ -59,10 +59,11 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     private boolean tag_now = false;
 
     private ArrayList<String> tags = new ArrayList<String>();
+    private List<Integer> nRecruitClub = new ArrayList<>();
 
-    private void populateGridView(List<ClubObject> clubObjectList) {
+    private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit) {
         mGridView = findViewById(R.id.gridView01);
-        adapter = new ClubGridAdapter(this, clubObjectList);
+        adapter = new ClubGridAdapter(this, clubObjectList, nRecruit);
         mGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -93,6 +94,19 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                 .build();
 
         retroService = retrofit.create(RetroService.class);
+
+        Call<List<Integer>> nrecruitcall = retroService.getnRecruitClub();
+        nrecruitcall.enqueue(new Callback<List<Integer>>() {
+            @Override
+            public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
+                nRecruitClub = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<Integer>> call, Throwable throwable) {
+                Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
 
         Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, selectedCategory, now_spin);
         CallEnqueueClubObject(call);
@@ -294,7 +308,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
         call.enqueue(new Callback<List<ClubObject>>() {
             @Override
             public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
-                populateGridView(response.body());
+                populateGridView(response.body(), nRecruitClub);
             }
 
             @Override

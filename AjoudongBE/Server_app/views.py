@@ -13,7 +13,7 @@ from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
 
 from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, UserAccount, Apply, TaggedClubList
-from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer, BookmarkSerializer, UserInfoSerializer, UserAccountSerializer, ManagerAccountSerializer
+from Server_app.serializers import *
 
 class login(View):
     @csrf_exempt
@@ -94,6 +94,13 @@ class UserInfoViewSet(viewsets.ViewSet):
         queryset = UserAccount.objects.all()
         user = get_object_or_404(queryset, pk=pk)
         serializer = UserInfoSerializer(user)
+        return Response(serializer.data)
+
+class ClubQuestionViewSet(viewsets.ViewSet):
+    def retrieve(self, request, pk=None):
+        queryset = ClubPromotion.objects.all()
+        question = get_object_or_404(queryset, pk=pk)
+        serializer = ClubQuestionSerializer(question)
         return Response(serializer.data)
 
 
@@ -232,7 +239,6 @@ class DeleteBookmark(View):
 
 
 class UserClubApply(View):
-
     @csrf_exempt
     def post(self, request):
 
@@ -248,3 +254,13 @@ class UserClubApply(View):
             return JsonResponse({'response' : 1}, status=200)
         except KeyError:
             return JsonResponse({'response' : -1}, status = 400)
+
+class NRecruitViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        tagclublist = TaggedClubList.objects.all()
+        nlist = []
+        for tagData in tagclublist.values_list():
+            if tagData[2] == "모집종료":
+                nlist.append(tagData[1])
+        return Response(nlist)

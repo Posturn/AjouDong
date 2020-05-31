@@ -35,7 +35,7 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
 
     private void populateGridView(List<ClubObject> clubObjectList) {
         mGridView = findViewById(R.id.bookmarkgrid);
-        adapter = new ClubGridAdapter(this, clubObjectList);
+        adapter = new ClubGridAdapter(this, clubObjectList, null);
         mGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
