@@ -2,7 +2,9 @@ package com.example.ajoudongfe;
 
 import android.os.Bundle;
 
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -10,11 +12,19 @@ import com.google.android.material.tabs.TabLayout;
 public class ManagerMemberManagementActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private PagerAdpater adapter;
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp);
+
+        toolbar = (Toolbar)findViewById(R.id.memberManagementToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         adapter = new PagerAdpater(getSupportFragmentManager(), tabLayout.getTabCount());
