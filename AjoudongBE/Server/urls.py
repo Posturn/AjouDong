@@ -52,5 +52,6 @@ urlpatterns = [
     path('userInformation/<int:pk>/', views.UserInfoViewSet.as_view({"get": "retrieve"}), name="userinformation"),
     path('clubApply/',csrf_exempt(views.UserClubApply.as_view()), name="clubapply"),
     path('clubquestion/<int:pk>/',views.ClubQuestionViewSet.as_view({"get": "retrieve"}), name="clubquestion"),
+    path('nrecruitclubs/',views.NRecruitViewSet.as_view({"get": "list"}), name="nrecruitclubs"),
     re_path('admin/', admin.site.urls),
 ]

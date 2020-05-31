@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -113,7 +114,7 @@ public class UserApplyActivity extends AppCompatActivity {
                 username.setText(user_info.getuName());
                 usernumber.setText(String.valueOf(user_info.getuSchoolID()));
                 usermajor.setText(user_info.getuMajor());
-                userphone.setText(String.valueOf(user_info.getuPhoneNumber()));
+                userphone.setText(String.valueOf("010-"+String.valueOf(user_info.getuPhoneNumber()/10000)+"-"+String.valueOf(user_info.getuPhoneNumber()%10000)));
                 if(user_info.isuJender()){ // M
                     usergenderM.setChecked(true);
                 } else{
@@ -133,7 +134,6 @@ public class UserApplyActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<QuestionObject> call, Response<QuestionObject> response) {
                 question = response.body();
-                Log.d("question", "" + question.getadditionalApply());
                 if(question.getadditionalApply() == null){
                     userclub.setVisibility(View.GONE);
                     userapplycontent.setVisibility(View.GONE);

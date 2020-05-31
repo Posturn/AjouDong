@@ -100,9 +100,7 @@ class ClubQuestionViewSet(viewsets.ViewSet):
     def retrieve(self, request, pk=None):
         queryset = ClubPromotion.objects.all()
         question = get_object_or_404(queryset, pk=pk)
-        print(question)
         serializer = ClubQuestionSerializer(question)
-        print(serializer.data)
         return Response(serializer.data)
 
 
@@ -241,7 +239,6 @@ class DeleteBookmark(View):
 
 
 class UserClubApply(View):
-
     @csrf_exempt
     def post(self, request):
 
@@ -257,3 +254,13 @@ class UserClubApply(View):
             return JsonResponse({'response' : 1}, status=200)
         except KeyError:
             return JsonResponse({'response' : -1}, status = 400)
+
+class NRecruitViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        tagclublist = TaggedClubList.objects.all()
+        nlist = []
+        for tagData in tagclublist.values_list():
+            if tagData[2] == "모집종료":
+                nlist.append(tagData[1])
+        return Response(nlist)
