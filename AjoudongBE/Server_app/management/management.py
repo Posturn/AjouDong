@@ -78,4 +78,32 @@ class deletemember(View):
             return JsonResponse({'response' : 1}, status = 200)
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
+
+class deleteAppliedUser(View):
+    @csrf_exempt
+    def post(self, request):
+        data = json.loads(request)
+        try:
+            applieduserlist.objects.filter(clubID_id = data['clubId'], uSchoolId_id = data['uSchoolID']).delete()
+
+            return JsonResponse({'reponse' : 1}, status = 200)
+
+        except KeyError:
+            return JsonResponse({'response' : -2}, status = 401)
+
+class newAppliedUser(View):
+    @csrf_exempt
+    def post(self, request):
+        data = json.loads(request)
+        try:
+            ClubMember.objects.create(
+                uSchoolID_id = data['uSchoolID'],
+                clubID_id = data['clubID']
+            ).save
+            applieduserlist.objects.filter(clubID_id = data['clubId'], uSchoolId_id = data['uSchoolID']).delete()
+
+            return JsonResponse({'reponse' : 1}, status = 200)
+        except KeyError:
+            return JsonResponse({'response' : -2}, status = 401)
+
         

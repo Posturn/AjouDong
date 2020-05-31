@@ -59,7 +59,7 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Call<ResponseObject> call = newMember(uSchoolID, clubID);
+                Call<ResponseObject> call = newAppliedUser(uSchoolID, clubID);
 
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
@@ -105,10 +105,10 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
         });
     }
 
-    private Call<ResponseObject> newMember(int uSchoolID, int clubID) {
+    private Call<ResponseObject> newAppliedUser(int uSchoolID, int clubID) {
         MemberObject memberObject =  new MemberObject(clubID, uSchoolID);
         RetroService retroService = retrofit.create(RetroService.class);
-        return retroService.newMember(memberObject);
+        return retroService.newAppliedUser(clubID, uSchoolID);
     }
 
     private Call<ResponseObject> deleteAppliedUser(int uSchoolID, int clubID) {
