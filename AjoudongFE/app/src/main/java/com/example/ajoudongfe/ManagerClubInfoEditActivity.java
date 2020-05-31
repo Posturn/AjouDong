@@ -56,13 +56,13 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
 
 
     final String BASE_URL = "http://10.0.2.2:8000";
-    final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/";
+    final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/clubPoster/";
     private RetroService retroService;
-
 
     final String accessKey = Keys.getAccessKey();
     final String secretKey = Keys.getSecretKey();
     final String bucketName = "ajoudong";
+    final String folderName = "clubPoster/";
     static String imgPath, imgName, nowImage = "";
 
     final int manager_ClubID = 1;
@@ -171,7 +171,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
 
     private void deleteIMG(){       //원래 이미지 버킷에서 삭제
         try {
-            s3Client.deleteObject(new DeleteObjectRequest(bucketName, nowImage));
+            s3Client.deleteObject(new DeleteObjectRequest(bucketName, folderName+nowImage));
            // Log.d(TAG,nowImage +" is deleted!");
         } catch (AmazonServiceException ase) {
             Log.e(TAG, ase.getErrorMessage());
@@ -182,7 +182,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
         if(imgPath != null){
             new DeleteTask().execute();
             TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(this).build();
-            TransferObserver transferObserver = transferUtility.upload(bucketName, imgName, new File(imgPath), CannedAccessControlList.PublicRead);
+            TransferObserver transferObserver = transferUtility.upload(bucketName, folderName+imgName, new File(imgPath), CannedAccessControlList.PublicRead);
             transferObserver.setTransferListener(new TransferListener() {       //새 이미지 버킷에 전송
                 @Override
                 public void onStateChanged(int id, TransferState state) {
@@ -273,6 +273,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
                     patchProfile();     //이미지 업데이트
                 }
                 Toast.makeText(getApplicationContext(), "저장되었습니다!", Toast.LENGTH_LONG).show();
+                onBackPressed();
                 return true;
         }
         return super.onOptionsItemSelected(item);
