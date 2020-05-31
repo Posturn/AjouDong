@@ -182,6 +182,7 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
             //TODO 매니저 pk 전달
             intent.putExtra("clubID", Integer.parseInt(data.getMessage()));
+            intent.putExtra("mID", idText.getText().toString());
             startActivity(intent);
             return 1;
         }
