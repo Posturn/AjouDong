@@ -63,12 +63,13 @@ public class UserMainActivity extends AppCompatActivity {
     final  String TAG = getClass().getSimpleName();
 
     final String BASE_URL = "http://10.0.2.2:8000";
-    final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/";
+    final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/user_profile/";
     private RetroService retroService;
 
     final String accessKey = Keys.getAccessKey();
     final String secretKey = Keys.getSecretKey();
     final String bucketName = "ajoudong";
+    final String folderName = "user_profile/";
     static String imgPath3, imgName3, nowImage3 = "";
 
     int user_ID = 201421234; //테스트용 사용자 아이디
@@ -112,7 +113,12 @@ public class UserMainActivity extends AppCompatActivity {
                     UserAccountObject item  = response.body();
                     Log.d(TAG, String.valueOf(user_profile.getId()));
                     user_name.setText(item.getuName());
-                    Picasso.get().load(item.getuIMG()).into(user_profile);
+                    if(item.getuIMG() != null){
+                        Picasso.get().load(item.getuIMG()).into(user_profile);
+                    }
+                    else{
+                        user_profile.setImageResource(R.drawable.ajoudong_icon);
+                    }
                     nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
                     Log.d(TAG, nowImage3);
                 }else {
@@ -257,7 +263,7 @@ public class UserMainActivity extends AppCompatActivity {
 
     private void deleteIMG(){       //원래 이미지 버킷에서 삭제
         try {
-            s3Client.deleteObject(new DeleteObjectRequest(bucketName, nowImage3));
+            s3Client.deleteObject(new DeleteObjectRequest(bucketName, folderName+nowImage3));
             // Log.d(TAG,nowImage +" is deleted!");
         } catch (AmazonServiceException ase) {
             Log.e(TAG, ase.getErrorMessage());
@@ -268,7 +274,7 @@ public class UserMainActivity extends AppCompatActivity {
         if(imgPath3 != null){
             new DeleteTask().execute();
             TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(this).build();
-            TransferObserver transferObserver = transferUtility.upload(bucketName, imgName3, new File(imgPath3), CannedAccessControlList.PublicRead);
+            TransferObserver transferObserver = transferUtility.upload(bucketName, folderName+imgName3, new File(imgPath3), CannedAccessControlList.PublicRead);
             transferObserver.setTransferListener(new TransferListener() {       //새 이미지 버킷에 전송
                 @Override
                 public void onStateChanged(int id, TransferState state) {

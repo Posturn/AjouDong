@@ -25,6 +25,7 @@
         <activity android:name=".UserBookmarkClubActivity" />
         <activity android:name=".UserApplicationResultActivity" />
         <activity android:name=".UserClubHistoryActivity"/>
+        <activity android:name=".UserClubHistoryDetailActivity"/>
         <activity android:name=".UserMyAjouDongActivity" />
         <activity android:name=".ManagerClubFilterSettingActivity" />
         <activity android:name=".ManagerClubApplySettingActivity" />

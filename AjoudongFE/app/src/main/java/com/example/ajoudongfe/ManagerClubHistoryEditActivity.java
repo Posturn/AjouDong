@@ -1,14 +1,12 @@
 package com.example.ajoudongfe;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
@@ -18,10 +16,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.MediaController;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
@@ -42,14 +38,10 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Target;
 
-import org.w3c.dom.Text;
 
 import java.io.File;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,7 +49,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static java.sql.Types.NULL;
 
 public class ManagerClubHistoryEditActivity extends AppCompatActivity {
 
@@ -65,13 +56,14 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
     private final int GET_GALLERY_IMAGE = 200;
 
     final String BASE_URL = "http://10.0.2.2:8000";
-    final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/";
+    final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/historyIMGMP4/";
     private RetroService retroService;
 
 
     final String accessKey = Keys.getAccessKey();
     final String secretKey = Keys.getSecretKey();
     final String bucketName = "ajoudong";
+    final String folderName = "historyIMGMP4/";
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
@@ -99,7 +91,6 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
         findViewById(R.id.historyImageVideo).bringToFront();
         initMyAPI(BASE_URL);
 
-       // final TextView imgMp4 = (TextView) findViewById(R.id.IMGMP4);
         final EditText ET_clubActivityInfo = (EditText) findViewById(R.id.editText4);
         final EditText ET_clubActivityDetail = (EditText) findViewById(R.id.editText5);
         final ImageView IV_historyPoster = (ImageView) findViewById(R.id.historyImageVideo);
@@ -107,34 +98,23 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
         ImageView edit_btn = (ImageView) findViewById(R.id.addImgMp4);
         VV_historyVideo.setVisibility(View.GONE);
 
-        // Obtain MotionEvent object
-        long downTime = SystemClock.uptimeMillis();
-        long eventTime = SystemClock.uptimeMillis() + 100;
-        //final float x = 0.0f;
-       // final float y = 0.0f;
-        int metaState = 0;
-        int[] location = new int[2];
-        VV_historyVideo.getLocationOnScreen(location);
-         float x = location[0];
-         float y = location[1];
-        MotionEvent motionEvent = MotionEvent.obtain(
-                downTime,
-                eventTime,
-                MotionEvent.ACTION_UP,
-                x,
-                y,
-                metaState
-        );
-        MotionEvent motionEvent2 = MotionEvent.obtain(
-                downTime,
-                eventTime,
-                MotionEvent.ACTION_DOWN,
-                x,
-                y,
-                metaState
-        );
-       // Log.d(TAG, "좌표는 "+x+", " + y +"\n");
-        final MediaController controller = new MediaController(ManagerClubHistoryEditActivity.this);
+        final MediaController controller = new MediaController(ManagerClubHistoryEditActivity.this) {
+            @Override
+            public void setMediaPlayer(MediaPlayerControl player) {
+                super.setMediaPlayer(player);
+                super.hide();
+            }
+            int count = 1;
+            @Override
+            public void show(int timeout){
+                if(count == 1){
+                    super.hide();
+                    count = 2;
+                }
+                else
+                    super.show(0);
+            }
+        };
         //미디어컨트롤러 추가하는 부분
         controller.setAnchorView(VV_historyVideo);
         VV_historyVideo.setMediaController(controller);
@@ -142,10 +122,8 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
             // 동영상 재생준비가 완료된후 호출되는 메서드
             @Override
             public void onPrepared(MediaPlayer mp) {
-                //controller.setVisibility(View.INVISIBLE);
                 Toast.makeText(getApplicationContext(),
                         "동영상 재생가능", Toast.LENGTH_LONG).show();
-                controller.hide();
             }
         });
 
@@ -156,11 +134,11 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
                 switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         if (flag) {
-                            controller.hide();
+                            controller.show(0);
                         }
                         else {
                             //controller.setVisibility(View.VISIBLE);
-                            controller.show(0);
+                            controller.hide();
                         }
                         flag = !flag;
                         return true;
@@ -169,14 +147,13 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
             }
         });
 
-
         final int activityID = getIntent().getIntExtra("activityID", 0);
         setActivityID(activityID);
         // ↑ 그리드 클릭시 넘어오는 활동 내역 pk 번호
 
         if (activityID == 0) {
             Log.d(TAG, "empty");        //새로운 빈 활동내역 생성
-            IV_historyPoster.setImageResource(R.drawable.image_add_btn);
+            IV_historyPoster.setImageResource(R.drawable.ajoudong_icon);
         } else {
             Log.d(TAG, "GET");       //처음 동아리 활동내역 정보 불러오기
             Call<ClubActivityObject> getCall = retroService.get_activities_pk(activityID);
@@ -208,9 +185,6 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
                 }
             });
         }
-
-       // VV_historyVideo.dispatchTouchEvent(motionEvent2);
-       // VV_historyVideo.dispatchTouchEvent(motionEvent);
 
         edit_btn.setClickable(true);
         edit_btn.setOnClickListener(new Button.OnClickListener() {
@@ -331,7 +305,7 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
         if(imgPath2 != null){
             new DeleteTask().execute();
             TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(this).build();
-            TransferObserver transferObserver = transferUtility.upload(bucketName, imgName2, new File(imgPath2), CannedAccessControlList.PublicRead);
+            TransferObserver transferObserver = transferUtility.upload(bucketName, folderName+imgName2, new File(imgPath2), CannedAccessControlList.PublicRead);
             transferObserver.setTransferListener(new TransferListener() {       //새 이미지 버킷에 전송
                 @Override
                 public void onStateChanged(int id, TransferState state) {
@@ -451,7 +425,7 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
 
     private void deleteIMG(){       //원래 이미지 버킷에서 삭제
         try {
-            s3Client.deleteObject(new DeleteObjectRequest(bucketName, nowImage2));
+            s3Client.deleteObject(new DeleteObjectRequest(bucketName, folderName+nowImage2));
             // Log.d(TAG,nowImage +" is deleted!");
         } catch (AmazonServiceException ase) {
             Log.e(TAG, ase.getErrorMessage());
