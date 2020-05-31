@@ -34,10 +34,16 @@ public interface RetroService {
     @GET("management/applieduserlist/{clubID}")
     Call<UserListObject> getAppliedUserList(@Path("clubID") int clubID);
 
-    @POST("management/newmember")
+    @POST("management/applieduserlist/newapplieduser/{clubID}/{uSchoolID}")
+    Call<ResponseObject> newAppliedUser(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
+
+    @POST("management/applieduserlist/deleteapplieduser/{clubID}/{uSchoolID}")
+    Call<ResponseObject> deleteAppliedUser(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
+
+    @POST("management/memberlist/newmember")
     Call<ResponseObject> newMember(@Body MemberObject newMemberObject);
 
-    @POST("management/deletemember/{clubID}/{uSchoolID}")
+    @POST("management/memberlist/deletemember/{clubID}/{uSchoolID}")
     Call<ResponseObject> deleteMember(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
 
     @POST("/sign-up/emailverify")

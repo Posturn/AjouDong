@@ -180,7 +180,9 @@ public class LoginActivity extends AppCompatActivity {
         else if(data.getResponse() == 2)//간부
         {
             Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+            //TODO 매니저 pk 전달
             intent.putExtra("clubID", Integer.parseInt(data.getMessage()));
+            intent.putExtra("mID", idText.getText().toString());
             startActivity(intent);
             return 1;
         }
