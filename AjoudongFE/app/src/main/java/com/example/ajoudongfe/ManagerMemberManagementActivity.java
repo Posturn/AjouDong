@@ -1,6 +1,7 @@
 package com.example.ajoudongfe;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,5 +50,15 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.ajoudongfe;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -54,15 +55,13 @@ public class MemberFragment extends Fragment {
             public void onResponse(Call<UserListObject> call, Response<UserListObject> response) {
                 UserListObject data = response.body();
                 listData = data.getContent();
-                for(int i= 0; i<listData.size();i++)
-                {
+                for (int i = 0; i < listData.size(); i++) {
                     System.out.println(listData.get(i).getuSchoolID());
                 }
-
-                MemberRecyclerView = (RecyclerView)rootView.findViewById(R.id.memberRecyclerView);
+                MemberRecyclerView = (RecyclerView) rootView.findViewById(R.id.memberRecyclerView);
                 MemberRecyclerAdapter = new MemberRecyclerAdapter(getActivity(), listData, clubID);
-                MemberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                MemberRecyclerView.setAdapter(MemberRecyclerAdapter);
+                MemberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));MemberRecyclerView.setAdapter(MemberRecyclerAdapter);
+
             }
 
             @Override
@@ -75,7 +74,10 @@ public class MemberFragment extends Fragment {
         addNewMemberButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("클릭", "클릭");
+
+                NewMemberPopup newMemberPopup = new NewMemberPopup(clubID);
+
+                newMemberPopup.show(getFragmentManager(), "dialog");
             }
         });
 
