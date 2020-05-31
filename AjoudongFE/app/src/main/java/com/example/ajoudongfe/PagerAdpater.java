@@ -19,8 +19,8 @@ public class PagerAdpater extends FragmentStatePagerAdapter {
                 NewMemberFragment newMemberFragment = new NewMemberFragment();
                 return newMemberFragment;
             case 1:
-                TabFragment2 tab2 = new TabFragment2();
-                return tab2;
+                MemberFragment memberFragment = new MemberFragment();
+                return memberFragment;
 
             default:
                 return null;
