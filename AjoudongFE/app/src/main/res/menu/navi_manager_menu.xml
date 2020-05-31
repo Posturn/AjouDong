@@ -2,7 +2,7 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/manager_group1"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/club_apply_setting"
             android:icon="@drawable/ic_listboard"
@@ -18,7 +18,7 @@
     </group>
 
     <group android:id="@+id/manager_group2"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/club_apply_alarm"
             android:icon="@drawable/ic_humancheck"
@@ -29,7 +29,7 @@
     </group>
 
     <group android:id="@+id/manager_group3"
-        android:checkableBehavior="single">
+        android:checkableBehavior="none">
         <item
             android:id="@+id/club_logout"
             android:icon="@drawable/ic_logout"

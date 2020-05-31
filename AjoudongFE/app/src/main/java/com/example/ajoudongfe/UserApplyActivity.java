@@ -124,16 +124,15 @@ public class UserApplyActivity extends AppCompatActivity {
             }
         });
 
-//        if(clubCategory == 1){
-//            toolbar.setBackgroundColor(getColor(R.color.ajouLogoOrange));
-//            apply_btn.setBackgroundResource(R.drawable.bottom_button_round);
-//            apply_btn.setBackgroundColor(getColor(R.color.ajouLogoOrange));
-//        }
-//        else if(clubCategory >= 2){
-//            toolbar.setBackgroundColor(getColor(R.color.ajouLogoSky));
-//            apply_btn.setBackgroundResource(R.drawable.bottom_button_round);
-//            apply_btn.setBackgroundColor(getColor(R.color.ajouLogoSky));
-//        }
+        apply_btn.setBackgroundResource(R.drawable.bottom_button_round);
+        if(clubCategory == 1){
+            toolbar.setBackgroundColor(getColor(R.color.ajouLogoOrange));
+            apply_btn.setBackgroundResource(R.drawable.bottom_button_round_orange);
+        }
+        else if(clubCategory >= 2){
+            toolbar.setBackgroundColor(getColor(R.color.ajouLogoSky));
+            apply_btn.setBackgroundResource(R.drawable.bottom_button_round_sky);
+        }
     }
 
     @Override
