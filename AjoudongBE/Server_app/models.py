@@ -12,7 +12,7 @@ class Ads(models.Model):
 class AppliedClubList(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
     uSchoolID = models.ForeignKey('UserAccount', on_delete=models.CASCADE)
-    memberState = models.BooleanField()
+    memberState = models.IntegerField()
 
 class Apply(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)

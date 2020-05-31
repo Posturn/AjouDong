@@ -26,7 +26,7 @@ class memberlist(View):
                 memberInfo['uMajor'] = member.uMajor
                 memberInfo['uSchoolID'] = member.uSchoolID
                 memberInfo['uName'] = member.uName
-                appliedUserInfo['uIMG'] = member.uIMG
+                memberInfo['uIMG'] = member.uIMG
                 memberInfoList.append(memberInfo)
 
             return JsonResponse({'response' : 1, 'content' : memberInfoList}, status = 200)
@@ -83,7 +83,11 @@ class deleteAppliedUser(View):
     @csrf_exempt
     def post(self, request, clubID, uSchoolID):
         try:
-            applieduserlist.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
+            AppliedUser = applieduserlist.objects.get(clubID_id = clubID, uSchoolID_id = uSchoolID)
+            AppliedUser.memberState = -1
+            AppliedUser.save()
+
+            Apply.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
 
             return JsonResponse({'reponse' : 1}, status = 200)
 
@@ -98,7 +102,11 @@ class newAppliedUser(View):
                 uSchoolID_id = uSchoolID,
                 clubID_id = clubID
             ).save
-            AppliedClubList.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
+            AppliedUser = AppliedClubList.objects.get(clubID_id = clubID, uSchoolID_id = uSchoolID)
+            AppliedUser.memberState = 1
+            AppliedUser.save()
+
+            Apply.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
 
             return JsonResponse({'reponse' : 1}, status = 200)
         except KeyError:
