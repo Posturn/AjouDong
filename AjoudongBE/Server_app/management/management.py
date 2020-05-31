@@ -10,7 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from Server_app.models import Apply, ClubMember, UserAccount
+from Server_app.models import Apply, ClubMember, UserAccount, AppliedClubList
 
 class memberlist(View):
     @csrf_exempt
@@ -81,10 +81,9 @@ class deletemember(View):
 
 class deleteAppliedUser(View):
     @csrf_exempt
-    def post(self, request):
-        data = json.loads(request)
+    def post(self, request, clubID, uSchoolID):
         try:
-            applieduserlist.objects.filter(clubID_id = data['clubId'], uSchoolId_id = data['uSchoolID']).delete()
+            applieduserlist.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
 
             return JsonResponse({'reponse' : 1}, status = 200)
 
@@ -93,14 +92,13 @@ class deleteAppliedUser(View):
 
 class newAppliedUser(View):
     @csrf_exempt
-    def post(self, request):
-        data = json.loads(request)
+    def post(self, request, clubID, uSchoolID):
         try:
             ClubMember.objects.create(
-                uSchoolID_id = data['uSchoolID'],
-                clubID_id = data['clubID']
+                uSchoolID_id = uSchoolID,
+                clubID_id = clubID
             ).save
-            applieduserlist.objects.filter(clubID_id = data['clubId'], uSchoolId_id = data['uSchoolID']).delete()
+            AppliedClubList.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
 
             return JsonResponse({'reponse' : 1}, status = 200)
         except KeyError:
