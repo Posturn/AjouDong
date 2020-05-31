@@ -59,13 +59,13 @@ public class ManagerMainActivity extends AppCompatActivity {
     final  String TAG = getClass().getSimpleName();
 
     final String BASE_URL = "http://10.0.2.2:8000";
-    final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/";
+    final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/manager_profile/";
     private RetroService retroService;
 
     final String accessKey = Keys.getAccessKey();
     final String secretKey = Keys.getSecretKey();
     final String bucketName = "ajoudong";
-    //final String folderName = "manager_profile/";
+    final String folderName = "manager_profile/";
     static String imgPath4, imgName4, nowImage4 = "";
 
     String mID = "manager"; //테스트용 간부 아이디
@@ -233,7 +233,7 @@ public class ManagerMainActivity extends AppCompatActivity {
 
     private void deleteIMG(){       //원래 이미지 버킷에서 삭제
         try {
-            s3Client.deleteObject(new DeleteObjectRequest(bucketName, nowImage4));
+            s3Client.deleteObject(new DeleteObjectRequest(bucketName, folderName+nowImage4));
             // Log.d(TAG,nowImage +" is deleted!");
         } catch (AmazonServiceException ase) {
             Log.e(TAG, ase.getErrorMessage());
@@ -244,7 +244,7 @@ public class ManagerMainActivity extends AppCompatActivity {
         if(imgPath4 != null){
             new DeleteTask().execute();
             TransferUtility transferUtility = TransferUtility.builder().s3Client(s3Client).context(this).build();
-            TransferObserver transferObserver = transferUtility.upload(bucketName, imgName4, new File(imgPath4), CannedAccessControlList.PublicRead);
+            TransferObserver transferObserver = transferUtility.upload(bucketName, folderName+imgName4, new File(imgPath4), CannedAccessControlList.PublicRead);
             transferObserver.setTransferListener(new TransferListener() {       //새 이미지 버킷에 전송
                 @Override
                 public void onStateChanged(int id, TransferState state) {
