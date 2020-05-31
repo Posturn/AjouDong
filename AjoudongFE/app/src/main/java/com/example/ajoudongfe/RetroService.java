@@ -115,5 +115,8 @@ public interface RetroService {
 
     @POST("/clubApply/")
     Call<ResponseObject> clubApply(@Body ApplyObject applyObject);
+
+    @GET("/clubquestion/{club}/")
+    Call<QuestionObject> getClubQuestion(@Path("club") int club);
 }
 

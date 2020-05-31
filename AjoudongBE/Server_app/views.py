@@ -13,7 +13,7 @@ from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
 
 from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, UserAccount, Apply, TaggedClubList
-from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer, BookmarkSerializer, UserInfoSerializer, UserAccountSerializer, ManagerAccountSerializer
+from Server_app.serializers import *
 
 class login(View):
     @csrf_exempt
@@ -94,6 +94,15 @@ class UserInfoViewSet(viewsets.ViewSet):
         queryset = UserAccount.objects.all()
         user = get_object_or_404(queryset, pk=pk)
         serializer = UserInfoSerializer(user)
+        return Response(serializer.data)
+
+class ClubQuestionViewSet(viewsets.ViewSet):
+    def retrieve(self, request, pk=None):
+        queryset = ClubPromotion.objects.all()
+        question = get_object_or_404(queryset, pk=pk)
+        print(question)
+        serializer = ClubQuestionSerializer(question)
+        print(serializer.data)
         return Response(serializer.data)
 
 

@@ -34,11 +34,13 @@ public class UserApplyActivity extends AppCompatActivity {
     private Button apply_btn;
 
     private UserObject user_info;
+    private QuestionObject question;
 
     private TextView username;
     private TextView usernumber;
     private TextView usermajor;
     private TextView userphone;
+    private TextView userclub;
     private RadioButton usergenderM;
     private RadioButton usergenderF;
     private EditText userapplycontent;
@@ -95,6 +97,7 @@ public class UserApplyActivity extends AppCompatActivity {
         usernumber = (TextView) findViewById(R.id.usernumbercontent);
         usermajor = (TextView) findViewById(R.id.usermajorcontent);
         userphone = (TextView) findViewById(R.id.userphonecontent);
+        userclub = (TextView) findViewById(R.id.userclub);
 
         usergenderM = (RadioButton) findViewById(R.id.genderM);
         usergenderF = (RadioButton) findViewById(R.id.genderF);
@@ -124,7 +127,28 @@ public class UserApplyActivity extends AppCompatActivity {
             }
         });
 
-        apply_btn.setBackgroundResource(R.drawable.bottom_button_round);
+        // 동아리 요청 질문
+        Call<QuestionObject> clubcall = retroService.getClubQuestion(parameterclubID);
+        clubcall.enqueue(new Callback<QuestionObject>() {
+            @Override
+            public void onResponse(Call<QuestionObject> call, Response<QuestionObject> response) {
+                question = response.body();
+                Log.d("question", "" + question.getadditionalApply());
+                if(question.getadditionalApply() == null){
+                    userclub.setVisibility(View.GONE);
+                    userapplycontent.setVisibility(View.GONE);
+                    return ;
+                }
+                userclub.setText(question.getadditionalApply());
+            }
+
+            @Override
+            public void onFailure(Call<QuestionObject> call, Throwable t) {
+                Toast.makeText(UserApplyActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+       apply_btn.setBackgroundResource(R.drawable.bottom_button_round);
         if(clubCategory == 1){
             toolbar.setBackgroundColor(getColor(R.color.ajouLogoOrange));
             apply_btn.setBackgroundResource(R.drawable.bottom_button_round_orange);

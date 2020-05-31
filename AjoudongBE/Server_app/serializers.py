@@ -41,3 +41,7 @@ class UserInfoSerializer(serializers.ModelSerializer):
         model = UserAccount
         fields=('uName','uJender','uSchoolID','uMajor','uPhoneNumber','uCollege')
 
+class ClubQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClubPromotion
+        fields=('additionalApply',)
