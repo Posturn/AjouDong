@@ -79,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
 
         if(pref.getBoolean("Auto_Login_Enabled", false))//자동로그인
         {
-            Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
+//            Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
 
         }
         userLogin.setOnClickListener(new Button.OnClickListener(){
@@ -87,7 +87,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
-                Toast.makeText(getApplicationContext(), "사용자 화면 이동", Toast.LENGTH_LONG).show();//테스트용 파일
+//                Toast.makeText(getApplicationContext(), "사용자 화면 이동", Toast.LENGTH_LONG).show();//테스트용 파일
                 startActivity(intent);
             }
         });
@@ -97,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
-                Toast.makeText(getApplicationContext(), "동아리 간부 화면 이동", Toast.LENGTH_LONG).show();//테스트용 파일
+//                Toast.makeText(getApplicationContext(), "동아리 간부 화면 이동", Toast.LENGTH_LONG).show();//테스트용 파일
                 startActivity(intent);
             }
         });
