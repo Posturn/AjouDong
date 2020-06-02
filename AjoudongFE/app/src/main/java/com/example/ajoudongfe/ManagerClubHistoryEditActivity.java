@@ -151,8 +151,9 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
         setActivityID(activityID);
         // ↑ 그리드 클릭시 넘어오는 활동 내역 pk 번호
 
-        final int manager_clubID = getIntent().getIntExtra("clubID", 0);
-        setManager_clubID(manager_clubID);
+        //final int manager_clubID = getIntent().getIntExtra("clubID", 0);
+       // setManager_clubID(manager_clubID);
+        // ↑ 그리드 클릭시 넘어오는 클럽 아이디 번호
 
         if (activityID == 0) {
             Log.d(TAG, "empty");        //새로운 빈 활동내역 생성
@@ -165,6 +166,7 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
                 public void onResponse(Call<ClubActivityObject> call, Response<ClubActivityObject> response) {
                     if (response.isSuccessful()) {
                         ClubActivityObject item = response.body();
+                        setManager_clubID(item.getClubID());
                         ET_clubActivityInfo.setText(item.getClubActivityInfo());
                         ET_clubActivityDetail.setText(item.getClubActivityDetail());
                         nowImage2 = item.getClubActivityFile().substring(item.getClubActivityFile().lastIndexOf("/") + 1);   //현재 이미지 파일 이름 가져오기
@@ -173,7 +175,7 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
                             IV_historyPoster.setVisibility(View.GONE);
                             VV_historyVideo.setVideoURI(Uri.parse(item.getClubActivityFile()));
                             VV_historyVideo.seekTo(1);
-                           // controller.setVisibility(View.GONE);
+                            // controller.setVisibility(View.GONE);
                         } else {
                             Picasso.get().load(item.getClubActivityFile()).into(IV_historyPoster);
                         }
@@ -198,6 +200,7 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/*", "video/*"});
                 startActivityForResult(intent, GET_GALLERY_IMAGE);
+                Toast.makeText(getApplicationContext(), "이미지/동영상 등록", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -233,6 +236,7 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
             }
         });
     }
+
     public void setManager_clubID(int manager_clubID) {
         this.manager_clubID = manager_clubID;
     }

@@ -75,7 +75,7 @@ class clubActivityViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         gridclubID = self.kwargs['clubID']
         self.queryset = self.queryset.filter(clubID = gridclubID)
-        return self.queryset
+        return self.queryset.order_by('-clubActivityID')
 
 class clubActivityDetailViewSet(viewsets.ModelViewSet):
     queryset = ClubActivity.objects.all()
