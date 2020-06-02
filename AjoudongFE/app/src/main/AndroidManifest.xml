@@ -44,9 +44,7 @@
         <activity android:name=".ClubInfomationActivity" />
         <activity android:name=".ClubMemberChartActivity"/>
         <activity android:name=".AuthActivity" />
-        <activity android:name=".TempActivity">
-
-        </activity>
+        <activity android:name=".TempActivity"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

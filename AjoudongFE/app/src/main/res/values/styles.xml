@@ -136,5 +136,17 @@
         <item name="android:layout_marginLeft">8dp</item>
     </style>
 
+    <style name="TextBox" parent="@android:style/Widget.EditText">
+        <item name="android:layout_width">380dp</item>
+        <item name="android:layout_height">200dp</item>
+        <item name="android:background">@drawable/textbox</item>
+        <item name="android:fontFamily">@font/nanumbarungothic</item>
+        <item name="android:gravity">top</item>
+        <item name="android:inputType">textMultiLine</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
 
 </resources>

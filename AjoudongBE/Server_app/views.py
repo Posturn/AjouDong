@@ -11,12 +11,9 @@ from django.core import serializers
 # Create your views here.
 from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
-
-
-
-from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList
-
+from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList,Tag
 from Server_app.serializers import *
+
 class login(View):
     @csrf_exempt
     def post(self, request):
@@ -217,6 +214,46 @@ def filter_taglist(tags, queryset):
                 filter_list.append(cid)
     clubqueryset = clubqueryset.filter(clubID__in=filter_list)
     return clubqueryset
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class=TagSerializer
+
+class ManagerFilterViewset(viewsets.ModelViewSet):
+    queryset = TaggedClubList.objects.all()
+    serializer_class=ManagerFilterSerializer
+
+    def get_queryset(self):
+        filterclubID = self.kwargs['clubID']
+        self.queryset = self.queryset.filter(clubID = filterclubID)
+        return self.queryset
+
+class PostFilter(View):
+    @csrf_exempt
+    def post(self, request):
+  
+        data = json.loads(request.body)
+        
+        try:
+            for tag in data['tags']:
+                TaggedClubList.objects.create(
+                clubID_id = data['clubID'],
+                clubTag_id = tag
+                ).save()
+
+            return HttpResponse(status = 200)
+
+        except KeyError:
+            return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
+
+class DeleteFilter(View):
+    @csrf_exempt
+    def delete(self, request, clubID):
+
+        clubID_id = clubID
+        
+        TaggedClubList.objects.filter(clubID_id = clubID_id).delete()
+        return HttpResponse(status = 200)
 
     
 class BookmarkSearchViewSet(viewsets.ModelViewSet):
