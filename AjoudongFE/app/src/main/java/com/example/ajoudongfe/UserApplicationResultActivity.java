@@ -45,7 +45,7 @@ public class UserApplicationResultActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        uSchoolID = 201421234;
+        uSchoolID = 201720988;
         Call<ApplicationListObject> call = getApplicationResultList(uSchoolID);
         Log.d("Call", "Start");
 
