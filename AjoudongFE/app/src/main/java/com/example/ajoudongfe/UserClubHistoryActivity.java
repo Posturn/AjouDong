@@ -43,7 +43,6 @@ public class UserClubHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_club_history_activity);
 
         parameterclubID = getIntent().getIntExtra("clubID", 0);
-        //Toast.makeText(this, parameterclubID, Toast.LENGTH_SHORT).show();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.user_history_toolbar);     //툴바 생성
         setSupportActionBar(toolbar);

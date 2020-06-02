@@ -2,8 +2,6 @@ package com.example.ajoudongfe;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -23,10 +18,6 @@ public class ClubHistoryAdapter extends BaseAdapter {
     private Context mContext;
     private int checkGrid = 0;
     private String checkVideo;
-    //final  String TAG = getClass().getSimpleName();
-    //private ArrayList<GridListObject> items = new ArrayList<GridListObject>();
-
-   // public void addItem(GridListObject item){items.add(item);}
 
     public ClubHistoryAdapter(Context mContext, List<ClubActivityGridObject> clubmodels) {
         this.mContext = mContext;
@@ -80,8 +71,6 @@ public class ClubHistoryAdapter extends BaseAdapter {
                     } else{
                         Glide.with(mContext.getApplicationContext()).load(thisClubActivityObject.getClubActivityFile()).into(clubImage);
                     }
-                }else {
-                    //Toast.makeText(mContext, "Empty Image URL", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -90,7 +79,6 @@ public class ClubHistoryAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ManagerClubHistoryEditActivity.class);
                 intent.putExtra("activityID", thisClubActivityObject.getClubActivityID());
-               // Toast.makeText(mContext, "활동 내용 추가", Toast.LENGTH_LONG).show();
                 mContext.startActivity(intent);
             }
         });
