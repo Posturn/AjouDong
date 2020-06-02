@@ -38,7 +38,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
     private DrawerLayout drawerlayout;
     private RecyclerView recyclerview;
 
-    private int schoolID = 201421234;
+    private int schoolID = 201720988;
     private int parameterclubID;
     private String parameterclubName;
 

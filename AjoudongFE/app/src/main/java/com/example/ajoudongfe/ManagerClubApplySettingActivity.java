@@ -194,6 +194,7 @@ public class ManagerClubApplySettingActivity extends AppCompatActivity {
                 } catch (ParseException e) {
                     Log.e(TAG, e.getMessage());
                 }
+                onBackPressed();
                 Toast.makeText(getApplicationContext(), "저장되었습니다!", Toast.LENGTH_LONG).show();
                 return true;
         }

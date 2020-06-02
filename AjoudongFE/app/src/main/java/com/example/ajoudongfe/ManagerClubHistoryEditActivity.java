@@ -151,6 +151,9 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
         setActivityID(activityID);
         // ↑ 그리드 클릭시 넘어오는 활동 내역 pk 번호
 
+        final int manager_clubID = getIntent().getIntExtra("clubID", 0);
+        setManager_clubID(manager_clubID);
+
         if (activityID == 0) {
             Log.d(TAG, "empty");        //새로운 빈 활동내역 생성
             IV_historyPoster.setImageResource(R.drawable.ajoudong_icon);
@@ -229,6 +232,9 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    public void setManager_clubID(int manager_clubID) {
+        this.manager_clubID = manager_clubID;
     }
 
     private int getActivityID() {

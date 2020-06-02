@@ -105,7 +105,7 @@ public class UserApplyActivity extends AppCompatActivity {
 
         userapplycontent = (EditText) findViewById(R.id.userclubanswer);
 
-        Call<UserObject> call = retroService.getUserInformation(201720123);
+        Call<UserObject> call = retroService.getUserInformation(schoolID);
         call.enqueue(new Callback<UserObject>() {
             @Override
             public void onResponse(Call<UserObject> call, Response<UserObject> response) {

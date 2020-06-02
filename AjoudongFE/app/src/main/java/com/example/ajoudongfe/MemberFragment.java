@@ -44,7 +44,7 @@ public class MemberFragment extends Fragment {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        clubID = 1;
+        clubID = 134;
 
 
 

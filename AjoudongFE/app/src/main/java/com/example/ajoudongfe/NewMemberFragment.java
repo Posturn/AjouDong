@@ -40,7 +40,7 @@ public class NewMemberFragment extends Fragment {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        clubID = 1;
+        clubID = 134;
         Call<UserListObject> call = getAppliedUserList(clubID);
 
         call.enqueue(new Callback<UserListObject>() {
