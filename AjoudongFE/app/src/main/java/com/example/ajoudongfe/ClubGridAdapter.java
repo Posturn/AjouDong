@@ -17,10 +17,12 @@ public class ClubGridAdapter extends BaseAdapter implements View.OnClickListener
 
     private List<ClubObject> clubmodels;
     private Context mContext;
+    private List<Integer> nRecruitClub;
 
-    public ClubGridAdapter(Context mContext, List<ClubObject> clubmodels) {
+    public ClubGridAdapter(Context mContext, List<ClubObject> clubmodels, List<Integer> nRecruit) {
         this.mContext=mContext;
         this.clubmodels=clubmodels;
+        this.nRecruitClub = nRecruit;
     }
     //출력될 이미지 데이터셋(res/drawable 폴더)
 
@@ -48,9 +50,15 @@ public class ClubGridAdapter extends BaseAdapter implements View.OnClickListener
         }
 
         ImageView clubImage = convertView.findViewById(R.id.imageView1);
+        ImageView blackImage = convertView.findViewById(R.id.blackImageView);
         TextView nameText = convertView.findViewById(R.id.textView1);
 
         final ClubObject thisClubObject = clubmodels.get(position);
+
+        int clubID = thisClubObject.getClubID();
+        if(nRecruitClub.contains(clubID)){
+            blackImage.setVisibility(View.VISIBLE);
+        }
 
         nameText.setText(thisClubObject.getName());
 

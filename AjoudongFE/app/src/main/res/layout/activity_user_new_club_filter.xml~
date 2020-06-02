@@ -5,7 +5,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:background="@color/transparent"
-tools:context=".UserMajorClubFilterActivity">
+tools:context=".UserNewClubFilterActivity">
 
 <LinearLayout
     android:id="@+id/linearLayout2"
@@ -23,13 +23,12 @@ tools:context=".UserMajorClubFilterActivity">
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:theme="@style/LightToolBarTheme" />
+        android:theme="@style/AccentToolBarTheme" />
 
     <ScrollView
         android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,82 +51,34 @@ tools:context=".UserMajorClubFilterActivity">
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/recruit_y"
                     android:text="모집중"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/recruit_n"
                     android:text="모집종료"/>
 
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/recruit_interview_n"
                     android:text="면접 없음"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/recruit_interview_y"
                     android:text="면접 있음"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/recruit_limit_n"
                     android:text="지원제한 없음"/>
-
-            </com.nex3z.flowlayout.FlowLayout>
-
-            <TextView
-                android:id="@+id/textViewMajor"
-                style="@style/FilterTitle"
-                android:text="분야" />
-
-            <com.nex3z.flowlayout.FlowLayout
-                xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="6dp"
-                app:flChildSpacing="auto"
-                app:flChildSpacingForLastRow="align"
-                app:flRowSpacing="8dp">
-
-                <TextView
-                    style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
-                    android:id="@+id/field_sport"
-                    android:text="체육"/>
-
-
-                <TextView
-                    style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
-                    android:id="@+id/field_music"
-                    android:text="음악"/>
-
-                <TextView
-                    style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
-                    android:id="@+id/field_art"
-                    android:text="예술"/>
-
-                <TextView
-                    style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
-                    android:id="@+id/field_academic"
-                    android:text="학술"/>
-
-
-                <TextView
-                    style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
-                    android:id="@+id/field_etc"
-                    android:text="기타"/>
 
             </com.nex3z.flowlayout.FlowLayout>
 
@@ -147,51 +98,51 @@ tools:context=".UserMajorClubFilterActivity">
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/atmosphere_show"
                     android:text="공연"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/atmosphere_competition"
                     android:text="대회"/>
 
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/atmosphere_regular"
                     android:text="정기전"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/atmosphere_contest"
                     android:text="공모전"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/atmosphere_obyb"
                     android:text="OBYB"/>
 
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/atmosphere_afterparty"
                     android:text="뒤풀이"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/atmosphere_study"
                     android:text="스터디"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/atmosphere_friendship"
                     android:text="친목"/>
 
@@ -213,39 +164,39 @@ tools:context=".UserMajorClubFilterActivity">
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/moeny_51"
                     android:text="5000원"/>
 
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/moeny_12"
                     android:text="10000원"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/moeny_23"
                     android:text="15000원"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/moeny_3"
                     android:text="20000원이상"/>
 
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/moeny_1time"
                     android:text="최초 가입시 1회납부"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/moeny_no"
                     android:text="없음"/>
 
@@ -268,51 +219,51 @@ tools:context=".UserMajorClubFilterActivity">
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/day_mon"
                     android:text="월"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/day_tue"
                     android:text="화"/>
 
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/day_wed"
                     android:text="수"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/day_thu"
                     android:text="목"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/day_fri"
                     android:text="금"/>
 
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/day_sat"
                     android:text="토"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/day_sun"
                     android:text="일"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/day_every"
                     android:text="상시활동"/>
 
@@ -337,32 +288,32 @@ tools:context=".UserMajorClubFilterActivity">
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/time_am"
                     android:text="오전"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/time_pm"
                     android:text="오후"/>
 
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/time_black"
                     android:text="공강"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/time_night"
                     android:text="야간"/>
 
                 <TextView
                     style="@style/CustomFilterButton"
-                    android:background="@drawable/filterbtn_major"
+                    android:background="@drawable/filterbtn_new"
                     android:id="@+id/time_all"
                     android:text="자율"/>
 
@@ -378,8 +329,8 @@ tools:context=".UserMajorClubFilterActivity">
         android:id="@+id/mainfilterbtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/ajouLogoSky"
         android:background="@drawable/bottom_button_round"
+        android:backgroundTint="@color/ajouLogoOrange"
         android:text="필터링"
         android:textColor="@color/white"
         android:textSize="18dp" />

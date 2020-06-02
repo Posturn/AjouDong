@@ -69,7 +69,21 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(mContext, UserClubHistoryActivity.class);
-                            intent.putExtra("clubID", item.clubID);
+                            intent.putExtra("clubID", item.getClubID());
+                            mContext.startActivity(intent);
+                        }
+                    });
+                }
+
+                //회원 비율 메뉴만 새 창으로 이동
+                if(itemController.header_title.getText()=="회원 비율                   ") {
+                    itemController.btn_expand_toggle.setVisibility(View.GONE);
+                    itemController.header_title.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, ClubMemberChartActivity.class);
+                            intent.putExtra("clubID", item.getClubID());
                             mContext.startActivity(intent);
                         }
                     });
@@ -169,5 +183,6 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
         public String getImg() {
             return img;
         }
+        public int getClubID(){return clubID;}
     }
 }

@@ -56,4 +56,7 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-cognito:2.7.+'
     implementation 'com.amazonaws:aws-android-sdk-s3:2.7+'
     implementation 'com.amazonaws:aws-android-sdk-mobile-client:2.13.5'
+
+    implementation 'com.github.blackfizz:eazegraph:1.2.2@aar'
+    implementation 'com.nineoldandroids:library:2.4.0'
 }
