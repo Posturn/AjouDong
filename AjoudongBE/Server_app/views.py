@@ -186,16 +186,29 @@ def filter_club(club, queryset):
 def filter_taglist(tags, queryset):
     clubqueryset = Club.objects.all()
     clubtaglist = TaggedClubList.objects.all()
+    filter_list = []
     clubID_list = []
+    category = ['레저', '종교', '사회', '창작전시', '학술', '과학기술', '체육', '연행예술', '준동아리', '음악', '예술', '기타']
+    clubID_category = []
 
     for club in clubtaglist.values_list():
         if club[1] not in clubID_list:
             for tag in tags:
-                if club[2] == tag:
+                if club[2] in category and club[2] == tag:
+                    clubID_category.append(club[1])
+                elif club[2] == tag:
                     clubID_list.append(club[1])
                     break
-    
-    clubqueryset = clubqueryset.filter(clubID__in=clubID_list)
+
+    if not clubID_category: # 카테고리를 고르지 않음
+        filter_list = clubID_list
+    elif not clubID_list: # 카테고리만 고름
+        filter_list = clubID_category
+    else: # 카테고리와 태그 둘다 고름
+        for cid in clubID_list:
+            if cid in clubID_category:
+                filter_list.append(cid)
+    clubqueryset = clubqueryset.filter(clubID__in=filter_list)
     return clubqueryset
 
     
