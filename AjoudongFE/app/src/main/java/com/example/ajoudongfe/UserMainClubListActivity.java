@@ -59,10 +59,11 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     private boolean tag_now = false;
 
     private ArrayList<String> tags = new ArrayList<String>();
+    private List<Integer> nRecruitClub = new ArrayList<>();
 
-    private void populateGridView(List<ClubObject> clubObjectList) {
+    private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit) {
         mGridView = findViewById(R.id.gridView01);
-        adapter = new ClubGridAdapter(this, clubObjectList);
+        adapter = new ClubGridAdapter(this, clubObjectList, nRecruit);
         mGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -70,7 +71,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     final String ajoublue ="#005BAC";
     final String gray ="#707070";
 
-    private Button[] mainButton=new Button[9];
+    private Button[] mainButton=new Button[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +84,10 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
         mainButton[3] = (Button) findViewById(R.id.cateSocial);
         mainButton[4] = (Button) findViewById(R.id.cateCreate);
         mainButton[5] = (Button) findViewById(R.id.cateStudy);
-        mainButton[6] = (Button) findViewById(R.id.catePE);
-        mainButton[7] = (Button) findViewById(R.id.cateArt);
-        mainButton[8] = (Button) findViewById(R.id.cateSub);
+        mainButton[6] = (Button) findViewById(R.id.cateScience);
+        mainButton[7] = (Button) findViewById(R.id.catePE);
+        mainButton[8] = (Button) findViewById(R.id.cateArt);
+        mainButton[9] = (Button) findViewById(R.id.cateSub);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -93,6 +95,19 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                 .build();
 
         retroService = retrofit.create(RetroService.class);
+
+        Call<List<Integer>> nrecruitcall = retroService.getnRecruitClub();
+        nrecruitcall.enqueue(new Callback<List<Integer>>() {
+            @Override
+            public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
+                nRecruitClub = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<List<Integer>> call, Throwable throwable) {
+                Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
 
         Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, selectedCategory, now_spin);
         CallEnqueueClubObject(call);
@@ -145,7 +160,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             }
         });
 
-        for(int i = 0 ; i < 9 ; i++) {
+        for(int i = 0 ; i < 10 ; i++) {
             mainButton[i].setOnClickListener(this);
         }
         mainButton[0].performClick();
@@ -196,7 +211,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     }
 
     public void categoryUnclicked(){
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 10; i++) {
             mainButton[i].setTextColor(Color.parseColor(gray));
             mainButton[i].setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
             mainButton[i].setBackgroundResource(R.drawable.grid_category_unclick_shape);
@@ -294,7 +309,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
         call.enqueue(new Callback<List<ClubObject>>() {
             @Override
             public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
-                populateGridView(response.body());
+                populateGridView(response.body(), nRecruitClub);
             }
 
             @Override

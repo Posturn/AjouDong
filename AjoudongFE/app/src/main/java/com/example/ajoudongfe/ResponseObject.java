@@ -7,7 +7,6 @@ public class ResponseObject {
     public int getResponse() {
         return response;
     }
-
     public void setResponse(int response) {
         this.response = response;
     }

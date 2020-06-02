@@ -26,6 +26,10 @@ public class ClubObject
 
     public int getClubID() { return clubID;}
 
+    public void setClubID(int clubID) {
+        this.clubID = clubID;
+    }
+
     public String getIMG(){
         return clubIMG;
     }
@@ -44,6 +48,10 @@ public class ClubObject
     public String getCategory()
     {
         return clubCategory;
+    }
+
+    public int getClubMajor() {
+        return clubMajor;
     }
 
 }

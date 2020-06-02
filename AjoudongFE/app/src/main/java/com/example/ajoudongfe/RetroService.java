@@ -95,9 +95,8 @@ public interface RetroService {
     @GET ("/clublist/{club}/{category}/{sort}/")
     Call<List<ClubObject>>getClubGridAll(@Path("club") int club, @Path("category") String category, @Path("sort") int sort);
 
-    @GET ("/clubsearch/{club}/{category}/{sort}/{search}")
+    @GET ("/clubsearch/{club}/{category}/{sort}/{search}/")
     Call<List<ClubObject>>getClubGridSearch(@Path("club") int club, @Path("category") String category, @Path("sort") int sort, @Path("search") String search);
-
 
     @POST("/clubfiltering/")
     Call<List<ClubObject>> getClubGridFilter(@Body ClubFilterObject clubFilterObject);
@@ -114,7 +113,28 @@ public interface RetroService {
     @GET("/userInformation/{uschoolID}/")
     Call<UserObject>getUserInformation(@Path("uschoolID") int uschoolID);
 
+    @GET("/nrecruitclubs/")
+    Call<List<Integer>> getnRecruitClub();
+
     @POST("/clubApply/")
     Call<ResponseObject> clubApply(@Body ApplyObject applyObject);
+
+    @GET("/managerfilter/{clubID}/")
+    Call<List<ClubTagObject>>getClubTagObject(@Path("clubID") int clubID);
+
+    @POST("/postfilter/")
+    Call<ClubTagObject>postClubTagObject(@Body ClubTagObject tagObject);
+
+    @DELETE("/deletefilter/{clubID}/")
+    Call<ClubTagObject>deleteClubTagObject(@Path("clubID") int clubID);
+
+    @PATCH("/clubs/{clubID}/")
+    Call<ClubDetailObject>patchClubDetailObject(@Path("clubID") int clubID, @Body ClubDetailObject clubDetailObject);
+
+    @GET ("/statisticSearch/{clubID}/")
+    Call<StatisticObject>getClubStatistic(@Path("clubID") int clubID);
+
+    @GET("/clubquestion/{club}/")
+    Call<QuestionObject> getClubQuestion(@Path("club") int club);
 }
 

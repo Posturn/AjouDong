@@ -11,9 +11,8 @@ from django.core import serializers
 # Create your views here.
 from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
-
-from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, UserAccount, Apply, TaggedClubList
-from Server_app.serializers import clubPromotionSerializer, clubActivitySerializer, MajorSerializer, ClubSerializer, BookmarkSerializer, UserInfoSerializer, UserAccountSerializer, ManagerAccountSerializer
+from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList,Tag
+from Server_app.serializers import *
 
 class login(View):
     @csrf_exempt
@@ -75,7 +74,7 @@ class clubActivityViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         gridclubID = self.kwargs['clubID']
         self.queryset = self.queryset.filter(clubID = gridclubID)
-        return self.queryset.order_by('-clubActivityID')
+        return self.queryset
 
 class clubActivityDetailViewSet(viewsets.ModelViewSet):
     queryset = ClubActivity.objects.all()
@@ -94,6 +93,14 @@ class UserInfoViewSet(viewsets.ViewSet):
         queryset = UserAccount.objects.all()
         user = get_object_or_404(queryset, pk=pk)
         serializer = UserInfoSerializer(user)
+        print(serializer.data)
+        return Response(serializer.data)
+
+class ClubQuestionViewSet(viewsets.ViewSet):
+    def retrieve(self, request, pk=None):
+        queryset = ClubPromotion.objects.all()
+        question = get_object_or_404(queryset, pk=pk)
+        serializer = ClubQuestionSerializer(question)
         return Response(serializer.data)
 
 
@@ -150,9 +157,10 @@ class ClubFilter(generics.GenericAPIView):
         tags = request.data["tags"]
         club = request.data["club"]
         sort = request.data["sort"]
-        self.queryset = filter_taglist(tags, self.queryset)
+        print(tags)
+
         self.queryset = filter_club(club, self.queryset)
-        queryset_serialized = self.serializer_class(sort_clublist(sort, self.queryset),many=True)
+        queryset_serialized = self.serializer_class(sort_clublist(1, self.queryset),many=True)
         return Response(queryset_serialized.data)
 
 
@@ -177,19 +185,75 @@ def filter_club(club, queryset):
         return queryset.filter(clubMajor=club)
 
 def filter_taglist(tags, queryset):
+    # id_list = []
+    # for tag in tags:
+    return queryset
     clubqueryset = Club.objects.all()
     clubtaglist = TaggedClubList.objects.all()
+    filter_list = []
     clubID_list = []
+    category = ['레저', '종교', '사회', '창작전시', '학술', '과학기술', '체육', '연행예술', '준동아리', '음악', '예술', '기타']
+    clubID_category = []
 
     for club in clubtaglist.values_list():
         if club[1] not in clubID_list:
             for tag in tags:
-                if club[2] == tag:
+                if club[2] in category and club[2] == tag:
+                    clubID_category.append(club[1])
+                elif club[2] == tag:
                     clubID_list.append(club[1])
                     break
-    
-    clubqueryset = clubqueryset.filter(clubID__in=clubID_list)
+
+    if not clubID_category: # 카테고리를 고르지 않음
+        filter_list = clubID_list
+    elif not clubID_list: # 카테고리만 고름
+        filter_list = clubID_category
+    else: # 카테고리와 태그 둘다 고름
+        for cid in clubID_list:
+            if cid in clubID_category:
+                filter_list.append(cid)
+    clubqueryset = clubqueryset.filter(clubID__in=filter_list)
     return clubqueryset
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class=TagSerializer
+
+class ManagerFilterViewset(viewsets.ModelViewSet):
+    queryset = TaggedClubList.objects.all()
+    serializer_class=ManagerFilterSerializer
+
+    def get_queryset(self):
+        filterclubID = self.kwargs['clubID']
+        self.queryset = self.queryset.filter(clubID = filterclubID)
+        return self.queryset
+
+class PostFilter(View):
+    @csrf_exempt
+    def post(self, request):
+  
+        data = json.loads(request.body)
+        
+        try:
+            for tag in data['tags']:
+                TaggedClubList.objects.create(
+                clubID_id = data['clubID'],
+                clubTag_id = tag
+                ).save()
+
+            return HttpResponse(status = 200)
+
+        except KeyError:
+            return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
+
+class DeleteFilter(View):
+    @csrf_exempt
+    def delete(self, request, clubID):
+
+        clubID_id = clubID
+        
+        TaggedClubList.objects.filter(clubID_id = clubID_id).delete()
+        return HttpResponse(status = 200)
 
     
 class BookmarkSearchViewSet(viewsets.ModelViewSet):
@@ -232,13 +296,18 @@ class DeleteBookmark(View):
 
 
 class UserClubApply(View):
-
     @csrf_exempt
     def post(self, request):
 
         data = json.loads(request.body)
 
         try:
+            print(data["clubID_id"])
+            print(data["uSchoolID_id"])
+            print(data["additionalApplyContent"])
+            print(type(data["clubID_id"]))
+            print(type(data["uSchoolID_id"]))
+            print(type(data["additionalApplyContent"]))
             Apply.objects.create(
                 clubID_id = data["clubID_id"],
                 uSchoolID_id = data["uSchoolID_id"],
@@ -248,3 +317,25 @@ class UserClubApply(View):
             return JsonResponse({'response' : 1}, status=200)
         except KeyError:
             return JsonResponse({'response' : -1}, status = 400)
+
+class ClubStatisticsViewSet(viewsets.ViewSet):
+    def retrieve(self, request, clubID):
+        queryset=ClubStatistic.objects.all()
+        statistic=get_object_or_404(queryset, clubID_id=clubID)
+        serializer=ClubStatisticSerializer(statistic)
+        return Response(serializer.data)
+
+
+class StatisticsViewSet(viewsets.ModelViewSet):
+    queryset = ClubStatistic.objects.all()
+    serializer_class=ClubStatisticSerializer
+
+class NRecruitViewSet(viewsets.ViewSet):
+
+    def list(self, request):
+        tagclublist = TaggedClubList.objects.all()
+        nlist = []
+        for tagData in tagclublist.values_list():
+            if tagData[2] == "모집종료":
+                nlist.append(tagData[1])
+        return Response(nlist)

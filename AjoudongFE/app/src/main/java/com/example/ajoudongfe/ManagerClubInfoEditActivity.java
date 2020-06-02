@@ -46,9 +46,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import com.example.ajoudongfe.Keys;
-
-
 public class ManagerClubInfoEditActivity extends AppCompatActivity {
 
     final  String TAG = getClass().getSimpleName();
@@ -65,7 +62,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
     final String folderName = "clubPoster/";
     static String imgPath, imgName, nowImage = "";
 
-    final int manager_ClubID = 1;
+    private int manager_ClubID = 1;
 
     public ClubHistoryAdapter adapter;
     private GridView mGridView;
@@ -103,10 +100,13 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         initMyAPI(BASE_URL);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN); //키보드 UI 가림 방지
+       // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); //키보드 UI 가림 방지
+
+        final int manager_ClubID = getIntent().getIntExtra("clubID", 0);
+        setManager_ClubID(manager_ClubID);
 
         Log.d(TAG,"GET");       //처음 동아리 정보 불러오기
-        Call<PromotionObject> getCall = retroService.get_promotions_pk(manager_ClubID);
+        Call<PromotionObject> getCall = retroService.get_promotions_pk(manager_ClubID);     //매니저의 동아리 아이디 받아오기 및 세팅
         getCall.enqueue(new Callback<PromotionObject>() {
             @Override
             public void onResponse(Call<PromotionObject> call, Response<PromotionObject> response) {
@@ -157,6 +157,15 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
+    }
+
+
+    public int getManager_ClubID() {
+        return manager_ClubID;
+    }
+
+    public void setManager_ClubID(int manager_ClubID) {
+        this.manager_ClubID = manager_ClubID;
     }
 
 

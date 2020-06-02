@@ -29,9 +29,12 @@ router.register(r'SERVER_APP/Major_affiliations', views.MajorViewSet)
 router.register(r'promotions', views.promotionViewSet)
 router.register(r'activities', views.clubActivityDetailViewSet)
 router.register(r'clubs', views.ClubsViewSet)
-router.register(r'bookmarks', views.BookmarkSearchViewSet)
+router.register(r'bookmarksaerch', views.BookmarkSearchViewSet)
 router.register(r'useraccount', views.userAccountViewset)
 router.register(r'manageraccount', views.managerAccountViewset)
+router.register(r'tags', views.TagViewSet)
+router.register(r'statistic', views.StatisticsViewSet)
+
 
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
@@ -42,8 +45,10 @@ urlpatterns = [
     path('application', include('Server_app.application.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
+    path('tags/', include('Server_app.urls')),
     path('activities/grid/<int:clubID>/', views.clubActivityViewSet.as_view({"get": "list"}), name="activitygrid"),
     path('', include(router.urls)),
+    path('clubs/', include('Server_app.urls')),
     path('clublist/<int:club>/<str:category>/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
     path('clubsearch/<int:club>/<str:category>/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
     path('clubfiltering/', csrf_exempt(views.ClubFilter.as_view()), name="clubfiltering"),
@@ -52,5 +57,11 @@ urlpatterns = [
     path('deletebookmark/<int:clubID>/<int:schoolID>', csrf_exempt(views.DeleteBookmark.as_view())),
     path('userInformation/<int:pk>/', views.UserInfoViewSet.as_view({"get": "retrieve"}), name="userinformation"),
     path('clubApply/',csrf_exempt(views.UserClubApply.as_view()), name="clubapply"),
+    path('managerfilter/<int:clubID>/', views.ManagerFilterViewset.as_view({"get": "list"}), name ="clubTag"),
+    path('postfilter/', csrf_exempt(views.PostFilter.as_view())),
+    path('deletefilter/<int:clubID>/', csrf_exempt(views.DeleteFilter.as_view())),
+    path('statisticSearch/<int:clubID>/', views.ClubStatisticsViewSet.as_view({"get":"retrieve"}), name="statisticlist"),
+    path('clubquestion/<int:pk>/',views.ClubQuestionViewSet.as_view({"get": "retrieve"}), name="clubquestion"),
+    path('nrecruitclubs/',views.NRecruitViewSet.as_view({"get": "list"}), name="nrecruitclubs"),
     re_path('admin/', admin.site.urls),
 ]

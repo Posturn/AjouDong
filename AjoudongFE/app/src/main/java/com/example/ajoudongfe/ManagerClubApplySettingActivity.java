@@ -37,7 +37,7 @@ public class ManagerClubApplySettingActivity extends AppCompatActivity {
     final String BASE_URL = "http://10.0.2.2:8000";
     private RetroService retroService;
 
-    final int manager_ClubID = 1;
+    private int manager_ClubID = 1;
 
     public int getSelectCalendar() {
         return selectCalendar;
@@ -84,6 +84,9 @@ public class ManagerClubApplySettingActivity extends AppCompatActivity {
         final EditText ET_startDate = (EditText) findViewById(R.id.recruitDate1);
         final EditText ET_EndDate = (EditText) findViewById(R.id.recruitDate2);
 
+        final int manager_ClubID = getIntent().getIntExtra("clubID", 0);
+        setManager_ClubID(manager_ClubID);
+
         Log.d(TAG,"GET");       //처음 동아리 정보 불러오기
         Call<PromotionObject> getCall = retroService.get_promotions_pk(manager_ClubID);
         getCall.enqueue(new Callback<PromotionObject>() {
@@ -126,6 +129,14 @@ public class ManagerClubApplySettingActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public int getManager_ClubID() {
+        return manager_ClubID;
+    }
+
+    public void setManager_ClubID(int manager_ClubID) {
+        this.manager_ClubID = manager_ClubID;
     }
 
     private void initMyAPI(String baseUrl){     //레트로 핏 설정

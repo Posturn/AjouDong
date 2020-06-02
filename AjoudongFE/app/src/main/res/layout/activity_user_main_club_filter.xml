@@ -28,7 +28,8 @@
         <ScrollView
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -127,6 +128,12 @@
                         android:id="@+id/field_academic"
                         android:text="학술"/>
 
+                    <TextView
+                        style="@style/CustomFilterButton"
+                        android:background="@drawable/filterbtn_main"
+                        android:id="@+id/field_science"
+                        android:text="과학기술"/>
+
 
                     <TextView
                         style="@style/CustomFilterButton"
@@ -138,7 +145,7 @@
                         style="@style/CustomFilterButton"
                         android:background="@drawable/filterbtn_main"
                         android:id="@+id/field_art"
-                        android:text="언행예술"/>
+                        android:text="연행예술"/>
 
                     <TextView
                         style="@style/CustomFilterButton"

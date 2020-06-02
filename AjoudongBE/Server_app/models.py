@@ -101,12 +101,12 @@ class ManagerAccount(models.Model):
     newbieAlarm = models.BooleanField(default=True)
 
 class Club(models.Model):
-     clubID = models.IntegerField(primary_key=True)
-     clubName = models.CharField(max_length=32)
-     clubCategory = models.CharField(max_length=256)
-     clubIMG = models.CharField(max_length=128)
-     clubMajor = models.IntegerField(default=1)
-     clubDues = models.FloatField(max_length=3)
+    clubID = models.IntegerField(primary_key=True)
+    clubName = models.CharField(max_length=32)
+    clubCategory = models.CharField(max_length=256)
+    clubIMG = models.CharField(max_length=128)
+    clubMajor = models.IntegerField(default=1)
+    clubDues = models.FloatField(max_length=3)
 
 
 class ClubPromotion(models.Model):
