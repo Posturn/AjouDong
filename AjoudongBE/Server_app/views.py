@@ -157,10 +157,9 @@ class ClubFilter(generics.GenericAPIView):
         tags = request.data["tags"]
         club = request.data["club"]
         sort = request.data["sort"]
-        print(tags)
-
+        self.queryset = filter_taglist(tags, self.queryset)
         self.queryset = filter_club(club, self.queryset)
-        queryset_serialized = self.serializer_class(sort_clublist(1, self.queryset),many=True)
+        queryset_serialized = self.serializer_class(sort_clublist(sort, self.queryset),many=True)
         return Response(queryset_serialized.data)
 
 
@@ -185,24 +184,21 @@ def filter_club(club, queryset):
         return queryset.filter(clubMajor=club)
 
 def filter_taglist(tags, queryset):
-    # id_list = []
-    # for tag in tags:
-    return queryset
     clubqueryset = Club.objects.all()
     clubtaglist = TaggedClubList.objects.all()
     filter_list = []
     clubID_list = []
     category = ['레저', '종교', '사회', '창작전시', '학술', '과학기술', '체육', '연행예술', '준동아리', '음악', '예술', '기타']
     clubID_category = []
-
+    print('사용자가 고른것')
+    print(tags)
     for club in clubtaglist.values_list():
-        if club[1] not in clubID_list:
-            for tag in tags:
-                if club[2] in category and club[2] == tag:
-                    clubID_category.append(club[1])
-                elif club[2] == tag:
-                    clubID_list.append(club[1])
-                    break
+        for tag in tags:
+            if club[2] in category and club[2] == tag:
+                clubID_category.append(club[1])
+            elif club[2] == tag:
+                clubID_list.append(club[1])
+                break
 
     if not clubID_category: # 카테고리를 고르지 않음
         filter_list = clubID_list
