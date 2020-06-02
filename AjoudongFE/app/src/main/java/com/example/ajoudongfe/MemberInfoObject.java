@@ -6,6 +6,8 @@ public class MemberInfoObject {
     private String uName;
     private String uIMG;
     private String additionalApplyContent;
+    private MemberInfoObject child;
+    private int type;
 
     public MemberInfoObject(int uSchoolID, String uMajor, String uName, String uIMG, String additionalApplyContent) {
         this.uSchoolID = uSchoolID;
@@ -54,5 +56,13 @@ public class MemberInfoObject {
 
     public void setAdditionalApplyContent(String additionalApplyContent) {
         this.additionalApplyContent = additionalApplyContent;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
