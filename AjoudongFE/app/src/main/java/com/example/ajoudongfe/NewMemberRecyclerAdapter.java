@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,9 +53,9 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ItemViewHolder holder, int position) {
         holder.onBind(listData.get(position));
-        final int uSchoolID = Integer.parseInt(holder.uSchoolIDText.getText().toString());
+        final int uSchoolID = listData.get(position).getuSchoolID();
 
         holder.acceptButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +71,9 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
                             Log.e("Error", "User was not accepted");
                         }
                         //TODO 새로고침 혹은 리사이클러 뷰 변환
+                        listData.remove(holder.getAdapterPosition());
+                        notifyItemRemoved(holder.getAdapterPosition());
+                        notifyItemRangeChanged(holder.getAdapterPosition(), listData.size());
                     }
 
                     @Override
@@ -94,6 +98,10 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
                             Log.e("Error", "User was not rejected");
                         }
                         //TODO 새로고침 혹은 리사이클러 뷰 변환
+
+                        listData.remove(holder.getAdapterPosition());
+                        notifyItemRemoved(holder.getAdapterPosition());
+                        notifyItemRangeChanged(holder.getAdapterPosition(), listData.size());
                     }
 
                     @Override
@@ -122,15 +130,14 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
         return listData.size();
     }
 
-
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView uSchoolIDText;
         private TextView uMajorText;
         private TextView uNameText;
         private ImageView uIMG;
-        private Button acceptButton;
-        private Button rejectButton;
+        private ImageButton acceptButton;
+        private ImageButton rejectButton;
 
         ItemViewHolder(View itemView) {
             super(itemView);
@@ -162,5 +169,6 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
 
         }
     }
+
 
 }

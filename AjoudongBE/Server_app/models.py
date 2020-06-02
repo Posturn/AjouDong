@@ -12,7 +12,8 @@ class Ads(models.Model):
 class AppliedClubList(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
     uSchoolID = models.ForeignKey('UserAccount', on_delete=models.CASCADE)
-    memberState = models.BooleanField()
+    memberState = models.IntegerField()
+    applyDate = models.DateField(null=True)
 
 class Apply(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
@@ -131,3 +132,4 @@ class ClubActivity(models.Model):
 class Major_Affiliation(models.Model):
     majorName = models.CharField(max_length=20, primary_key=True)
     majorCollege = models.CharField(max_length=20,)
+

@@ -92,6 +92,7 @@ public class SignupActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         RadioGroup.OnCheckedChangeListener genderRadioCheck = new RadioGroup.OnCheckedChangeListener() {

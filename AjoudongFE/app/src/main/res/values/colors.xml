@@ -13,6 +13,9 @@
     <color name="gray">#B6B6B6</color>
     <color name="darkgary">#707070</color>
     <color name="transparent">#00000000</color>
+    <color name="res_red">#CE0000</color>
+    <color name="res_grey">#8F8F8F</color>
+    <color name="res_blue">#005BAC</color>
     <color name="black">#000000</color>
     <color name="transparentBlack">#BF000000</color>
 </resources>

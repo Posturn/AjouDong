@@ -1,16 +1,11 @@
 package com.example.ajoudongfe;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.HTTP;
 import retrofit2.http.Header;
 import retrofit2.http.DELETE;
-import retrofit2.http.Multipart;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
@@ -27,6 +22,12 @@ public interface RetroService {
   
     @POST("/sign-up/sameID")
     Call<ResponseObject> checkSameID(@Body CheckIDObject checkIDObject);
+
+    @GET("application/result/{uSchoolID}")
+    Call<ApplicationListObject> getApplicationResult(@Path("uSchoolID") int uSchoolID);
+
+    @POST("application/result/{uSchoolID}/deleteApplication/{clubID}")
+    Call<ResponseObject> deleteApplication(@Path("uSchoolID") int uSchoolID, @Path("clubID") int clubID);
 
     @GET("management/memberlist/{clubID}")
     Call<UserListObject> getMemberList(@Path("clubID") int clubID);

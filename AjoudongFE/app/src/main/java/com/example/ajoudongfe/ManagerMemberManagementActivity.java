@@ -1,40 +1,47 @@
 package com.example.ajoudongfe;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.os.Bundle;
-import android.util.Log;
+import android.view.MenuItem;
+
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
 public class ManagerMemberManagementActivity extends AppCompatActivity {
-    private TabLayout tabLayout;
     private ViewPager viewPager;
-    private MemberManagementAdapter adapter;
-
+    private PagerAdpater adapter;
+    private Toolbar toolbar;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager_member_management);
+        setContentView(R.layout.activity_temp);
 
-        viewPager = (ViewPager) findViewById(R.id.memberManagementViewPager);
-        tabLayout = (TabLayout)findViewById(R.id.memberManagementTabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("신규회원"));
-        tabLayout.addTab(tabLayout.newTab().setText("전체회원"));
+        toolbar = (Toolbar)findViewById(R.id.memberManagementToolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        adapter = new MemberManagementAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
+
+        TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
+        adapter = new PagerAdpater(getSupportFragmentManager(), tabLayout.getTabCount());
+        viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                Log.d("tab.getPosition", Integer.toString(tab.getPosition()));
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+
             }
 
             @Override
@@ -43,5 +50,15 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
