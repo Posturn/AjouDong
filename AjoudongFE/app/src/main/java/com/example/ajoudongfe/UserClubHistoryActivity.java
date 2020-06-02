@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserClubHistoryActivity extends AppCompatActivity {
 
     final  String TAG = getClass().getSimpleName();
-    private int parameterclubID = 1;
+    private int parameterclubID;
     final String BASE_URL = "http://10.0.2.2:8000";
     private RetroService retroService;
 
@@ -42,7 +42,7 @@ public class UserClubHistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_club_history_activity);
 
-       // parameterclubID = getIntent().getIntExtra("clubID", 0);
+        parameterclubID = getIntent().getIntExtra("clubID", 0);
         //Toast.makeText(this, parameterclubID, Toast.LENGTH_SHORT).show();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.user_history_toolbar);     //툴바 생성

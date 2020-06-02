@@ -60,12 +60,13 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
 
     List<ExpandableListAdapter.Item> data = new ArrayList<>();
 
-    ExpandableListAdapter.Item intro = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0, "동아리 소개");
-    ExpandableListAdapter.Item apply = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0, "지원 요강");
-    ExpandableListAdapter.Item record = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0,"활동 내역                   ");
-    ExpandableListAdapter.Item ratio = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0,"회원 비율");
-    ExpandableListAdapter.Item contact = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0,"회장단 연락처");
-    ExpandableListAdapter.Item faq = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0, "자주 하는 질문");
+    ExpandableListAdapter.Item intro;
+    ExpandableListAdapter.Item apply;
+    ExpandableListAdapter.Item record;
+    ExpandableListAdapter.Item ratio;
+    ExpandableListAdapter.Item contact;
+    ExpandableListAdapter.Item faq;
+
 
 
 
@@ -97,6 +98,13 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
 
         recyclerview = findViewById(R.id.recyclerview);
         recyclerview.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        intro = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0, "동아리 소개");
+        apply = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0, "지원 요강");
+        record = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, parameterclubID,"활동 내역                   ");
+        ratio = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, parameterclubID,"회원 비율                   ");
+        contact = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0,"회장단 연락처");
+        faq = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0, "자주 하는 질문");
 
 
         isBookmarked(schoolID);
@@ -229,7 +237,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
         });
     }
 
-    public void getClubInfo(int paraclubID){
+    public void getClubInfo(final int paraclubID){
         Call<PromotionObject> call = retroService.get_promotions_pk(paraclubID);
         call.enqueue(new Callback<PromotionObject>(){
 
@@ -237,22 +245,22 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
             public void onResponse(Call<PromotionObject> call, Response<PromotionObject> response) {
                 clubinfo=response.body();
                 intro.invisibleChildren = new ArrayList<>();
-                intro.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, clubinfo.getPosterIMG(), parameterclubID, clubinfo.getClubInfo()));
+                intro.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, clubinfo.getPosterIMG(), 0, clubinfo.getClubInfo()));
 
                 apply.invisibleChildren = new ArrayList<>();
-                apply.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, null, parameterclubID,clubinfo.getClubApply()));
+                apply.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, null, 0,clubinfo.getClubApply()));
 
                 record.invisibleChildren = new ArrayList<>();
-                record.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, null, parameterclubID,"활동내역 화면으로 이동"));
+                record.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, null, 0,"활동내역 화면으로 이동"));
 
                 ratio.invisibleChildren = new ArrayList<>();
-                ratio.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, null, parameterclubID,"그래프"));
+                ratio.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD, null, 0,"그래프"));
 
                 contact.invisibleChildren = new ArrayList<>();
-                contact.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD,null, parameterclubID,clubinfo.getClubContact()));
+                contact.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD,null, 0,clubinfo.getClubContact()));
 
                 faq.invisibleChildren = new ArrayList<>();
-                faq.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD,null, parameterclubID, clubinfo.getClubFAQ()));
+                faq.invisibleChildren.add(new ExpandableListAdapter.Item(ExpandableListAdapter.CHILD,null, 0, clubinfo.getClubFAQ()));
             }
 
             @Override

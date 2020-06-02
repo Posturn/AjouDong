@@ -94,7 +94,17 @@
                         android:textColorHighlight="@color/grid_category_click"
                         android:textColorLink="@color/grid_category_click"
 
-                        android:text="학습" />
+                        android:text="학술" />
+
+                    <Button
+                        android:id="@+id/cateScience"
+                        android:layout_width="75dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/grid_category_click"
+                        android:textColorHighlight="@color/grid_category_click"
+                        android:textColorLink="@color/grid_category_click"
+
+                        android:text="과학기술" />
 
                     <Button
                         android:id="@+id/catePE"
@@ -162,7 +172,7 @@
                 android:paddingRight="10dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-
+                android:scrollbars="none"
 
                 />
 

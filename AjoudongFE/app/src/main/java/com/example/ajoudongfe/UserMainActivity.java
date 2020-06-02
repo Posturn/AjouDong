@@ -82,6 +82,8 @@ public class UserMainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
 
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -185,6 +187,12 @@ public class UserMainActivity extends AppCompatActivity {
                 int size = navigationView.getMenu().size();
                 for (int i = 0; i < size; i++) {
                     navigationView.getMenu().getItem(i).setChecked(false);
+
+                }
+
+                if(id == R.id.user_profile_edit){
+                    profile_btn.callOnClick();
+
                 }
 
                 return true;

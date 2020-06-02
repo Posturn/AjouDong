@@ -29,9 +29,10 @@ router.register(r'SERVER_APP/Major_affiliations', views.MajorViewSet)
 router.register(r'promotions', views.promotionViewSet)
 router.register(r'activities', views.clubActivityDetailViewSet)
 router.register(r'clubs', views.ClubsViewSet)
-router.register(r'bookmarks', views.BookmarkSearchViewSet)
+router.register(r'bookmarksaerch', views.BookmarkSearchViewSet)
 router.register(r'useraccount', views.userAccountViewset)
 router.register(r'manageraccount', views.managerAccountViewset)
+router.register(r'statistic', views.StatisticsViewSet)
 
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
@@ -51,7 +52,11 @@ urlpatterns = [
     path('deletebookmark/<int:clubID>/<int:schoolID>', csrf_exempt(views.DeleteBookmark.as_view())),
     path('userInformation/<int:pk>/', views.UserInfoViewSet.as_view({"get": "retrieve"}), name="userinformation"),
     path('clubApply/',csrf_exempt(views.UserClubApply.as_view()), name="clubapply"),
+
+    path('statisticSearch/<int:clubID>/', views.ClubStatisticsViewSet.as_view({"get":"retrieve"}), name="statisticlist"),
+
     path('clubquestion/<int:pk>/',views.ClubQuestionViewSet.as_view({"get": "retrieve"}), name="clubquestion"),
     path('nrecruitclubs/',views.NRecruitViewSet.as_view({"get": "list"}), name="nrecruitclubs"),
+
     re_path('admin/', admin.site.urls),
 ]

@@ -12,9 +12,11 @@ from django.core import serializers
 from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
 
-from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, UserAccount, Apply, TaggedClubList
-from Server_app.serializers import *
 
+
+from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList
+
+from Server_app.serializers import *
 class login(View):
     @csrf_exempt
     def post(self, request):
@@ -75,7 +77,7 @@ class clubActivityViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         gridclubID = self.kwargs['clubID']
         self.queryset = self.queryset.filter(clubID = gridclubID)
-        return self.queryset.order_by('-clubActivityID')
+        return self.queryset
 
 class clubActivityDetailViewSet(viewsets.ModelViewSet):
     queryset = ClubActivity.objects.all()
@@ -94,6 +96,7 @@ class UserInfoViewSet(viewsets.ViewSet):
         queryset = UserAccount.objects.all()
         user = get_object_or_404(queryset, pk=pk)
         serializer = UserInfoSerializer(user)
+        print(serializer.data)
         return Response(serializer.data)
 
 class ClubQuestionViewSet(viewsets.ViewSet):
@@ -157,9 +160,10 @@ class ClubFilter(generics.GenericAPIView):
         tags = request.data["tags"]
         club = request.data["club"]
         sort = request.data["sort"]
-        self.queryset = filter_taglist(tags, self.queryset)
+        print(tags)
+
         self.queryset = filter_club(club, self.queryset)
-        queryset_serialized = self.serializer_class(sort_clublist(sort, self.queryset),many=True)
+        queryset_serialized = self.serializer_class(sort_clublist(1, self.queryset),many=True)
         return Response(queryset_serialized.data)
 
 
@@ -184,6 +188,9 @@ def filter_club(club, queryset):
         return queryset.filter(clubMajor=club)
 
 def filter_taglist(tags, queryset):
+    # id_list = []
+    # for tag in tags:
+    return queryset
     clubqueryset = Club.objects.all()
     clubtaglist = TaggedClubList.objects.all()
     filter_list = []
@@ -258,6 +265,12 @@ class UserClubApply(View):
         data = json.loads(request.body)
 
         try:
+            print(data["clubID_id"])
+            print(data["uSchoolID_id"])
+            print(data["additionalApplyContent"])
+            print(type(data["clubID_id"]))
+            print(type(data["uSchoolID_id"]))
+            print(type(data["additionalApplyContent"]))
             Apply.objects.create(
                 clubID_id = data["clubID_id"],
                 uSchoolID_id = data["uSchoolID_id"],
@@ -267,6 +280,18 @@ class UserClubApply(View):
             return JsonResponse({'response' : 1}, status=200)
         except KeyError:
             return JsonResponse({'response' : -1}, status = 400)
+
+class ClubStatisticsViewSet(viewsets.ViewSet):
+    def retrieve(self, request, clubID):
+        queryset=ClubStatistic.objects.all()
+        statistic=get_object_or_404(queryset, clubID_id=clubID)
+        serializer=ClubStatisticSerializer(statistic)
+        return Response(serializer.data)
+
+
+class StatisticsViewSet(viewsets.ModelViewSet):
+    queryset = ClubStatistic.objects.all()
+    serializer_class=ClubStatisticSerializer
 
 class NRecruitViewSet(viewsets.ViewSet):
 
