@@ -76,14 +76,14 @@ public class UserClubHistoryDetailActivity extends AppCompatActivity {
         //미디어컨트롤러 추가하는 부분
         controller.setAnchorView(VV_userHistoryVideo);
         VV_userHistoryVideo.setMediaController(controller);
-        VV_userHistoryVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            // 동영상 재생준비가 완료된후 호출되는 메서드
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                Toast.makeText(getApplicationContext(),
-                        "동영상 재생가능", Toast.LENGTH_LONG).show();
-            }
-        });
+//        VV_userHistoryVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            // 동영상 재생준비가 완료된후 호출되는 메서드
+//            @Override
+//            public void onPrepared(MediaPlayer mp) {
+//                Toast.makeText(getApplicationContext(),
+//                        "동영상 재생가능", Toast.LENGTH_LONG).show();
+//            }
+//        });
         VV_userHistoryVideo.setOnTouchListener(new View.OnTouchListener() {
             boolean flag = true;
             @Override

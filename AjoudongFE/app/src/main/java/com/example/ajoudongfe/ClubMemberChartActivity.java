@@ -81,7 +81,7 @@ public class ClubMemberChartActivity extends AppCompatActivity {
                 Log.v("여자", String.valueOf(stat.getWomenNumber()));
 
                 genderchart.addPieSlice(new PieModel("남", stat.getMenNumber(), Color.parseColor("#005BAC")));
-                genderchart.addPieSlice(new PieModel("여", stat.getMenNumber(), Color.parseColor("#EC1CDD")));
+                genderchart.addPieSlice(new PieModel("여", stat.getWomenNumber(), Color.parseColor("#EC1CDD")));
 
                 genderchart.startAnimation();
             }

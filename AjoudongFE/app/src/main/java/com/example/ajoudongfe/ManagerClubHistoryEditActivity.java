@@ -69,7 +69,7 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
 
     private int activityID;
-    int manager_clubID = 1;
+    int manager_clubID = 134;
     static String imgPath2, imgName2, nowImage2 = "";
 
     @SuppressLint("ClickableViewAccessibility")
@@ -118,14 +118,14 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
         //미디어컨트롤러 추가하는 부분
         controller.setAnchorView(VV_historyVideo);
         VV_historyVideo.setMediaController(controller);
-        VV_historyVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            // 동영상 재생준비가 완료된후 호출되는 메서드
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                Toast.makeText(getApplicationContext(),
-                        "동영상 재생가능", Toast.LENGTH_LONG).show();
-            }
-        });
+//        VV_historyVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+//            // 동영상 재생준비가 완료된후 호출되는 메서드
+//            @Override
+//            public void onPrepared(MediaPlayer mp) {
+//                Toast.makeText(getApplicationContext(),
+//                        "동영상 재생가능", Toast.LENGTH_LONG).show();
+//            }
+//        });
 
         VV_historyVideo.setOnTouchListener(new View.OnTouchListener() {
             boolean flag = true;
