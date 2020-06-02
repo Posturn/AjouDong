@@ -1,12 +1,14 @@
 package com.example.ajoudongfe;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class UserApplicationResultActivity extends AppCompatActivity {
     private ApplicationResultAdapter applicationResultAdapter;
     private int uSchoolID;
     private List<ApplicationObject> listData = new ArrayList<>();
+    private Toolbar toolbar;
 
 
     @Override
@@ -36,8 +39,15 @@ public class UserApplicationResultActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        uSchoolID = 1;
+        toolbar = (Toolbar)findViewById(R.id.applicationtoolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        uSchoolID = 201421234;
         Call<ApplicationListObject> call = getApplicationResultList(uSchoolID);
+        Log.d("Call", "Start");
 
         call.enqueue(new Callback<ApplicationListObject>() {
             @Override
@@ -66,5 +76,16 @@ public class UserApplicationResultActivity extends AppCompatActivity {
     private Call<ApplicationListObject> getApplicationResultList(int uSchoolID) {
         RetroService retroService = retrofit.create(RetroService.class);
         return retroService.getApplicationResult(uSchoolID);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

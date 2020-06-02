@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class ApplicationResultAdapter extends RecyclerView.Adapter<ApplicationRe
 
     @Override
     public int getItemCount() {
-        return 0;
+        return listData.size();
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -58,18 +59,20 @@ public class ApplicationResultAdapter extends RecyclerView.Adapter<ApplicationRe
         private TextView resClubName;
         private ImageView resClubIMG;
         private TextView resStatus;
+        private TextView applyDate;
 
         ItemViewHolder(View itemView) {
             super(itemView);
             resClubIMG = itemView.findViewById(R.id.resClubIMG);
             resClubName = itemView.findViewById(R.id.resClubName);
             resStatus = itemView.findViewById(R.id.resStauts);
+            applyDate = itemView.findViewById(R.id.applyDate);
         }
 
         void onBind(ApplicationObject applicationObject)
         {
+            Log.d("ClubName", applicationObject.getClubName());
             resClubName.setText(applicationObject.getClubName());
-            resStatus.setText("학과 : " + applicationObject.getuMajor());
             setStatus(resStatus, applicationObject.getStatus());
             if(applicationObject.getClubIMG() != null && applicationObject.getClubName().length() > 0) {
                 Picasso.get().load(applicationObject.getClubIMG()).into(resClubIMG);
@@ -83,7 +86,7 @@ public class ApplicationResultAdapter extends RecyclerView.Adapter<ApplicationRe
 //                uIMG.setBackground(new ShapeDrawable(new OvalShape()));
 //                uIMG.setClipToOutline(true);
             }
-
+            applyDate.setText(applicationObject.getApplyDate());
         }
     }
 

@@ -18,7 +18,6 @@ class getApplicationResult(View):
         try:
             queryset = AppliedClubList.objects.filter(uSchoolID_id=uSchoolID)
             clubList = list(queryset.values())
-            print(clubList)
             applicationList = []
             for i in clubList:
                 application = {}
@@ -35,6 +34,9 @@ class getApplicationResult(View):
                 application['uGender'] = user.uJender
                 application['clubIMG'] = Club.objects.get(clubID = list(i.values())[1]).clubIMG
                 application['status'] = AppliedClubList.objects.get(clubID_id = list(i.values())[1], uSchoolID_id = uSchoolID).memberState
+                date = AppliedClubList.objects.get(clubID_id = list(i.values())[1], uSchoolID_id = uSchoolID).applyDate
+                date_str = date.strftime("%Y.%m.%d")
+                application['applyDate'] = date_str
                 applicationList.append(application)
 
             return JsonResponse({'response' : 1, 'content' : applicationList}, status = 200)

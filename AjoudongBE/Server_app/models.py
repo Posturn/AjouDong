@@ -13,6 +13,7 @@ class AppliedClubList(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
     uSchoolID = models.ForeignKey('UserAccount', on_delete=models.CASCADE)
     memberState = models.IntegerField()
+    applyDate = models.DateField(null=True)
 
 class Apply(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)

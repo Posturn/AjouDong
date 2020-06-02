@@ -39,31 +39,40 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
+                android:background="@drawable/image_rounding"
                 app:layout_constraintBottom_toBottomOf="@id/resLayout"
                 app:layout_constraintStart_toStartOf="@id/resLayout"
                 app:layout_constraintTop_toTopOf="@id/resLayout" />
 
-
             <LinearLayout
-                android:id="@+id/resInfoLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/resInfoLayout"
+                android:padding="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@id/resInfoLayout"
                 app:layout_constraintStart_toEndOf="@id/resClubIMG"
-                app:layout_constraintTop_toTopOf="@id/resInfoLayout">
-
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
                 <TextView
                     android:id="@+id/resClubName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="#FFFFFF" />
-
+                    android:textColor="#000000"
+                    android:fontFamily="@font/nanumbarungothic"
+                    android:textSize="22dp"
+                    android:text="불러오는중"/>
+                <TextView
+                    android:id="@+id/applyDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#000000"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/nanumbarungothic"
+                    android:textSize="16dp"
+                    android:text="불러오는중"/>
             </LinearLayout>
+
 
 
             <TextView
@@ -71,7 +80,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:textSize="20dp"
+                android:textSize="25dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

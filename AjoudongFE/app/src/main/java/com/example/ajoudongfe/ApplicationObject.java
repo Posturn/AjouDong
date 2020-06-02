@@ -4,14 +4,15 @@ public class ApplicationObject
 {
     private int clubID;
     private String clubName;
-    private int clubContact;
+    private String clubContact;
     private int uSchoolID;
     private String uName;
     private String uMajor;
     private int uPhoneNumber;
-    private int uGender;
+    private boolean uGender;
     private String clubIMG;
     private int status;
+    private String applyDate;
 
     public int getClubID() {
         return clubID;
@@ -29,11 +30,11 @@ public class ApplicationObject
         this.clubName = clubName;
     }
 
-    public int getClubContact() {
+    public String getClubContact() {
         return clubContact;
     }
 
-    public void setClubContact(int clubContact) {
+    public void setClubContact(String clubContact) {
         this.clubContact = clubContact;
     }
 
@@ -69,11 +70,11 @@ public class ApplicationObject
         this.uPhoneNumber = uPhoneNumber;
     }
 
-    public int getuGender() {
+    public boolean isuGender() {
         return uGender;
     }
 
-    public void setuGender(int uGender) {
+    public void setuGender(boolean uGender) {
         this.uGender = uGender;
     }
 
@@ -91,5 +92,13 @@ public class ApplicationObject
 
     public void setStatus(int status) {
         this.status = status;
+    }
+
+    public String getApplyDate() {
+        return applyDate;
+    }
+
+    public void setApplyDate(String applyDate) {
+        this.applyDate = applyDate;
     }
 }
