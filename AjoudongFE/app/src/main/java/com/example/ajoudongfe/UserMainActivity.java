@@ -180,13 +180,19 @@ public class UserMainActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                 }
+                else if(id == R.id.user_profile_edit){
+                    profile_btn.callOnClick();
+                }
+
                 int size = navigationView.getMenu().size();
                 for (int i = 0; i < size; i++) {
                     navigationView.getMenu().getItem(i).setChecked(false);
+
                 }
 
                 if(id == R.id.user_profile_edit){
                     profile_btn.callOnClick();
+
                 }
 
                 return true;

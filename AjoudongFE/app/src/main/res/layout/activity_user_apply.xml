@@ -30,9 +30,11 @@
         <ScrollView
             android:layout_weight="1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
             <LinearLayout
+                android:paddingBottom="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -116,20 +118,9 @@
                     android:text="동아리 요청 질문" />
 
                 <EditText
-                    style="@style/ApplyContent"
+                    style="@style/EditTextCustom"
                     android:id="@+id/userclubanswer"
-                    android:layout_width="360dp"
-                    android:layout_height="200dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/textbox"
-                    android:gravity="top"
-                    android:hint="답변을 입력해주세요."
-                    android:inputType="textMultiLine"
-                    android:maxLength="1000"
-                    android:paddingLeft="3dp"
-                    android:paddingTop="3dp"
-                    android:scrollbars="vertical"
-                    android:textSize="16dp"/>
+                    android:hint="답변을 입력해주세요." />
 
             </LinearLayout>
         </ScrollView>

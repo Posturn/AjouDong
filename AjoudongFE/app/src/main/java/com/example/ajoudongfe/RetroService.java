@@ -94,7 +94,7 @@ public interface RetroService {
     @GET ("/clublist/{club}/{category}/{sort}/")
     Call<List<ClubObject>>getClubGridAll(@Path("club") int club, @Path("category") String category, @Path("sort") int sort);
 
-    @GET ("/clubsearch/{club}/{category}/{sort}/{search}")
+    @GET ("/clubsearch/{club}/{category}/{sort}/{search}/")
     Call<List<ClubObject>>getClubGridSearch(@Path("club") int club, @Path("category") String category, @Path("sort") int sort, @Path("search") String search);
 
 
@@ -113,10 +113,17 @@ public interface RetroService {
     @GET("/userInformation/{uschoolID}/")
     Call<UserObject>getUserInformation(@Path("uschoolID") int uschoolID);
 
+    @GET("/nrecruitclubs/")
+    Call<List<Integer>> getnRecruitClub();
+
     @POST("/clubApply/")
     Call<ResponseObject> clubApply(@Body ApplyObject applyObject);
 
+
     @GET ("/statisticSearch/{clubID}/")
     Call<StatisticObject>getClubStatistic(@Path("clubID") int clubID);
+
+    @GET("/clubquestion/{club}/")
+    Call<QuestionObject> getClubQuestion(@Path("club") int club);
 }
 
