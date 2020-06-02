@@ -79,7 +79,7 @@ public class ClubHistoryAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, ManagerClubHistoryEditActivity.class);
                 intent.putExtra("activityID", thisClubActivityObject.getClubActivityID());
-                intent.putExtra("clubID", thisClubActivityObject.getClubID());
+              //  intent.putExtra("clubID", thisClubActivityObject.getClubID());
                 mContext.startActivity(intent);
             }
         });
