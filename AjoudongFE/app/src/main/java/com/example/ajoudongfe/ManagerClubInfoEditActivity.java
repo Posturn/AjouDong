@@ -137,7 +137,6 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent. setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                 startActivityForResult(intent, GET_GALLERY_IMAGE);
-                Toast.makeText(getApplicationContext(), "프로필 수정", Toast.LENGTH_LONG).show();
             }
         });
 

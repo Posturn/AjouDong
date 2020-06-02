@@ -195,7 +195,6 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_MIME_TYPES, new String[]{"image/*", "video/*"});
                 startActivityForResult(intent, GET_GALLERY_IMAGE);
-                Toast.makeText(getApplicationContext(), "이미지/동영상 등록", Toast.LENGTH_LONG).show();
             }
         });
 

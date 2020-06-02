@@ -157,7 +157,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
 
             @Override
             public void onFailure(Call<List<Integer>> call, Throwable throwable) {
-                Toast.makeText(UserMajorClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+              //  Toast.makeText(UserMajorClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -205,7 +205,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
                     Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.user_logout){
-                    Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "로그아웃 완료", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }

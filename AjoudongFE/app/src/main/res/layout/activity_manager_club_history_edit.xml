@@ -94,10 +94,10 @@
                 android:hint="동아리 소개를 입력해주세요."
                 android:inputType="textMultiLine"
                 android:maxLength="1000"
-                android:paddingLeft="3dp"
-                android:paddingTop="3dp"
+                android:paddingLeft="8dp"
+                android:paddingTop="8dp"
                 android:scrollbars="vertical"
-                android:textSize="13sp"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@+id/delete_ac_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />

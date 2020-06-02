@@ -45,7 +45,7 @@ urlpatterns = [
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
     path('tags/', include('Server_app.urls')),
-    path('activities/grid/<int:clubID>/', views.clubActivityViewSet.as_view({"get": "list", "post": "create", "delete": "destory"}), name="activitygrid"),
+    path('activities/grid/<int:clubID>/', views.clubActivityViewSet.as_view({"get": "list"}), name="activitygrid"),
     path('', include(router.urls)),
     path('clubs/', include('Server_app.urls')),
     path('clublist/<int:club>/<str:category>/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
