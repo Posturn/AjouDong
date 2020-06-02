@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import datetime
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, JsonResponse
@@ -11,7 +12,7 @@ from django.core import serializers
 # Create your views here.
 from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
-from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList,Tag
+from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList,Tag, AppliedClubList
 from Server_app.serializers import *
 
 class login(View):
@@ -312,6 +313,12 @@ class UserClubApply(View):
                 clubID_id = data["clubID_id"],
                 uSchoolID_id = data["uSchoolID_id"],
                 additionalApplyContent = data["additionalApplyContent"],
+            ).save()
+            AppliedClubList.objects.create(
+                clubID_id = data["clubID_id"],
+                uSchoolID_id = data["uSchoolID_id"],
+                memberState = 0,
+                applyDate = datetiem.today().strftime('%Y.%m.%d')
             ).save()
 
             return JsonResponse({'response' : 1}, status=200)
