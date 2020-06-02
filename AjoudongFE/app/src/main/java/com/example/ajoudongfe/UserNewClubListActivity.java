@@ -96,7 +96,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
 
             @Override
             public void onFailure(Call<List<Integer>> call, Throwable throwable) {
-                Toast.makeText(UserNewClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(UserNewClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -145,7 +145,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
                     Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.user_logout){
-                    Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "로그아웃 완료", Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
@@ -308,7 +308,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
 
             @Override
             public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
-                Toast.makeText(UserNewClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(UserNewClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }

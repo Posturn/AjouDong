@@ -60,8 +60,6 @@ class UserClubHistoryAdapter extends BaseAdapter {
                 } else{
                     Glide.with(mContext.getApplicationContext()).load(thisClubActivityObject.getClubActivityFile()).into(clubImage);
                 }
-            }else {
-                //Toast.makeText(mContext, "Empty Image URL", Toast.LENGTH_LONG).show();
             }
 
 
@@ -70,7 +68,6 @@ class UserClubHistoryAdapter extends BaseAdapter {
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, UserClubHistoryDetailActivity.class);
                 intent.putExtra("activityID", thisClubActivityObject.getClubActivityID());
-                // Toast.makeText(mContext, "활동 내용 추가", Toast.LENGTH_LONG).show();
                 mContext.startActivity(intent);
             }
         });

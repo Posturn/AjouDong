@@ -106,7 +106,6 @@ public class UserMainActivity extends AppCompatActivity {
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent. setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
                 startActivityForResult(intent, GET_GALLERY_IMAGE);
-                Toast.makeText(getApplicationContext(), "프로필 수정", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -139,7 +138,7 @@ public class UserMainActivity extends AppCompatActivity {
                     Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.user_logout){
-                    Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "로그아웃 완료", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);

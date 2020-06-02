@@ -90,7 +90,7 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<BookmarkObject>> call, Throwable throwable) {
-                Toast.makeText(UserBookmarkClubActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(UserBookmarkClubActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -110,7 +110,7 @@ protected void GridSearch(BookmarkObject value){
 
         @Override
         public void onFailure(Call<ClubObject> call, Throwable t) {
-            Toast.makeText(UserBookmarkClubActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+           // Toast.makeText(UserBookmarkClubActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
         }
 
     });
