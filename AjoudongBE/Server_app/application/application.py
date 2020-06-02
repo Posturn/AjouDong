@@ -67,7 +67,6 @@ class getApplicationResult(View):
 #                 application['uGender'] = user.uJender
 #                 application['clubIMG'] = Club.objects.get(clubID = list(i.values())[1]).clubIMG
 #                 applicationList.append(application)
-
 #             return JsonResponse({'response' : 1, 'content' : applicationList}, status = 200)
 
 #         except KeyError:

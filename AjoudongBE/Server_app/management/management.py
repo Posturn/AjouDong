@@ -1,6 +1,7 @@
 import json
 import os
 import sys
+import csv
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, JsonResponse
@@ -111,5 +112,34 @@ class newAppliedUser(View):
             return JsonResponse({'reponse' : 1}, status = 200)
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
+
+class uploadCSV(View):
+    @csrf_exempt
+    def post(self, request):
+        try:
+            if request.FILES.__len__() == 0:
+                message = "File doesn't exist."
+                print(message)
+                return JsonResponse({'response' : -3, 'message' : message}, status = 403)
+            uploadFile = request.FILES['file']
+            f = uploadFile.read().decode('utf-8-sig').splitlines()
+            rdr = csv.reader(f)
+            lines = []
+            for line in rdr:
+                lines.append(line)
+            
+            lines.pop(0)
+
+            for line in lines:
+                print("이름 : " + line[0])
+                print("학번 : " + line[1])
+                print("단과대 : " + line[2])
+                print("학과 : " + line[3])
+
+            return JsonResponse({'reponse' : 1}, status = 200)
+
+        except KeyError:
+            return JsonResponse({'response' : -2}, status = 401)
+
 
         
