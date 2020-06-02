@@ -130,7 +130,6 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
         return listData.size();
     }
 
-
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView uSchoolIDText;
@@ -170,5 +169,6 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
 
         }
     }
+
 
 }
