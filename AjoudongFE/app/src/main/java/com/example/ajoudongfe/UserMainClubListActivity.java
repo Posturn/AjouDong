@@ -70,7 +70,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     final String ajoublue ="#005BAC";
     final String gray ="#707070";
 
-    private Button[] mainButton=new Button[9];
+    private Button[] mainButton=new Button[10];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,9 +83,10 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
         mainButton[3] = (Button) findViewById(R.id.cateSocial);
         mainButton[4] = (Button) findViewById(R.id.cateCreate);
         mainButton[5] = (Button) findViewById(R.id.cateStudy);
-        mainButton[6] = (Button) findViewById(R.id.catePE);
-        mainButton[7] = (Button) findViewById(R.id.cateArt);
-        mainButton[8] = (Button) findViewById(R.id.cateSub);
+        mainButton[6] = (Button) findViewById(R.id.cateScience);
+        mainButton[7] = (Button) findViewById(R.id.catePE);
+        mainButton[8] = (Button) findViewById(R.id.cateArt);
+        mainButton[9] = (Button) findViewById(R.id.cateSub);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -145,7 +146,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             }
         });
 
-        for(int i = 0 ; i < 9 ; i++) {
+        for(int i = 0 ; i < 10 ; i++) {
             mainButton[i].setOnClickListener(this);
         }
         mainButton[0].performClick();
@@ -196,7 +197,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     }
 
     public void categoryUnclicked(){
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 10; i++) {
             mainButton[i].setTextColor(Color.parseColor(gray));
             mainButton[i].setTypeface(Typeface.createFromAsset(getAssets(), "nanumbarungothic.ttf"));
             mainButton[i].setBackgroundResource(R.drawable.grid_category_unclick_shape);
