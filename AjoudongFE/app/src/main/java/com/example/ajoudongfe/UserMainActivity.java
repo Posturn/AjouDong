@@ -72,7 +72,7 @@ public class UserMainActivity extends AppCompatActivity {
     final String folderName = "user_profile/";
     static String imgPath3, imgName3, nowImage3 = "";
 
-    int user_ID = 201421234; //테스트용 사용자 아이디
+    private int user_ID = 201421234; //테스트용 사용자 아이디
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
@@ -103,6 +103,9 @@ public class UserMainActivity extends AppCompatActivity {
         final TextView user_name = (TextView)header.findViewById(R.id.user_name);
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_main);
+
+        final int user_ID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
+        setUser_ID(user_ID);
 
         Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
         Call<UserAccountObject> getCall = retroService.get_useraccount_pk(user_ID);
@@ -178,12 +181,13 @@ public class UserMainActivity extends AppCompatActivity {
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                 }
+                else if(id == R.id.user_profile_edit){
+                    profile_btn.callOnClick();
+                }
+
                 int size = navigationView.getMenu().size();
                 for (int i = 0; i < size; i++) {
                     navigationView.getMenu().getItem(i).setChecked(false);
-
-                if(id == R.id.user_profile_edit){
-                    profile_btn.callOnClick();
                 }
 
                 return true;
@@ -223,7 +227,14 @@ public class UserMainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
+    public int getUser_ID() {
+        return user_ID;
+    }
+
+    public void setUser_ID(int user_ID) {
+        this.user_ID = user_ID;
     }
 
     @Override

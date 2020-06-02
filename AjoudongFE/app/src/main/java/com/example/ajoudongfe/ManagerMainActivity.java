@@ -68,7 +68,9 @@ public class ManagerMainActivity extends AppCompatActivity {
     final String folderName = "manager_profile/";
     static String imgPath4, imgName4, nowImage4 = "";
 
-    String mID = "manager"; //테스트용 간부 아이디
+    private String mID = "manager"; //테스트용 간부 아이디
+    private int clubID;
+    private int clubMajor;
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
@@ -99,24 +101,48 @@ public class ManagerMainActivity extends AppCompatActivity {
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_manager_main);
 
-        Log.d(TAG,"GET");       //처음 간부 정보 불러오기
+        final String mID = getIntent().getStringExtra("mID");       //매니저 아이디 받아오기 및 세팅
+        setmID(mID);
+
+        final int clubID = getIntent().getIntExtra("clubID", 0);    //매니저의 동아리 받아오기 및 세팅팅
+       setClubID(clubID);
+
+        Log.d(TAG,"GET");       //처음 간부 이름 정보 불러오기
         Call<ManagerAccountObject> getCall = retroService.get_manageraccount_pk(mID);
         getCall.enqueue(new Callback<ManagerAccountObject>() {
             @Override
             public void onResponse(Call<ManagerAccountObject> call, Response<ManagerAccountObject> response) {
                 if( response.isSuccessful()){
                     ManagerAccountObject item  = response.body();
-                    Log.d(TAG, String.valueOf(manager_profile.getId()));
                     manager_name.setText(item.getClubName());
-                    Picasso.get().load(item.getClubIMG()).into(manager_profile);
-                    nowImage4 = item.getClubIMG().substring(item.getClubIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
-                    Log.d(TAG, nowImage4);
                 }else {
                     Log.d(TAG,"Status Code : " + response.code());
                 }
             }
             @Override
             public void onFailure(Call<ManagerAccountObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+
+        Log.d(TAG,"GET");       //처음 간부(클럽) 프로필 정보 불러오기
+        Call<ClubObject> getCall2 = retroService.getClubGrid(clubID);
+        getCall2.enqueue(new Callback<ClubObject>() {
+            @Override
+            public void onResponse(Call<ClubObject> call, Response<ClubObject> response) {
+                if( response.isSuccessful()){
+                    ClubObject item3  = response.body();
+                    Log.d(TAG, String.valueOf(manager_profile.getId()));
+                    setClubMajor(item3.getClubMajor());
+                    Picasso.get().load(item3.getIMG()).into(manager_profile);
+                    nowImage4 = item3.getIMG().substring(item3.getIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                     Log.d(TAG, nowImage4);
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<ClubObject> call, Throwable t) {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
@@ -145,10 +171,13 @@ public class ManagerMainActivity extends AppCompatActivity {
 
                 if(id == R.id.club_apply_setting){
                     Intent intent = new Intent(getApplicationContext(), ManagerClubApplySettingActivity.class);
+                    intent.putExtra("clubID", getClubID());
                     startActivity(intent);
                 }
                 else if(id == R.id.club_filter_setting){
                     Intent intent = new Intent(getApplicationContext(), ManagerClubFilterSettingActivity.class);
+                    intent.putExtra("clubMajor", getClubMajor());
+                    intent.putExtra("clubID", getClubID());
                     startActivity(intent);
                 }
                 else if(id == R.id.club_apply_alarm){
@@ -177,6 +206,7 @@ public class ManagerMainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), ManagerClubInfoEditActivity.class);
+                intent.putExtra("clubID", getClubID());
                 startActivity(intent);
                 return false;
             }
@@ -199,6 +229,31 @@ public class ManagerMainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public int getClubMajor() {
+        return clubMajor;
+    }
+
+    public void setClubMajor(int clubMajor) {
+        this.clubMajor = clubMajor;
+    }
+
+    public String getmID() {
+        return mID;
+    }
+
+    public void setmID(String mID) {
+        this.mID = mID;
+    }
+
+
+    public int getClubID() {
+        return clubID;
+    }
+
+    public void setClubID(int clubID) {
+        this.clubID = clubID;
     }
 
     @Override
@@ -271,14 +326,13 @@ public class ManagerMainActivity extends AppCompatActivity {
 
     private void patchProfile(){        // 동아리 이미지 업데이트
         Log.d(TAG,"PATCH");
-        ManagerAccountObject item2 = new ManagerAccountObject();
-        item2.setmID(mID);
-        item2.setClubID(1);
+        ClubDetailObject item2 = new ClubDetailObject();
+        item2.setRealClubID(1);
         item2.setClubIMG(OBJECT_URL + imgName4); //여기에 바뀐 포스터 이미지 링크 삽입
-        Call<ManagerAccountObject> patchCall = retroService.patch_manageraccount_pk(mID, item2);
-        patchCall.enqueue(new Callback<ManagerAccountObject>() {
+        Call<ClubDetailObject> patchCall = retroService.patchClubDetailObject(clubID, item2);
+        patchCall.enqueue(new Callback<ClubDetailObject>() {
             @Override
-            public void onResponse(Call<ManagerAccountObject> call, Response<ManagerAccountObject> response) {
+            public void onResponse(Call<ClubDetailObject> call, Response<ClubDetailObject> response) {
                 if(response.isSuccessful()){
                     Log.d(TAG,"patch 성공");
                 }else{
@@ -286,7 +340,7 @@ public class ManagerMainActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<ManagerAccountObject> call, Throwable t) {
+            public void onFailure(Call<ClubDetailObject> call, Throwable t) {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
