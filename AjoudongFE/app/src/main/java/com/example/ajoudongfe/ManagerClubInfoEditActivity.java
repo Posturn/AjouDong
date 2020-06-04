@@ -92,6 +92,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
         final ImageView IV_clubPoster = (ImageView)findViewById(R.id.clubProfile);
 
         findViewById(R.id.camera_btn).bringToFront();
+        findViewById(R.id.camera_btn).setFocusable(true);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);     //툴바 생성
         setSupportActionBar(toolbar);

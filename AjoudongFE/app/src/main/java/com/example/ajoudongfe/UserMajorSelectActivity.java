@@ -36,6 +36,8 @@ public class UserMajorSelectActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
+        final int uSchoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
+
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_major_select_xml);
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_major_select);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -116,6 +118,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 3);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
