@@ -2,9 +2,10 @@ import json
 import os
 import sys
 import csv
+import mimetypes
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
@@ -150,6 +151,7 @@ class appliedUserCSV(View):
     @csrf_exempt
     def get(self, request, clubID):
         try:
+            file_name = 'appliedUsers.csv'
             f = open('appliedUsers.csv', 'w', encoding='utf-8-sig')
             wr = csv.writer(f)
             wr.writerow(['이름','학번','단과대','학과', '전화번호'])
@@ -158,15 +160,16 @@ class appliedUserCSV(View):
             appliedUserInfoList = []
             for i in appliedUserList:
                 appliedUser = UserAccount.objects.get(uSchoolID = list(i.values())[2])
-                print(appliedUser.uName)
-                print(appliedUser.uSchoolID)
-                print(appliedUser.uCollege)
-                print(appliedUser.uMajor)
                 phoneNumber = "010" + str(appliedUser.uPhoneNumber)
-                print(phoneNumber)
                 wr.writerow([appliedUser.uName, appliedUser.uSchoolID, appliedUser.uCollege, appliedUser.uMajor, phoneNumber])
-            f.close
-            return JsonResponse({'reponse' : 1}, status = 200)
+
+            f.close()
+
+            response = HttpResponse(open('appliedUsers.csv', 'rb'), content_type = 'text/csv')
+            download_file_name = 'appliedUserList.csv'
+            response['Content-Disposition'] = 'attachment; filename=' + download_file_name#한글 적용 유무 개선
+            return response
+        
 
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
