@@ -113,9 +113,10 @@ class newAppliedUser(View):
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
 
-class uploadCSV(View):
+class csvupload(View):
     @csrf_exempt
-    def post(self, request):
+    def post(self, request, clubID):
+        
         try:
             if request.FILES.__len__() == 0:
                 message = "File doesn't exist."
@@ -123,23 +124,55 @@ class uploadCSV(View):
                 return JsonResponse({'response' : -3, 'message' : message}, status = 403)
             uploadFile = request.FILES['file']
             f = uploadFile.read().decode('utf-8-sig').splitlines()
-            rdr = csv.reader(f)
+            rdr = csv.reader(f) 
             lines = []
             for line in rdr:
                 lines.append(line)
             
             lines.pop(0)
-
+            print(clubID)
             for line in lines:
                 print("이름 : " + line[0])
                 print("학번 : " + line[1])
                 print("단과대 : " + line[2])
                 print("학과 : " + line[3])
+                ClubMember.objects.create(
+                    clubID_id = clubID,
+                    uSchoolID_id = line[1]
+                ).save
 
             return JsonResponse({'reponse' : 1}, status = 200)
 
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
+
+class appliedUserCSV(View):
+    @csrf_exempt
+    def get(self, request, clubID):
+        try:
+            f = open('appliedUsers.csv', 'w', encoding='utf-8-sig')
+            wr = csv.writer(f)
+            wr.writerow(['이름','학번','단과대','학과', '전화번호'])
+            queryset = Apply.objects.filter(clubID_id=clubID)
+            appliedUserList = list(queryset.values())
+            appliedUserInfoList = []
+            for i in appliedUserList:
+                appliedUser = UserAccount.objects.get(uSchoolID = list(i.values())[2])
+                print(appliedUser.uName)
+                print(appliedUser.uSchoolID)
+                print(appliedUser.uCollege)
+                print(appliedUser.uMajor)
+                phoneNumber = "010" + str(appliedUser.uPhoneNumber)
+                print(phoneNumber)
+                wr.writerow([appliedUser.uName, appliedUser.uSchoolID, appliedUser.uCollege, appliedUser.uMajor, phoneNumber])
+            f.close
+            return JsonResponse({'reponse' : 1}, status = 200)
+
+        except KeyError:
+            return JsonResponse({'response' : -2}, status = 401)
+
+
+
 
 
         

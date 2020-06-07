@@ -13,5 +13,6 @@ urlpatterns = [
     path('/applieduserlist/deleteapplieduser/<int:clubID>/<int:uSchoolID>', csrf_exempt(management.deleteAppliedUser.as_view())),
     path('/memberlist/newmember', csrf_exempt(management.newmember.as_view())),
     path('/memberlist/deletemember/<int:clubID>/<int:uSchoolID>', csrf_exempt(management.deletemember.as_view())),
-    path('/csvupload', csrf_exempt(management.uploadCSV.as_view()))
+    path('/csvupload/<int:clubID>', csrf_exempt(management.csvupload.as_view())),
+    path('/appliedusercsv/<int:clubID>', csrf_exempt(management.appliedUserCSV.as_view()))
 ]
