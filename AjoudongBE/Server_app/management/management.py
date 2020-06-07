@@ -170,7 +170,31 @@ class appliedUserCSV(View):
             response['Content-Disposition'] = 'attachment; filename=' + download_file_name#한글 적용 유무 개선
             return response
         
+        except KeyError:
+            return JsonResponse({'response' : -2}, status = 401)
 
+class memberCSV(View):
+    @csrf_exempt
+    def get(self, request, clubID):
+        try:
+            file_name = 'members.csv'
+            f = open(file_name, 'w', encoding='utf-8-sig')
+            wr = csv.writer(f)
+            wr.writerow(['이름','학번','단과대','학과', '전화번호'])
+            queryset = ClubMember.objects.filter(clubID_id=clubID)
+            memberList = list(queryset.values())
+            for i in memberList:
+                member = UserAccount.objects.get(uSchoolID = list(i.values())[2])
+                phoneNumber = "010" + str(member.uPhoneNumber)
+                wr.writerow([member.uName, member.uSchoolID, member.uCollege, member.uMajor, phoneNumber])
+
+            f.close()
+
+            response = HttpResponse(open('members.csv', 'rb'), content_type = 'text/csv')
+            download_file_name = 'members.csv'
+            response['Content-Disposition'] = 'attachment; filename=' + download_file_name#한글 적용 유무 개선
+            return response
+        
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
 
