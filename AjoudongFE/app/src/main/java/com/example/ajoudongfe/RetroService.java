@@ -47,6 +47,9 @@ public interface RetroService {
     @POST("management/memberlist/deletemember/{clubID}/{uSchoolID}")
     Call<ResponseObject> deleteMember(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
 
+    @GET("management/membercsv/{clubID}")
+    Call<FileObject> getMemberCSV(@Path("clubID") int clubID);
+
     @POST("/sign-up/emailverify")
     Call<ResponseObject> emailVerify(@Header("x-ncp-apigw-timestamp") String timestamp,
                                      @Header("x-ncp-iam-access-key") String accesskey,

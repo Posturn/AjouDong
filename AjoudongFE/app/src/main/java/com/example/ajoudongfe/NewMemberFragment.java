@@ -1,15 +1,20 @@
 package com.example.ajoudongfe;
 
+import android.app.DownloadManager;
+import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +32,10 @@ public class NewMemberFragment extends Fragment {
     private List<MemberInfoObject> listData = new ArrayList<>();
     private Retrofit retrofit;
     public static String BASE_URL= "http://10.0.2.2:8000";
+    private Button appliedUserCSVButton;
+    private DownloadManager.Request request;
+    private DownloadManager downloadManager;
+    private long downloadQueueID;
 
 
 
@@ -35,13 +44,14 @@ public class NewMemberFragment extends Fragment {
     {
         // Inflate the layout for this fragment
         final ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_new_member, container, false);
-
+        downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         clubID = 134;
         Call<UserListObject> call = getAppliedUserList(clubID);
+        appliedUserCSVButton = (Button)rootView.findViewById(R.id.appliedUserCSVButton);
 
         call.enqueue(new Callback<UserListObject>() {
             @Override
@@ -67,8 +77,25 @@ public class NewMemberFragment extends Fragment {
         });
 
 
-
+        appliedUserCSVButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downloadAppliedUserCSV(BASE_URL + "/management/appliedusercsv/" + Integer.toString(clubID));
+            }
+        });
         return rootView;
+    }
+
+    private void downloadAppliedUserCSV(String URL) {
+        Log.d("URL", URL);
+        request = new DownloadManager.Request(Uri.parse(URL))
+                .setDescription("Downloaind")
+                .setTitle("appliedUsers.csv")
+                .setVisibleInDownloadsUi(true)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "appliedUsers.csv");
+        Log.d("adf", "enas");
+        downloadQueueID = downloadManager.enqueue(request);
+
     }
 
     private Call<UserListObject> getAppliedUserList(int clubID)
