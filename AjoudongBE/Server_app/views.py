@@ -12,7 +12,7 @@ from django.core import serializers
 # Create your views here.
 from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
-from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList,Tag, AppliedClubList
+from .models import UserAccount, ManagerAccount, Club, ClubMember, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList,Tag, AppliedClubList
 from Server_app.serializers import *
 
 class login(View):
@@ -225,6 +225,15 @@ class ManagerFilterViewset(viewsets.ModelViewSet):
         self.queryset = self.queryset.filter(clubID = filterclubID)
         return self.queryset
 
+class ClubMemberViewset(viewsets.ModelViewSet):
+    queryset = ClubMember.objects.all()
+    serializer_class=ClubMemberSerializer
+
+    def get_queryset(self):
+        filteruSchoolID = self.kwargs['uSchoolID']
+        self.queryset = self.queryset.filter(uSchoolID = filteruSchoolID)
+        return self.queryset
+
 class PostFilter(View):
     @csrf_exempt
     def post(self, request):
@@ -310,11 +319,12 @@ class UserClubApply(View):
                 uSchoolID_id = data["uSchoolID_id"],
                 additionalApplyContent = data["additionalApplyContent"],
             ).save()
+            
             AppliedClubList.objects.create(
                 clubID_id = data["clubID_id"],
                 uSchoolID_id = data["uSchoolID_id"],
                 memberState = 0,
-                applyDate = datetiem.today().strftime('%Y.%m.%d')
+                applyDate = "2020.06.02"
             ).save()
 
             return JsonResponse({'response' : 1}, status=200)

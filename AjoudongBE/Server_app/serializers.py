@@ -1,6 +1,6 @@
 from rest_framework import serializers, viewsets
 
-from Server_app.models import UserAccount, ManagerAccount, Tag, Club, ClubActivity, ClubPromotion, Major_Affiliation, MarkedClubList, ClubStatistic, TaggedClubList
+from Server_app.models import UserAccount, ManagerAccount, Tag, Club, ClubMember, ClubActivity, ClubPromotion, Major_Affiliation, MarkedClubList, ClubStatistic, TaggedClubList
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -41,7 +41,7 @@ class BookmarkSerializer(serializers.ModelSerializer):
 class UserInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
-        fields=('uName','uJender','uSchoolID','uMajor','uPhoneNumber','uCollege')
+        fields=('uID', 'uPW', 'uIMG','uName','uJender','uSchoolID','uMajor','uPhoneNumber','uCollege')
 
 class ManagerFilterSerializer(serializers.ModelSerializer):
     class Meta:
@@ -69,3 +69,8 @@ class ClubRecruitSerializer(serializers.ModelSerializer):
     class Meta:
         model = TaggedClubList
         fields=('clubID',)
+
+class ClubMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ClubMember
+        fields=('id', 'clubID', 'uSchoolID',)
