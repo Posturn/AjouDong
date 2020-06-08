@@ -98,21 +98,7 @@ public class MemberFragment extends Fragment {
         memberCSVButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Call<FileObject> call = getMemberCSV(clubID);
-//
-//                call.enqueue(new Callback<FileObject>() {
-//                    @Override
-//                    public void onResponse(Call<FileObject> call, Response<FileObject> response) {
-//                        Log.d("connection", "done");
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<FileObject> call, Throwable t) {
-//                        t.printStackTrace();
-//                        Log.e("연결실패", "다운로드 실패");
-//                    }
-//                });
-                downloadMemberCSV(BASE_URL + "/management/membercsv/134");
+                downloadMemberCSV(BASE_URL + "/management/membercsv/" + Integer.toString(clubID));
             }
         });
 
