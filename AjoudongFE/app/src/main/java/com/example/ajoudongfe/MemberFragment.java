@@ -1,12 +1,17 @@
 package com.example.ajoudongfe;
 
+import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +35,14 @@ public class MemberFragment extends Fragment {
     private int clubID;
     private List<MemberInfoObject> listData = new ArrayList<>();
     private Retrofit retrofit;
+    private Retrofit csv_retrofit;
     public static String BASE_URL= "http://10.0.2.2:8000";
     private Button addNewMemberButton;
+    private Button memberCSVButton;
+    private DownloadManager downloadManager;
+    private DownloadManager.Request request;
+    private long downloadQueueID;
+    private String filename;
 
 
 
@@ -40,13 +52,15 @@ public class MemberFragment extends Fragment {
         // Inflate the layout for this fragment
         final ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_member, container, false);
         addNewMemberButton = (Button)rootView.findViewById(R.id.addNewMemberButton);
+        memberCSVButton = (Button)rootView.findViewById(R.id.memberCSVButton);
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
         clubID = 134;
 
-
+        downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
 
         Call<UserListObject> call = getMemberList(clubID);
 
@@ -81,7 +95,35 @@ public class MemberFragment extends Fragment {
             }
         });
 
+        memberCSVButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downloadMemberCSV(BASE_URL + "/management/membercsv/" + Integer.toString(clubID));
+            }
+        });
+
         return rootView;
+    }
+
+    private void downloadMemberCSV(String URL) {
+
+        Log.d("URL", URL);
+        request = new DownloadManager.Request(Uri.parse(URL))
+                .setDescription("Downloaind")
+                .setTitle("members.csv")
+                .setVisibleInDownloadsUi(true)
+                .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "members.csv");
+        Log.d("adf", "enas");
+        downloadQueueID = downloadManager.enqueue(request);
+
+
+
+    }
+
+    private Call<FileObject> getMemberCSV(int clubID) {
+        RetroService retroService = retrofit.create(RetroService.class);
+        return retroService.getMemberCSV(clubID);
+
     }
 
     private Call<UserListObject> getMemberList(int clubID)
