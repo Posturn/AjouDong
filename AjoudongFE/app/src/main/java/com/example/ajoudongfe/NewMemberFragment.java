@@ -1,6 +1,7 @@
 package com.example.ajoudongfe;
 
 import android.app.DownloadManager;
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -43,13 +44,14 @@ public class NewMemberFragment extends Fragment {
     {
         // Inflate the layout for this fragment
         final ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_new_member, container, false);
-
+        downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         clubID = 134;
         Call<UserListObject> call = getAppliedUserList(clubID);
+        appliedUserCSVButton = (Button)rootView.findViewById(R.id.appliedUserCSVButton);
 
         call.enqueue(new Callback<UserListObject>() {
             @Override
