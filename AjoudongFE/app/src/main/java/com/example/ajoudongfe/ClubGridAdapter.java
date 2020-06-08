@@ -56,7 +56,7 @@ public class ClubGridAdapter extends BaseAdapter implements View.OnClickListener
         final ClubObject thisClubObject = clubmodels.get(position);
 
         int clubID = thisClubObject.getClubID();
-        if(nRecruitClub.contains(clubID)){
+        if(nRecruitClub != null && nRecruitClub.contains(clubID)){
             blackImage.setVisibility(View.VISIBLE);
         }
 

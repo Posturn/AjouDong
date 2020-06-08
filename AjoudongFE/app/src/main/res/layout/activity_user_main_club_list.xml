@@ -124,7 +124,7 @@
                         android:textColorHighlight="@color/grid_category_click"
                         android:textColorLink="@color/grid_category_click"
 
-                        android:text="언행예술" />
+                        android:text="연행예술" />
 
                     <Button
                         android:id="@+id/cateSub"

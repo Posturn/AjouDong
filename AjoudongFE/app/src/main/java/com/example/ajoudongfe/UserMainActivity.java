@@ -70,7 +70,7 @@ public class UserMainActivity extends AppCompatActivity {
     final String folderName = "user_profile/";
     static String imgPath3, imgName3, nowImage3 = "";
 
-    private int user_ID = 201720988; //테스트용 사용자 아이디
+    private int uSchoolID = 201720988; //테스트용 사용자 아이디
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
@@ -79,8 +79,6 @@ public class UserMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main);
-
-
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -104,16 +102,16 @@ public class UserMainActivity extends AppCompatActivity {
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_main);
 
-        final int user_ID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
-        setUser_ID(user_ID);
+        final int uSchoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
+        setuSchoolID(uSchoolID);
 
         Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
-        Call<UserAccountObject> getCall = retroService.get_useraccount_pk(user_ID);
-        getCall.enqueue(new Callback<UserAccountObject>() {
+        Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
+        getCall.enqueue(new Callback<UserObject>() {
             @Override
-            public void onResponse(Call<UserAccountObject> call, Response<UserAccountObject> response) {
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 if( response.isSuccessful()){
-                    UserAccountObject item  = response.body();
+                    UserObject item  = response.body();
                     Log.d(TAG, String.valueOf(user_profile.getId()));
                     user_name.setText(item.getuName());
                     if(item.getuIMG() != null){
@@ -129,7 +127,7 @@ public class UserMainActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<UserAccountObject> call, Throwable t) {
+            public void onFailure(Call<UserObject> call, Throwable t) {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
@@ -156,6 +154,7 @@ public class UserMainActivity extends AppCompatActivity {
                 String title = menuItem.getTitle().toString();
                 if(id == R.id.user_info_edit){
                     Intent intent = new Intent(getApplicationContext(), UserMyAjouDongActivity.class);
+                    intent.putExtra("uSchoolID", uSchoolID);
                     startActivity(intent);
                 }
                 else if(id == R.id.user_apply_result){
@@ -164,6 +163,7 @@ public class UserMainActivity extends AppCompatActivity {
                 }
                 else if(id == R.id.user_bookmarked_list){
                     Intent intent = new Intent(getApplicationContext(), UserBookmarkClubActivity.class);
+                    intent.putExtra("uSchoolID", uSchoolID);
                     startActivity(intent);
                 }
                 else if(id == R.id.user_new_club_alarm){
@@ -190,10 +190,6 @@ public class UserMainActivity extends AppCompatActivity {
                     navigationView.getMenu().getItem(i).setChecked(false);
                 }
 
-                if(id == R.id.user_profile_edit){
-                    profile_btn.callOnClick();
-                }
-
                 return true;
             }
         });
@@ -202,6 +198,7 @@ public class UserMainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorSelectActivity.class);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -233,12 +230,12 @@ public class UserMainActivity extends AppCompatActivity {
         });
     }
 
-    public int getUser_ID() {
-        return user_ID;
+    public int getuSchoolID() {
+        return uSchoolID;
     }
 
-    public void setUser_ID(int user_ID) {
-        this.user_ID = user_ID;
+    public void setuSchoolID(int uSchoolID) {
+        this.uSchoolID = uSchoolID;
     }
 
     @Override
@@ -312,13 +309,13 @@ public class UserMainActivity extends AppCompatActivity {
 
     private void patchProfile(){        // 동아리 이미지 업데이트
         Log.d(TAG,"PATCH");
-        UserAccountObject item2 = new UserAccountObject();
-        item2.setuSchoolID(user_ID);
+        UserObject item2 = new UserObject();
+        item2.setuSchoolID(uSchoolID);
         item2.setuIMG(OBJECT_URL + imgName3); //여기에 바뀐 포스터 이미지 링크 삽입
-        Call<UserAccountObject> patchCall = retroService.patch_useraccount_pk(user_ID, item2);
-        patchCall.enqueue(new Callback<UserAccountObject>() {
+        Call<UserObject> patchCall = retroService.patchUserInformation(uSchoolID, item2);
+        patchCall.enqueue(new Callback<UserObject>() {
             @Override
-            public void onResponse(Call<UserAccountObject> call, Response<UserAccountObject> response) {
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 if(response.isSuccessful()){
                     Log.d(TAG,"patch 성공");
                 }else{
@@ -326,7 +323,7 @@ public class UserMainActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<UserAccountObject> call, Throwable t) {
+            public void onFailure(Call<UserObject> call, Throwable t) {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });

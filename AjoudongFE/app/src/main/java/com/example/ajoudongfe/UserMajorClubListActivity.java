@@ -20,11 +20,15 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +59,9 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
     private int club_num = 13;
     private String selectedCategory = "전체";
     private boolean tag_now = false;
+    private int user_ID = 201720988; //테스트용 사용자 아이디
+
+    final  String TAG = getClass().getSimpleName();
 
     private ArrayList<String> tags = new ArrayList<String>();
     private List<Integer> nRecruitClub = new ArrayList<>();
@@ -164,6 +171,42 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
         Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, selectedCategory, now_spin);
         CallEnqueueClubObject(call);
 
+        final int uSchoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
+        setUser_ID(uSchoolID);
+        Log.d(TAG, "user: " + uSchoolID);
+
+        drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_major_club_list);
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_major_club_list);
+        final View header = navigationView.getHeaderView(0);
+        ImageButton eventButton = (ImageButton)findViewById(R.id.usereventlist);
+        final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
+        final TextView user_name = (TextView)header.findViewById(R.id.user_name);
+
+        Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
+        Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
+        getCall.enqueue(new Callback<UserObject>() {
+            @Override
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
+                if( response.isSuccessful()){
+                    UserObject item  = response.body();
+                    Log.d(TAG, String.valueOf(user_profile.getId()));
+                    user_name.setText(item.getuName());
+                    if(item.getuIMG() != null){
+                        Picasso.get().load(item.getuIMG()).into(user_profile);
+                    }
+                    else{
+                        user_profile.setImageResource(R.drawable.ajoudong_icon);
+                    }
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<UserObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.majorclubtoolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -172,8 +215,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_major_club_list);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_major_club_list);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -193,6 +235,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
                 }
                 else if(id == R.id.user_bookmarked_list){
                     Intent intent = new Intent(getApplicationContext(), UserBookmarkClubActivity.class);
+                    intent.putExtra("uSchoolID", uSchoolID);
                     startActivity(intent);
                 }
                 else if(id == R.id.user_new_club_alarm){
@@ -206,6 +249,11 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
                 }
                 else if(id == R.id.user_logout){
                     Toast.makeText(context, "로그아웃 완료", Toast.LENGTH_SHORT).show();
+                }
+
+                int size = navigationView.getMenu().size();
+                for (int i = 0; i < size; i++) {
+                    navigationView.getMenu().getItem(i).setChecked(false);
                 }
                 return true;
             }
@@ -302,6 +350,10 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
             }
         });
     };
+
+    public void setUser_ID(int user_ID) {
+        this.user_ID = user_ID;
+    }
 
     @Override
     public void onClick(View v)

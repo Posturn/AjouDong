@@ -48,6 +48,18 @@
                     style="@style/ApplyContent"
                     android:text="user e-mail" />
 
+                <TextView
+                    android:id="@+id/userpw"
+                    style="@style/ApplyTitle"
+                    android:text="비밀번호" />
+
+                <EditText
+                    android:id="@+id/userpwcontent"
+                    style="@style/AjoudongContent"
+                    android:ems="10"
+                    android:hint="password"
+                    android:inputType="textPassword" />
+
 
                 <TextView
                     android:id="@+id/usernametitle"
@@ -144,6 +156,25 @@
                     android:id="@+id/myajoudong"
                     style="@style/ApplyTitle"
                     android:text="MyAJOUDONG" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <GridView
+                        android:id="@+id/myajoudonggrid"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"
+                        android:layout_weight="0.2"
+                        android:horizontalSpacing="10dp"
+                        android:numColumns="3"
+                        android:scrollbars="vertical"
+                        android:paddingLeft="5dp"
+                        android:paddingRight="5dp"
+                        android:verticalSpacing="10dp"/>
+                </LinearLayout>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>

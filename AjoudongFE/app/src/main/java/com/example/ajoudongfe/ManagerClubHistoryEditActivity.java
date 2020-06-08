@@ -416,7 +416,7 @@ public class ManagerClubHistoryEditActivity extends AppCompatActivity {
                     patchHistory(activityID);
                 }
                 transferIMG();
-                Toast.makeText(getApplicationContext(), "활동 내역이 저장되었습니다!", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), "활동 내역이 저장되었습니다!", Toast.LENGTH_LONG).show();
                 onBackPressed();
                 return true;
         }

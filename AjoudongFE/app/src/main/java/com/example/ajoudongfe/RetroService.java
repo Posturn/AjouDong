@@ -53,12 +53,6 @@ public interface RetroService {
                                      @Header("x-ncp-apigw-signature-v2") String signature,
                                      @Body  VerifyObject verifyObject);
 
-    @GET("useraccount/{pk}/")
-    Call<UserAccountObject> get_useraccount_pk(@Path("pk") int pk);
-
-    @PATCH("useraccount/{pk}/")
-    Call<UserAccountObject> patch_useraccount_pk(@Path("pk") int pk, @Body UserAccountObject user);
-
     @GET("manageraccount/{pk}/")
     Call<ManagerAccountObject> get_manageraccount_pk(@Path("pk") String pk);
 
@@ -113,6 +107,9 @@ public interface RetroService {
     @GET("/userInformation/{uschoolID}/")
     Call<UserObject>getUserInformation(@Path("uschoolID") int uschoolID);
 
+    @PATCH("/userInformation/{uschoolID}/")
+    Call<UserObject>patchUserInformation(@Path("uschoolID") int uschoolID, @Body UserObject userObject);
+
     @GET("/nrecruitclubs/")
     Call<List<Integer>> getnRecruitClub();
 
@@ -136,5 +133,8 @@ public interface RetroService {
 
     @GET("/clubquestion/{club}/")
     Call<QuestionObject> getClubQuestion(@Path("club") int club);
+
+    @GET("/clubmembers/{uSchoolID}/")
+    Call<List<ClubMemberGridObject>> getClubMember(@Path("uSchoolID") int uSchoolID);
 }
 

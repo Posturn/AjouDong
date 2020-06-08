@@ -28,12 +28,12 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
 
     public ClubGridAdapter adapter;
     private GridView mGridView;
-    private int schoolID=201421234;
+    private int schoolID=201720988;
     private List<BookmarkObject> bookmarkmodels;
     private List<ClubObject> clubmodels = new ArrayList<>();
 
 
-    private void populateGridView(List<ClubObject> clubObjectList) {
+    private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit) {
         mGridView = findViewById(R.id.bookmarkgrid);
         adapter = new ClubGridAdapter(this, clubObjectList, null);
         mGridView.setAdapter(adapter);
@@ -90,31 +90,31 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<List<BookmarkObject>> call, Throwable throwable) {
-               // Toast.makeText(UserBookmarkClubActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+                Toast.makeText(UserBookmarkClubActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-protected void GridSearch(BookmarkObject value){
-    Call<ClubObject> callclub = retroService.getClubGrid(value.getClubID());
-    callclub.enqueue(new Callback<ClubObject>() {
+    protected void GridSearch(BookmarkObject value){
+        Call<ClubObject> callclub = retroService.getClubGrid(value.getClubID());
+        callclub.enqueue(new Callback<ClubObject>() {
 
-        @Override
-        public void onResponse(Call<ClubObject> call, Response<ClubObject> response) {
+            @Override
+            public void onResponse(Call<ClubObject> call, Response<ClubObject> response) {
 
-            clubmodels.add(response.body());
-            Log.v("클럽객체", String.valueOf(response.body()));
-            Log.v("add 후 객체", String.valueOf(clubmodels));
-            populateGridView(clubmodels);
-        }
+                clubmodels.add(response.body());
+                Log.v("클럽객체", String.valueOf(response.body()));
+                Log.v("add 후 객체", String.valueOf(clubmodels));
+                populateGridView(clubmodels, null);
+            }
 
-        @Override
-        public void onFailure(Call<ClubObject> call, Throwable t) {
-           // Toast.makeText(UserBookmarkClubActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-        }
+            @Override
+            public void onFailure(Call<ClubObject> call, Throwable t) {
+                Toast.makeText(UserBookmarkClubActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
 
-    });
-}
+        });
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

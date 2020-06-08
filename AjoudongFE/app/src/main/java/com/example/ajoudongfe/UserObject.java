@@ -7,6 +7,15 @@ public class UserObject {
     @SerializedName("uName")
     @Expose
     private String uName;
+    @SerializedName("uPW")
+    @Expose
+    private String uPW;
+    @SerializedName("uID")
+    @Expose
+    private String uID;
+    @SerializedName("uIMG")
+    @Expose
+    private String uIMG;
     @SerializedName("uJender")
     @Expose
     private boolean uJender;
@@ -70,4 +79,16 @@ public class UserObject {
     public void setuName(String uName) {
         this.uName = uName;
     }
+
+    public String getuPW() { return uPW; }
+
+    public void setuPW(String uPW) { this.uPW = uPW; }
+
+    public String getuID() { return uID; }
+
+    public void setuID(String uID) { this.uID = uID; }
+
+    public String getuIMG() { return uIMG; }
+
+    public void setuIMG(String uIMG) { this.uIMG = uIMG; }
 }
