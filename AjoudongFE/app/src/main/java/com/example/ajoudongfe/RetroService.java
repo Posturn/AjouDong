@@ -50,11 +50,14 @@ public interface RetroService {
     @GET("management/membercsv/{clubID}")
     Call<FileObject> getMemberCSV(@Path("clubID") int clubID);
 
+//    @POST("/sign-up/emailverify")
+//    Call<ResponseObject> emailVerify(@Header("x-ncp-apigw-timestamp") String timestamp,
+//                                     @Header("x-ncp-iam-access-key") String accesskey,
+//                                     @Header("x-ncp-apigw-signature-v2") String signature,
+//                                     @Body  VerifyInfoObject verifyInfoObject);
+
     @POST("/sign-up/emailverify")
-    Call<ResponseObject> emailVerify(@Header("x-ncp-apigw-timestamp") String timestamp,
-                                     @Header("x-ncp-iam-access-key") String accesskey,
-                                     @Header("x-ncp-apigw-signature-v2") String signature,
-                                     @Body  VerifyObject verifyObject);
+    Call<ResponseObject> emailVerify(@Body  VerifyInfoObject verifyInfoObject);
 
     @GET("manageraccount/{pk}/")
     Call<ManagerAccountObject> get_manageraccount_pk(@Path("pk") String pk);

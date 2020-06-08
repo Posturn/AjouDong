@@ -8,6 +8,7 @@ from . import signup
 
 urlpatterns = [
     path('', csrf_exempt(signup.signup.as_view())),
-    path('/sameID', csrf_exempt(signup.checkSameID.as_view()))
+    path('/sameID', csrf_exempt(signup.checkSameID.as_view())),
+    path('/emailverify', csrf_exempt(signup.emailVerify.as_view()))
     
 ]
