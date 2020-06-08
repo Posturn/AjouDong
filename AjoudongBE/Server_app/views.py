@@ -12,7 +12,7 @@ from django.core import serializers
 # Create your views here.
 from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
-from .models import UserAccount, ManagerAccount, Club, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList,Tag, AppliedClubList
+from .models import UserAccount, ManagerAccount, Club, ClubMember, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList,Tag, AppliedClubList
 from Server_app.serializers import *
 
 class login(View):
@@ -223,6 +223,15 @@ class ManagerFilterViewset(viewsets.ModelViewSet):
     def get_queryset(self):
         filterclubID = self.kwargs['clubID']
         self.queryset = self.queryset.filter(clubID = filterclubID)
+        return self.queryset
+
+class ClubMemberViewset(viewsets.ModelViewSet):
+    queryset = ClubMember.objects.all()
+    serializer_class=ClubMemberSerializer
+
+    def get_queryset(self):
+        filteruSchoolID = self.kwargs['uSchoolID']
+        self.queryset = self.queryset.filter(uSchoolID = filteruSchoolID)
         return self.queryset
 
 class PostFilter(View):
