@@ -167,7 +167,7 @@ Thumbs.db
 # Secret
 secrets.json
 keys.java
-
+google-services.json
 
 .vscode/settings.json
 AjoudongBE/circle_list.csv
