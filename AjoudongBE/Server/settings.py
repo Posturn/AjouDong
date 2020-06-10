@@ -30,7 +30,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'Server_app'
+    'Server_app',
+    'fcm_django'
 ]
 
 MIDDLEWARE = [
@@ -116,3 +117,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+FCM_DJANGO_SETTINGS = {
+        "APP_VERBOSE_NAME": "com.example.ajoudongfe",
+         # default: _('FCM Django')
+        "FCM_SERVER_KEY": get_secret("FCM_KEY"),
+         # true if you want to have only one active device per registered user at a time
+         # default: False
+        "ONE_DEVICE_PER_USER": False,
+         # devices to which notifications cannot be sent,
+         # are deleted upon receiving error response from FCM
+         # default: False
+        "DELETE_INACTIVE_DEVICES": False,
+}

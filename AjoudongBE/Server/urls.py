@@ -67,5 +67,7 @@ urlpatterns = [
     path('nrecruitclubs/',views.NRecruitViewSet.as_view({"get": "list"}), name="nrecruitclubs"),
     path('event/', include('Server_app.urls')),
     path('eventlist/<int:clubID>/', views.EventListViewset.as_view({"get":"list"}),name="clubEventList"),
+    # path('applyresult/', csrf_exempt(views.ClubResultAlarm.as_view())),
+    path('applyresult/',views.ClubResultAlarm.as_view({"get": "retrieve"}), name="applyresult"),
     re_path('admin/', admin.site.urls),
 ]
