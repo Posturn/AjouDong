@@ -17,49 +17,6 @@ from Server_app.serializers import *
 
 from fcm_django.models import FCMDevice
 
-class login(View):
-    @csrf_exempt
-    def post(self, request):
-        data = json.loads(request.body)
-        print(data)
-        try:
-            if userAccount.objects.filter(uID = data['uID'], uPW = data['uPW']).exists():
-                
-                return JsonResponse({'response' : 1}, status=200)
-            elif managerAccount.objects.filter(mID = data['uID'], mPW = data['uPW']).exists():
-                
-                return JsonResponse({'response' : 2}, status=200)
-
-            return JsonResponse({'response' : -1}, status = 400)
-
-        except KeyError:
-            return JsonResponse({'response' : -2}, status = 400)
-
-class signup(View):
-    @csrf_exempt
-    def post(self, request):
-  
-        data = json.loads(request.body)
-        
-        try:
-            if userAccount.objects.filter(uID = data['uID']).exists():
-                 return JsonResponse({'message' : 'Exists email'}, status=400)
-            userAccount.objects.create(
-                uID = data['uID'],
-                uPW = data['uPW'],
-                uName = data['uName'],
-                uJender = data['uJender'],
-                uSchoolID = data['uSchoolID'],
-                uMajor = data['uMajor'],
-                uPhoneNumber = data['uPhoneNumber'],
-                uCollege = data['uCollege']
-            ).save()
-
-            return HttpResponse(status = 200)
-
-        except KeyError:
-            return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
-
 from rest_framework.response import Response
 
 class userAccountViewset(viewsets.ModelViewSet):
@@ -407,9 +364,6 @@ class ClubResultAlarm(viewsets.ViewSet):
         uSchoolID = "201720711"
         applyResult = True
 
-        # Create a FCM device
-        # fcm_device = FCMDevice.objects.create(registration_id="fShHxz8pxPg:APA91bEudbmHV-2o96EtsgWChLgK_lqB7JBrcBjdJGVXVs-bi9wI049cDK-HKL4RJ8UnGvCDYeJjo9bEdZ1JG3__IZ-RbfQRBG41uiB7dA9UqOJ34cACIplfD62TQQJtLY5-i6ONJtvK", name=uSchoolID, type="android")
-        # print("생성완료")
         # 해당 uschoolID가 동아리 알림 받기를 활성화해놓았는지 확인
         queryset2 = UserAlarm.objects.all()
         alarmOn = get_object_or_404(queryset2, uSchoolID_id=uSchoolID)
@@ -417,7 +371,7 @@ class ClubResultAlarm(viewsets.ViewSet):
             print("FALSE!!")
             return Response(serializer.data)
         print("True!!")
-
+        
         # device_id 가 uschoolID인 객체 찾기
         device = FCMDevice.objects.get(name=uSchoolID)
         
