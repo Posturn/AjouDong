@@ -1,10 +1,12 @@
 package com.example.ajoudongfe;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -13,8 +15,12 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -117,6 +123,28 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             checkAutoLogin();
                         }
+
+                        // Get token
+                        // [START retrieve_current_token]
+                        FirebaseInstanceId.getInstance().getInstanceId()
+                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                                        if (!task.isSuccessful()) {
+                                            Log.w("TAG", "getInstanceId failed", task.getException());
+                                            return;
+                                        }
+
+                                        // Get new Instance ID token
+                                        String token = task.getResult().getToken();
+
+                                        // Log and toast
+                                        String msg = getString(R.string.msg_token_fmt, token);
+                                        Log.d("TAG", msg);
+                                        Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                        // [END retrieve_current_token]
 
                     }
 
@@ -230,4 +258,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         return EncryptedPW;
     }
+
+
 }
