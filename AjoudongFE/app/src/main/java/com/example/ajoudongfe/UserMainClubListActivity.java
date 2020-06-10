@@ -41,6 +41,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
     private DrawerLayout drawerlayout;
     private Context context = this;
+    private int schoolID;
 
     public static String BASE_URL= "http://10.0.2.2:8000";
     private Retrofit retrofit;
@@ -61,9 +62,9 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     private ArrayList<String> tags = new ArrayList<String>();
     private List<Integer> nRecruitClub = new ArrayList<>();
 
-    private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit) {
+    private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit, int schoolID) {
         mGridView = findViewById(R.id.gridView01);
-        adapter = new ClubGridAdapter(this, clubObjectList, nRecruit);
+        adapter = new ClubGridAdapter(this, clubObjectList, nRecruit, schoolID);
         mGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -77,6 +78,8 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_main_club_list);
+
+        schoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
 
         mainButton[0] = (Button) findViewById(R.id.cateAll);
         mainButton[1] = (Button) findViewById(R.id.cateSports);
@@ -309,7 +312,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
         call.enqueue(new Callback<List<ClubObject>>() {
             @Override
             public void onResponse(Call<List<ClubObject>> call, Response<List<ClubObject>> response) {
-                populateGridView(response.body(), nRecruitClub);
+                populateGridView(response.body(), nRecruitClub, schoolID);
             }
 
             @Override

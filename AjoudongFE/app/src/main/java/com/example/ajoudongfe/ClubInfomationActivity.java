@@ -38,7 +38,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
     private DrawerLayout drawerlayout;
     private RecyclerView recyclerview;
 
-    private int schoolID = 201720988;
+    private int schoolID;
     private int parameterclubID;
     private String parameterclubName;
 
@@ -74,11 +74,13 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_info_list);
+        schoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
 
         String clubName = getIntent().getStringExtra("clubName");
         // ↑ 그리드 클릭시 넘어오는 동아리 이름
         int clubID = getIntent().getIntExtra("clubID", 0);
         // ↑ 그리드 클릭시 넘어오는 동아리 ID
+
         parameterclubID = clubID;
         parameterclubName = clubName;
         clubCategory = getIntent().getIntExtra("clubCategory", 0);

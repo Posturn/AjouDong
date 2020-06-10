@@ -28,14 +28,14 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
 
     public ClubGridAdapter adapter;
     private GridView mGridView;
-    private int schoolID=201720988;
+    private int schoolID;
     private List<BookmarkObject> bookmarkmodels;
     private List<ClubObject> clubmodels = new ArrayList<>();
 
 
     private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit) {
         mGridView = findViewById(R.id.bookmarkgrid);
-        adapter = new ClubGridAdapter(this, clubObjectList, null);
+        adapter = new ClubGridAdapter(this, clubObjectList, null, 0);
         mGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -52,6 +52,7 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_bookmark_club);
+        schoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.userbookmarktoolbar);

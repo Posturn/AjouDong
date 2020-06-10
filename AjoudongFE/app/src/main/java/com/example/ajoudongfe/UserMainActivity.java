@@ -208,6 +208,7 @@ public class UserMainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMainClubListActivity.class);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -217,6 +218,7 @@ public class UserMainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserNewClubListActivity.class);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }

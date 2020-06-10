@@ -9,7 +9,8 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -26,15 +27,17 @@
 
             <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="268dp">
+                android:layout_height="268dp"
+                >
 
                 <ImageView
                     android:id="@+id/clubinfoimage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
+                    android:scaleType="fitXY"
                     android:adjustViewBounds="true"
-                    app:srcCompat="@drawable/miyu" />
+                    app:srcCompat="@drawable/miyu"
+                    />
 
                 <ImageView
                     android:id="@+id/blackImage"
