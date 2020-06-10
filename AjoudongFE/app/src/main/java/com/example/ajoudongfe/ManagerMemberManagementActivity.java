@@ -1,12 +1,14 @@
 package com.example.ajoudongfe;
 
 import android.app.DownloadManager;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.view.MenuItem;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -37,7 +39,10 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+
                 viewPager.setCurrentItem(tab.getPosition());
+                adapter.notifyDataSetChanged();
+
             }
 
             @Override
@@ -52,6 +57,13 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
         });
 
     }
+//    @Override
+//    protected void onResume()
+//    {
+//        super.onResume();
+//        adapter.notifyDataSetChanged();
+//    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
