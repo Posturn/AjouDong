@@ -1,6 +1,9 @@
 import json
 import os
 import sys
+import requests
+import ssl
+import urllib
 from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, JsonResponse
@@ -16,20 +19,25 @@ class signup(View):
     def post(self, request):
   
         data = json.loads(request.body)
+        if data['uJender'] > 0:
+            gender = True
+        else:
+            gender = False
         
         try:
             UserAccount.objects.create(
                 uID = data['uID'],
                 uPW = data['uPW'],
                 uName = data['uName'],
-                uJender = data['uJender'],
+                uJender = gender,
                 uSchoolID = data['uSchoolID'],
                 uMajor = data['uMajor'],
                 uPhoneNumber = data['uPhoneNumber'],
-                uCollege = data['uCollege']
+                uCollege = data['uCollege'],
+                uIMG = 'default'
             ).save()
 
-            return HttpResponse(status = 200)
+            return JsonResponse({'response' : 1}, status = 200)
 
         except KeyError:
             return JsonResponse({'response' : -1}, status = 400)
@@ -44,6 +52,53 @@ class checkSameID(View):
                 return JsonResponse({'response' : -1}, status=200)
             return JsonResponse({'response' : 1}, status=200)
 
+        except KeyError:
+            return JsonResponse({'response' : -2}, status = 401)
+
+class emailVerify(View):
+    @csrf_exempt
+    def post(self, request):
+        data = json.loads(request.body)
+
+        try :
+            print(data)
+
+            body = {
+	            "templateSid" : 1419,
+	            "recipients" : 
+	                [
+		                {
+			                "address": data['address'],
+			                "name" : data['name'],
+			                "type" : "R",
+			                "parameters" : 
+			                {
+    				            "who_signup" : data['who_signup'],
+				                "verify_code" : data['verify_code']
+			                }
+		                }
+                    ]
+                }
+
+            header = {
+                'Content-Type' : 'application/json;charset=UTF-8',
+                'x-ncp-apigw-timestamp' : data['timeStamp'],
+                'x-ncp-iam-access-key' : data['accessKey'],
+                'x-ncp-apigw-signature-v2' : data['encryptedKey'],
+                'x-ncp-lang' : 'ko-KR'
+            }
+
+            print(body)
+
+
+            r = requests.post('https://mail.apigw.ntruss.com/api/v1/mails', headers=header, data=str(body).replace('\'', "\"").encode('utf-8'))
+
+            
+
+            print(r)
+            print(r.text)
+
+            return JsonResponse({'response' : 1}, status = 200)
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
             

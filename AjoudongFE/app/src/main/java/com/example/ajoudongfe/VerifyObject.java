@@ -7,6 +7,11 @@ public class VerifyObject {
     int templateSid;
     private List<RecipientForRequest> recipients;
 
+    public VerifyObject(int templateSid, List<com.example.ajoudongfe.RecipientForRequest> recipients) {
+        this.templateSid = templateSid;
+        this.recipients = recipients;
+    }
+
     public int getTemplateSid() {
         return templateSid;
     }

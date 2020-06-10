@@ -2,6 +2,7 @@ package com.example.ajoudongfe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -21,8 +22,10 @@ import com.google.android.material.textfield.TextInputEditText;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.List;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -36,7 +39,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class SignupActivity extends AppCompatActivity {
 
     private static String BASE_URL= "http://10.0.2.2:8000";
-    private static String VERIFY_URL = "https://mail.apigw.ntruss.com/api/v1/mails/";
+    private static String VERIFY_URL = "https://mail.apigw.ntruss.com/api/v1/";
     private ArrayAdapter<CharSequence> majorAdapter;
     private Retrofit retrofit;
     private Retrofit verifyRetrofit;
@@ -59,6 +62,7 @@ public class SignupActivity extends AppCompatActivity {
     private String tempID;
     private String uMajor;
     private String uCollege;
+    private String verify_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,40 +184,31 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                if(checkParameter() != null)
-                {
-                    Toast.makeText(getApplicationContext(), checkParameter(), Toast.LENGTH_LONG).show();
+                Call<ResponseObject> call = emailVerifyRequest(idInputText.getText().toString(), nameInputText.getText().toString());
 
-                }
-                else {
-                    Call<ResponseObject> call = signupRequest(new SignupObject(
-                            idInputText.getText().toString(),
-                            pwInputText.getText().toString(),
-                            nameInputText.getText().toString(),
-                            gender,
-                            Integer.parseInt(schoolIDInputText.getText().toString()),
-                            uMajor,
-                            uCollege,
-                            Integer.parseInt(phoneNumberInputText.getText().toString())));
+                call.enqueue(new Callback<ResponseObject>() {
+                    @Override
+                    public void onResponse(Call<com.example.ajoudongfe.ResponseObject> call, Response<com.example.ajoudongfe.ResponseObject> response) {
+                        Intent intent = new Intent(getApplicationContext(), VerifyActivity.class);
+                        intent.putExtra("uSchoolID", Integer.parseInt(schoolIDInputText.getText().toString()));
+                        intent.putExtra("uName", nameInputText.getText().toString());
+                        intent.putExtra("uID", idInputText.getText().toString());
+                        intent.putExtra("uPhoneNumber", Integer.parseInt(phoneNumberInputText.getText().toString()));
+                        intent.putExtra("uMajor", uMajor);
+                        intent.putExtra("uCollege", uCollege);
+                        intent.putExtra("uJender", gender);//TODO jender바꿔야댐
+                        intent.putExtra("uPW", pwInputText.getText().toString());
+                        intent.putExtra("verify_code", verify_code);
+                        startActivity(intent);
+                        return;
+                    }
 
-                    call.enqueue(new Callback<ResponseObject>() {
-                        @Override
-                        public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                            try {
-                                Toast.makeText(getApplicationContext(), "회원가입 성공!", Toast.LENGTH_LONG).show();
-                                finish();
-                                Log.d("Response", response.body().toString());
-                            } catch (NullPointerException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<ResponseObject> call, Throwable t) {
-                            Log.e("메일 요청 결과", "통신 실패");
-                        }
-                    });
-                }
+                    @Override
+                    public void onFailure(Call<com.example.ajoudongfe.ResponseObject> call, Throwable t) {
+                        t.printStackTrace();
+                        Log.e("메일 요청 결과", "통신 실패");
+                    }
+                });
             }
         });
 
@@ -253,10 +248,12 @@ public class SignupActivity extends AppCompatActivity {
 
     private Call<ResponseObject> emailVerifyRequest(String toString, String name)
     {
-        VerifyObject verifyObject = new VerifyObject();
+//        VerifyObject verifyObject = new VerifyObject();
+        VerifyInfoObject verifyInfoObject = new VerifyInfoObject();
+        List<RecipientForRequest> listdata = new ArrayList<>();
         RecipientForRequest recipientForRequest = new RecipientForRequest();
         Parameters parameters = new Parameters();
-        String verify_code = new String();
+        verify_code = new String();
         String secretKey = "AxVnaaKAL8tFnTlI5EUKCBH8wRSR2CRVZEMt3zcD";
         String accessKey = "f8jYvSP0idEEd97qTu5l";
         String encrptedKey = new String();
@@ -271,10 +268,13 @@ public class SignupActivity extends AppCompatActivity {
         {
             int n = (int)(Math.random() * 10);
             verify_code = verify_code + Integer.toString(n*j);
-            j = j*10;
+            Log.d(verify_code, "인증코드");
+//            j = j*10;
         }
+
+        Log.d(name, "이름");
         recipientForRequest.setAddress(toString);
-        recipientForRequest.setName(null);
+        recipientForRequest.setName(name);
         recipientForRequest.setType("R");
 
         parameters.setWho_signup(name);
@@ -282,12 +282,29 @@ public class SignupActivity extends AppCompatActivity {
 
         recipientForRequest.setParameters(parameters);
 
+        listdata.add(recipientForRequest);
+
         encrptedKey = makeSignature("POST", timeStamp, accessKey, secretKey, "/api/v1/mails");
+
+        VerifyObject verifyObject = new VerifyObject(1419, listdata);
+
         Log.d(encrptedKey, "암호화된 비밀키");
         Log.d(timeStamp.toString(), "타임스탬프");
+        Log.d(accessKey, "인증키");
 
-        RetroService retroService = verifyRetrofit.create(RetroService.class);
-        return retroService.emailVerify(timeStamp.toString(), accessKey, encrptedKey, verifyObject);
+        verifyInfoObject.setName(name);
+        verifyInfoObject.setAddress(toString);
+        verifyInfoObject.setTemplateSid(1419);
+        verifyInfoObject.setType("r");
+        verifyInfoObject.setVerify_code(verify_code);
+        verifyInfoObject.setWho_signup(name);
+        verifyInfoObject.setAccessKey(accessKey);
+        verifyInfoObject.setEncryptedKey(encrptedKey);
+        verifyInfoObject.setTimeStamp(timeStamp);
+
+//        RetroService retroService = verifyRetrofit.create(RetroService.class);
+        RetroService retroService = retrofit.create(RetroService.class);
+        return retroService.emailVerify(verifyInfoObject);
     }
 
     private Call<ResponseObject> signupRequest(SignupObject signupObject)
