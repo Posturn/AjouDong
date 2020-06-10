@@ -19,20 +19,25 @@ class signup(View):
     def post(self, request):
   
         data = json.loads(request.body)
+        if data['uJender'] > 0:
+            gender = True
+        else:
+            gender = False
         
         try:
             UserAccount.objects.create(
                 uID = data['uID'],
                 uPW = data['uPW'],
                 uName = data['uName'],
-                uJender = data['uJender'],
+                uJender = gender,
                 uSchoolID = data['uSchoolID'],
                 uMajor = data['uMajor'],
                 uPhoneNumber = data['uPhoneNumber'],
-                uCollege = data['uCollege']
+                uCollege = data['uCollege'],
+                uIMG = 'default'
             ).save()
 
-            return HttpResponse(status = 200)
+            return JsonResponse({'response' : 1}, status = 200)
 
         except KeyError:
             return JsonResponse({'response' : -1}, status = 400)
@@ -76,7 +81,7 @@ class emailVerify(View):
                 }
 
             header = {
-                'Content-Type' : 'application/json',
+                'Content-Type' : 'application/json;charset=UTF-8',
                 'x-ncp-apigw-timestamp' : data['timeStamp'],
                 'x-ncp-iam-access-key' : data['accessKey'],
                 'x-ncp-apigw-signature-v2' : data['encryptedKey'],
@@ -86,7 +91,7 @@ class emailVerify(View):
             print(body)
 
 
-            r = requests.post('https://mail.apigw.ntruss.com/api/v1/mails', headers=header, data=str(body).replace('\'', "\""))
+            r = requests.post('https://mail.apigw.ntruss.com/api/v1/mails', headers=header, data=str(body).replace('\'', "\"").encode('utf-8'))
 
             
 

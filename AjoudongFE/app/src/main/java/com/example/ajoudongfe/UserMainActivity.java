@@ -116,11 +116,12 @@ public class UserMainActivity extends AppCompatActivity {
                     user_name.setText(item.getuName());
                     if(item.getuIMG() != null){
                         Picasso.get().load(item.getuIMG()).into(user_profile);
+                        nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
                     }
                     else{
                         user_profile.setImageResource(R.drawable.ajoudong_icon);
                     }
-                    nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+//                    nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
                     Log.d(TAG, nowImage3);
                 }else {
                     Log.d(TAG,"Status Code : " + response.code());

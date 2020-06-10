@@ -62,6 +62,7 @@ public class SignupActivity extends AppCompatActivity {
     private String tempID;
     private String uMajor;
     private String uCollege;
+    private String verify_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,9 +189,16 @@ public class SignupActivity extends AppCompatActivity {
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
                     public void onResponse(Call<com.example.ajoudongfe.ResponseObject> call, Response<com.example.ajoudongfe.ResponseObject> response) {
-                        Intent intent = new Intent(getApplicationContext(), VerifyObject.class);
+                        Intent intent = new Intent(getApplicationContext(), VerifyActivity.class);
                         intent.putExtra("uSchoolID", Integer.parseInt(schoolIDInputText.getText().toString()));
                         intent.putExtra("uName", nameInputText.getText().toString());
+                        intent.putExtra("uID", idInputText.getText().toString());
+                        intent.putExtra("uPhoneNumber", Integer.parseInt(phoneNumberInputText.getText().toString()));
+                        intent.putExtra("uMajor", uMajor);
+                        intent.putExtra("uCollege", uCollege);
+                        intent.putExtra("uJender", gender);//TODO jender바꿔야댐
+                        intent.putExtra("uPW", pwInputText.getText().toString());
+                        intent.putExtra("verify_code", verify_code);
                         startActivity(intent);
                         return;
                     }
@@ -245,7 +253,7 @@ public class SignupActivity extends AppCompatActivity {
         List<RecipientForRequest> listdata = new ArrayList<>();
         RecipientForRequest recipientForRequest = new RecipientForRequest();
         Parameters parameters = new Parameters();
-        String verify_code = new String();
+        verify_code = new String();
         String secretKey = "AxVnaaKAL8tFnTlI5EUKCBH8wRSR2CRVZEMt3zcD";
         String accessKey = "f8jYvSP0idEEd97qTu5l";
         String encrptedKey = new String();
