@@ -39,6 +39,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
 
     private DrawerLayout drawerlayout;
     private Context context = this;
+    private int schoolID;
 
     public static String BASE_URL= "http://10.0.2.2:8000";
     private Retrofit retrofit;
@@ -62,7 +63,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
 
     private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit) {
         mGridView = findViewById(R.id.gridView01);
-        adapter = new ClubGridAdapter(this, clubObjectList, nRecruit);
+        adapter = new ClubGridAdapter(this, clubObjectList, nRecruit, schoolID);
         mGridView.setAdapter(adapter);
     }
 
@@ -75,6 +76,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_new_club_list);
+        schoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
 
         newfoundButton[0] = (Button) findViewById(R.id.cateNewAll);
         newfoundButton[1] = (Button) findViewById(R.id.cateNewNew);

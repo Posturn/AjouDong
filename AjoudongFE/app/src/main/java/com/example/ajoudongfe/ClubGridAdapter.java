@@ -18,11 +18,13 @@ public class ClubGridAdapter extends BaseAdapter implements View.OnClickListener
     private List<ClubObject> clubmodels;
     private Context mContext;
     private List<Integer> nRecruitClub;
+    private int schoolID;
 
-    public ClubGridAdapter(Context mContext, List<ClubObject> clubmodels, List<Integer> nRecruit) {
+    public ClubGridAdapter(Context mContext, List<ClubObject> clubmodels, List<Integer> nRecruit, int schoolID) {
         this.mContext=mContext;
         this.clubmodels=clubmodels;
         this.nRecruitClub = nRecruit;
+        this.schoolID=schoolID;
     }
     //출력될 이미지 데이터셋(res/drawable 폴더)
 
@@ -33,6 +35,7 @@ public class ClubGridAdapter extends BaseAdapter implements View.OnClickListener
     public Object getItem(int pos){
         return clubmodels.get(pos);
     }
+
 
     @Override
     public long getItemId(int pos) {
@@ -76,6 +79,7 @@ public class ClubGridAdapter extends BaseAdapter implements View.OnClickListener
                 intent.putExtra("clubName", thisClubObject.getName());
                 intent.putExtra("clubID", thisClubObject.getClubID());
                 intent.putExtra("clubCategory", thisClubObject.getCategory());
+                intent.putExtra("uSchoolID", schoolID);
                 mContext.startActivity(intent);
             }
         });

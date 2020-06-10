@@ -25,6 +25,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
     private DrawerLayout drawerlayout;
     private Context context = this;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

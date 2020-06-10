@@ -30,8 +30,8 @@ public class LoginActivity extends AppCompatActivity {
     public static String BASE_URL= "http://10.0.2.2:8000";
 
     private Button loginButton;
-//    private Button userLogin;
-//    private Button managerLogin;
+    private Button userLogin;
+    private Button managerLogin;
     private TextInputLayout idLayout;
     private TextInputLayout pwLayout;
     private TextInputEditText idText;
