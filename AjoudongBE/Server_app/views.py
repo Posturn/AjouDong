@@ -146,7 +146,6 @@ class ClubSearchViewSet(viewsets.ModelViewSet):
         self.queryset = filter_club(club, self.queryset)
         self.queryset = filter_category(category, self.queryset)
         self.queryset = self.queryset.filter(clubName__icontains=search)
-        queryset_serialized = serializers.serialize('json', sort_clublist(sort, self.queryset))
         return sort_clublist(sort, self.queryset)
 
 class ClubFilter(generics.GenericAPIView):
