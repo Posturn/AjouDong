@@ -2,6 +2,7 @@ package com.example.ajoudongfe;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -182,46 +183,16 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-//                if(checkParameter() != null)
-//                {
-//                    Toast.makeText(getApplicationContext(), checkParameter(), Toast.LENGTH_LONG).show();
-//
-//                }
-//                else {
-//                    Call<ResponseObject> call = signupRequest(new SignupObject(
-//                            idInputText.getText().toString(),
-//                            pwInputText.getText().toString(),
-//                            nameInputText.getText().toString(),
-//                            gender,
-//                            Integer.parseInt(schoolIDInputText.getText().toString()),
-//                            uMajor,
-//                            uCollege,
-//                            Integer.parseInt(phoneNumberInputText.getText().toString())));
-//
-//                    call.enqueue(new Callback<ResponseObject>() {
-//                        @Override
-//                        public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-//                            try {
-//                                Toast.makeText(getApplicationContext(), "회원가입 성공!", Toast.LENGTH_LONG).show();
-//                                finish();
-//                                Log.d("Response", response.body().toString());
-//                            } catch (NullPointerException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<ResponseObject> call, Throwable t) {
-//                            Log.e("메일 요청 결과", "통신 실패");
-//                        }
-//                    });
-//                }
                 Call<ResponseObject> call = emailVerifyRequest(idInputText.getText().toString(), nameInputText.getText().toString());
 
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
                     public void onResponse(Call<com.example.ajoudongfe.ResponseObject> call, Response<com.example.ajoudongfe.ResponseObject> response) {
-                        Log.d("dksjdf", "s");
+                        Intent intent = new Intent(getApplicationContext(), VerifyObject.class);
+                        intent.putExtra("uSchoolID", Integer.parseInt(schoolIDInputText.getText().toString()));
+                        intent.putExtra("uName", nameInputText.getText().toString());
+                        startActivity(intent);
+                        return;
                     }
 
                     @Override

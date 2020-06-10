@@ -65,28 +65,33 @@ class emailVerify(View):
 		                {
 			                "address": data['address'],
 			                "name" : data['name'],
-			                "type" : data['type'],
+			                "type" : "R",
 			                "parameters" : 
 			                {
     				            "who_signup" : data['who_signup'],
 				                "verify_code" : data['verify_code']
 			                }
 		                }
-	                ]
+                    ]
                 }
 
             header = {
                 'Content-Type' : 'application/json',
                 'x-ncp-apigw-timestamp' : data['timeStamp'],
                 'x-ncp-iam-access-key' : data['accessKey'],
-                'x-ncp-apigw-signature-v2' : data['encryptedKey']
+                'x-ncp-apigw-signature-v2' : data['encryptedKey'],
+                'x-ncp-lang' : 'ko-KR'
             }
 
+            print(body)
 
 
-            r = requests.post('https://mail.apigw.ntruss.com/api/v1/mails', headers=header, data=json(body))
+            r = requests.post('https://mail.apigw.ntruss.com/api/v1/mails', headers=header, data=str(body).replace('\'', "\""))
+
+            
 
             print(r)
+            print(r.text)
 
             return JsonResponse({'response' : 1}, status = 200)
         except KeyError:
