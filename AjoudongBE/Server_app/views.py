@@ -12,7 +12,7 @@ from django.core import serializers
 # Create your views here.
 from rest_framework import viewsets, generics
 from rest_framework.generics import ListAPIView
-from .models import UserAccount, ManagerAccount, Club, ClubMember, ClubPromotion, ClubActivity, Major_Affiliation, MarkedClubList, Apply, ClubStatistic, UserAccount, TaggedClubList,Tag, AppliedClubList
+from .models import *
 from Server_app.serializers import *
 
 class login(View):
@@ -352,3 +352,16 @@ class NRecruitViewSet(viewsets.ViewSet):
             if tagData[2] == "모집종료":
                 nlist.append(tagData[1])
         return Response(nlist)
+
+class EventListViewset(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class=EventSerializer
+
+    def get_queryset(self):
+        filterclubID = self.kwargs['clubID']
+        self.queryset = self.queryset.filter(clubID = filterclubID)
+        return self.queryset.order_by('-eventID')
+
+class EventViewset(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class=EventSerializer

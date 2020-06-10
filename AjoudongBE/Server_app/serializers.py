@@ -1,6 +1,6 @@
 from rest_framework import serializers, viewsets
 
-from Server_app.models import UserAccount, ManagerAccount, Tag, Club, ClubMember, ClubActivity, ClubPromotion, Major_Affiliation, MarkedClubList, ClubStatistic, TaggedClubList
+from Server_app.models import *
 
 
 class UserAccountSerializer(serializers.ModelSerializer):
@@ -74,3 +74,8 @@ class ClubMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubMember
         fields=('id', 'clubID', 'uSchoolID',)
+
+class EventSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Event
+        fields=('eventID','eventName','eventDate','eventInfo','eventFAQ','eventIMG','clubID',)

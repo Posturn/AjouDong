@@ -34,6 +34,7 @@ router.register(r'userInformation', views.userAccountViewset)
 router.register(r'manageraccount', views.managerAccountViewset)
 router.register(r'tags', views.TagViewSet)
 router.register(r'statistic', views.StatisticsViewSet)
+router.register(r'event',views.EventViewset)
 
 
 urlpatterns = [
@@ -64,5 +65,7 @@ urlpatterns = [
     path('statisticSearch/<int:clubID>/', views.ClubStatisticsViewSet.as_view({"get":"retrieve"}), name="statisticlist"),
     path('clubquestion/<int:pk>/',views.ClubQuestionViewSet.as_view({"get": "retrieve"}), name="clubquestion"),
     path('nrecruitclubs/',views.NRecruitViewSet.as_view({"get": "list"}), name="nrecruitclubs"),
+    path('event/', include('Server_app.urls')),
+    path('eventlist/<int:clubID>/', views.EventListViewset.as_view({"get":"list"}),name="clubEventList"),
     re_path('admin/', admin.site.urls),
 ]
