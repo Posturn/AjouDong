@@ -15,8 +15,6 @@ from rest_framework.generics import ListAPIView
 from .models import *
 from Server_app.serializers import *
 
-from fcm_django.models import FCMDevice
-
 from rest_framework.response import Response
 
 class userAccountViewset(viewsets.ModelViewSet):
@@ -323,62 +321,3 @@ class EventListViewset(viewsets.ModelViewSet):
 class EventViewset(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class=EventSerializer
-
-# class ClubResultAlarm(View):
-#     @csrf_exempt
-#     def post(self, request):
-#         data = json.loads(request.body)
-#         try:
-#             clubName = data["clubName"],
-#             uSchoolID = data["uSchoolID"],
-#             applyResult = data["applyResult"],
-
-#             queryset = UserAlarm.objects.all()
-
-#             # 해당 uschoolID가 동아리 알림 받기를 활성화해놓았는지 확인
-#             alarmOn = get_object_or_404(queryset, uSchoolID=uSchoolID)
-#             if alarmOn == False:
-#                 return JsonResponse({'response' : 0}, status=200)
-
-#             # device_id 가 uschoolID인 객체 찾기
-#             device = FCMDevice.objects.get_object_or_404(device_id=uSchoolID)
-            
-#             message = clubName + " 동아리 지원이 승인되었습니다."
-#             if applyResult == False:
-#                 message = clubName + " 동아리 지원이 거절되었습니다."
-
-#             device.send_message(title="동아리 지원 결과 업데이트!", body=message)
-            
-#             return JsonResponse({'response' : 1}, status=200)
-#         except KeyError:
-#             return JsonResponse({'response' : -1}, status = 400)
-
-class ClubResultAlarm(viewsets.ViewSet):
-    def retrieve(self, request):
-        queryset=ClubStatistic.objects.all()
-        statistic=get_object_or_404(queryset, clubID_id=1)
-        serializer=ClubStatisticSerializer(statistic)
-
-
-        clubName = "TML"
-        uSchoolID = "201720711"
-        applyResult = True
-
-        # 해당 uschoolID가 동아리 알림 받기를 활성화해놓았는지 확인
-        queryset2 = UserAlarm.objects.all()
-        alarmOn = get_object_or_404(queryset2, uSchoolID_id=uSchoolID)
-        if alarmOn.stateAlarm == False:
-            print("FALSE!!")
-            return Response(serializer.data)
-        print("True!!")
-        
-        # device_id 가 uschoolID인 객체 찾기
-        device = FCMDevice.objects.get(name=uSchoolID)
-        
-        message = clubName + " 동아리 지원이 승인되었습니다."
-        if applyResult == False:
-            message = clubName + " 동아리 지원이 거절되었습니다."
-
-        device.send_message(title="동아리 지원 결과 업데이트!", body=message)
-
-        return Response(serializer.data)
