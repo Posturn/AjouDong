@@ -147,8 +147,6 @@ def filter_taglist(tags, queryset):
     clubID_list = []
     category = ['레저', '종교', '사회', '창작전시', '학술', '과학기술', '체육', '연행예술', '준동아리', '음악', '예술', '기타']
     clubID_category = []
-    print('사용자가 고른것')
-    print(tags)
     for club in clubtaglist.values_list():
         for tag in tags:
             if club[2] in category and club[2] == tag:
