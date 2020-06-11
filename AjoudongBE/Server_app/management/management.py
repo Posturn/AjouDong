@@ -12,7 +12,10 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from Server_app.models import Apply, ClubMember, UserAccount, AppliedClubList
+from Server_app.models import Apply, ClubMember, UserAccount, AppliedClubList, UserAlarm, Club
+
+from fcm_django.models import FCMDevice
+from django.shortcuts import get_object_or_404
 
 class memberlist(View):
     @csrf_exempt
@@ -90,7 +93,7 @@ class deleteAppliedUser(View):
             AppliedUser.save()
 
             Apply.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
-
+            applicationStateChange(clubID,uSchoolID,False)
             return JsonResponse({'reponse' : 1}, status = 200)
 
         except KeyError:
@@ -107,9 +110,8 @@ class newAppliedUser(View):
             AppliedUser = AppliedClubList.objects.get(clubID_id = clubID, uSchoolID_id = uSchoolID)
             AppliedUser.memberState = 1
             AppliedUser.save()
-
             Apply.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
-
+            applicationStateChange(clubID,uSchoolID,True)
             return JsonResponse({'reponse' : 1}, status = 200)
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
@@ -199,7 +201,18 @@ class memberCSV(View):
             return JsonResponse({'response' : -2}, status = 401)
 
 
+def applicationStateChange(clubID, uSchoolID, applyResult):
+    queryset = Club.objects.all()
+    club = get_object_or_404(queryset, clubID=clubID)
 
+    queryset = UserAlarm.objects.all()
+    alarmOn = get_object_or_404(queryset, uSchoolID_id=uSchoolID)
+    if alarmOn.stateAlarm == False:
+        return
+    device = FCMDevice.objects.get(name=uSchoolID)
+    
+    message = str(club.clubName) + " 동아리 지원이 승인되었습니다."
+    if applyResult == False:
+        message = str(club.clubName) + " 동아리 지원이 거절되었습니다."
 
-
-        
+    device.send_message(title="동아리 지원 결과 업데이트!", body=message)

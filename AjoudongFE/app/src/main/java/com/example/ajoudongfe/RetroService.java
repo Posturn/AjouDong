@@ -9,6 +9,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -136,5 +137,14 @@ public interface RetroService {
 
     @GET("/clubmembers/{uSchoolID}/")
     Call<List<ClubMemberGridObject>> getClubMember(@Path("uSchoolID") int uSchoolID);
+
+    @PUT("alarm/stateChange/{uSchoolID}/{alarmState}/")
+    Call<ResponseObject> updateStateAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmState") boolean alarmState);
+
+    @PUT("alarm/eventChange/{uSchoolID}/{alarmState}/")
+    Call<ResponseObject> updateEventAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmState") boolean alarmState);
+
+    @PUT("alarm/newClubChange/{uSchoolID}/{alarmState}/")
+    Call<ResponseObject> updateNewClubAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmState") boolean alarmState);
 }
 

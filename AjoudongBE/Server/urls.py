@@ -1,18 +1,3 @@
-"""Server URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/3.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path, include, re_path
 from django.views.decorators.csrf import csrf_exempt
@@ -22,7 +7,7 @@ from rest_framework import routers
 
 from Server_app.login import login
 from Server_app.signup import signup 
-
+from Server_app.alarm import alarm
 
 router=routers.DefaultRouter()
 router.register(r'SERVER_APP/Major_affiliations', views.MajorViewSet)
@@ -40,6 +25,7 @@ router.register(r'event',views.EventViewset)
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
     path('sign-up', include('Server_app.signup.urls')),
+    path('alarm', include('Server_app.alarm.urls')),
     #path('useraccount/', include('Server_app.urls')),
     path('manageraccount/', include('Server_app.urls')),
     path('management', include('Server_app.management.urls')),

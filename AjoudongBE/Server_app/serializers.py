@@ -79,3 +79,8 @@ class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
         fields=('eventID','eventName','eventDate','eventInfo','eventFAQ','eventIMG','clubID',)
+
+class ClubApplyResultAlarmSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserAlarm
+        fields = ('stateAlarm',)
