@@ -57,12 +57,6 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
         });
 
     }
-//    @Override
-//    protected void onResume()
-//    {
-//        super.onResume();
-//        adapter.notifyDataSetChanged();
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item)

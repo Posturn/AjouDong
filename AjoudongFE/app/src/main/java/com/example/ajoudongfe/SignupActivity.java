@@ -151,7 +151,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Call<ResponseObject> call = sendSameIDRequest(idInputText.getText().toString());
+                Call<ResponseObject> call = sendSameIDRequest(idInputText.getText().toString() + "@ajou.ac.kr");
 
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
@@ -161,7 +161,7 @@ public class SignupActivity extends AppCompatActivity {
                             if (data.getResponse() == 1) {
                                 Toast.makeText(getApplicationContext(), "사용가능한 아이디입니다!!", Toast.LENGTH_LONG).show();//좀더 개선 필요, 실사용 앱처럼 아이디 변경시 다시 체크하도록 만들것
                                 IDChecker = 1;
-                                tempID = idInputText.getText().toString();
+                                tempID = idInputText.getText().toString() + "@ajou.ac.kr";
                             } else {
                                 Toast.makeText(getApplicationContext(), "이미 사용중인 아이디 입니다!!", Toast.LENGTH_LONG).show();
                             }
@@ -184,7 +184,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Call<ResponseObject> call = emailVerifyRequest(idInputText.getText().toString(), nameInputText.getText().toString());
+                Call<ResponseObject> call = emailVerifyRequest(idInputText.getText().toString() + "@ajou.ac.kr", nameInputText.getText().toString());
 
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
@@ -192,7 +192,7 @@ public class SignupActivity extends AppCompatActivity {
                         Intent intent = new Intent(getApplicationContext(), VerifyActivity.class);
                         intent.putExtra("uSchoolID", Integer.parseInt(schoolIDInputText.getText().toString()));
                         intent.putExtra("uName", nameInputText.getText().toString());
-                        intent.putExtra("uID", idInputText.getText().toString());
+                        intent.putExtra("uID", idInputText.getText().toString() + "@ajou.ac.kr");
                         intent.putExtra("uPhoneNumber", Integer.parseInt(phoneNumberInputText.getText().toString()));
                         intent.putExtra("uMajor", uMajor);
                         intent.putExtra("uCollege", uCollege);
