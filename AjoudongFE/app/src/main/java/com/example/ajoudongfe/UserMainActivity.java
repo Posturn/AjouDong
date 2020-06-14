@@ -13,18 +13,23 @@ import android.content.Context;
 import android.content.Intent;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +49,8 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.google.android.material.navigation.NavigationView;
 import com.squareup.picasso.Picasso;
 
+import org.eazegraph.lib.models.PieModel;
+
 import java.io.File;
 
 import retrofit2.Call;
@@ -56,6 +63,13 @@ public class UserMainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerlayout;
     private Context context = this;
+
+    private AlarmStateObject userAlarm;
+    private Switch stateAlarmSwitch;
+    private Switch eventAlarmSwitch;
+    private Switch newclubAlarmSwitch;
+    private Menu navMenu;
+    private boolean loadingAlarm = false;
 
     private final int GET_GALLERY_IMAGE = 200;
     final  String TAG = getClass().getSimpleName();
@@ -116,10 +130,17 @@ public class UserMainActivity extends AppCompatActivity {
             }
         });
 
+        userAlarm = new AlarmStateObject();
+        getUserAlarmState(uSchoolID);
+
+        navMenu = navigationView.getMenu();
+        stateAlarmSwitch = (Switch) navMenu.findItem(R.id.user_apply_state_alarm).getActionView().findViewById(R.id.switch_alarm);
+        eventAlarmSwitch = (Switch) navMenu.findItem(R.id.user_new_event_alarm).getActionView().findViewById(R.id.switch_alarm);
+        newclubAlarmSwitch = (Switch) navMenu.findItem(R.id.user_new_club_alarm).getActionView().findViewById(R.id.switch_alarm);
+
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                drawerlayout.closeDrawers();
                 int id = menuItem.getItemId();
 
                 String title = menuItem.getTitle().toString();
@@ -137,15 +158,6 @@ public class UserMainActivity extends AppCompatActivity {
                     intent.putExtra("uSchoolID", uSchoolID);
                     startActivity(intent);
                 }
-                else if(id == R.id.user_new_club_alarm){
-                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
-                }
-                else if(id == R.id.user_apply_state_alarm){
-                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
-                }
-                else if(id == R.id.user_new_event_alarm){
-                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
-                }
                 else if(id == R.id.user_logout){
                     Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -162,6 +174,27 @@ public class UserMainActivity extends AppCompatActivity {
                 }
 
                 return true;
+            }
+        });
+
+        stateAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                userAlarm.setStateAlarm(isChecked);
+                changeAlarmState(1);
+            }
+        });
+
+        eventAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                userAlarm.setEventAlarm(isChecked);
+                changeAlarmState(2);
+            }
+        });
+
+        newclubAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                userAlarm.setNewclubAlarm(isChecked);
+                changeAlarmState(3);
             }
         });
 
@@ -202,6 +235,25 @@ public class UserMainActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void changeAlarmState(int type){
+        if(loadingAlarm == false) return;
+        Call<ResponseObject> alarmCall = retroService.updateUserAlarm(uSchoolID, type);
+        alarmCall.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                ResponseObject data = response.body();
+                if(data.getResponse() == 1) Toast.makeText(getApplicationContext(), "알림 변경", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(getApplicationContext(), "오류", Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
+
 
     protected void onResume() {     //재시작시에 사용자 정보 새로고침
         super.onResume();
@@ -356,6 +408,33 @@ public class UserMainActivity extends AppCompatActivity {
             super.onPostExecute(result);
             //result 값을 파싱하여 원하는 작업을 한다
         }
+    }
+
+    public void getUserAlarmState(int uSchoolID){
+        Call<AlarmStateObject> alarmcall = retroService.getUserAlarmState(uSchoolID);     //매니저의 동아리 아이디 받아오기 및 세팅
+        alarmcall.enqueue(new Callback<AlarmStateObject>() {
+            @Override
+            public void onResponse(Call<AlarmStateObject> call, Response<AlarmStateObject> response) {
+                if(response.isSuccessful()){
+                    AlarmStateObject alarm = response.body();
+                    userAlarm.setEventAlarm(alarm.isEventAlarm());
+                    userAlarm.setNewclubAlarm(alarm.isNewclubAlarm());
+                    userAlarm.setStateAlarm(alarm.isStateAlarm());
+                    userAlarm.setUnreadEvent(alarm.isUnreadEvent());
+
+                    stateAlarmSwitch.setChecked(userAlarm.isStateAlarm());
+                    eventAlarmSwitch.setChecked(userAlarm.isEventAlarm());
+                    newclubAlarmSwitch.setChecked(userAlarm.isNewclubAlarm());
+                    loadingAlarm = true;
+                }else {
+                    Log.d("실패","실패 Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<AlarmStateObject> call, Throwable t) {
+                Log.d("실패","실패 msg : " + t.getMessage());
+            }
+        });
     }
 
 }

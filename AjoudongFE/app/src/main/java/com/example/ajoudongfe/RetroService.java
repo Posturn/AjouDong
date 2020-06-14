@@ -158,14 +158,11 @@ public interface RetroService {
     @PATCH("/event/{eventID}/")
     Call<EventObject>patchEventObject(@Path("eventID") int eventID, @Body EventObject eventObject);
 
-    @PUT("alarm/stateChange/{uSchoolID}/{alarmState}/")
-    Call<ResponseObject> updateStateAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmState") boolean alarmState);
+    @GET("alarm/userState/{uSchoolID}/")
+    Call<AlarmStateObject> getUserAlarmState(@Path("uSchoolID") int uSchoolID);
 
-    @PUT("alarm/eventChange/{uSchoolID}/{alarmState}/")
-    Call<ResponseObject> updateEventAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmState") boolean alarmState);
-
-    @PUT("alarm/newClubChange/{uSchoolID}/{alarmState}/")
-    Call<ResponseObject> updateNewClubAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmState") boolean alarmState);
+    @POST("alarm/alarmChange/{uSchoolID}/{alarmType}/")
+    Call<ResponseObject> updateUserAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmType") int alarmType);
 
 }
 

@@ -262,12 +262,6 @@ class UserClubApply(View):
         data = json.loads(request.body)
 
         try:
-            print(data["clubID_id"])
-            print(data["uSchoolID_id"])
-            print(data["additionalApplyContent"])
-            print(type(data["clubID_id"]))
-            print(type(data["uSchoolID_id"]))
-            print(type(data["additionalApplyContent"]))
             Apply.objects.create(
                 clubID_id = data["clubID_id"],
                 uSchoolID_id = data["uSchoolID_id"],
