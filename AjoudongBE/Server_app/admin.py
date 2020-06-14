@@ -11,6 +11,7 @@ from Server_app.models import Apply
 from Server_app.models import MarkedClubList
 from Server_app.models import Tag
 from Server_app.models import TaggedClubList
+from Server_app.models import Event
 # Register your models here.
 
 
@@ -26,3 +27,4 @@ admin.site.register(Apply)
 admin.site.register(MarkedClubList)
 admin.site.register(Tag)
 admin.site.register(TaggedClubList)
+admin.site.register(Event)

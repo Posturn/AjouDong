@@ -223,7 +223,8 @@ public class ManagerMainActivity extends AppCompatActivity {
         newevent.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                Intent intent = new Intent(getApplicationContext(), ManagerNewEventActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ManagerEventListActivity.class);
+                intent.putExtra("clubID", getClubID());
                 startActivity(intent);
                 return false;
             }

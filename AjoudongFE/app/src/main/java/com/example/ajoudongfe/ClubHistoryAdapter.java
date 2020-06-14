@@ -58,7 +58,7 @@ public class ClubHistoryAdapter extends BaseAdapter {
 
             if(thisClubActivityObject.getClubActivityID() == 0){
                 nameText.setText("");
-                clubImage.setImageResource(R.drawable.ic_add);
+                clubImage.setImageResource(R.drawable.ac_add_btn);
             }
             else{
                 checkVideo = thisClubActivityObject.getClubActivityFile().substring(thisClubActivityObject.getClubActivityFile().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
