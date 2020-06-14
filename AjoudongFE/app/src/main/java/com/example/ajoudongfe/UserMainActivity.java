@@ -68,7 +68,7 @@ public class UserMainActivity extends AppCompatActivity {
     final String secretKey = Keys.getSecretKey();
     final String bucketName = "ajoudong";
     final String folderName = "user_profile/";
-    static String imgPath3, imgName3, nowImage3 = "";
+    static private String imgPath3, imgName3, nowImage3 = "";
 
     private int uSchoolID = 201720988; //테스트용 사용자 아이디
 
@@ -97,41 +97,11 @@ public class UserMainActivity extends AppCompatActivity {
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_main);
         final View header = navigationView.getHeaderView(0);
         ImageButton eventButton = (ImageButton)findViewById(R.id.usereventlist);
-        final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
-        final TextView user_name = (TextView)header.findViewById(R.id.user_name);
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_main);
 
         final int uSchoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
         setuSchoolID(uSchoolID);
-
-        Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
-        Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
-        getCall.enqueue(new Callback<UserObject>() {
-            @Override
-            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
-                if( response.isSuccessful()){
-                    UserObject item  = response.body();
-                    Log.d(TAG, String.valueOf(user_profile.getId()));
-                    user_name.setText(item.getuName());
-                    if(item.getuIMG() != null){
-                        Picasso.get().load(item.getuIMG()).into(user_profile);
-                        nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
-                    }
-                    else{
-                        user_profile.setImageResource(R.drawable.ajoudong_icon);
-                    }
-//                    nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
-                    Log.d(TAG, nowImage3);
-                }else {
-                    Log.d(TAG,"Status Code : " + response.code());
-                }
-            }
-            @Override
-            public void onFailure(Call<UserObject> call, Throwable t) {
-                Log.d(TAG,"Fail msg : " + t.getMessage());
-            }
-        });
 
         // 이미지 편집 버튼 기능 구현
         final ImageButton profile_btn = (ImageButton)header.findViewById(R.id.user_profile_edit);
@@ -233,6 +203,42 @@ public class UserMainActivity extends AppCompatActivity {
         });
     }
 
+    protected void onResume() {     //재시작시에 사용자 정보 새로고침
+        super.onResume();
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_main);
+        final View header = navigationView.getHeaderView(0);
+        final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
+        final TextView user_name = (TextView)header.findViewById(R.id.user_name);
+        Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
+        Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
+        getCall.enqueue(new Callback<UserObject>() {
+            @Override
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
+                if( response.isSuccessful()){
+                    UserObject item  = response.body();
+                    Log.d(TAG, String.valueOf(user_profile.getId()));
+                    user_name.setText(item.getuName());
+                    if(item.getuIMG() != null){
+                        Picasso.get().load(item.getuIMG()).into(user_profile);
+                        nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                    }
+                    else{
+                        user_profile.setImageResource(R.drawable.ajoudong_icon);
+                    }
+//                    nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                    Log.d(TAG, nowImage3);
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<UserObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+
+    }
+
     public int getuSchoolID() {
         return uSchoolID;
     }
@@ -279,7 +285,6 @@ public class UserMainActivity extends AppCompatActivity {
     private void deleteIMG(){       //원래 이미지 버킷에서 삭제
         try {
             s3Client.deleteObject(new DeleteObjectRequest(bucketName, folderName+nowImage3));
-            // Log.d(TAG,nowImage +" is deleted!");
         } catch (AmazonServiceException ase) {
             Log.e(TAG, ase.getErrorMessage());
         }

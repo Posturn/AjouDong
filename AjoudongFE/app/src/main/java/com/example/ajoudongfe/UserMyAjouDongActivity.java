@@ -62,7 +62,7 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
 
     private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit) {        //그리드 생성 함수
         mGridView = findViewById(R.id.myajoudonggrid);
-        adapter = new ClubGridAdapter(this, clubObjectList, nRecruit);
+        adapter = new ClubGridAdapter(this, clubObjectList, nRecruit, 0);
         mGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
