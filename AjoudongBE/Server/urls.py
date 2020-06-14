@@ -66,6 +66,6 @@ urlpatterns = [
     path('clubquestion/<int:pk>/',views.ClubQuestionViewSet.as_view({"get": "retrieve"}), name="clubquestion"),
     path('nrecruitclubs/',views.NRecruitViewSet.as_view({"get": "list"}), name="nrecruitclubs"),
     path('event/', include('Server_app.urls')),
-    path('eventlist/<int:clubID>/', views.EventListViewset.as_view({"get":"list"}),name="clubEventList"),
+    path('eventlist', include('Server_app.event.urls')),
     re_path('admin/', admin.site.urls),
 ]
