@@ -4,6 +4,201 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".ManagerNewEventActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/eventtoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/LightToolBarTheme" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="760dp">
+
+                    <ImageView
+                        android:id="@+id/addEventIMG"
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:layout_marginStart="26dp"
+                        android:layout_marginTop="31dp"
+                        android:layout_marginEnd="10dp"
+                        android:scaleType="fitXY"
+                        app:layout_constraintEnd_toStartOf="@+id/imageView1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/image_add_btn" />
+
+                    <com.example.ajoudongfe.RoundImageView
+                        android:id="@+id/eventProfile"
+                        android:layout_width="170dp"
+                        android:layout_height="170dp"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="31dp"
+                        android:layout_marginEnd="35dp"
+                        android:background="@drawable/grid_button_image_shape"
+                        android:scaleType="fitXY"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/addEventIMG"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginEnd="335dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="행사제목"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@+id/eventTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <EditText
+                        android:id="@+id/eventTitle"
+                        android:layout_width="380dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="22dp"
+                        android:layout_marginBottom="45dp"
+                        android:ems="10"
+                        android:hint="행사 제목을 입력해주세요."
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toTopOf="@+id/textView19"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView19"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginEnd="335dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="행사날짜"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@+id/eventDay"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <EditText
+                        android:id="@+id/eventDay"
+                        android:layout_width="330dp"
+                        android:layout_height="46dp"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginBottom="31dp"
+                        android:ems="10"
+                        android:inputType="date"
+                        app:layout_constraintBottom_toTopOf="@+id/textView20"
+                        app:layout_constraintEnd_toStartOf="@+id/calendar3"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/calendar3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="74dp"
+                        android:layout_marginEnd="21dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/eventDay"
+                        app:layout_constraintTop_toBottomOf="@+id/eventTitle"
+                        app:srcCompat="@drawable/ic_calendar" />
+
+                    <TextView
+                        android:id="@+id/textView20"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginEnd="367dp"
+                        android:layout_marginBottom="11dp"
+                        android:text="소개"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@+id/eventInfo"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <EditText
+                        android:id="@+id/eventInfo"
+                        android:layout_width="380dp"
+                        android:layout_height="120dp"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginEnd="19dp"
+                        android:layout_marginBottom="17dp"
+                        android:background="@drawable/textbox"
+                        android:fontFamily="@font/nanumbarungothic"
+                        android:gravity="top"
+                        android:hint="행사 소개를 입력해주세요."
+                        android:inputType="textMultiLine"
+                        android:maxLength="1000"
+                        android:paddingLeft="8dp"
+                        android:paddingTop="8dp"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toTopOf="@+id/textView21"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView21"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="26dp"
+                        android:layout_marginEnd="364dp"
+                        android:layout_marginBottom="11dp"
+                        android:text="문의"
+                        android:textSize="18sp"
+                        app:layout_constraintBottom_toTopOf="@+id/eventContact"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <EditText
+                        android:id="@+id/eventContact"
+                        android:layout_width="380dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="23dp"
+                        android:layout_marginEnd="19dp"
+                        android:layout_marginBottom="63dp"
+                        android:ems="10"
+                        android:hint="연락처를 입력하세요."
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/view9"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <View
+                        android:id="@+id/view9"
+                        android:layout_width="390dp"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="14dp"
+                        android:layout_marginEnd="18dp"
+                        android:layout_marginBottom="31dp"
+                        android:background="#FFFFFF"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="1.0"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

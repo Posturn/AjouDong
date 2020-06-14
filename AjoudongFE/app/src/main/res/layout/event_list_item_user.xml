@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="380dp"
     android:layout_height="90dp"
+    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:cardElevation="10dp"
     android:padding="10dp"
@@ -15,7 +15,7 @@
     app:cardBackgroundColor="#F2EEE7">
 
     <LinearLayout
-        android:id="@+id/marginLayout2"
+        android:id="@+id/marginLayout3"
         android:layout_width="8dp"
         android:layout_height="match_parent"
         android:orientation="horizontal"
@@ -27,12 +27,12 @@
         android:orientation="horizontal">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/resLayout"
+            android:id="@+id/userEventLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/eventIMG"
+                android:id="@+id/userEventIMG"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_marginStart="20dp"
@@ -40,32 +40,32 @@
                 android:layout_marginEnd="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/image_rounding"
-                app:layout_constraintBottom_toBottomOf="@id/resLayout"
-                app:layout_constraintStart_toStartOf="@id/resLayout"
-                app:layout_constraintTop_toTopOf="@id/resLayout" />
+                app:layout_constraintBottom_toBottomOf="@id/userEventLayout"
+                app:layout_constraintStart_toStartOf="@id/userEventLayout"
+                app:layout_constraintTop_toTopOf="@id/userEventLayout" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/eventInfoLayout"
+                android:id="@+id/userEventInfoLayout"
                 android:padding="10dp"
                 android:layout_marginStart="10dp"
                 android:orientation="vertical"
-                app:layout_constraintStart_toEndOf="@id/eventIMG"
+                app:layout_constraintStart_toEndOf="@id/userEventIMG"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/eventName"
+                    android:id="@+id/userEventName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/nanumbarungothic"
                     android:text="불러오는중"
                     android:textColor="#000000"
-                    android:textSize="20dp" />
+                    android:textSize="25dp" />
 
                 <TextView
-                    android:id="@+id/eventDate"
+                    android:id="@+id/userEventDate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/darkgary"
@@ -75,34 +75,19 @@
                     android:text="불러오는중"/>
             </LinearLayout>
 
-            <Button
-                android:id="@+id/event_edit_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="58dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="7dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/new_edit_btn"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/event_delete_btn"
-                app:layout_constraintStart_toEndOf="@+id/eventInfoLayout"
-                app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/event_delete_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/new_delete_btn"
+            <TextView
+                android:id="@+id/eventStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="39dp"
+                android:layout_marginEnd="24dp"
+                android:padding="10dp"
+                android:textAlignment="center"
+                android:textSize="18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/event_edit_btn"
-                app:layout_constraintTop_toTopOf="parent" />
-
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.509" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>

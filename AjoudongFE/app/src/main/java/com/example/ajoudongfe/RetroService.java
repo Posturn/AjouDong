@@ -1,5 +1,7 @@
 package com.example.ajoudongfe;
 
+import android.util.EventLog;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -136,5 +138,23 @@ public interface RetroService {
 
     @GET("/clubmembers/{uSchoolID}/")
     Call<List<ClubMemberGridObject>> getClubMember(@Path("uSchoolID") int uSchoolID);
+
+    @GET("/eventlist/")
+    Call<EventListObject>getEventListAll();
+
+    @GET("/eventlist/{clubID}")
+    Call<EventListObject>getEventList(@Path("clubID") int clubID);
+
+    @GET("/event/{eventID}/")
+    Call<EventObject>getEventObject(@Path("eventID") int eventID);
+
+    @POST("/event/")
+    Call<EventObject>postEventObject(@Body EventObject eventObject);
+
+    @DELETE("/event/{eventID}/")
+    Call<EventObject>deleteEventObject(@Path("eventID") int eventID);
+
+    @PATCH("/event/{eventID}/")
+    Call<EventObject>patchEventObject(@Path("eventID") int eventID, @Body EventObject eventObject);
 }
 

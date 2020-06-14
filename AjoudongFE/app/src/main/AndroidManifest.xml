@@ -31,8 +31,10 @@
         <activity android:name=".ManagerClubInfoEditActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ManagerClubHistoryEditActivity" />
+        <activity android:name=".UserEventDetailActivity"/>
         <activity android:name=".ManagerMemberManagementActivity"></activity>
         <activity android:name=".ManagerNewEventActivity" />
+        <activity android:name=".ManagerEventListActivity"/>
         <activity android:name=".UserNewClubListActivity" />
         <activity android:name=".UserMainClubListActivity" />
         <activity android:name=".UserMajorClubListActivity" />
