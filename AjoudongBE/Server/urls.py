@@ -53,5 +53,6 @@ urlpatterns = [
     path('nrecruitclubs/',views.NRecruitViewSet.as_view({"get": "list"}), name="nrecruitclubs"),
     path('event/', include('Server_app.urls')),
     path('eventlist', include('Server_app.event.urls')),
+    path('ajoudongAdmin/', include('Server_admin.urls')),
     re_path('admin/', admin.site.urls),
 ]
