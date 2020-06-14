@@ -44,8 +44,6 @@ public class MemberFragment extends Fragment {
     private long downloadQueueID;
     private String filename;
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -53,6 +51,7 @@ public class MemberFragment extends Fragment {
         final ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_member, container, false);
         addNewMemberButton = (Button)rootView.findViewById(R.id.addNewMemberButton);
         memberCSVButton = (Button)rootView.findViewById(R.id.memberCSVButton);
+        MemberRecyclerView = (RecyclerView) rootView.findViewById(R.id.memberRecyclerView);
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -62,28 +61,7 @@ public class MemberFragment extends Fragment {
 
         downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
 
-        Call<UserListObject> call = getMemberList(clubID);
 
-        call.enqueue(new Callback<UserListObject>() {
-            @Override
-            public void onResponse(Call<UserListObject> call, Response<UserListObject> response) {
-                UserListObject data = response.body();
-                listData = data.getContent();
-                for (int i = 0; i < listData.size(); i++) {
-                    System.out.println(listData.get(i).getuSchoolID());
-                }
-                MemberRecyclerView = (RecyclerView) rootView.findViewById(R.id.memberRecyclerView);
-                MemberRecyclerAdapter = new MemberRecyclerAdapter(getActivity(), listData, clubID);
-                MemberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));MemberRecyclerView.setAdapter(MemberRecyclerAdapter);
-
-            }
-
-            @Override
-            public void onFailure(Call<UserListObject> call, Throwable t) {
-                t.printStackTrace();
-                Log.e("연결실패", "실패");
-            }
-        });
 
         addNewMemberButton.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -102,7 +80,40 @@ public class MemberFragment extends Fragment {
             }
         });
 
+        init();
+
         return rootView;
+    }
+
+    private void init() {
+        Call<UserListObject> call = getMemberList(clubID);
+
+        call.enqueue(new Callback<UserListObject>() {
+            @Override
+            public void onResponse(Call<UserListObject> call, Response<UserListObject> response) {
+                UserListObject data = response.body();
+                listData = data.getContent();
+                for (int i = 0; i < listData.size(); i++) {
+                    System.out.println(listData.get(i).getuSchoolID());
+                }
+
+                MemberRecyclerAdapter = new MemberRecyclerAdapter(getActivity(), listData, clubID);
+                MemberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));MemberRecyclerView.setAdapter(MemberRecyclerAdapter);
+
+            }
+
+            @Override
+            public void onFailure(Call<UserListObject> call, Throwable t) {
+                t.printStackTrace();
+                Log.e("연결실패", "실패");
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
     }
 
     private void downloadMemberCSV(String URL) {

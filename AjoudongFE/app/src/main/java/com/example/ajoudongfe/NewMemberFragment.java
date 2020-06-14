@@ -45,13 +45,31 @@ public class NewMemberFragment extends Fragment {
         // Inflate the layout for this fragment
         final ViewGroup rootView = (ViewGroup)inflater.inflate(R.layout.fragment_new_member, container, false);
         downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
+        appliedUserCSVButton = (Button)rootView.findViewById(R.id.appliedUserCSVButton);
+        newMemberRecyclerView = (RecyclerView)rootView.findViewById(R.id.newMemberRecyclerView);
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         clubID = 134;
+
+
+
+        appliedUserCSVButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                downloadAppliedUserCSV(BASE_URL + "/management/appliedusercsv/" + Integer.toString(clubID));
+            }
+        });
+
+        init();
+
+        return rootView;
+    }
+
+    private void init() {
         Call<UserListObject> call = getAppliedUserList(clubID);
-        appliedUserCSVButton = (Button)rootView.findViewById(R.id.appliedUserCSVButton);
+
 
         call.enqueue(new Callback<UserListObject>() {
             @Override
@@ -63,7 +81,7 @@ public class NewMemberFragment extends Fragment {
                     System.out.println(listData.get(i).getuSchoolID());
                 }
 
-                newMemberRecyclerView = (RecyclerView)rootView.findViewById(R.id.newMemberRecyclerView);
+
                 newMemberRecyclerAdapter = new NewMemberRecyclerAdapter(getActivity(), listData, clubID);
                 newMemberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 newMemberRecyclerView.setAdapter(newMemberRecyclerAdapter);
@@ -75,16 +93,14 @@ public class NewMemberFragment extends Fragment {
                 Log.e("연결실패", "실패");
             }
         });
-
-
-        appliedUserCSVButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                downloadAppliedUserCSV(BASE_URL + "/management/appliedusercsv/" + Integer.toString(clubID));
-            }
-        });
-        return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        init();
+    }
+
 
     private void downloadAppliedUserCSV(String URL) {
         Log.d("URL", URL);
