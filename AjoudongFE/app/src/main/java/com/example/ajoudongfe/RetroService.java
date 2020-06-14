@@ -11,6 +11,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.GET;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -156,5 +157,15 @@ public interface RetroService {
 
     @PATCH("/event/{eventID}/")
     Call<EventObject>patchEventObject(@Path("eventID") int eventID, @Body EventObject eventObject);
+
+    @PUT("alarm/stateChange/{uSchoolID}/{alarmState}/")
+    Call<ResponseObject> updateStateAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmState") boolean alarmState);
+
+    @PUT("alarm/eventChange/{uSchoolID}/{alarmState}/")
+    Call<ResponseObject> updateEventAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmState") boolean alarmState);
+
+    @PUT("alarm/newClubChange/{uSchoolID}/{alarmState}/")
+    Call<ResponseObject> updateNewClubAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmState") boolean alarmState);
+
 }
 

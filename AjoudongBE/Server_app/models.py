@@ -47,7 +47,7 @@ class ClubStatistic(models.Model):
 
 
 class Event(models.Model):
-    eventID = models.IntegerField(auto_created=True, primary_key= True)
+    eventID = models.AutoField( primary_key= True)
     eventName = models.CharField(max_length=32)
     eventDate = models.DateField()
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)

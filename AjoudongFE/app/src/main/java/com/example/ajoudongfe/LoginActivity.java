@@ -49,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
 
+    private String UserDeviceToken = null;
+
     private Retrofit retrofit;
 
     @Override
@@ -88,26 +90,24 @@ public class LoginActivity extends AppCompatActivity {
 //            Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
 
         }
-//        userLogin.setOnClickListener(new Button.OnClickListener(){
-//            @Override
-//            public void onClick(View view)
-//            {
-//                Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
-////                Toast.makeText(getApplicationContext(), "사용자 화면 이동", Toast.LENGTH_LONG).show();//테스트용 파일
-//                startActivity(intent);
-//            }
-//        });
-//
-//        managerLogin.setOnClickListener(new Button.OnClickListener(){
-//            @Override
-//            public void onClick(View view)
-//            {
-//                Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
-////                Toast.makeText(getApplicationContext(), "동아리 간부 화면 이동", Toast.LENGTH_LONG).show();//테스트용 파일
-//                startActivity(intent);
-//            }
-//        });
 
+        // Get token
+        // [START retrieve_current_token]
+        FirebaseInstanceId.getInstance().getInstanceId()
+                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAG", "getInstanceId failed", task.getException());
+                            return;
+                        }
+
+                        // Get new Instance ID token
+                        UserDeviceToken = task.getResult().getToken();
+                        Log.d("TAG", UserDeviceToken);
+                    }
+                });
+        // [END retrieve_current_token]
 
         loginButton.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -123,28 +123,6 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             checkAutoLogin();
                         }
-
-                        // Get token
-                        // [START retrieve_current_token]
-                        FirebaseInstanceId.getInstance().getInstanceId()
-                                .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                                        if (!task.isSuccessful()) {
-                                            Log.w("TAG", "getInstanceId failed", task.getException());
-                                            return;
-                                        }
-
-                                        // Get new Instance ID token
-                                        String token = task.getResult().getToken();
-
-                                        // Log and toast
-                                        String msg = getString(R.string.msg_token_fmt, token);
-                                        Log.d("TAG", msg);
-                                        Toast.makeText(LoginActivity.this, msg, Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                        // [END retrieve_current_token]
 
                     }
 
@@ -202,8 +180,8 @@ public class LoginActivity extends AppCompatActivity {
         {
             Intent intent = new Intent(getApplicationContext(), UserMainActivity.class);
             intent.putExtra("uSchoolID", Integer.parseInt(data.getMessage()));
+            // Token Update
             startActivity(intent);
-            return 1;
         }
         else if(data.getResponse() == 2)//간부
         {
@@ -212,13 +190,14 @@ public class LoginActivity extends AppCompatActivity {
             intent.putExtra("clubID", Integer.parseInt(data.getMessage()));
             intent.putExtra("mID", idText.getText().toString());
             startActivity(intent);
-            return 1;
         }
         else
         {
             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_LONG).show();
             return 0;
         }
+
+        return 1;
     }
 
     private void checkAutoLogin() {
@@ -231,7 +210,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private Call<ResponseObject> sendRequest(String ID, String PW) {
-        LoginObject loginObject = new LoginObject(ID, PW);
+        LoginObject loginObject = new LoginObject(ID, PW, UserDeviceToken);
 
         RetroService retroService = retrofit.create(RetroService.class);
         return retroService.login(loginObject);

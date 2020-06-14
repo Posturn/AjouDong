@@ -15,49 +15,6 @@ from rest_framework.generics import ListAPIView
 from .models import *
 from Server_app.serializers import *
 
-class login(View):
-    @csrf_exempt
-    def post(self, request):
-        data = json.loads(request.body)
-        print(data)
-        try:
-            if userAccount.objects.filter(uID = data['uID'], uPW = data['uPW']).exists():
-                
-                return JsonResponse({'response' : 1}, status=200)
-            elif managerAccount.objects.filter(mID = data['uID'], mPW = data['uPW']).exists():
-                
-                return JsonResponse({'response' : 2}, status=200)
-
-            return JsonResponse({'response' : -1}, status = 400)
-
-        except KeyError:
-            return JsonResponse({'response' : -2}, status = 400)
-
-class signup(View):
-    @csrf_exempt
-    def post(self, request):
-  
-        data = json.loads(request.body)
-        
-        try:
-            if userAccount.objects.filter(uID = data['uID']).exists():
-                 return JsonResponse({'message' : 'Exists email'}, status=400)
-            userAccount.objects.create(
-                uID = data['uID'],
-                uPW = data['uPW'],
-                uName = data['uName'],
-                uJender = data['uJender'],
-                uSchoolID = data['uSchoolID'],
-                uMajor = data['uMajor'],
-                uPhoneNumber = data['uPhoneNumber'],
-                uCollege = data['uCollege']
-            ).save()
-
-            return HttpResponse(status = 200)
-
-        except KeyError:
-            return JsonResponse({'message' : 'Invalid Keys'}, status = 400)
-
 from rest_framework.response import Response
 
 class userAccountViewset(viewsets.ModelViewSet):
@@ -146,7 +103,6 @@ class ClubSearchViewSet(viewsets.ModelViewSet):
         self.queryset = filter_club(club, self.queryset)
         self.queryset = filter_category(category, self.queryset)
         self.queryset = self.queryset.filter(clubName__icontains=search)
-        queryset_serialized = serializers.serialize('json', sort_clublist(sort, self.queryset))
         return sort_clublist(sort, self.queryset)
 
 class ClubFilter(generics.GenericAPIView):
@@ -191,8 +147,6 @@ def filter_taglist(tags, queryset):
     clubID_list = []
     category = ['레저', '종교', '사회', '창작전시', '학술', '과학기술', '체육', '연행예술', '준동아리', '음악', '예술', '기타']
     clubID_category = []
-    print('사용자가 고른것')
-    print(tags)
     for club in clubtaglist.values_list():
         for tag in tags:
             if club[2] in category and club[2] == tag:
