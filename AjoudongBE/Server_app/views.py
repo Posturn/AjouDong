@@ -4,9 +4,10 @@ import sys
 import datetime
 from django.shortcuts import render
 from django.views import View
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, FileResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import get_object_or_404
+from fcm_django.models import FCMDevice
 
 from django.core import serializers
 # Create your views here.
@@ -273,6 +274,8 @@ class UserClubApply(View):
                 uSchoolID_id = data["uSchoolID_id"],
                 additionalApplyContent = data["additionalApplyContent"],
             ).save()
+
+            userApplytoClubAlarm(134);
             
             AppliedClubList.objects.create(
                 clubID_id = data["clubID_id"],
@@ -284,6 +287,8 @@ class UserClubApply(View):
             return JsonResponse({'response' : 1}, status=200)
         except KeyError:
             return JsonResponse({'response' : -1}, status = 400)
+
+    
 
 class ClubStatisticsViewSet(viewsets.ViewSet):
     def retrieve(self, request, clubID):
@@ -319,3 +324,14 @@ class EventListViewset(viewsets.ModelViewSet):
 class EventViewset(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class=EventSerializer
+
+def userApplytoClubAlarm(clubID):
+        queryset = ManagerAccount.objects.all()
+        alarmOn = get_object_or_404(queryset, clubID_id=clubID)
+        if alarmOn.newbieAlarm == False:
+            return
+        device = FCMDevice.objects.get(name=clubID)
+    
+        message = "동아리에 지원자가 도착했습니다! "
+
+        device.send_message(title="지원자 알림", body=message, icon="ic_notification")
