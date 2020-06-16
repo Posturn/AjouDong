@@ -93,7 +93,8 @@ class deleteAppliedUser(View):
             AppliedUser.save()
 
             Apply.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
-            applicationStateChange(clubID,uSchoolID,False)
+            
+            (clubID,uSchoolID,False)
             return JsonResponse({'reponse' : 1}, status = 200)
 
         except KeyError:
@@ -234,7 +235,7 @@ def applicationStateChange(clubID, uSchoolID, applyResult):
     alarmOn = get_object_or_404(queryset, uSchoolID_id=uSchoolID)
     if alarmOn.stateAlarm == False:
         return
-    device = FCMDevice.objects.get(name=uSchoolID)
+    device = FCMDevice.objects.get(name=clubID)
     
     message = str(club.clubName) + " 동아리 지원이 승인되었습니다."
     if applyResult == False:

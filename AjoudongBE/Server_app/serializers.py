@@ -78,9 +78,10 @@ class ClubMemberSerializer(serializers.ModelSerializer):
 class EventSerializer(serializers.ModelSerializer):
     class Meta:
         model = Event
-        fields=('eventID','eventName','eventDate','eventInfo','eventFAQ','eventIMG','clubID',)
+        fields=('eventID','eventName','eventDate','eventInfo','eventIMG','clubID',)
 
-class ClubApplyResultAlarmSerializer(serializers.ModelSerializer):
+class ClubAlarmSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAlarm
-        fields = ('stateAlarm',)
+        fields = ('stateAlarm','eventAlarm','newclubAlarm','unreadEvent',)
+

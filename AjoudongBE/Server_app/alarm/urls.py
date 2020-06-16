@@ -6,8 +6,10 @@ from rest_framework import routers
 
 from . import alarm
 
+
 urlpatterns = [
-    path('/stateChange/<int:uSchoolID>', alarm.ChangeStateAlarm.as_view()),
-    path('/eventChange/<int:uSchoolID>', alarm.ChangeEventAlarm.as_view()),
-    path('/newClubChange/<int:uSchoolID>', alarm.ChangeNewClubAlarm.as_view()),
+    path('', alarm.UserAlarmState.as_view({"get": "retrieve"})),
+    path('/userState/<int:uSchoolID>/', alarm.UserAlarmState.as_view({"get": "retrieve"})),
+    path('/alarmChange/<int:uSchoolID>/<int:alarmType>/',csrf_exempt(alarm.ChangeUserAlarm.as_view())),
+    path('/unreadevent/',csrf_exempt(alarm.AddUnreadAlarm.as_view())),
 ]

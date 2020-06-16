@@ -52,7 +52,7 @@
                         android:layout_marginTop="31dp"
                         android:layout_marginEnd="35dp"
                         android:background="@drawable/grid_button_image_shape"
-                        android:scaleType="fitXY"
+                        android:scaleType="fitCenter"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/addEventIMG"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -136,10 +136,10 @@
                     <EditText
                         android:id="@+id/eventInfo"
                         android:layout_width="380dp"
-                        android:layout_height="120dp"
+                        android:layout_height="206dp"
                         android:layout_marginStart="23dp"
                         android:layout_marginEnd="19dp"
-                        android:layout_marginBottom="17dp"
+                        android:layout_marginBottom="34dp"
                         android:background="@drawable/textbox"
                         android:fontFamily="@font/nanumbarungothic"
                         android:gravity="top"
@@ -149,35 +149,8 @@
                         android:paddingLeft="8dp"
                         android:paddingTop="8dp"
                         android:textSize="15sp"
-                        app:layout_constraintBottom_toTopOf="@+id/textView21"
+                        app:layout_constraintBottom_toTopOf="@+id/view9"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <TextView
-                        android:id="@+id/textView21"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="26dp"
-                        android:layout_marginEnd="364dp"
-                        android:layout_marginBottom="11dp"
-                        android:text="문의"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toTopOf="@+id/eventContact"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent" />
-
-                    <EditText
-                        android:id="@+id/eventContact"
-                        android:layout_width="380dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="23dp"
-                        android:layout_marginEnd="19dp"
-                        android:layout_marginBottom="63dp"
-                        android:ems="10"
-                        android:hint="연락처를 입력하세요."
-                        android:textSize="15sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/view9"
                         app:layout_constraintStart_toStartOf="parent" />
 
                     <View
