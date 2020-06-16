@@ -1,13 +1,17 @@
 package com.example.ajoudongfe;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,9 +38,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.app.Activity.RESULT_OK;
+import static android.app.PendingIntent.getActivity;
 import static java.lang.Integer.parseInt;
 
-public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ItemViewHolder> {
+public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ItemViewHolder>{
 
     public static String BASE_URL= "http://10.0.2.2:8000";
     private RetroService retroService;
@@ -47,12 +55,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ItemViewHold
     final String secretKey = Keys.getSecretKey();
     final String bucketName = "ajoudong";
     final String folderName = "events/";
+    static int end = 1;
 
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
     static private String nowImage2 = "";
     private int dday;
+    private int position;
 
     public int getEventID(int position) {
         return eventIDs.get(position);
@@ -68,6 +78,14 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ItemViewHold
 
     public void setClubID(int clubID) {
         this.clubID = clubID;
+    }
+
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
     }
 
     public EventAdapter(List<EventObject> listData, int clubID) {
@@ -96,6 +114,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ItemViewHold
         return listData.size();
     }
 
+
+
     class ItemViewHolder extends RecyclerView.ViewHolder {
 
         private TextView eventName;
@@ -118,71 +138,54 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ItemViewHold
                     Intent intent = new Intent(itemView.getContext(), ManagerNewEventActivity.class);
                     intent.putExtra("eventID", getEventID(getLayoutPosition()));
                     intent.putExtra("clubID",getClubID());
-                    itemView.getContext().startActivity(intent);
+                    ((Activity)itemView.getContext()).startActivityForResult(intent, 111);
+                    notifyDataSetChanged();
                 }
             });
             deleteBtn.setOnClickListener(new Button.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Log.d(TAG, "DELETE");
-                    // pk 값은 임의로 변경가능
-                    Call<EventObject> deleteCall = retroService.deleteEventObject(getEventID(getLayoutPosition()));
-                    deleteCall.enqueue(new Callback<EventObject>() {
-                        @Override
-                        public void onResponse(Call<EventObject> call, Response<EventObject> response) {
-                            if (response.isSuccessful()) {
-                                Log.d(TAG, "삭제 완료");
-                                nowImage2 = listData.get(getLayoutPosition()).getEventIMG().substring(listData.get(getLayoutPosition()).getEventIMG().lastIndexOf("/") + 1);
-                                listData.remove(getLayoutPosition());
-                                eventIDs.remove(getLayoutPosition());
-                                notifyItemRemoved(getLayoutPosition());
-                                new DeleteTask().execute();
-                                Log.d(TAG,""+getLayoutPosition());
-                            } else {
-                                Log.d(TAG, "Status Code : " + response.code());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<EventObject> call, Throwable t) {
-                            Log.d(TAG, "Fail msg : " + t.getMessage());
-                        }
-                    });
+                    Intent intent = new Intent(itemView.getContext(), ManagerEventDeletePopupActivity.class);
+                    intent.putExtra("position", getLayoutPosition());
+                    ((Activity)itemView.getContext()).startActivityForResult(intent,1);
+                    setPosition(getLayoutPosition());
+                    //end = 0;
                 }
             });
+
         }
 
         void onBind(EventObject eventObject)
         {
-            Log.d("EventName", eventObject.getEventName());
-            setEventID(eventObject.getEventID(), getLayoutPosition());
-            setClubID(eventObject.getClubID());
-            eventName.setText(eventObject.getEventName());
-            if(eventObject.getEventIMG() != null && eventObject.getEventName().length() > 0) {
-                Picasso.get().load(eventObject.getEventIMG()).into(eventIMG);
+                Log.d("EventName", eventObject.getEventName());
+                setEventID(eventObject.getEventID(), getLayoutPosition());
+                setClubID(eventObject.getClubID());
+                eventName.setText(eventObject.getEventName());
+                if(eventObject.getEventIMG() != null && eventObject.getEventName().length() > 0) {
+                    Picasso.get().load(eventObject.getEventIMG()).into(eventIMG);
+                }
+                else
+                {
+                    eventIMG.setImageResource(R.drawable.icon);
+                }
+                String[] ddayArray = eventObject.getEventDate().split("-");
+                String Dday;
+                dday = countdday(parseInt(ddayArray[0]),parseInt(ddayArray[1]),parseInt(ddayArray[2]));
+                if(dday > 0){
+                    Dday = eventObject.getEventDate()+"(D-"+dday+")";
+                    eventDate.setText(Dday);
+                }
+                else if(dday == 0){
+                    Dday = eventObject.getEventDate()+"(D-Day)";
+                    eventDate.setText(Dday);
+                }
+                else{
+                    dday = Math.abs(dday);
+                    Dday = eventObject.getEventDate()+"(D+"+dday+")";
+                    eventDate.setText(Dday);
+                }
             }
-            else
-            {
-                eventIMG.setImageResource(R.drawable.icon);
-            }
-            String[] ddayArray = eventObject.getEventDate().split("-");
-            String Dday;
-            Log.d(TAG,""+parseInt(ddayArray[0]) + parseInt(ddayArray[1])+parseInt(ddayArray[2]));
-            dday = countdday(parseInt(ddayArray[0]),parseInt(ddayArray[1]),parseInt(ddayArray[2]));
-            if(dday > 0){
-                Dday = eventObject.getEventDate()+"(D-"+dday+")";
-                eventDate.setText(Dday);
-            }
-            else if(dday == 0){
-                Dday = eventObject.getEventDate()+"(D-Day)";
-                eventDate.setText(Dday);
-            }
-            else{
-                dday = Math.abs(dday);
-                Dday = eventObject.getEventDate()+"(D+"+dday+")";
-                eventDate.setText(Dday);
-            }
-        }
+
     }
 
     private void initMyAPI(String baseUrl){     //레트로 핏 설정
@@ -223,8 +226,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ItemViewHold
 
             mmonth -= 1; // 받아온날자에서 -1을 해줘야함.
             ddayCal.set(myear,mmonth,mday);// D-day의 날짜를 입력
-            Log.e("테스트",simpleDateFormat.format(todaCal.getTime()) + "");
-            Log.e("테스트",simpleDateFormat.format(ddayCal.getTime()) + "");
+            //Log.e("테스트",simpleDateFormat.format(todaCal.getTime()) + "");
+            //Log.e("테스트",simpleDateFormat.format(ddayCal.getTime()) + "");
 
             long today = todaCal.getTimeInMillis()/86400000; //->(24 * 60 * 60 * 1000) 24시간 60분 60초 * (ms초->초 변환 1000)
             long dday = ddayCal.getTimeInMillis()/86400000;
@@ -236,6 +239,34 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ItemViewHold
             e.printStackTrace();
             return -1;
         }
+    }
+
+    public void onActivityResult(int requestCode, Intent i) {
+        if(i.getIntExtra("result",3) == 0){
+            Log.d(TAG,"DELETE");
+             Call<EventObject> deleteCall = retroService.deleteEventObject(getEventID(getPosition()));
+                    deleteCall.enqueue(new Callback<EventObject>() {
+                        @Override
+                        public void onResponse(Call<EventObject> call, Response<EventObject> response) {
+                            if (response.isSuccessful()) {
+                                Log.d(TAG, "삭제 완료");
+                                nowImage2 = listData.get(getPosition()).getEventIMG().substring(listData.get(getPosition()).getEventIMG().lastIndexOf("/") + 1);
+                                listData.remove(getPosition());
+                                eventIDs.remove(getPosition());
+                                notifyItemRemoved(getPosition());
+                                new DeleteTask().execute();
+                                Log.d(TAG,""+getPosition());
+                            } else {
+                                Log.d(TAG, "Status Code : " + response.code());
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<EventObject> call, Throwable t) {
+                            Log.d(TAG, "Fail msg : " + t.getMessage());
+                        }
+
+                    });
+                }
     }
 
 }

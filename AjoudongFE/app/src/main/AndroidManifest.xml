@@ -34,6 +34,7 @@
         <activity android:name=".UserEventDetailActivity"/>
         <activity android:name=".ManagerMemberManagementActivity"></activity>
         <activity android:name=".ManagerNewEventActivity" />
+        <activity android:name=".ManagerEventDeletePopupActivity" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".ManagerEventListActivity"/>
         <activity android:name=".UserNewClubListActivity" />
         <activity android:name=".UserMainClubListActivity" />

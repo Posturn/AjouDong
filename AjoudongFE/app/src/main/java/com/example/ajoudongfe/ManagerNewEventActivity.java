@@ -112,7 +112,6 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         final EditText eventDay = (EditText)findViewById(R.id.eventDay);
         final ImageButton calendar3 = (ImageButton)findViewById(R.id.calendar3);
         final EditText eventInfo = (EditText)findViewById(R.id.eventInfo);
-        final EditText eventContact = (EditText)findViewById(R.id.eventContact);
 
         if(eventID == 0){       //새롭게 이벤트 등록시
             eventProfile.setImageResource(R.drawable.ajoudong_icon);
@@ -128,7 +127,6 @@ public class ManagerNewEventActivity extends AppCompatActivity {
                         eventTitle.setText(item.getEventName());
                         eventDay.setText(item.getEventDate());
                         eventInfo.setText(item.getEventInfo());
-                        eventContact.setText(item.getEventFAQ());
                         nowImage2 = item.getEventIMG().substring(item.getEventIMG().lastIndexOf("/") + 1);   //현재 이미지 파일 이름 가져오기
                         Picasso.get().load(item.getEventIMG()).into(eventProfile);
                     } else {
@@ -237,7 +235,6 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         final EditText eventTitle = (EditText)findViewById(R.id.eventTitle);
         final EditText eventDay = (EditText)findViewById(R.id.eventDay);
         final EditText eventInfo = (EditText)findViewById(R.id.eventInfo);
-        final EditText eventContact = (EditText)findViewById(R.id.eventContact);
         Log.d(TAG, "POST");
         EventObject item3 = new EventObject();
         item3.setClubID(getClubID());
@@ -245,7 +242,7 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         item3.setEventName(String.valueOf(eventTitle.getText()));
         item3.setEventInfo(String.valueOf(eventInfo.getText()));
         item3.setEventDate(eventDay.getText().toString());
-        item3.setEventFAQ(String.valueOf(eventContact.getText()));
+        item3.setEventFAQ("1");
         item3.setEventIMG(OBJECT_URL + imgName2); //여기에 바뀐 포스터 이미지 링크 삽입
         Call<EventObject> postCall = retroService.postEventObject(item3);
         postCall.enqueue(new Callback<EventObject>() {
@@ -264,13 +261,15 @@ public class ManagerNewEventActivity extends AppCompatActivity {
                 Log.d(TAG, "Fail msg : " + t.getMessage());
             }
         });
+        Intent intent = new Intent();
+        intent.putExtra("clubID", getClubID());
+        setResult(11, intent);
     }
 
     private void patchEvent() {      //글 업데이트 기능 구현
         final EditText eventTitle = (EditText)findViewById(R.id.eventTitle);
         final EditText eventDay = (EditText)findViewById(R.id.eventDay);
         final EditText eventInfo = (EditText)findViewById(R.id.eventInfo);
-        final EditText eventContact = (EditText)findViewById(R.id.eventContact);
         Log.d(TAG, "PATCH");
         EventObject item2 = new EventObject();
         item2.setClubID(getClubID());
@@ -278,7 +277,6 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         item2.setEventName(String.valueOf(eventTitle.getText()));
         item2.setEventInfo(String.valueOf(eventInfo.getText()));
         item2.setEventDate(eventDay.getText().toString());
-        item2.setEventFAQ(String.valueOf(eventContact.getText()));
         if(imgPath2 != null){
             item2.setEventIMG(OBJECT_URL + imgName2); //여기에 바뀐 포스터 이미지 링크 삽입
         }
@@ -298,6 +296,9 @@ public class ManagerNewEventActivity extends AppCompatActivity {
                 Log.d(TAG, "Fail msg : " + t.getMessage());
             }
         });
+        Intent intent = new Intent();
+        intent.putExtra("clubID",getClubID());
+        setResult(111, intent);
     }
 
     @Override       //등록 버튼 생성
@@ -311,6 +312,7 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 onBackPressed();
+                finish();
                 return true;
             case R.id.action_btn2:
                 if (getEventID()== 0) {
@@ -320,6 +322,7 @@ public class ManagerNewEventActivity extends AppCompatActivity {
                 }
                 transferIMG();
                 onBackPressed();
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);

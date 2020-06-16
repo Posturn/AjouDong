@@ -27,10 +27,12 @@ public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.Item
     public static String BASE_URL= "http://10.0.2.2:8000";
     private List<EventObject> listData = new ArrayList<>();
     final  String TAG = getClass().getSimpleName();
+
     private List<Integer> eventIDs = new ArrayList<>();
-
-
+    private List<Integer> clubIDs = new ArrayList<>();
     private int dday;
+    private String Dday;
+    private int DdayColor;
 
     public int getEventID(int position) {
         return eventIDs.get(position);
@@ -39,6 +41,27 @@ public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.Item
     public void setEventID(int eventID, int position) {
         this.eventIDs.add(position, eventID);
     }
+
+    public String getDday() { return Dday; }
+
+    public void setDday(String dday) { Dday = dday; }
+
+    public int getClubID(int position) {
+        return clubIDs.get(position);
+    }
+
+    public void setClubID(int clubID, int position) {
+        this.clubIDs.add(position, clubID);
+    }
+
+    public int getDdayColor() {
+        return DdayColor;
+    }
+
+    public void setDdayColor(int ddayColor) {
+        DdayColor = ddayColor;
+    }
+
 
     public UserEventAdapter(List<EventObject> listData) {
         this.listData = listData;
@@ -83,6 +106,9 @@ public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.Item
                 public void onClick(View v) {
                     Intent intent = new Intent(itemView.getContext(), UserEventDetailActivity.class);
                     intent.putExtra("eventID", getEventID(getLayoutPosition()));
+                    intent.putExtra("clubID", getClubID(getLayoutPosition()));
+                    intent.putExtra("dday",getDday());
+                    intent.putExtra("ddayColor",getDdayColor());
                     itemView.getContext().startActivity(intent);
                 }
             });
@@ -92,6 +118,7 @@ public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.Item
         {
             Log.d("EventName", eventObject.getEventName());
             setEventID(eventObject.getEventID(), getLayoutPosition());
+            setClubID(eventObject.getClubID(),getLayoutPosition());
             eventName.setText(eventObject.getEventName());
             eventDate.setText(eventObject.getEventDate());
             if(eventObject.getEventIMG() != null && eventObject.getEventName().length() > 0) {
@@ -107,24 +134,32 @@ public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.Item
             dday = countdday(parseInt(ddayArray[0]),parseInt(ddayArray[1]),parseInt(ddayArray[2]));
             if(dday > 7){
                 Dday = "D-"+dday;
+                setDday(Dday);
                 eventStatus.setText(Dday);
                 eventStatus.setTextColor(Color.BLUE);
+                setDdayColor(Color.BLUE);
             }
             else if(dday <= 7 && dday > 0){
                 Dday = "D-"+dday;
+                setDday(Dday);
                 eventStatus.setText(Dday);
                 eventStatus.setTextColor(Color.RED);
+                setDdayColor(Color.RED);
             }
             else if(dday == 0){
                 Dday = "D-Day";
+                setDday(Dday);
                 eventStatus.setText(Dday);
                 eventStatus.setTextColor(Color.GREEN);
+                setDdayColor(Color.GREEN);
             }
             else{
                 dday = Math.abs(dday);
                 Dday = "종료";
+                setDday(Dday);
                 eventStatus.setText(Dday);
                 eventStatus.setTextColor(Color.GRAY);
+                setDdayColor(Color.GRAY);
             }
         }
     }
