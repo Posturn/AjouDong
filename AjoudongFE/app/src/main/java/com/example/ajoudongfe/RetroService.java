@@ -164,5 +164,7 @@ public interface RetroService {
     @POST("alarm/alarmChange/{uSchoolID}/{alarmType}/")
     Call<ResponseObject> updateUserAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmType") int alarmType);
 
+    @POST("alarm/unreadevent/")
+    Call<ResponseObject> addUnreadEvent();
 }
 

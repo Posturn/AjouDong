@@ -93,12 +93,6 @@ public class ManagerEventListActivity extends AppCompatActivity {
         });
 
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
     
     private Call<EventListObject> getEventList(int clubID) {
         RetroService retroService = retrofit.create(RetroService.class);

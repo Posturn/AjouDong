@@ -242,7 +242,6 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         item3.setEventName(String.valueOf(eventTitle.getText()));
         item3.setEventInfo(String.valueOf(eventInfo.getText()));
         item3.setEventDate(eventDay.getText().toString());
-        item3.setEventFAQ("1");
         item3.setEventIMG(OBJECT_URL + imgName2); //여기에 바뀐 포스터 이미지 링크 삽입
         Call<EventObject> postCall = retroService.postEventObject(item3);
         postCall.enqueue(new Callback<EventObject>() {
@@ -264,6 +263,21 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         Intent intent = new Intent();
         intent.putExtra("clubID", getClubID());
         setResult(11, intent);
+    }
+
+    private void plusUnreadEvent(){
+        Call<ResponseObject> alarmCall = retroService.addUnreadEvent();
+        alarmCall.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                ResponseObject data = response.body();
+            }
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                t.printStackTrace();
+            }
+
+        });
     }
 
     private void patchEvent() {      //글 업데이트 기능 구현
@@ -317,6 +331,7 @@ public class ManagerNewEventActivity extends AppCompatActivity {
             case R.id.action_btn2:
                 if (getEventID()== 0) {
                     postNewEvent();
+                    plusUnreadEvent();
                 } else {
                     patchEvent();
                 }
