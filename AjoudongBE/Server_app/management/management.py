@@ -88,7 +88,7 @@ class deleteAppliedUser(View):
     @csrf_exempt
     def post(self, request, clubID, uSchoolID):
         try:
-            AppliedUser = applieduserlist.objects.get(clubID_id = clubID, uSchoolID_id = uSchoolID)
+            AppliedUser = AppliedClubList.objects.get(clubID_id = clubID, uSchoolID_id = uSchoolID)
             AppliedUser.memberState = -1
             AppliedUser.save()
 
@@ -139,10 +139,10 @@ class csvupload(View):
                 print("학번 : " + line[1])
                 print("단과대 : " + line[2])
                 print("학과 : " + line[3])
-                ClubMember.objects.create(
-                    clubID_id = clubID,
-                    uSchoolID_id = line[1]
-                ).save
+                # ClubMember.objects.create(
+                #     clubID_id = clubID,
+                #     uSchoolID_id = line[1]
+                # ).save
 
             return JsonResponse({'reponse' : 1}, status = 200)
 
