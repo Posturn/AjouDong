@@ -64,6 +64,7 @@ public class UserMainActivity extends AppCompatActivity {
     private DrawerLayout drawerlayout;
     private Context context = this;
 
+    private long backKeyPressedTime;
     private AlarmStateObject userAlarm;
     private Switch stateAlarmSwitch;
     private Switch eventAlarmSwitch;
@@ -397,6 +398,25 @@ public class UserMainActivity extends AppCompatActivity {
         cursor.moveToFirst();
         imgPath3 = cursor.getString(column_index);
         return imgPath3;
+    }
+
+    @Override
+    public void onBackPressed() {
+        //1번째 백버튼 클릭
+        if(System.currentTimeMillis()>backKeyPressedTime+2000){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        //2번째 백버튼 클릭 (종료)
+        else{
+            AppFinish();
+        }
+    }
+
+    public void AppFinish(){
+        finish();
+        System.exit(1);
+        android.os.Process.killProcess(android.os.Process.myPid());
     }
 
     private class DeleteTask extends AsyncTask< Void, Void, String > {
