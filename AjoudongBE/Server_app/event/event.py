@@ -27,8 +27,7 @@ class getEvent(View):
                 event['eventDate'] = list(i.values())[2]
                 event['clubID']= club.clubID
                 event['eventInfo'] = list(i.values())[4]
-                event['eventFAQ'] = list(i.values())[5]
-                event['eventIMG'] = list(i.values())[6]
+                event['eventIMG'] = list(i.values())[5]
                 #event['eventDate'] = Event.objects.get(clubID_id = list(i.values())[3]).eventDate
                 eventList.append(event)
 
@@ -52,8 +51,7 @@ class getEventAll(View):
                 event['eventDate'] = list(i.values())[2]
                 event['clubID']= club.clubID
                 event['eventInfo'] = list(i.values())[4]
-                event['eventFAQ'] = list(i.values())[5]
-                event['eventIMG'] = list(i.values())[6]
+                event['eventIMG'] = list(i.values())[5]
                 eventList.append(event)
 
             return JsonResponse({'response' : 1, 'content' : eventList}, status = 200)

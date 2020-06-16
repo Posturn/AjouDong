@@ -7,7 +7,6 @@ public class EventObject {
     private String eventDate;
     private int clubID;
     private String eventInfo;
-    private String eventFAQ;
     private String eventIMG;
 
     public int getEventID() {
@@ -48,14 +47,6 @@ public class EventObject {
 
     public void setEventInfo(String eventInfo) {
         this.eventInfo = eventInfo;
-    }
-
-    public String getEventFAQ() {
-        return eventFAQ;
-    }
-
-    public void setEventFAQ(String eventFAQ) {
-        this.eventFAQ = eventFAQ;
     }
 
     public String getEventIMG() {
