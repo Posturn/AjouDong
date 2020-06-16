@@ -120,34 +120,59 @@ class csvupload(View):
     @csrf_exempt
     def post(self, request, clubID):
         
-        try:
-            if request.FILES.__len__() == 0:
-                message = "File doesn't exist."
-                print(message)
-                return JsonResponse({'response' : -3, 'message' : message}, status = 403)
-            uploadFile = request.FILES['file']
-            f = uploadFile.read().decode('utf-8-sig').splitlines()
-            rdr = csv.reader(f) 
-            lines = []
-            for line in rdr:
-                lines.append(line)
+        print(type(request.FILES['members.csv']))
+
+        uploadFile = request.FILES['members.csv']
+
+        f = uploadFile.read().decode('utf-8-sig').splitlines()
+        rdr = csv.reader(f) 
+        lines = []
+        for line in rdr:
+            lines.append(line)
             
-            lines.pop(0)
-            print(clubID)
-            for line in lines:
+        lines.pop(0)
+        for line in lines:
+            if line != []:
                 print("이름 : " + line[0])
                 print("학번 : " + line[1])
                 print("단과대 : " + line[2])
                 print("학과 : " + line[3])
-                # ClubMember.objects.create(
-                #     clubID_id = clubID,
-                #     uSchoolID_id = line[1]
-                # ).save
+                ClubMember.objects.create(
+                    clubID_id = clubID,
+                    uSchoolID_id = line[1]
+                ).save
 
-            return JsonResponse({'reponse' : 1}, status = 200)
+        return JsonResponse({'reponse' : 1}, status = 200)
 
-        except KeyError:
-            return JsonResponse({'response' : -2}, status = 401)
+
+        # try:
+        #     if request.FILES.__len__() == 0:
+        #         message = "File doesn't exist."
+        #         print(message)
+        #         return JsonResponse({'response' : -3, 'message' : message}, status = 403)
+        #     uploadFile = request.FILES['file']
+        #     f = uploadFile.read().decode('utf-8-sig').splitlines()
+        #     rdr = csv.reader(f) 
+        #     lines = []
+        #     for line in rdr:
+        #         lines.append(line)
+            
+        #     lines.pop(0)
+        #     print(clubID)
+        #     for line in lines:
+        #         print("이름 : " + line[0])
+        #         print("학번 : " + line[1])
+        #         print("단과대 : " + line[2])
+        #         print("학과 : " + line[3])
+        #         # ClubMember.objects.create(
+        #         #     clubID_id = clubID,
+        #         #     uSchoolID_id = line[1]
+        #         # ).save
+
+        #     return JsonResponse({'reponse' : 1}, status = 200)
+
+        # except KeyError:
+        #     return JsonResponse({'response' : -2}, status = 400)
 
 class appliedUserCSV(View):
     @csrf_exempt

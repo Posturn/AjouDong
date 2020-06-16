@@ -55,9 +55,8 @@ public interface RetroService {
     Call<ResponseObject> deleteMember(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
 
     @Multipart
-    @POST("management/csvupload/{clubID}")
-    Call<ResponseObject> uploadCSV(@Part("description") RequestBody description,
-                                   @Part MultipartBody.Part file,
+    @POST("management/csvupload/{clubID}/")
+    Call<ResponseObject> uploadCSV(@Part MultipartBody.Part file,
                                    @Path("clubID") int clubID);
 
     @GET("management/membercsv/{clubID}")

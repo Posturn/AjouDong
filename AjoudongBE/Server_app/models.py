@@ -52,7 +52,6 @@ class Event(models.Model):
     eventDate = models.DateField()
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
     eventInfo = models.CharField(max_length=1024)
-    eventFAQ = models.CharField(max_length=1024)
     eventIMG = models.CharField(max_length=1024, null=True)
 
 class MarkedClubList(models.Model):
@@ -75,7 +74,7 @@ class UserAlarm(models.Model):
     stateAlarm = models.BooleanField()
     eventAlarm = models.BooleanField()
     autoLogin = models.BooleanField()
-    unreadEvent = models.BooleanField()
+    unreadEvent = models.IntegerField()
 
 class UserAccount(models.Model):
     uID = models.CharField(max_length=20,)

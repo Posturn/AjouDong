@@ -148,7 +148,7 @@ public class MemberFragment extends Fragment {
             Log.d("","Chosen path = "+ filePath);
 
 
-            File file = new File(Objects.requireNonNull(data.getData().getPath()));
+            File file = new File(Objects.requireNonNull(filePath));
             Log.d("FILENAME", file.getName());
             RequestBody requestFile = RequestBody.create(MediaType.parse("text/csv"), file);
             MultipartBody.Part body = MultipartBody.Part.createFormData("members.csv", file.getName(), requestFile);
@@ -156,7 +156,7 @@ public class MemberFragment extends Fragment {
             Log.d("desc", descriptionString);
             RequestBody description = RequestBody.create(okhttp3.MultipartBody.FORM, descriptionString);
 
-            Call<ResponseObject> call = retroService.uploadCSV(description, body, clubID);
+            Call<ResponseObject> call = retroService.uploadCSV(body, clubID);
 
             call.enqueue(new Callback<ResponseObject>() {
                 @Override
@@ -233,9 +233,9 @@ public class MemberFragment extends Fragment {
 
                 final String id = DocumentsContract.getDocumentId(uri);
                 final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/public_downloads"), Long.valueOf(id));
+                        Uri.parse("content://downloads/my_downloads"), Long.valueOf(id));
 
-                return getDataColumn(context, uri, null, null);
+                return getDataColumn(context, contentUri, null, null);
             }
             // MediaProvider
             else if (isMediaDocument(uri)) {
