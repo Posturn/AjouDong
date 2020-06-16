@@ -31,6 +31,7 @@ public class ManagerEventListActivity extends AppCompatActivity {
     private int clubID;
     private List<EventObject> listData = new ArrayList<>();
     private Toolbar toolbar;
+    private int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,15 +58,14 @@ public class ManagerEventListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ManagerNewEventActivity.class);
                 intent.putExtra("eventID", 0);
                 intent.putExtra("clubID", clubID);
-                startActivity(intent);
+                startActivityForResult(intent, 11);
+
+
             }
         });
-    }
 
-    protected void onResume(){
-        super.onResume();
         final LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
-        final int clubID = getIntent().getIntExtra("clubID", 0);
+        //final int clubID = getIntent().getIntExtra("clubID", 0);
         Log.d("clubID", ""+clubID);
         Call<EventListObject> call = getEventList(clubID);
         Log.d("Call", "Start");
@@ -91,8 +91,15 @@ public class ManagerEventListActivity extends AppCompatActivity {
                 Log.e("연결실패", "실패");
             }
         });
+
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+    
     private Call<EventListObject> getEventList(int clubID) {
         RetroService retroService = retrofit.create(RetroService.class);
         return retroService.getEventList(clubID);
@@ -107,5 +114,41 @@ public class ManagerEventListActivity extends AppCompatActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1){
+            eventAdapter.onActivityResult(requestCode, data);
+        }
+        else if(requestCode == 11 || requestCode == 111){
+            clubID = data.getIntExtra("clubID", 0);
+            final LinearLayoutManager linearLayoutManager2 = new LinearLayoutManager(this);
+            //final int clubID = getIntent().getIntExtra("clubID", 0);
+            Log.d("clubID", ""+clubID);
+            Call<EventListObject> call = getEventList(clubID);
+            Log.d("Call", "Start");
+
+            call.enqueue(new Callback<EventListObject>() {
+                @Override
+                public void onResponse(Call<EventListObject> call, Response<EventListObject> response) {
+                    EventListObject data = response.body();
+                    Log.d("response", ""+data);
+                    listData = data.getContent();
+
+                    eventListRecyclerView = (RecyclerView)findViewById(R.id.eventListRecyclerView);
+                    eventAdapter = new EventAdapter(listData, clubID);
+
+                    eventListRecyclerView.setLayoutManager(linearLayoutManager2);
+                    eventListRecyclerView.setAdapter(eventAdapter);
+                    eventAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onFailure(Call<EventListObject> call, Throwable t) {
+                    t.printStackTrace();
+                    Log.e("연결실패", "실패");
+                }
+            });
+        }
     }
 }

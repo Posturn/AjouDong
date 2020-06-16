@@ -40,16 +40,47 @@ public class UserEventDetailActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 
         final int eventID = getIntent().getIntExtra("eventID", 0);
+        final int clubID = getIntent().getIntExtra("clubID",0);
+        final String Dday = getIntent().getStringExtra("dday");
+        final int DdayColor = getIntent().getIntExtra("ddayColor",0);
         initMyAPI(BASE_URL);
 
         final TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title3);
         final ImageView userEventIMG  = (ImageView) findViewById(R.id.userEventProfile);
+        final ImageView clubIcon = (ImageView)findViewById(R.id.club_icon);
+        final TextView eventDday = (TextView) findViewById(R.id.userEventDday);
         final TextView eventDate = (TextView) findViewById(R.id.userEventDay);
         final TextView eventInfo = (TextView) findViewById(R.id.userEventInfo);
-        final TextView eventContact = (TextView) findViewById(R.id.userEventContact);
+        final TextView eventClubName = (TextView) findViewById(R.id.userEventClubName);
+        final ImageView eventDetailBackground = (ImageView)findViewById(R.id.eventDetailBackground);
+        eventDetailBackground.setImageResource(R.drawable.white_background);
 
+        Log.d(TAG, "GET");       //동아리 이미지 및 이름 불러오기
+        Call<ClubObject> getCall2 = retroService.getClubGrid(clubID);
+        getCall2.enqueue(new Callback<ClubObject>() {
+            @Override
+            public void onResponse(Call<ClubObject> call, Response<ClubObject> response) {
+                if (response.isSuccessful()) {
+                    ClubObject item2 = response.body();
+                    eventClubName.setText(item2.getName());
+                    if(item2.getIMG() != null){
+                        Picasso.get().load(item2.getIMG()).into(clubIcon);
+                    }
+                    else{
+                        clubIcon.setImageResource(R.drawable.icon);
+                    }
+                } else {
+                    Log.d(TAG, "Status Code : " + response.code());
+                }
+            }
 
-        Log.d(TAG, "GET");       //처음 동아리 활동내역 정보 불러오기
+            @Override
+            public void onFailure(Call<ClubObject> call, Throwable t) {
+                Log.d(TAG, "Fail msg : " + t.getMessage());
+            }
+        });
+
+        Log.d(TAG, "GET");       //행사 정보 불러오기
         Call<EventObject> getCall = retroService.getEventObject(eventID);
         getCall.enqueue(new Callback<EventObject>() {
             @Override
@@ -59,7 +90,8 @@ public class UserEventDetailActivity extends AppCompatActivity {
                     toolbarTitle.setText(item.getEventName());
                     eventDate.setText(item.getEventDate());
                     eventInfo.setText(item.getEventInfo());
-                    eventContact.setText(item.getEventFAQ());
+                    eventDday.setText(Dday);
+                    eventDday.setTextColor(DdayColor);
                     if(item.getEventIMG() != null){
                         Picasso.get().load(item.getEventIMG()).into(userEventIMG);
                     }

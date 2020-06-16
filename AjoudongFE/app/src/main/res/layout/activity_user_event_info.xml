@@ -6,64 +6,149 @@
     android:layout_height="match_parent"
     tools:context=".UserEventListActivity">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/eventinfotoolbar"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:theme="@style/LightToolBarTheme" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:textSize="18sp"
-                android:id="@+id/toolbar_title3" />
-        </androidx.appcompat.widget.Toolbar>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/userEventProfile"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/eventinfotoolbar"
                 android:layout_width="match_parent"
-                android:layout_height="240dp"
-                android:scaleType="fitXY"
-                app:srcCompat="@drawable/ajoudong_icon"/>
+                android:layout_height="?attr/actionBarSize"
+                android:theme="@style/LightToolBarTheme">
 
-        <TextView
-            android:id="@+id/userEventDay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="TextView"
-            android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/toolbar_title3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="18sp" />
+            </androidx.appcompat.widget.Toolbar>
 
-        <TextView
-            android:id="@+id/userEventInfo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="TextView"
-            android:textSize="18sp" />
+                <ImageView
+                    android:id="@+id/userEventProfile"
+                    android:layout_marginTop="15dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="400dp"
+                    android:scaleType="fitCenter"
+                    app:srcCompat="@drawable/ajoudong_icon" />
 
-        <TextView
-            android:id="@+id/userEventContact"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:text="TextView"
-            android:textSize="18sp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/eventDetailBackground"
+                    android:layout_width="380dp"
+                    android:layout_height="400dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/rect_background"
+                    android:scaleType="fitXY"
+                    android:elevation="5dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-    </LinearLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/club_icon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginBottom="32dp"
+                    android:contentDescription="사용자이미지"
+                    android:elevation="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/userEventInfo"
+                    app:layout_constraintStart_toStartOf="@+id/userEventInfo"
+                    app:srcCompat="@drawable/ic_default_round" />
+
+                <TextView
+                    android:id="@+id/userEventDay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="28dp"
+                    android:text="TextView"
+                    android:textSize="15sp"
+                    android:elevation="10dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userEventDday" />
+
+                <TextView
+                    android:id="@+id/userEventInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="196dp"
+                    android:layout_marginBottom="8dp"
+                    android:padding="10dp"
+                    android:text="TextView"
+                    android:textSize="15sp"
+                    android:elevation="10dp"
+                    app:layout_constraintBottom_toTopOf="@+id/view10"
+                    app:layout_constraintEnd_toStartOf="@+id/userEventDay" />
+
+                <TextView
+                    android:id="@+id/userEventClubName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginBottom="40dp"
+                    android:elevation="10dp"
+                    android:text="TextView"
+                    android:textSize="18sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userEventInfo"
+                    app:layout_constraintStart_toEndOf="@+id/club_icon" />
+
+                <TextView
+                    android:id="@+id/userEventDday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="328dp"
+                    android:layout_marginBottom="48dp"
+                    android:elevation="10dp"
+                    android:gravity="end"
+                    android:text="D-day"
+                    android:textSize="22sp"
+                    app:layout_constraintBottom_toTopOf="@+id/userEventInfo"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <View
+                    android:id="@+id/view10"
+                    android:layout_width="390dp"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="14dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginBottom="256dp"
+                    android:background="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/view11"
+                android:layout_width="390dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="14dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="30dp"
+                android:background="#FFFFFF"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
