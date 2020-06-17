@@ -261,15 +261,16 @@ class UserClubApply(View):
     def post(self, request):
 
         data = json.loads(request.body)
-
+        
         try:
+            clubID=data["clubID_id"]
             Apply.objects.create(
-                clubID_id = data["clubID_id"],
+                clubID_id = clubID,
                 uSchoolID_id = data["uSchoolID_id"],
                 additionalApplyContent = data["additionalApplyContent"],
             ).save()
 
-            userApplytoClubAlarm(134);
+            userApplytoClubAlarm(clubID)   
             
             AppliedClubList.objects.create(
                 clubID_id = data["clubID_id"],
@@ -328,5 +329,6 @@ def userApplytoClubAlarm(clubID):
     
         message = "동아리에 지원자가 도착했습니다!"
 
-        device.send_message(title="지원자 알림", body=message, icon="ic_notification", click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY", data={"title": "지원자 알림", "message": "동아리에 지원자가 도착했습니다!"})
+        device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY",data={"title": "지원자 알림", "message": "동아리에 지원자가 도착했습니다!"})
 
+#

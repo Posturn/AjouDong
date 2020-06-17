@@ -8,6 +8,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -60,6 +62,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.drawable.ic_notification : R.mipmap.ic_launcher)
                     .setContentTitle(title)
                     .setContentText(message)
+                    .setColor(ContextCompat.getColor(this, R.color.ajouLogoBlue))
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setContentIntent(pendingIntent)
@@ -79,6 +82,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setContentText(message)
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
+                    .setColor(ContextCompat.getColor(this, R.color.ajouLogoBlue))
                     .setContentIntent(pendingIntent);
 
             NotificationManager notificationManager =

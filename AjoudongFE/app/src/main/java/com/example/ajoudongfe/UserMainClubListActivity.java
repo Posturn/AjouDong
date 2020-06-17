@@ -232,6 +232,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                 }
                 else if(id == R.id.user_bookmarked_list){
                     Intent intent = new Intent(getApplicationContext(), UserBookmarkClubActivity.class);
+                    intent.putExtra("uSchoolID", uSchoolID);
                     startActivity(intent);
                 }
                 else if(id == R.id.user_new_club_alarm){

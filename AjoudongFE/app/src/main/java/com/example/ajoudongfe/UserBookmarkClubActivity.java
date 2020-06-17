@@ -33,9 +33,9 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
     private List<ClubObject> clubmodels = new ArrayList<>();
 
 
-    private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit) {
+    private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit, int schoolID) {
         mGridView = findViewById(R.id.bookmarkgrid);
-        adapter = new ClubGridAdapter(this, clubObjectList, null, 0);
+        adapter = new ClubGridAdapter(this, clubObjectList, null, schoolID);
         mGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -106,7 +106,7 @@ public class UserBookmarkClubActivity<list> extends AppCompatActivity {
                 clubmodels.add(response.body());
                 Log.v("클럽객체", String.valueOf(response.body()));
                 Log.v("add 후 객체", String.valueOf(clubmodels));
-                populateGridView(clubmodels, null);
+                populateGridView(clubmodels, null, schoolID);
             }
 
             @Override

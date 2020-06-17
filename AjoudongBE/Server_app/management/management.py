@@ -240,4 +240,4 @@ def applicationStateChange(clubID, uSchoolID, applyResult):
     if applyResult == False:
         message = str(club.clubName) + " 동아리 지원이 거절되었습니다."
 
-    device.send_message(title="동아리 지원 결과 업데이트!", body=message, icon="ic_notification",click_action="OPEN_USER_APPLY_RESULT_ACTIVITY")
+    device.send_message(title="동아리 지원 결과 업데이트!", body=message, icon="ic_notification",click_action="OPEN_USER_APPLY_RESULT_ACTIVITY", data={"title": "동아리 지원 결과 업데이트!", "message": message})
