@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -392,9 +393,9 @@ public class ManagerMainActivity extends AppCompatActivity {
     }
 
     public void AppFinish(){
-        finish();
-        System.exit(1);
-        android.os.Process.killProcess(android.os.Process.myPid());
+//        finish();
+//        System.exit(1);
+        ActivityCompat.finishAffinity(this);
     }
 
 
