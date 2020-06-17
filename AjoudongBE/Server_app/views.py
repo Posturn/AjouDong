@@ -269,13 +269,13 @@ class UserClubApply(View):
                 additionalApplyContent = data["additionalApplyContent"],
             ).save()
 
-            userApplytoClubAlarm(134);
+            userApplytoClubAlarm(134)
             
             AppliedClubList.objects.create(
                 clubID_id = data["clubID_id"],
                 uSchoolID_id = data["uSchoolID_id"],
                 memberState = 0,
-                applyDate = "2020.06.02"
+                applyDate = "2020.06.17"
             ).save()
 
             return JsonResponse({'response' : 1}, status=200)

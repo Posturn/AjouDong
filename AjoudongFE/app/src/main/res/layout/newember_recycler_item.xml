@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/uIMG"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -27,6 +27,7 @@
             android:layout_marginBottom="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="20dp"
+            android:layout_gravity="center_vertical"
             app:layout_constraintTop_toTopOf="@id/newmemberItemLayout"
             app:layout_constraintBottom_toBottomOf="@id/newmemberItemLayout"
             app:layout_constraintStart_toStartOf="@id/newmemberItemLayout"/>

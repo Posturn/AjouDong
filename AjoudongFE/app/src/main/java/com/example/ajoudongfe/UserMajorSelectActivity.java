@@ -87,6 +87,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
 
         final int uSchoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
+        setuSchoolID(uSchoolID);
 
         s3Client.setRegion(Region.getRegion(Regions.AP_NORTHEAST_2));
         initMyAPI(BASE_URL);
@@ -170,6 +171,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 1);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -180,6 +182,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 2);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -201,6 +204,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 4);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -211,6 +215,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 5);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -221,6 +226,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 6);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -231,6 +237,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 7);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -241,6 +248,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 8);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -251,6 +259,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 9);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -261,6 +270,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 10);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -271,6 +281,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 11);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }
@@ -281,6 +292,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), UserMajorClubListActivity.class);
                 intent.putExtra("college", 12);
+                intent.putExtra("uSchoolID", uSchoolID);
                 startActivity(intent);
                 return false;
             }

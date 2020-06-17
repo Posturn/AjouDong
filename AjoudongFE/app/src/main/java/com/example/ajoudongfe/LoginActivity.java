@@ -89,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
         if(pref.getBoolean("Auto_Login_Enabled", false))//자동로그인
         {
             init = 1;
-            Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
+//            Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
             Call<ResponseObject> call = sendRequest(pref.getString("ID", ""), pref.getString("PW", ""), pref.getString("UTOKEN", ""));
 
             call.enqueue(new Callback<ResponseObject>() {

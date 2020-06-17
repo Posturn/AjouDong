@@ -228,7 +228,7 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
             if(memberInfoObject.getuIMG() != null && memberInfoObject.getuName().length() > 0) {
                 Picasso.get().load(memberInfoObject.getuIMG()).into(uIMG);
                 Picasso.get().load(memberInfoObject.getuIMG()).into(childuIMG);
-                uIMG.setBackground(new ShapeDrawable(new OvalShape()));
+                //uIMG.setBackground(new ShapeDrawable(new OvalShape()));
                 uIMG.setClipToOutline(true);
 
             }

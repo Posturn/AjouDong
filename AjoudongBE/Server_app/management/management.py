@@ -21,7 +21,7 @@ class memberlist(View):
     @csrf_exempt
     def get(self, request, clubID):
         try:
-            queryset = ClubMember.objects.filter(clubID_id=clubID)
+            queryset = ClubMember.objects.filter(clubID_id=clubID).order_by('-id')
             memberList = list(queryset.values())
             print(memberList)
             memberInfoList = []
@@ -179,7 +179,7 @@ class appliedUserCSV(View):
     def get(self, request, clubID):
         try:
             file_name = 'appliedUsers.csv'
-            f = open('appliedUsers.csv', 'w', encoding='utf-8-sig')
+            f = open('appliedUsers.csv', 'w', encoding='utf-8-sig', newline='')
             wr = csv.writer(f)
             wr.writerow(['이름','학번','단과대','학과', '전화번호'])
             queryset = Apply.objects.filter(clubID_id=clubID)
@@ -205,7 +205,7 @@ class memberCSV(View):
     def get(self, request, clubID):
         try:
             file_name = 'members.csv'
-            f = open(file_name, 'w', encoding='utf-8-sig')
+            f = open(file_name, 'w', encoding='utf-8-sig', newline='')
             wr = csv.writer(f)
             wr.writerow(['이름','학번','단과대','학과', '전화번호'])
             queryset = ClubMember.objects.filter(clubID_id=clubID)
