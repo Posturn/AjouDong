@@ -64,6 +64,7 @@ public class UserMainActivity extends AppCompatActivity {
     private DrawerLayout drawerlayout;
     private Context context = this;
 
+    private long backKeyPressedTime;
     private AlarmStateObject userAlarm;
     private Switch stateAlarmSwitch;
     private Switch eventAlarmSwitch;
@@ -85,6 +86,7 @@ public class UserMainActivity extends AppCompatActivity {
     static private String imgPath3, imgName3, nowImage3 = "";
 
     private int uSchoolID = 201720988; //테스트용 사용자 아이디
+    private int unread;
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
@@ -194,7 +196,7 @@ public class UserMainActivity extends AppCompatActivity {
         newclubAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 userAlarm.setNewclubAlarm(isChecked);
-                changeAlarmState(3);
+                changeAlarmState(4);
             }
         });
 
@@ -232,6 +234,7 @@ public class UserMainActivity extends AppCompatActivity {
             public void onClick(View v){
                 Intent intent = new Intent(getApplicationContext(), UserEventListActivity.class);
                 startActivity(intent);
+                changeAlarmState(3);
             }
         });
     }
@@ -253,7 +256,6 @@ public class UserMainActivity extends AppCompatActivity {
 
         });
     }
-
 
     protected void onResume() {     //재시작시에 사용자 정보 새로고침
         super.onResume();
@@ -398,6 +400,25 @@ public class UserMainActivity extends AppCompatActivity {
         return imgPath3;
     }
 
+    @Override
+    public void onBackPressed() {
+        //1번째 백버튼 클릭
+        if(System.currentTimeMillis()>backKeyPressedTime+2000){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        //2번째 백버튼 클릭 (종료)
+        else{
+            AppFinish();
+        }
+    }
+
+    public void AppFinish(){
+        finish();
+        System.exit(1);
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
     private class DeleteTask extends AsyncTask< Void, Void, String > {
         @Override
         protected String doInBackground(Void... voids) {
@@ -420,7 +441,7 @@ public class UserMainActivity extends AppCompatActivity {
                     userAlarm.setEventAlarm(alarm.isEventAlarm());
                     userAlarm.setNewclubAlarm(alarm.isNewclubAlarm());
                     userAlarm.setStateAlarm(alarm.isStateAlarm());
-                    userAlarm.setUnreadEvent(alarm.isUnreadEvent());
+                    userAlarm.setUnreadEvent(alarm.getUnreadEvent());
 
                     stateAlarmSwitch.setChecked(userAlarm.isStateAlarm());
                     eventAlarmSwitch.setChecked(userAlarm.isEventAlarm());

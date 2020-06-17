@@ -31,9 +31,23 @@ class ChangeUserAlarm(View):
                 changeAlarm.stateAlarm = not changeAlarm.stateAlarm
             elif alarmType == 2:
                 changeAlarm.eventAlarm = not changeAlarm.eventAlarm
+            elif alarmType == 3:
+                changeAlarm.unreadEvent = 0
             else:
                 changeAlarm.newclubAlarm = not changeAlarm.newclubAlarm
             changeAlarm.save()
+            return JsonResponse({'response' : 1}, status=200)
+        except KeyError:
+            return JsonResponse({'response' : -1}, status = 400)
+
+class AddUnreadAlarm(View):
+    @csrf_exempt
+    def post(self, request):
+        try:
+            plusUnread = UserAlarm.objects.all()
+            for user in plusUnread:
+                user.unreadEvent = user.unreadEvent + 1
+                user.save()
             return JsonResponse({'response' : 1}, status=200)
         except KeyError:
             return JsonResponse({'response' : -1}, status = 400)

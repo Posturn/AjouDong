@@ -4,7 +4,7 @@ public class AlarmStateObject {
     boolean stateAlarm = false;
     boolean eventAlarm = false;
     boolean newclubAlarm = false;
-    boolean unreadEvent = false;
+    int unreadEvent;
 
     public boolean isStateAlarm() {
         return stateAlarm;
@@ -30,11 +30,12 @@ public class AlarmStateObject {
         this.newclubAlarm = newclubAlarm;
     }
 
-    public boolean isUnreadEvent() {
+    public int getUnreadEvent() {
         return unreadEvent;
     }
 
-    public void setUnreadEvent(boolean unreadEvent) {
+    public void setUnreadEvent(int unreadEvent) {
         this.unreadEvent = unreadEvent;
     }
+
 }

@@ -22,7 +22,12 @@
         <activity android:name=".UserMainClubFilterActivity" />
         <activity android:name=".UserEventListActivity" />
         <activity android:name=".UserBookmarkClubActivity" />
-        <activity android:name=".UserApplicationResultActivity" />
+        <activity android:name=".UserApplicationResultActivity">
+            <intent-filter>
+                <action android:name="OPEN_USER_APPLY_RESULT_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".UserClubHistoryActivity" />
         <activity android:name=".UserClubHistoryDetailActivity" />
         <activity android:name=".UserMyAjouDongActivity" />
@@ -32,8 +37,14 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ManagerClubHistoryEditActivity" />
         <activity android:name=".UserEventDetailActivity"/>
-        <activity android:name=".ManagerMemberManagementActivity"></activity>
+        <activity android:name=".ManagerMemberManagementActivity">
+            <intent-filter>
+                <action android:name="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".ManagerNewEventActivity" />
+        <activity android:name=".ManagerEventDeletePopupActivity" android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".ManagerEventListActivity"/>
         <activity android:name=".UserNewClubListActivity" />
         <activity android:name=".UserMainClubListActivity" />
@@ -44,7 +55,8 @@
         <activity android:name=".UserMajorSelectActivity" />
         <activity android:name=".ClubInfomationActivity" />
         <activity android:name=".ClubMemberChartActivity" />
-        <activity android:name=".AuthActivity" />
+        <activity android:name=".AuthActivity">
+        </activity>
         <activity android:name=".TempActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -63,6 +75,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </service>
 

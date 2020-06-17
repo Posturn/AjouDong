@@ -79,29 +79,25 @@
                 android:id="@+id/event_edit_btn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="58dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="7dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginStart="36dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/new_edit_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/event_delete_btn"
                 app:layout_constraintStart_toEndOf="@+id/eventInfoLayout"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.4" />
 
             <Button
                 android:id="@+id/event_delete_btn"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:layout_marginStart="7dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="4dp"
                 android:background="@drawable/new_delete_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/event_edit_btn"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.4" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

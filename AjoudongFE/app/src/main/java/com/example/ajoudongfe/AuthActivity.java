@@ -36,7 +36,7 @@ public class AuthActivity extends AppCompatActivity {
         if(pref.getBoolean("Auto_Login_Enabled", false))//자동로그인
         {
             Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
-            Call<ResponseObject> call = sendRequest(pref.getString("ID", ""), pref.getString("PW", ""));
+            Call<ResponseObject> call = sendRequest(pref.getString("ID", ""), pref.getString("PW", ""), pref.getString("UTOKEN", ""));
 
             call.enqueue(new Callback<ResponseObject>() {
                 @Override
@@ -80,8 +80,8 @@ public class AuthActivity extends AppCompatActivity {
         }
     }
 
-    private Call<ResponseObject> sendRequest(String ID, String PW) {
-        LoginObject loginObject = new LoginObject(ID, PW);
+    private Call<ResponseObject> sendRequest(String ID, String PW, String UTOKEN) {
+        LoginObject loginObject = new LoginObject(ID, PW, UTOKEN);
 
         RetroService retroService = retrofit.create(RetroService.class);
         return retroService.login(loginObject);

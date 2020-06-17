@@ -55,6 +55,8 @@ public class ManagerMainActivity extends AppCompatActivity {
     private DrawerLayout drawerlayout;
     private Context context = this;
 
+    private long backKeyPressedTime;
+
     private final int GET_GALLERY_IMAGE = 200;
     final  String TAG = getClass().getSimpleName();
 
@@ -366,4 +368,25 @@ public class ManagerMainActivity extends AppCompatActivity {
             //result 값을 파싱하여 원하는 작업을 한다
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        //1번째 백버튼 클릭
+        if(System.currentTimeMillis()>backKeyPressedTime+2000){
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(this, "한번 더 누르시면 앱이 종료됩니다.", Toast.LENGTH_SHORT).show();
+        }
+        //2번째 백버튼 클릭 (종료)
+        else{
+            AppFinish();
+        }
+    }
+
+    public void AppFinish(){
+        finish();
+        System.exit(1);
+        android.os.Process.killProcess(android.os.Process.myPid());
+    }
+
+
 }

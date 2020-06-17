@@ -53,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private Retrofit retrofit;
 
+    private int init = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -87,8 +88,22 @@ public class LoginActivity extends AppCompatActivity {
 
         if(pref.getBoolean("Auto_Login_Enabled", false))//자동로그인
         {
-//            Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
+            init = 1;
+            Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
+            Call<ResponseObject> call = sendRequest(pref.getString("ID", ""), pref.getString("PW", ""), pref.getString("UTOKEN", ""));
 
+            call.enqueue(new Callback<ResponseObject>() {
+                @Override
+                public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                    ResponseObject data = response.body();
+                    getResponse(data);
+                }
+
+                @Override
+                public void onFailure(Call<ResponseObject> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), "연결 실패", Toast.LENGTH_LONG).show();
+                }
+            });
         }
 
         // Get token
@@ -113,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Call<ResponseObject> call = sendRequest(idText.getText().toString(), pwText.getText().toString());
+                Call<ResponseObject> call = sendRequest(idText.getText().toString(), pwText.getText().toString(), UserDeviceToken);
 
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
@@ -205,12 +220,13 @@ public class LoginActivity extends AppCompatActivity {
             editor.putBoolean("Auto_Login_Enabled", true);
             editor.putString("ID", idText.getText().toString());
             editor.putString("PW", pwText.getText().toString());
+            editor.putString("UTOKEN", UserDeviceToken);
             editor.commit();
         }
     }
 
-    private Call<ResponseObject> sendRequest(String ID, String PW) {
-        LoginObject loginObject = new LoginObject(ID, PW, UserDeviceToken);
+    private Call<ResponseObject> sendRequest(String ID, String PW, String UTOKEN) {
+        LoginObject loginObject = new LoginObject(ID, PW, UTOKEN);
 
         RetroService retroService = retrofit.create(RetroService.class);
         return retroService.login(loginObject);

@@ -33,7 +33,7 @@ class login(View):
                 return JsonResponse({'response' : -1}, status = 402)
 
         except KeyError:
-            return JsonResponse({'response' : -2}, status = 401)
+            return JsonResponse({'response' : -2}, status = 403)
 
 def updateUserDevice(token, uID):
     fcm = FCMDevice.objects.filter(registration_id = token)

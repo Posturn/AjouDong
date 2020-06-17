@@ -13,11 +13,14 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import java.io.Console;
+
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "MyFirebaseMsgService";
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+
         Log.e("푸시", "포어그라운드1");
 
         if (remoteMessage != null && remoteMessage.getData().size() > 0) {
@@ -26,6 +29,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             showNotification(remoteMessage);
         }
     };
+
 
     private void showNotification(RemoteMessage remoteMessage) {
         Intent intent = new Intent(this, LoginActivity.class);
@@ -84,5 +88,45 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.e("푸시", "푸시가안와");
         }
     }
+
+    private void showNotification(String title, String message,  String click_action) {
+        if (title == null){
+            //제목이 없는 payload이면 기본제목을 적어줌
+            title = "AJOUDONG 소식 도착!";
+        }
+        Intent intent;
+        if (click_action.equals("UserMainActivity")) {
+            intent = new Intent(this, UserMainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }else if(click_action.equals("ManagerMainActivity")){
+            intent = new Intent(this, ManagerMainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        else if (click_action.equals("UserApplicationResultActivity")){
+            intent = new Intent(this, UserApplicationResultActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        } else {
+            intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
+                PendingIntent.FLAG_ONE_SHOT);
+
+        Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.drawable.ic_notification : R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(message)
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri)
+                .setContentIntent(pendingIntent);
+
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+
+        notificationManager.notify(0, notificationBuilder.build());
+    }
+
+
 
 }
