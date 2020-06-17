@@ -83,6 +83,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setColor(ContextCompat.getColor(this, R.color.ajouLogoBlue))
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
+                    .setColor(ContextCompat.getColor(this, R.color.ajouLogoBlue))
                     .setContentIntent(pendingIntent);
 
             NotificationManager notificationManager =
