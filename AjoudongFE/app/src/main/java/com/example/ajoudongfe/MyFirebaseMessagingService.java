@@ -60,6 +60,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.drawable.ic_notification : R.mipmap.ic_launcher)
                     .setContentTitle(title)
                     .setContentText(message)
+                    .setColor(ContextCompat.getColor(this, R.color.ajouLogoBlue))
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setContentIntent(pendingIntent)
@@ -77,6 +78,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                     .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.drawable.ic_notification : R.mipmap.ic_launcher)
                     .setContentTitle(title)
                     .setContentText(message)
+                    .setColor(ContextCompat.getColor(this, R.color.ajouLogoBlue))
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
                     .setContentIntent(pendingIntent);
