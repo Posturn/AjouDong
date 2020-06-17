@@ -77,7 +77,8 @@
             app:layout_constraintTop_toTopOf="@id/newmemberItemLayout"
             app:layout_constraintBottom_toBottomOf="@id/newmemberItemLayout"
             app:layout_constraintEnd_toEndOf="@id/newmemberItemLayout"
-            android:src="@drawable/reject_x"
+            android:layout_marginEnd="20dp"
+            android:src="@drawable/person_remove"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"/>
 
