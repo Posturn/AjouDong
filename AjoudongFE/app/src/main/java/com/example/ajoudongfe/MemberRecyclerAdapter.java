@@ -116,6 +116,7 @@ public class MemberRecyclerAdapter extends RecyclerView.Adapter<MemberRecyclerAd
         void onBind(MemberInfoObject memberInfoObject)
         {
             uSchoolIDText.setText("학번 : " + Integer.toString(memberInfoObject.getuSchoolID()));
+            Log.d("USI", Integer.toString(memberInfoObject.getuSchoolID()));
             uMajorText.setText("학과 : " + memberInfoObject.getuMajor());
             uNameText.setText("이름 : " + memberInfoObject.getuName());
             if(memberInfoObject.getuIMG() != null && memberInfoObject.getuName().length() > 0) {
