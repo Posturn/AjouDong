@@ -6,11 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -77,6 +79,9 @@ public class ManagerMainActivity extends AppCompatActivity {
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
 
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +96,9 @@ public class ManagerMainActivity extends AppCompatActivity {
 
         s3Client.setRegion(Region.getRegion(Regions.AP_NORTHEAST_2));
         initMyAPI(BASE_URL);
+
+        pref = getSharedPreferences("autologin", MODE_PRIVATE);
+        editor = pref.edit();
 
         ConstraintLayout editclubinfo = (ConstraintLayout)findViewById(R.id.editclubinfoLayout);
         ConstraintLayout membermanagement = (ConstraintLayout)findViewById(R.id.managementclubmemberLayout);
@@ -185,6 +193,8 @@ public class ManagerMainActivity extends AppCompatActivity {
                     Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.club_logout){
+                    editor.clear();
+                    editor.commit();
                     Toast.makeText(context, "로그아웃 완료", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -383,9 +393,9 @@ public class ManagerMainActivity extends AppCompatActivity {
     }
 
     public void AppFinish(){
-        finish();
-        System.exit(1);
-        android.os.Process.killProcess(android.os.Process.myPid());
+//        finish();
+//        System.exit(1);
+        ActivityCompat.finishAffinity(this);
     }
 
 

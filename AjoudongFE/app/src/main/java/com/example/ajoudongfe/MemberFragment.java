@@ -189,6 +189,8 @@ public class MemberFragment extends Fragment {
                 .setDescription("Downloaind")
                 .setTitle("members.csv")
                 .setVisibleInDownloadsUi(true)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 .setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "members.csv");
         Log.d("adf", "enas");
         downloadQueueID = downloadManager.enqueue(request);
