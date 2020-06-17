@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import android.content.Context;
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -72,6 +73,9 @@ public class UserMainActivity extends AppCompatActivity {
     private Menu navMenu;
     private boolean loadingAlarm = false;
 
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+
     private final int GET_GALLERY_IMAGE = 200;
     final  String TAG = getClass().getSimpleName();
 
@@ -105,6 +109,9 @@ public class UserMainActivity extends AppCompatActivity {
 
         s3Client.setRegion(Region.getRegion(Regions.AP_NORTHEAST_2));
         initMyAPI(BASE_URL);
+
+        pref = getSharedPreferences("autologin", MODE_PRIVATE);
+        editor = pref.edit();
 
         ConstraintLayout majorclub = (ConstraintLayout)findViewById(R.id.majorclubLayout);
         ConstraintLayout mainclub = (ConstraintLayout)findViewById(R.id.mainclubLayout);
@@ -161,6 +168,8 @@ public class UserMainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
                 else if(id == R.id.user_logout){
+                    editor.clear();
+                    editor.commit();
                     Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
