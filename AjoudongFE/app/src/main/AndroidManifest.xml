@@ -2,9 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.ajoudongfe">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_ajoudong"
@@ -13,9 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".FAQActivity"></activity>
         <activity android:name=".UserNewClubFilterActivity" />
-
         <activity android:name=".VerifyActivity" />
         <activity android:name=".UserApplyActivity" />
         <activity android:name=".UserMajorClubFilterActivity" />
@@ -25,6 +21,7 @@
         <activity android:name=".UserApplicationResultActivity">
             <intent-filter>
                 <action android:name="OPEN_USER_APPLY_RESULT_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -33,19 +30,23 @@
         <activity android:name=".UserMyAjouDongActivity" />
         <activity android:name=".ManagerClubFilterSettingActivity" />
         <activity android:name=".ManagerClubApplySettingActivity" />
-        <activity android:name=".ManagerClubInfoEditActivity"
+        <activity
+            android:name=".ManagerClubInfoEditActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".ManagerClubHistoryEditActivity" />
-        <activity android:name=".UserEventDetailActivity"/>
+        <activity android:name=".UserEventDetailActivity" />
         <activity android:name=".ManagerMemberManagementActivity">
             <intent-filter>
                 <action android:name="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity android:name=".ManagerNewEventActivity" />
-        <activity android:name=".ManagerEventDeletePopupActivity" android:theme="@android:style/Theme.Dialog"/>
-        <activity android:name=".ManagerEventListActivity"/>
+        <activity
+            android:name=".ManagerEventDeletePopupActivity"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity android:name=".ManagerEventListActivity" />
         <activity android:name=".UserNewClubListActivity" />
         <activity android:name=".UserMainClubListActivity" />
         <activity android:name=".UserMajorClubListActivity" />
@@ -55,8 +56,7 @@
         <activity android:name=".UserMajorSelectActivity" />
         <activity android:name=".ClubInfomationActivity" />
         <activity android:name=".ClubMemberChartActivity" />
-        <activity android:name=".AuthActivity">
-        </activity>
+        <activity android:name=".AuthActivity"></activity>
         <activity android:name=".TempActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -65,22 +65,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service
-            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
-            android:enabled="true" />
 
-        <service
-            android:name=".MyFirebaseMessagingService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </service>
-
-
-       
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ajoudong_icon" />
@@ -88,10 +73,25 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/ajouLogoBlue" />
 
+        <service
+            android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
+            android:enabled="true" />
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </service>
     </application>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-permission android:name="android.permission.INTERNET" />
