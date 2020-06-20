@@ -127,6 +127,7 @@ class Major_Affiliation(models.Model):
     majorCollege = models.CharField(max_length=20,)
 
 class FAQ(models.Model):
+    clubID = models.ForeignKey('Club', on_delete=models.CASCADE)
     userID = models.IntegerField()
     FAQID = models.AutoField(primary_key=True)
     FAQDate = models.DateTimeField()
@@ -134,9 +135,10 @@ class FAQ(models.Model):
     FAQContent = models.CharField(max_length=1024)
 
 class FAQComment(models.Model):
+    clubID = models.ForeignKey('Club', on_delete=models.CASCADE)
     userID = models.IntegerField()
     FAQID = models.ForeignKey('FAQ', on_delete=models.CASCADE)
     FAQCommentID = models.AutoField(primary_key=True)
     FAQCommentDate = models.DateTimeField()
     isAnonymous = models.BooleanField()
-    FAQContent = models.CharField(max_length=1024)
+    FAQCommentContent = models.CharField(max_length=1024)
