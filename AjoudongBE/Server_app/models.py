@@ -2,12 +2,11 @@ from django.db import models
 
 # Create your models here.
 class Ads(models.Model):
-    adsID = models.IntegerField(auto_created=True, primary_key=True)
+    adsID = models.AutoField(primary_key=True)
     advertiserID = models.CharField(max_length=32,)
     adsSpace = models.IntegerField()
     adsIMG = models.CharField(max_length=128)
     adsView = models.IntegerField()
-    adsrestViews = models.IntegerField()
 
 class AppliedClubList(models.Model):
     clubID = models.ForeignKey('Club', on_delete=models.CASCADE,)
@@ -96,10 +95,10 @@ class ManagerAccount(models.Model):
     newbieAlarm = models.BooleanField(default=True)
 
 class Club(models.Model):
-    clubID = models.IntegerField(primary_key=True)
+    clubID = models.AutoField(primary_key=True)
     clubName = models.CharField(max_length=32)
     clubCategory = models.CharField(max_length=256)
-    clubIMG = models.CharField(max_length=128)
+    clubIMG = models.CharField(max_length=128, null=True)
     clubMajor = models.IntegerField(default=1)
     clubDues = models.FloatField(max_length=3)
 

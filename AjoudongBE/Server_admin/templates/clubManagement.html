@@ -4,9 +4,173 @@
     <meta charset="utf-8">
     <title>AJOUDONG 회원 관리</title>
     <link href="{% static '/css/adminDesign.css' %}" rel="stylesheet" type="text/css">
+    <style>
+        div {
+            width: 100%;
+            height: 100%;
+            
+            border: 1px solid #000;
+        }
+        div.left {
+            width: 50%;
+            float: left;
+            box-sizing: border-box;
+            
+            background: #ff0;
+        }
+        div.right {
+            width: 50%;
+            float: right;
+            box-sizing: border-box;
+            
+            background: #0ff;
+        }
+        </style>
 </head>
 <body>
     <h1>동아리 관리 페이지 입니다.</h1>
+    <div>
+        <div class="left">
+            <form method="POST" name="addmanageraccount" action="{% url 'addmanageraccount' %}">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td><label>동아리 간부 계정 추가</label></td>
+                    </tr>
+                    <tr>
+                        <td><label>계정 아이디</label></td>
+                        <td><input name="mID" type="text" value="" id="managerid" placeholder="id"></td>
+                        <td rowspan="2"><input type="submit" value="Add" style="height: 50px;"></td>
+                    </tr>
+                    <tr>
+                        <td><label>계정 비밀번호</label></td>
+                        <td><input name="mPW" type="password" value="" id="managerpw" placeholder="pw"></td>
+                    </tr>
+                    <tr>
+                        <td><label>동아리 이름</label></td>
+                        <td><input name="managerclubname" type="text" value="" id="managerclubname" placeholder="name"></td>
+                    </tr>
+                    <tr>
+                        <td><label>동아리 아이디</label></td>
+                        <td><input name="managerclubid" type="text" value="" id="managerclubid" placeholder="clubid"></td>
+                    </tr>
+                    <tr>
+                        <td><label>동아리 이미지 링크</label></td>
+                        <td><input name="image" type="text" value="" id="clubIMG" placeholder="clubimagelink"></td>
+                    </tr>
+                </table>
+            </form>
+            <form method="POST" name="deletemanageraccount" action="{% url 'deletemanageraccount' %}">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td><label>동아리 간부 계정 삭제</label></td>
+                    </tr>
+                    <tr>
+                        <td><label>동아리 계정 아이디</label></td>
+                        <td><input name="managerdelete" type="text" value="" id="managerid_delete" placeholder="id"></td>
+                        <td rowspan="1"><input type="submit" value="Delete" style="height: 25px;"></td>
+                    </tr>
+                </table>
+            </form>
+            <form method="POST" name="addclub" action="{% url 'addclub' %}">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td><label>동아리 추가</label></td>
+                    </tr>
+                    <tr>
+                        <td><label>동아리 이름</label></td>
+                        <td><input name="clubname" type="text" value="" id="clubid" placeholder="clubname"></td>
+                        <td rowspan="2"><input type="submit" value="Add" style="height: 50px;"></td>
+                    </tr>
+                    <tr>
+                        <td><label>동아리 카테고리</label></td>
+                        <td><input name="clubcategory" type="text" value="" id="clubcategory" placeholder="category"></td>
+                    </tr>
+                    <!--tr>
+                        <td><label>동아리 대표이미지 링크</label></td>
+                        <td><input name="clubprofile" type="text" value="" id="clubprofile" placeholder="clubprofilelink"></td>
+                    </tr>
+                    <tr-->
+                        <td><label>동아리 소속</label></td>
+                        <td><input name="clubmajor" type="text" value="" id="clubmajor" placeholder="majornumber"></td>
+                    </tr>
+                </table>
+            </form>
+            <form method="POST" name="clubdelete" action="{% url 'clubdelete' %}">
+                {% csrf_token %}
+                <table>
+                    <tr>
+                        <td><label>동아리 삭제</label></td>
+                    </tr>
+                    <tr>
+                        <td><label>동아리 이름</label></td>
+                        <td><input name="deleteclubid" type="text" value="" id="deleteclubid" placeholder="id"></td>
+                        <td rowspan="1"><input type="submit" value="Delete" style="height: 25px;"></td>
+                    </tr>
+                </table>
+            </form>
+            <form method="POST" name="Ads" action="{% url 'advertisement' %}">
+                {% csrf_token %}
+                <input type="submit" value="Ads" style="height: 25px;">
+            </form>
+            
+        </div>
+        <div class="right">
+               <table>
+                    <tr>
+                        <td><label>동아리 간부 계정 테이블</label></td>
+                    </tr>
+                    <tr>
+                        <th>mID</th>
+                        <th>mPW</th>
+                        <th>clubName</th>
+                        <th>clubIMG</th>
+                        <th>newbieAlarm</th>
+                        <th>clubID</th>
+                    </tr>
+                    
+                    <tbody id ="clubManagerTable">
+                    {% for list in manageraccount %}
+                    <tr>
+                        <td>{{list.mID}}</td>
+                        <td>{{list.mPW}}</td>
+                        <td>{{list.clubName}}</td>
+                        <td>{{list.clubIMG}}</td>
+                        <td>{{list.newbieAlarm}}</td>
+                        <td>{{list.clubID}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <table>
+                    <tr>
+                        <td><label>동아리 리스트 테이블</label></td>
+                    </tr>
+                    <tr>
+                        <th>clubID</th>
+                        <th>clubName</th>
+                        <th>clubCategory</th>
+                        <th>clubIMG</th>
+                        <th>clubMajor</th>
+                    </tr>
+                    <tbody id ="clubTable">
+                        {% for list2 in clublisttable %}
+                        <tr>
+                            <td>{{list2.clubID}}</td>
+                            <td>{{list2.clubName}}</td>
+                            <td>{{list2.clubCategory}}</td>
+                            <td>{{list2.clubIMG}}</td>
+                            <td>{{list2.clubMajor}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+        </div>
+    </div>
+
+    
 </body>
 
 <!-- 제공 기능 1. 동아리 등록 -->
