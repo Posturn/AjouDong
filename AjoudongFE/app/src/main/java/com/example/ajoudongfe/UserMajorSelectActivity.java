@@ -3,6 +3,7 @@ package com.example.ajoudongfe;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -25,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -71,6 +73,10 @@ public class UserMajorSelectActivity extends AppCompatActivity {
 
     private int uSchoolID = 201720988; //테스트용 사용자 아이디
 
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private long backKeyPressedTime;
+
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
 
@@ -91,6 +97,9 @@ public class UserMajorSelectActivity extends AppCompatActivity {
 
         s3Client.setRegion(Region.getRegion(Regions.AP_NORTHEAST_2));
         initMyAPI(BASE_URL);
+
+        pref = getSharedPreferences("autologin", MODE_PRIVATE);
+        editor = pref.edit();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_major_select);
         final View header = navigationView.getHeaderView(0);
@@ -141,7 +150,12 @@ public class UserMajorSelectActivity extends AppCompatActivity {
                     Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.user_logout){
+                    editor.clear();
+                    editor.commit();
                     Toast.makeText(context, "로그아웃 완료", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
                 }
                 else if(id == R.id.user_profile_edit){
                     profile_btn.callOnClick();
@@ -454,6 +468,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 
 }

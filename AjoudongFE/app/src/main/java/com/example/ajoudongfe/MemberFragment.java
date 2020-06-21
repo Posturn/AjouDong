@@ -4,14 +4,12 @@ import android.app.DownloadManager;
 import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.loader.content.CursorLoader;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,8 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,7 +42,6 @@ public class MemberFragment extends Fragment {
     final String TAG = getClass().getSimpleName();
     private final int GET_GALLERY_IMAGE = 200;
     private final int ACTIVITY_CHOOSE_FILE1 = 350;
-
 
     private RecyclerView MemberRecyclerView;
     private MemberRecyclerAdapter MemberRecyclerAdapter;
@@ -75,8 +70,9 @@ public class MemberFragment extends Fragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        clubID = 134;
 
+        Bundle bundle = getArguments();
+        clubID = bundle.getInt("clubID");
         downloadManager = (DownloadManager) getActivity().getSystemService(Context.DOWNLOAD_SERVICE);
 
 
@@ -84,7 +80,6 @@ public class MemberFragment extends Fragment {
         addNewMemberButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO CSV 업로드 기능으로 변경
 
                 //NewMemberPopup newMemberPopup = new NewMemberPopup(clubID);
 

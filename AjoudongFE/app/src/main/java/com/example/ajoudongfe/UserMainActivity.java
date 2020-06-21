@@ -424,8 +424,6 @@ public class UserMainActivity extends AppCompatActivity {
     }
 
     public void AppFinish(){
-//        finish();
-//        System.exit(1);
         ActivityCompat.finishAffinity(this);
     }
 

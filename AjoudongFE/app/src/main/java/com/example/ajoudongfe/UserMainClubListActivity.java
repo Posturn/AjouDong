@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.collection.ArraySet;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -100,6 +103,10 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     private ArrayList<String> tags = new ArrayList<String>();
     private List<Integer> nRecruitClub = new ArrayList<>();
 
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private long backKeyPressedTime;
+
     private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit, int schoolID) {
         mGridView = findViewById(R.id.gridView01);
         adapter = new ClubGridAdapter(this, clubObjectList, nRecruit, schoolID);
@@ -137,6 +144,9 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                 .build();
 
         retroService = retrofit.create(RetroService.class);
+
+        pref = getSharedPreferences("autologin", MODE_PRIVATE);
+        editor = pref.edit();
 
         s3Client.setRegion(Region.getRegion(Regions.AP_NORTHEAST_2));
         initMyAPI(BASE_URL);
@@ -245,7 +255,12 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                     Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
                 }
                 else if(id == R.id.user_logout){
+                    editor.clear();
+                    editor.commit();
                     Toast.makeText(context, "로그아웃 완료", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
                 }
                 else if(id == R.id.user_profile_edit){
                     profile_btn.callOnClick();
@@ -518,4 +533,6 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             }
         });
     }
+
+
 }

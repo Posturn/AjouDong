@@ -29,6 +29,7 @@ urlpatterns = [
     #path('useraccount/', include('Server_app.urls')),
     path('manageraccount/', include('Server_app.urls')),
     path('management', include('Server_app.management.urls')),
+    path('faq', include('Server_app.FAQ.urls')),
     path('application', include('Server_app.application.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),

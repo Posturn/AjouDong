@@ -17,7 +17,7 @@ public class TempActivity extends AppCompatActivity {
         setContentView(R.layout.activity_temp);
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        adapter = new PagerAdpater(getSupportFragmentManager(), tabLayout.getTabCount());
+        adapter = new PagerAdpater(getSupportFragmentManager(), tabLayout.getTabCount(), 134);
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
