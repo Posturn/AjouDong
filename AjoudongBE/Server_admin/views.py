@@ -4,8 +4,7 @@ from django.views import generic
 
 # Create your views here.
 def login(request):
-    nlist = [1, 3, 5, 7, 9, 8, 6, 4, 2]
-    return render(request,'adminLogin.html', {'num1':2, 'hello': "안녕하세요", 'number': nlist})
+    return render(request,'adminLogin.html')
 
 def management(request):
     if request.method == "POST":
@@ -19,7 +18,6 @@ def management(request):
                 return render(request,'clubManagement.html',{'manageraccount':manageraccounttable,'clublisttable': clublisttable})
     else:
         return redirect('login')
-    return redirect('login')
 
 def advertisement(request):
     if request.method == "POST":
@@ -76,12 +74,14 @@ def deletemanageraccount(request):
         
 def addclub(request):
     if request.method == "POST":
+        clubName = request.POST["clubname"]
         Club.objects.create(
-            clubName = request.POST["clubname"],
+            clubName = clubName,
             clubCategory = request.POST["clubcategory"],
             clubMajor = request.POST["clubmajor"],
             clubDues = 1,
         ).save()
+        # 신규 동아리 알림 전송
         manageraccounttable = ManagerAccount.objects.all()
         clublisttable = Club.objects.all()
         return render(request,'clubManagement.html',{'manageraccount':manageraccounttable,'clublisttable': clublisttable})

@@ -7,12 +7,6 @@
 </head>
 <body>
     <h1>간부 로그인 페이지 입니다.</h1>
-    {{hello}}<br>
-    {{num1}}<br>
-    {% for n in number %}
-        <p>{{n}}</p>
-    {% endfor %}
-
     <form method="POST" name="Login" action="{% url 'management' %}">
         {% csrf_token %}
         <table>
@@ -28,4 +22,3 @@
         </table>
     </form>
 </body>
-<!-- 제공기능 간부 로그인 -->
