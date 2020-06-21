@@ -41,6 +41,7 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Retrofit retrofit;
     public static String BASE_URL= "http://10.0.2.2:8000";
+    int clubID;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -57,13 +58,16 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
+        clubID = getIntent().getIntExtra("clubID", 0);
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-        adapter = new PagerAdpater(getSupportFragmentManager(), tabLayout.getTabCount());
+        adapter = new PagerAdpater(getSupportFragmentManager(), tabLayout.getTabCount(), clubID);
         viewPager = findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
+        Bundle bundle = new Bundle();
+        bundle.putString("your_key", "your_value");
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
