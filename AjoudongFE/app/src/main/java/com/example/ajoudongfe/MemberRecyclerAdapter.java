@@ -119,17 +119,19 @@ public class MemberRecyclerAdapter extends RecyclerView.Adapter<MemberRecyclerAd
             Log.d("USI", Integer.toString(memberInfoObject.getuSchoolID()));
             uMajorText.setText("학과 : " + memberInfoObject.getuMajor());
             uNameText.setText("이름 : " + memberInfoObject.getuName());
-            if(memberInfoObject.getuIMG() != null && memberInfoObject.getuName().length() > 0) {
+            if(memberInfoObject.getuIMG() != null && memberInfoObject.getuIMG().equals("default") == true){
+                uIMG.setImageResource(R.drawable.icon);
+            }
+            else if(memberInfoObject.getuIMG() != null && memberInfoObject.getuName().length() > 0) {
                 Picasso.get().load(memberInfoObject.getuIMG()).into(uIMG);
-                uIMG.setBackground(new ShapeDrawable(new OvalShape()));
-                uIMG.setClipToOutline(true);
-
+                //uIMG.setBackground(new ShapeDrawable(new OvalShape()));
+                //uIMG.setClipToOutline(true);
             }
             else
             {
                 uIMG.setImageResource(R.drawable.icon);
-                uIMG.setBackground(new ShapeDrawable(new OvalShape()));
-                uIMG.setClipToOutline(true);
+                //uIMG.setBackground(new ShapeDrawable(new OvalShape()));
+                //uIMG.setClipToOutline(true);
             }
 
         }

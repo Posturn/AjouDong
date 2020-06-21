@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -83,6 +84,8 @@ public class SignupActivity extends AppCompatActivity {
         femaleRadioButton = (RadioButton)findViewById(R.id.femaleRadioButton);
         checkSameID = (TextView)findViewById(R.id.checkSameID);
         signupButton = (Button)findViewById(R.id.signupButton);
+
+        phoneNumberInputText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
 
         verifyRetrofit = new Retrofit.Builder()
                 .baseUrl(VERIFY_URL)
@@ -189,11 +192,17 @@ public class SignupActivity extends AppCompatActivity {
                 call.enqueue(new Callback<ResponseObject>() {
                     @Override
                     public void onResponse(Call<com.example.ajoudongfe.ResponseObject> call, Response<com.example.ajoudongfe.ResponseObject> response) {
+
+                        String phoneNum = String.valueOf(phoneNumberInputText.getText());
+
+                        phoneNum = phoneNum.replace("010", "");     //전화번호 디비형식으로 변경해주기
+                        phoneNum = phoneNum.replace("-","");
+
                         Intent intent = new Intent(getApplicationContext(), VerifyActivity.class);
                         intent.putExtra("uSchoolID", Integer.parseInt(schoolIDInputText.getText().toString()));
                         intent.putExtra("uName", nameInputText.getText().toString());
                         intent.putExtra("uID", idInputText.getText().toString() + "@ajou.ac.kr");
-                        intent.putExtra("uPhoneNumber", Integer.parseInt(phoneNumberInputText.getText().toString()));
+                        intent.putExtra("uPhoneNumber", Integer.parseInt(phoneNum));
                         intent.putExtra("uMajor", uMajor);
                         intent.putExtra("uCollege", uCollege);
                         intent.putExtra("uJender", gender);//TODO jender바꿔야댐
