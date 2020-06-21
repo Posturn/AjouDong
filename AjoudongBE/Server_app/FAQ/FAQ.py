@@ -90,7 +90,7 @@ class getFAQ(View):
                     else:
                         commentUser = Club.objects.get(clubID = comment['userID'])
                         commentInfo['userID'] = comment['userID']
-                        commentInfo['uName'] = commentUser.clubID
+                        commentInfo['uName'] = commentUser.clubName
 
                     commentInfo['FAQCommentContent'] = comment['FAQCommentContent']
                     commentInfo['FAQCommentDate'] = comment['FAQCommentDate']
