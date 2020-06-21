@@ -48,9 +48,7 @@ public class FindIDActivity extends AppCompatActivity {
         toolbar = (Toolbar)findViewById(R.id.findIDtoolbar);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         findIDNameInputText = (TextInputEditText)findViewById(R.id.findIDNameInputText);
         findIDuSchoolIDInputText = (TextInputEditText)findViewById(R.id.findIDuSchoolIDInputText);
@@ -93,6 +91,24 @@ public class FindIDActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "현재 인터넷 상태가 불안합니다.\n잠시 후 다시 시도해 주십시오", Toast.LENGTH_LONG).show();
                     }
                 });
+            }
+        });
+
+        findPWText.setOnClickListener(new TextView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                Intent intent = new Intent(getApplicationContext(), FindPWActivity.class);
+//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                startActivity(intent);
+            }
+        });
+
+        goLoginText.setOnClickListener(new TextView.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
         });
 

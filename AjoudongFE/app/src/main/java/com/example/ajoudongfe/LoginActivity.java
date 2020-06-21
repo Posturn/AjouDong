@@ -171,6 +171,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 //Toast.makeText(getApplicationContext(), "아이디 찾기", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FindIDActivity.class);
+                startActivity(intent);
             }
         });
 
