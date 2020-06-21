@@ -183,10 +183,8 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
                         public void onResponse(Call<ClubObject> call2, Response<ClubObject> response2) {
                             clubObjects.add(response2.body());      //리스트에 들어간 클럽들 객체로 불러오기
                             if(clubs.size() == clubObjects.size()){
-                                //Log.d(TAG,"잘남아있냐33: " + clubObjects);
                                 if(clubObjects.get(clubs.size()-1) != null){
                                     populateGridView(clubObjects, null);
-                                    //Log.d(TAG,"잘남아있냐22: " + clubObjects);
                                 }
                             }
                         }

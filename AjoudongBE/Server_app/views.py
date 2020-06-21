@@ -186,7 +186,6 @@ def filter_taglist(tags, queryset):
     filter_list = find_intersection(filter_list, clubActivityDayList)
     filter_list = find_intersection(filter_list, clubActivityTimeList)
     clubqueryset = clubqueryset.filter(clubID__in=filter_list)
-    print(filter_list)
     return clubqueryset
 
 def find_intersection(list1, list2):
