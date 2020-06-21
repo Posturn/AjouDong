@@ -89,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
         if(pref.getBoolean("Auto_Login_Enabled", false))//자동로그인
         {
             init = 1;
-//            Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
             Call<ResponseObject> call = sendRequest(pref.getString("ID", ""), pref.getString("PW", ""), pref.getString("UTOKEN", ""));
 
             call.enqueue(new Callback<ResponseObject>() {
@@ -137,6 +136,10 @@ public class LoginActivity extends AppCompatActivity {
                         if(getResponse(data) > 0)
                         {
                             checkAutoLogin();
+                        }
+                        else if(getResponse(data) == -1)
+                        {
+                            Toast.makeText(getApplicationContext(), "아이디 혹은 비밀번호가 잘못되었습니다.", Toast.LENGTH_LONG).show();
                         }
 
                     }

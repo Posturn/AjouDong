@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".FAQActivity"></activity>
+        <activity android:name=".FindIDResultActivity"></activity>
+        <activity android:name=".FindIDActivity" />
         <activity android:name=".UserNewClubFilterActivity" />
         <activity android:name=".VerifyActivity" />
         <activity android:name=".UserApplyActivity" />
@@ -56,7 +57,7 @@
         <activity android:name=".UserMajorSelectActivity" />
         <activity android:name=".ClubInfomationActivity" />
         <activity android:name=".ClubMemberChartActivity" />
-        <activity android:name=".AuthActivity"></activity>
+        <activity android:name=".AuthActivity" />
         <activity android:name=".TempActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -88,12 +89,12 @@
         </service>
     </application>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 </manifest>

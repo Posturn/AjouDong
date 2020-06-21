@@ -175,5 +175,11 @@ public interface RetroService {
 
     @POST("alarm/unreadevent/")
     Call<ResponseObject> addUnreadEvent();
+
+    @POST("findid/getmaskedid")
+    Call<ResponseObject> getMaskedID(@Body FindIDObject findIDObject);
+
+    @POST("findid/getentireid")
+    Call<ResponseObject> getEntireID(@Body FindIDObject findIDObject);
 }
 
