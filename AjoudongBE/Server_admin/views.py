@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
-from Server_app.models import ManagerAccount, Club, Ads
+from Server_app.models import ManagerAccount, Club, Ads, UserAlarm
 from django.views import generic
-
+from fcm_django.models import FCMDevice
 # Create your views here.
 def login(request):
     return render(request,'adminLogin.html')
@@ -81,7 +81,18 @@ def addclub(request):
             clubMajor = request.POST["clubmajor"],
             clubDues = 1,
         ).save()
-        # 신규 동아리 알림 전송
+
+        userAlarmQuery = UserAlarm.objects.filter(eventAlarm = True)
+        userAlarmIDList = []
+        for uid in userAlarmQuery.values_list():
+            userAlarmIDList.append(uid[1])
+
+        device = FCMDevice.objects.filter(name__in=userAlarmIDList)
+
+        title = "신규 동아리 등록!"
+        message = clubName+ " 동아리 신규 등록! 새로운 동아리를 만나보세요."
+        device.send_message(title=title, body=message, icon="ic_notification", data={"title": title, "message": message})
+
         manageraccounttable = ManagerAccount.objects.all()
         clublisttable = Club.objects.all()
         return render(request,'clubManagement.html',{'manageraccount':manageraccounttable,'clublisttable': clublisttable})
