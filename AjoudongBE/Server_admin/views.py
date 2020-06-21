@@ -16,8 +16,7 @@ def management(request):
         if aID == "hello":
             if aPW == "world":
                 return render(request,'clubManagement.html',{'manageraccount':manageraccounttable,'clublisttable': clublisttable})
-    else:
-        return redirect('login')
+    return redirect('login')
 
 def advertisement(request):
     if request.method == "POST":

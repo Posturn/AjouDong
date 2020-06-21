@@ -1,24 +1,34 @@
 <!DOCTYPE html>
 {% load static %}
+
 <head>
     <meta charset="utf-8">
-    <title>AJOUDONG 회원 관리</title>
-    <link href="{% static '/css/adminDesign.css' %}" rel="stylesheet" type="text/css">
+    <title>AJOUDONG Admin 로그인</title>
+    <link href="{% static '/css/adminLoginDesign.css' %}" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <h1>간부 로그인 페이지 입니다.</h1>
-    <form method="POST" name="Login" action="{% url 'management' %}">
-        {% csrf_token %}
-        <table>
-            <tr>
-                <td><label>id</label></td>
-                <td><input name="id" type="text" value="" id="loginid" placeholder="id"></td>
-                <td rowspan="2"><input type="submit" value="Login" style="height: 50px;"></td>
-            </tr>
-            <tr>
-                <td><label>pw</label></td>
-                <td><input name="pw" type="password" value="" id="loginpw" placeholder="pw"></td>
-            </tr>
-        </table>
-    </form>
+    <div class="loginDivLeft">
+        <img class="loginImg" src="{% static 'images/ajoudongAdmin.png' %}" />
+    </div>
+    <div class="loginDivRight">
+        <div class="login-form">
+            <div class="container">
+                <div class="row">
+                    <h1>ADMIN LOGIN</h1>
+                    <div class="col-lg-6 col-lg-offset-3">
+                        <form method="POST" name="Login" action="{% url 'management' %}" class="login">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input name="id" class="form-control" type="text" value="" id="loginid" placeholder="아이디">
+                            </div>
+                            <div class="form-group">
+                                <input name="pw" class="form-control" type="password" value="" id="loginpw" placeholder="비밀번호">
+                            </div>
+                            <button type="submit" class="btn btn-default" style="margin: 0px 10px 0px 10px;">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
