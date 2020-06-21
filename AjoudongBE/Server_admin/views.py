@@ -82,7 +82,7 @@ def addclub(request):
             clubDues = 1,
         ).save()
 
-        userAlarmQuery = UserAlarm.objects.filter(eventAlarm = True)
+        userAlarmQuery = UserAlarm.objects.filter(newclubAlarm = True)
         userAlarmIDList = []
         for uid in userAlarmQuery.values_list():
             userAlarmIDList.append(uid[1])

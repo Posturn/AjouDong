@@ -16,7 +16,13 @@
         <activity android:name=".UserApplyActivity" />
         <activity android:name=".UserMajorClubFilterActivity" />
         <activity android:name=".UserMainClubFilterActivity" />
-        <activity android:name=".UserEventListActivity" />
+        <activity android:name=".UserEventListActivity">
+            <intent-filter>
+                <action android:name="OPEN_USER_NEWEVENT_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".UserBookmarkClubActivity" />
         <activity android:name=".UserApplicationResultActivity">
             <intent-filter>
