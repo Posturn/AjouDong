@@ -181,5 +181,8 @@ public interface RetroService {
 
     @POST("findid/getentireid")
     Call<ResponseObject> getEntireID(@Body FindIDResultObject findIDResultObject);
+
+    @POST("findpw/gettemppw")
+    Call<ResponseObject> getTempPW(@Body FindPWObject findPWObject);
 }
 

@@ -181,6 +181,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view)
             {
                 //Toast.makeText(getApplicationContext(), "비밀번호 찾기", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FindPWActivity.class);
+                startActivity(intent);
             }
         });
 

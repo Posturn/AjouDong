@@ -76,9 +76,9 @@ public class FindIDResultActivity extends AppCompatActivity {
         goFindPWButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //                Intent intent = new Intent(getApplicationContext(), FindPWActivity.class);
-//                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(), FindPWActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent);
             }
         });
 
