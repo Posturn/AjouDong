@@ -180,6 +180,6 @@ public interface RetroService {
     Call<ResponseObject> getMaskedID(@Body FindIDObject findIDObject);
 
     @POST("findid/getentireid")
-    Call<ResponseObject> getEntireID(@Body FindIDObject findIDObject);
+    Call<ResponseObject> getEntireID(@Body FindIDResultObject findIDResultObject);
 }
 

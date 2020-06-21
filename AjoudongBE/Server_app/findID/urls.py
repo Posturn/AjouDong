@@ -6,4 +6,5 @@ from . import findID
 
 urlpatterns = [
     path('/getmaskedid', csrf_exempt(findID.getMaskedID.as_view())),
+    path('/getentireid', csrf_exempt(findID.getEntireID.as_view())),
 ]

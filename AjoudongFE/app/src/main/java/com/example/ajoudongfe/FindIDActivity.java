@@ -70,6 +70,8 @@ public class FindIDActivity extends AppCompatActivity {
                         {
                             Intent intent = new Intent(getApplicationContext(), FindIDResultActivity.class);
                             intent.putExtra("maskedID", data.getMessage());
+                            intent.putExtra("uName", findIDNameInputText.getText().toString());
+                            intent.putExtra("uSchoolID", Integer.parseInt(findIDuSchoolIDInputText.getText().toString()));
                             startActivity(intent);
                         }
                         else if(data.getResponse() == 2)

@@ -76,7 +76,7 @@
         app:layout_constraintTop_toBottomOf="@id/foundID2">
 
         <LinearLayout
-            android:id="@+id/marginLayout2"
+            android:id="@+id/showerLayout2"
             android:layout_width="8dp"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -88,14 +88,13 @@
             android:orientation="horizontal">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/resLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/eventInfoLayout"
+                    android:id="@+id/showerLayout"
                     android:padding="10dp"
                     android:layout_marginStart="10dp"
                     android:orientation="vertical"
@@ -104,7 +103,7 @@
                     app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/eventName"
+                        android:id="@+id/maskedIDText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/nanumbarungothic"
