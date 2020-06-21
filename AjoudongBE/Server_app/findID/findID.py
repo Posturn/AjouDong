@@ -29,14 +29,17 @@ class getMaskedID(View):
                 if(len(uID) < 5):
                     mask = '*'*(len(uID) - 2)
                     maskedID = uID[:1] + mask + uID[len(uID) - 1:]
+                    return JsonResponse({'response' : 1, 'content' : maskedID}, status = 200)
                 elif(len(uID) < 3):
                     return JsonResponse({'response' : 2, 'content' : "Too Short ID"}, status = 200)
 
                 else:
                     mask = '*'*(len(uID) - 4)
                     maskedID = uID[:2] + mask + uID[len(uID) - 2:]
+                    return JsonResponse({'response' : 1, 'content' : maskedID}, status = 200)
 
-                return JsonResponse({'response' : 1, 'content' : maskedID}, status = 200)
+            else:#아이디가 없을때
+                return JsonResponse({'response' : -1, 'content' : "No matching ID"}, status = 200)
 
         except KeyError:
             return JsonResponse({'response' : -2}, status = 400)
