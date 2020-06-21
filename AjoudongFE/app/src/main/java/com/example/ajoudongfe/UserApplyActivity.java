@@ -116,9 +116,9 @@ public class UserApplyActivity extends AppCompatActivity {
                 usermajor.setText(user_info.getuMajor());
                 userphone.setText(String.valueOf("010-"+String.valueOf(user_info.getuPhoneNumber()/10000)+"-"+String.valueOf(user_info.getuPhoneNumber()%10000)));
                 if(user_info.isuJender()){ // M
-                    usergenderM.setChecked(true);
-                } else{
                     usergenderF.setChecked(true);
+                } else{
+                    usergenderM.setChecked(true);
                 }
             }
 

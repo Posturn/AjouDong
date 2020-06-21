@@ -167,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(), "아이디 찾기", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "아이디 찾기", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -175,7 +175,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(), "비밀번호 찾기", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "비밀번호 찾기", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(), "회원가입", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "회원가입", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivity(intent);
             }
