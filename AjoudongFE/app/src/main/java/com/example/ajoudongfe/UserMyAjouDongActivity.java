@@ -229,6 +229,7 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
         final EditText userName = (EditText) findViewById(R.id.usernamecontent);
         final RadioButton genderM = (RadioButton) findViewById(R.id.genderM);
         String phoneNum = String.valueOf(userphone.getText());
+
         phoneNum = phoneNum.replace("010", "");     //전화번호 디비형식으로 변경해주기
         phoneNum = phoneNum.replace("-","");
         Log.d(TAG, "PATCH");

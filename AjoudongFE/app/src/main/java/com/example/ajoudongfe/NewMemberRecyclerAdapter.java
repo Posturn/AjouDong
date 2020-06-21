@@ -225,19 +225,19 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
             childuMajorText.setText("학과 : " + memberInfoObject.getuMajor());
             childuNameText.setText("이름 : " + memberInfoObject.getuName());
             childuContent.setText("세부 사항 : " + memberInfoObject.getAdditionalApplyContent());
-            if(memberInfoObject.getuIMG() != null && memberInfoObject.getuName().length() > 0) {
+            if(memberInfoObject.getuIMG() != null && memberInfoObject.getuIMG() == "default") {
                 Picasso.get().load(memberInfoObject.getuIMG()).into(uIMG);
                 Picasso.get().load(memberInfoObject.getuIMG()).into(childuIMG);
                 //uIMG.setBackground(new ShapeDrawable(new OvalShape()));
-                uIMG.setClipToOutline(true);
+                //uIMG.setClipToOutline(true);
 
             }
             else
             {
                 uIMG.setImageResource(R.drawable.icon);
                 childuIMG.setImageResource(R.drawable.icon);
-                uIMG.setBackground(new ShapeDrawable(new OvalShape()));
-                uIMG.setClipToOutline(true);
+                //uIMG.setBackground(new ShapeDrawable(new OvalShape()));
+                //uIMG.setClipToOutline(true);
             }
 
             changeVisibility(selectedItems.get(position));
