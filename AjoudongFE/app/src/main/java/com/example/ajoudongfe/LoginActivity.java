@@ -216,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
         else
         {
             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_LONG).show();
-            return 0;
+            return -1;
         }
 
         return 1;
