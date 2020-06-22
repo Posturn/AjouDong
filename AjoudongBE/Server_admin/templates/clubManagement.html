@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="row">
+  <div class="row">
 
     <div class="col-lg-3">
     <h1 class="my-4">동아리 관리</h1>
@@ -79,12 +79,12 @@
           </div>
         {% endfor %}
     </div>
-    <!-- <form method="POST" name="Ads" action="{% url 'advertisement' %}">
-        {% csrf_token %}
-        <input type="submit" value="Ads" style="height: 25px;">
-    </form> -->
     </div>
 </div>
+<form method="POST" name="Ads" action="{% url 'advertisement' %}">
+    {% csrf_token %}
+    <input type="submit" value="광고 관리" class="nav-link">
+</form>
 <br><br>
 <script type="text/javascript" src="{% static '/js/clubManagement.js' %}"></script>
 {% endblock %}
