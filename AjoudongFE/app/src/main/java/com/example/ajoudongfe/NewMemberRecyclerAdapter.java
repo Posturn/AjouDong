@@ -1,7 +1,10 @@
 package com.example.ajoudongfe;
 
 import android.animation.ValueAnimator;
+import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
@@ -16,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,7 +34,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecyclerAdapter.ItemViewHolder> {
+public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecyclerAdapter.ItemViewHolder>{
     private static String BASE_URL = "http://10.0.2.2:8000";
     private Context context;
     private List<MemberInfoObject> listData = new ArrayList<>();
@@ -38,6 +42,7 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
     private int clubID;
     private SparseBooleanArray selectedItems= new SparseBooleanArray();
     private int prePosition = -1;
+    private int value;
 
     public NewMemberRecyclerAdapter(Context context, List<MemberInfoObject> listData, int clubID) {
         this.context = context;
@@ -94,28 +99,8 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
         holder.rejectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Call<ResponseObject> call = deleteAppliedUser(uSchoolID, clubID);
+                show(holder, uSchoolID);
 
-                call.enqueue(new Callback<ResponseObject>() {
-                    @Override
-                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                        ResponseObject data = response.body();
-                        if(data.getResponse() != 1)
-                        {
-                            Log.e("Error", "User was not rejected");
-                        }
-                        //TODO 새로고침 혹은 리사이클러 뷰 변환
-
-                        listData.remove(holder.getAdapterPosition());
-                        notifyItemRemoved(holder.getAdapterPosition());
-                        notifyItemRangeChanged(holder.getAdapterPosition(), listData.size());
-                    }
-
-                    @Override
-                    public void onFailure(Call<ResponseObject> call, Throwable t) {
-                        Log.e("Connection Error", "Bad Connection");
-                    }
-                });
             }
         });
 
@@ -155,6 +140,46 @@ public class NewMemberRecyclerAdapter extends RecyclerView.Adapter<NewMemberRecy
                 prePosition = item_position;
             }
         });
+    }
+
+    public void show(final NewMemberRecyclerAdapter.ItemViewHolder holder, final int uSchoolID)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("정말 삭제하시겠습니까?");
+        builder.setMessage("취소하시려면 아니오를 누르십시오");
+        builder.setPositiveButton("예",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        Call<ResponseObject> call = deleteAppliedUser(uSchoolID, clubID);
+
+                        call.enqueue(new Callback<ResponseObject>() {
+                            @Override
+                            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                                ResponseObject data = response.body();
+                                if(data.getResponse() != 1)
+                                {
+                                    Log.e("Error", "User was not accepted");
+                                }
+                                //TODO 새로고침 혹은 리사이클러 뷰 변환
+                                listData.remove(holder.getAdapterPosition());
+                                notifyItemRemoved(holder.getAdapterPosition());
+                                notifyItemRangeChanged(holder.getAdapterPosition(), listData.size());
+                            }
+
+                            @Override
+                            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                                Log.e("Connection Error", "Bad Connection");
+                            }
+                        });
+                    }
+                });
+        builder.setNegativeButton("아니오",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        builder.show();
     }
 
     private Call<ResponseObject> newAppliedUser(int uSchoolID, int clubID) {

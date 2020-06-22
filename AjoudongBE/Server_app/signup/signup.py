@@ -34,7 +34,6 @@ class signup(View):
                 uMajor = data['uMajor'],
                 uPhoneNumber = data['uPhoneNumber'],
                 uCollege = data['uCollege'],
-                uIMG = 'default'
             ).save()
 
             return JsonResponse({'response' : 1}, status = 200)
