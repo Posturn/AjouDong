@@ -5,7 +5,7 @@ from fcm_django.models import FCMDevice
 # Create your views here.
 def login(request):
     return render(request,'adminLogin.html')
-
+    
 def management(request):
     if request.method == "POST":
         aID = request.POST["id"]
@@ -22,8 +22,7 @@ def advertisement(request):
     if request.method == "POST":
         adstable = Ads.objects.all()
         return render(request,'ajoudongAds.html',{'adstable':adstable})
-    else:
-        return render(request,'ajoudongAds.html')
+    return redirect('login')
 
 def addads(request):
     if request.method == "POST":
