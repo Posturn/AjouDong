@@ -176,6 +176,9 @@ public interface RetroService {
     @POST("alarm/unreadevent/")
     Call<ResponseObject> addUnreadEvent();
 
+    @POST("alarm/newclubevent/")
+    Call<ResponseObject> newClubEventAlarm();
+
     @POST("findid/getmaskedid")
     Call<ResponseObject> getMaskedID(@Body FindIDObject findIDObject);
 

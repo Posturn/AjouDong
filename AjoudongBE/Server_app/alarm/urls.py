@@ -12,4 +12,5 @@ urlpatterns = [
     path('/userState/<int:uSchoolID>/', alarm.UserAlarmState.as_view({"get": "retrieve"})),
     path('/alarmChange/<int:uSchoolID>/<int:alarmType>/',csrf_exempt(alarm.ChangeUserAlarm.as_view())),
     path('/unreadevent/',csrf_exempt(alarm.AddUnreadAlarm.as_view())),
+    path('/newclubevent/', csrf_exempt(alarm.ClubNewEventAlarm.as_view())),
 ]

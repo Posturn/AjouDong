@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
-from Server_app.models import ManagerAccount, Club, Ads
+from Server_app.models import ManagerAccount, Club, Ads, UserAlarm
 from django.views import generic
-
+from fcm_django.models import FCMDevice
 # Create your views here.
 def login(request):
-    nlist = [1, 3, 5, 7, 9, 8, 6, 4, 2]
-    return render(request,'adminLogin.html', {'num1':2, 'hello': "안녕하세요", 'number': nlist})
-
+    return render(request,'adminLogin.html')
+    
 def management(request):
     if request.method == "POST":
         aID = request.POST["id"]
@@ -17,16 +16,13 @@ def management(request):
         if aID == "hello":
             if aPW == "world":
                 return render(request,'clubManagement.html',{'manageraccount':manageraccounttable,'clublisttable': clublisttable})
-    else:
-        return redirect('login')
     return redirect('login')
 
 def advertisement(request):
     if request.method == "POST":
         adstable = Ads.objects.all()
         return render(request,'ajoudongAds.html',{'adstable':adstable})
-    else:
-        return render(request,'ajoudongAds.html')
+    return redirect('login')
 
 def addads(request):
     if request.method == "POST":
@@ -76,12 +72,25 @@ def deletemanageraccount(request):
         
 def addclub(request):
     if request.method == "POST":
+        clubName = request.POST["clubname"]
         Club.objects.create(
-            clubName = request.POST["clubname"],
+            clubName = clubName,
             clubCategory = request.POST["clubcategory"],
             clubMajor = request.POST["clubmajor"],
             clubDues = 1,
         ).save()
+
+        userAlarmQuery = UserAlarm.objects.filter(newclubAlarm = True)
+        userAlarmIDList = []
+        for uid in userAlarmQuery.values_list():
+            userAlarmIDList.append(uid[1])
+
+        device = FCMDevice.objects.filter(name__in=userAlarmIDList)
+
+        title = "신규 동아리 등록!"
+        message = clubName+ " 동아리 신규 등록! 새로운 동아리를 만나보세요."
+        device.send_message(title=title, body=message, icon="ic_notification", data={"title": title, "message": message})
+
         manageraccounttable = ManagerAccount.objects.all()
         clublisttable = Club.objects.all()
         return render(request,'clubManagement.html',{'manageraccount':manageraccounttable,'clublisttable': clublisttable})

@@ -144,28 +144,54 @@ def filter_club(club, queryset):
 def filter_taglist(tags, queryset):
     clubqueryset = Club.objects.all()
     clubtaglist = TaggedClubList.objects.all()
-    filter_list = []
-    clubID_list = []
-    category = ['레저', '종교', '사회', '창작전시', '학술', '과학기술', '체육', '연행예술', '준동아리', '음악', '예술', '기타']
-    clubID_category = []
-    for club in clubtaglist.values_list():
-        for tag in tags:
-            if club[2] in category and club[2] == tag:
-                clubID_category.append(club[1])
-            elif club[2] == tag:
-                clubID_list.append(club[1])
-                break
 
-    if not clubID_category: # 카테고리를 고르지 않음
-        filter_list = clubID_list
-    elif not clubID_list: # 카테고리만 고름
-        filter_list = clubID_category
-    else: # 카테고리와 태그 둘다 고름
-        for cid in clubID_list:
-            if cid in clubID_category:
-                filter_list.append(cid)
+    recruitmentTAG = ['모집중', '모집종료', '면접 없음', '면접 있음', '지원제한 없음']
+    categoryTAG = ['레저', '종교', '사회', '창작전시', '학술', '과학기술', '체육', '연행예술', '준동아리', '음악', '예술', '기타']
+    clubCultureTAG = ['공연','대회','정기전','공모전','OBYB','뒤풀이','스터디','친목']
+    clubFeeTAG = ['5000원','10000원','15000원','20000원이상','최초 가입시 1회납부','없음']
+    clubActivityDayTAG = ['월','화','수','목','금','토','일','상시활동']
+    clubActivityTimeTAG = ['오전','오후','공강','야간','자율']
+
+    recruitmentList =[]
+    categoryList = []
+    clubCultureList = []
+    clubFeeList = []
+    clubActivityDayList = []
+    clubActivityTimeList = []
+    
+    filter_list = []
+    for club in clubtaglist.values_list():
+        filter_list.append(club[1])
+        for tag in tags:
+            if club[2] in recruitmentTAG and club[2] == tag:
+                recruitmentList.append(club[1])
+            elif club[2] in categoryTAG and club[2] == tag:
+                categoryList.append(club[1])
+            elif club[2] in clubCultureTAG and club[2] == tag:
+                clubCultureList.append(club[1])
+            elif club[2] in clubFeeTAG and club[2] == tag:
+                clubFeeList.append(club[1])
+            elif club[2] in clubActivityDayTAG and club[2] == tag:
+                clubActivityDayList.append(club[1])
+            elif club[2] in clubActivityTimeTAG and club[2] == tag:
+                clubActivityTimeList.append(club[1])
+            else:
+                continue
+            break
+    
+    filter_list = find_intersection(filter_list, recruitmentList)
+    filter_list = find_intersection(filter_list, categoryList)
+    filter_list = find_intersection(filter_list, clubCultureList)
+    filter_list = find_intersection(filter_list, clubFeeList)
+    filter_list = find_intersection(filter_list, clubActivityDayList)
+    filter_list = find_intersection(filter_list, clubActivityTimeList)
     clubqueryset = clubqueryset.filter(clubID__in=filter_list)
     return clubqueryset
+
+def find_intersection(list1, list2):
+    if not list2:
+        return list1
+    return list(set(list1).intersection(set(list2)))
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
