@@ -55,7 +55,8 @@ public class NewMemberFragment extends Fragment {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        clubID = 134;
+        Bundle bundle = getArguments();
+        clubID = bundle.getInt("clubID");
 
 
         appliedUserCSVButton.setOnClickListener(new Button.OnClickListener() {

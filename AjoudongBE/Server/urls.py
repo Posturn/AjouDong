@@ -29,6 +29,7 @@ urlpatterns = [
     #path('useraccount/', include('Server_app.urls')),
     path('manageraccount/', include('Server_app.urls')),
     path('management', include('Server_app.management.urls')),
+    path('faq', include('Server_app.FAQ.urls')),
     path('application', include('Server_app.application.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
@@ -54,5 +55,7 @@ urlpatterns = [
     path('event/', include('Server_app.urls')),
     path('eventlist', include('Server_app.event.urls')),
     path('ajoudongAdmin/', include('Server_admin.urls')),
+    path('findid', include('Server_app.findID.urls')),
+    path('findpw', include('Server_app.findPW.urls')),
     re_path('admin/', admin.site.urls),
 ]

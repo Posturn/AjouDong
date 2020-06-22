@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FindIDResultActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/findIDResulttoolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#00000000" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_word"
+            android:layout_gravity="center"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_centerInParent="true"
+        android:background="@color/gray"
+        app:layout_constraintTop_toBottomOf="@id/findIDResulttoolbar"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/foundID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디 찾기"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/findIDResulttoolbar"
+        android:layout_marginTop="55dp"/>
+
+    <TextView
+        android:id="@+id/foundID2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디를 찾았습니다."
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/foundID"
+        android:layout_marginTop="20dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/IDshower"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="340dp"
+        android:layout_height="90dp"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:padding="10dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        app:cardBackgroundColor="#F2EEE7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/foundID2">
+
+        <LinearLayout
+            android:id="@+id/showerLayout2"
+            android:layout_width="8dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="#898989"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/showerLayout"
+                    android:padding="10dp"
+                    android:layout_marginStart="10dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:id="@+id/maskedIDText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/nanumbarungothic"
+                        android:layout_marginStart="13dp"
+                        android:text="불러오는중"
+                        android:textColor="#707070"
+                        android:textSize="24dp" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/goFindPWButton"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:text="비밀번호 찾기"
+        android:layout_marginTop="24dp"
+        android:layout_marginStart="36dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/IDshower"
+        android:background="#979797"
+        android:textColor="#FFFFFF"/>
+    <Button
+        android:id="@+id/goLoginButton"
+        android:layout_width="160dp"
+        android:layout_height="40dp"
+        android:text="로그인"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="36dp"
+        app:layout_constraintTop_toBottomOf="@id/IDshower"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="#91C0EB"
+        android:textColor="#FFFFFF"/>
+    <TextView
+        android:id="@+id/entireIDText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디 전체 메일로 받기"
+        app:layout_constraintTop_toBottomOf="@id/IDshower"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="18dp"
+        android:layout_marginTop="90dp"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

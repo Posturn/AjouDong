@@ -30,7 +30,7 @@ class login(View):
                 updateUserDevice(data['uToken'], manager.clubID_id)
                 return JsonResponse({'response' : 2, 'message' : str(manager.clubID_id)}, status=200)
             else:
-                return JsonResponse({'response' : -1}, status = 402)
+                return JsonResponse({'response' : -1}, status = 200)
 
         except KeyError:
             return JsonResponse({'response' : -2}, status = 403)

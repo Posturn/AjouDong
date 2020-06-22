@@ -178,5 +178,14 @@ public interface RetroService {
 
     @POST("alarm/newclubevent/")
     Call<ResponseObject> newClubEventAlarm();
+
+    @POST("findid/getmaskedid")
+    Call<ResponseObject> getMaskedID(@Body FindIDObject findIDObject);
+
+    @POST("findid/getentireid")
+    Call<ResponseObject> getEntireID(@Body FindIDResultObject findIDResultObject);
+
+    @POST("findpw/gettemppw")
+    Call<ResponseObject> getTempPW(@Body FindPWObject findPWObject);
 }
 
