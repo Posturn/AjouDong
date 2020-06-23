@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".FindIDResultActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/findPWResulttoolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:backgroundTint="#00000000" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo_word"
+            android:layout_gravity="center"/>
+    </androidx.appcompat.widget.Toolbar>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_centerInParent="true"
+        android:background="@color/gray"
+        app:layout_constraintTop_toBottomOf="@id/findPWResulttoolbar"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/foundPW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="비밀번호 찾기"
+        android:textColor="#000000"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/findPWResulttoolbar"
+        android:layout_marginTop="55dp"/>
+
+    <ImageView
+        android:id="@+id/mailIMG"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/mail"
+        app:layout_constraintTop_toBottomOf="@id/foundPW"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="35dp"/>
+
+    <TextView
+        android:id="@+id/foundPW2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="이메일이 성공적으로 발송되었습니다.\n로그인 후, 비밀번호를 변경해주세요."
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mailIMG"
+        android:gravity="center"
+        android:layout_marginTop="30dp"/>
+
+    <Button
+        android:id="@+id/gotoLoginButton"
+        android:layout_width="315dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:background="@drawable/loginbutton"
+        android:text="로그인"
+        android:textSize="20dp"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintStart_toStartOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

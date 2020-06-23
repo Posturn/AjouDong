@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -109,6 +110,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
 
     private ArrayList<String> tags = new ArrayList<String>();
     private List<Integer> nRecruitClub = new ArrayList<>();
+    private long backKeyPressedTime;
 
     private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit) {
         mGridView = findViewById(R.id.gridView01);
@@ -139,6 +141,9 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
 
         s3Client.setRegion(Region.getRegion(Regions.AP_NORTHEAST_2));
         initMyAPI(BASE_URL);
+
+        pref = getSharedPreferences("autologin", MODE_PRIVATE);
+        editor = pref.edit();
 
         int collegeNum=getIntent().getIntExtra("college", 1);
 
@@ -248,7 +253,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
                     UserObject item  = response.body();
                     Log.d(TAG, String.valueOf(user_profile.getId()));
                     user_name.setText(item.getuName());
-                    if(item.getuIMG() != null){
+                    if(item.getuIMG() != null && item.getuIMG() == "default"){
                         Picasso.get().load(item.getuIMG()).into(user_profile);
                         nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
                     }
@@ -311,7 +316,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
                 else if(id == R.id.user_logout){
                     editor.clear();
                     editor.commit();
-                    Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "로그아웃 완료", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
@@ -732,4 +737,6 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
             }
         });
     }
+
+
 }

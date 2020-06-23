@@ -212,7 +212,11 @@ class memberCSV(View):
             memberList = list(queryset.values())
             for i in memberList:
                 member = UserAccount.objects.get(uSchoolID = list(i.values())[2])
-                phoneNumber = "010" + str(member.uPhoneNumber)
+                pnumber = str(member.uPhoneNumber)
+                pfirst = pnumber[:4]
+                psecond = pnumber[4:]
+                phoneNumber = "010-" + pfirst +"-" + psecond
+
                 wr.writerow([member.uName, member.uSchoolID, member.uCollege, member.uMajor, phoneNumber])
 
             f.close()

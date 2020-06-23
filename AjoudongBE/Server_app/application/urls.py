@@ -8,5 +8,5 @@ from . import application
 
 urlpatterns = [
     path('/result/<int:uSchoolID>', csrf_exempt(application.getApplicationResult.as_view())),
-    # path('/application/result/<int:uSchoolID>/deleteApplication/<int:clubID>', csrf_exempt(application.deleteApplication.as_view())),
+    path('/result/<int:uSchoolID>/deleteApplication/<int:clubID>', csrf_exempt(application.deleteApplication.as_view())),
 ]

@@ -1,3 +1,53 @@
-h1{
-    color: rgb(2, 0, 141);
+@font-face {
+    font-family: 'MapoDPPA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoDPPA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    font-family: 'MapoDPPA';
+}
+
+h2{
+    color: rgb(118, 162, 255);
+    margin-bottom: 20px;
+    font-style: bold;
+}
+
+h3{
+    color: rgb(118, 162, 255);
+    font-size: 24px;
+}
+
+input{
+    height: 70px;
+    width: 260px;
+    padding: 5px 20px 5px 10px;
+    margin: 50px;
+    background-color: rgb(236, 236, 236);
+    border: black solid 0px;
+}
+
+select{
+    height: 70px;
+    width: 260px;
+    padding: 5px 20px 5px 10px;
+    margin: 50px;
+    background-color: rgb(236, 236, 236);
+    border: black solid 0px;
+}
+
+.list-group-item.active{
+    background: rgb(118, 162, 255);
+}
+
+.list-group-item:focus {
+    outline: none;
+}
+
+.admin-color{
+    background-color: rgb(157, 188, 255);
+    font-size: 20px;
+    color: white;
 }

@@ -89,7 +89,6 @@ public class LoginActivity extends AppCompatActivity {
         if(pref.getBoolean("Auto_Login_Enabled", false))//자동로그인
         {
             init = 1;
-//            Toast.makeText(getApplicationContext(), pref.getString("ID", "") + "&"+ pref.getString("PW", ""), Toast.LENGTH_LONG).show();//테스트용 파일
             Call<ResponseObject> call = sendRequest(pref.getString("ID", ""), pref.getString("PW", ""), pref.getString("UTOKEN", ""));
 
             call.enqueue(new Callback<ResponseObject>() {
@@ -138,6 +137,10 @@ public class LoginActivity extends AppCompatActivity {
                         {
                             checkAutoLogin();
                         }
+                        else if(getResponse(data) == -1)
+                        {
+                            Toast.makeText(getApplicationContext(), "아이디 혹은 비밀번호가 잘못되었습니다.", Toast.LENGTH_LONG).show();
+                        }
 
                     }
 
@@ -167,7 +170,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(), "아이디 찾기", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "아이디 찾기", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FindIDActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -175,7 +180,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(), "비밀번호 찾기", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "비밀번호 찾기", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getApplicationContext(), FindPWActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -183,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Toast.makeText(getApplicationContext(), "회원가입", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getApplicationContext(), "회원가입", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivity(intent);
             }
@@ -209,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
         else
         {
             Toast.makeText(getApplicationContext(), "로그인 실패", Toast.LENGTH_LONG).show();
-            return 0;
+            return -1;
         }
 
         return 1;

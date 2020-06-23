@@ -282,7 +282,7 @@ public class UserMainActivity extends AppCompatActivity {
                     UserObject item  = response.body();
                     Log.d(TAG, String.valueOf(user_profile.getId()));
                     user_name.setText(item.getuName());
-                    if(item.getuIMG() != null){
+                    if(item.getuIMG() != null && item.getuIMG() == "default"){
                         Picasso.get().load(item.getuIMG()).into(user_profile);
                         nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
                     }
@@ -424,8 +424,6 @@ public class UserMainActivity extends AppCompatActivity {
     }
 
     public void AppFinish(){
-//        finish();
-//        System.exit(1);
         ActivityCompat.finishAffinity(this);
     }
 

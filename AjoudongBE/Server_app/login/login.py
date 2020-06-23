@@ -30,15 +30,26 @@ class login(View):
                 updateUserDevice(data['uToken'], manager.clubID_id)
                 return JsonResponse({'response' : 2, 'message' : str(manager.clubID_id)}, status=200)
             else:
-                return JsonResponse({'response' : -1}, status = 402)
+                return JsonResponse({'response' : -1}, status = 200)
 
         except KeyError:
             return JsonResponse({'response' : -2}, status = 403)
 
 def updateUserDevice(token, uID):
-    fcm = FCMDevice.objects.filter(registration_id = token)
-    if not fcm:
+    fcm_device = FCMDevice.objects.filter(registration_id = token)
+    fcm_id = FCMDevice.objects.filter(name = uID)
+
+    fcm_check = FCMDevice.objects.filter(registration_id = token, name = uID)
+    if fcm_check:
+        return
+
+    if not fcm_device and not fcm_id:
         FCMDevice.objects.create(registration_id=token, name=uID, type="android").save()
+    elif not fcm_device and fcm_id:
+        fcm_id.update(registration_id=token)
+    elif fcm_device and not fcm_id:
+        fcm_device.update(name=uID)
     else:
-        fcm.update(name=uID)
+        fcm_id.delete()
+        fcm_device.update(name=uID)
 

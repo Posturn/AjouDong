@@ -79,6 +79,7 @@ public class VerifyActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         uSchoolID = getIntent().getIntExtra("uSchoolID", 0);
         verify_code = getIntent().getStringExtra("verify_code");
         uName = getIntent().getStringExtra("uName");

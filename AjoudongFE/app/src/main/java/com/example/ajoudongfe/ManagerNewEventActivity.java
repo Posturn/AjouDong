@@ -260,6 +260,19 @@ public class ManagerNewEventActivity extends AppCompatActivity {
                 Log.d(TAG, "Fail msg : " + t.getMessage());
             }
         });
+
+        Call<ResponseObject> newEventAlarm = retroService.newClubEventAlarm();
+        newEventAlarm.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                Log.d(TAG, "신규 행사 알림 전송 성공");
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                Log.d(TAG, "신규 행사 알림 전송 실패");
+            }
+        });
         Intent intent = new Intent();
         intent.putExtra("clubID", getClubID());
         setResult(11, intent);

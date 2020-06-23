@@ -2,6 +2,7 @@ package com.example.ajoudongfe;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +27,6 @@ public class ClubGridAdapter extends BaseAdapter implements View.OnClickListener
         this.nRecruitClub = nRecruit;
         this.schoolID=schoolID;
     }
-    //출력될 이미지 데이터셋(res/drawable 폴더)
 
     public int getCount(){
         return clubmodels.size();
@@ -59,9 +59,17 @@ public class ClubGridAdapter extends BaseAdapter implements View.OnClickListener
         final ClubObject thisClubObject = clubmodels.get(position);
 
         int clubID = thisClubObject.getClubID();
-        if(nRecruitClub != null && nRecruitClub.contains(clubID)){
-            blackImage.setVisibility(View.VISIBLE);
+        boolean white = true;
+        if(nRecruitClub != null){
+            for(int i=0; i<nRecruitClub.size(); i++){
+                if (nRecruitClub.get(i) == clubID){
+                    white = false;
+                    break;
+                }
+            }
         }
+        if(white == false) blackImage.setVisibility(View.VISIBLE);
+        else blackImage.setVisibility(View.INVISIBLE);
 
         nameText.setText(thisClubObject.getName());
 

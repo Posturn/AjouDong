@@ -4,6 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,6 +62,7 @@ public class SignupActivity extends AppCompatActivity {
     private Button signupButton;
     private int IDChecker = -1;
     private int gender = -1;
+    private int collegeChecker = -1;
     private String tempID;
     private String uMajor;
     private String uCollege;
@@ -84,6 +88,8 @@ public class SignupActivity extends AppCompatActivity {
         checkSameID = (TextView)findViewById(R.id.checkSameID);
         signupButton = (Button)findViewById(R.id.signupButton);
 
+        phoneNumberInputText.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+
         verifyRetrofit = new Retrofit.Builder()
                 .baseUrl(VERIFY_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -107,24 +113,50 @@ public class SignupActivity extends AppCompatActivity {
                     if(i == R.id.maleRadioButton)
                     {
                         gender = 1;
+                        Log.d("gender", Integer.toString(gender));
                     }
                     else
                     {
                         gender = 0;
+                        Log.d("gender", Integer.toString(gender));
                     }
                 }
             }
         };
+
+        genderRadioGroup.setOnCheckedChangeListener(genderRadioCheck);
+
+        idInputText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                IDChecker = -1;
+            }
+        });
 
         collegeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if(!(collegeSpinner.getItemAtPosition(i).equals("--단과대학교선택--")))
                 {
+                    collegeChecker = 1;
                     int resid = getResources().getIdentifier(collegeSpinner.getItemAtPosition(i).toString(), "array", getPackageName());
                     uCollege = collegeSpinner.getItemAtPosition(i).toString();
                     majorAdapter = ArrayAdapter.createFromResource(getApplicationContext(), resid, android.R.layout.simple_spinner_dropdown_item);
                     majorSpinner.setAdapter(majorAdapter);
+                }
+                else
+                {
+                    collegeChecker = -1;
                 }
 
             }
@@ -184,31 +216,44 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                Call<ResponseObject> call = emailVerifyRequest(idInputText.getText().toString() + "@ajou.ac.kr", nameInputText.getText().toString());
+                if(checkParameter() != null)
+                {
+                    Toast.makeText(getApplicationContext(), checkParameter(), Toast.LENGTH_LONG).show();
 
-                call.enqueue(new Callback<ResponseObject>() {
-                    @Override
-                    public void onResponse(Call<com.example.ajoudongfe.ResponseObject> call, Response<com.example.ajoudongfe.ResponseObject> response) {
-                        Intent intent = new Intent(getApplicationContext(), VerifyActivity.class);
-                        intent.putExtra("uSchoolID", Integer.parseInt(schoolIDInputText.getText().toString()));
-                        intent.putExtra("uName", nameInputText.getText().toString());
-                        intent.putExtra("uID", idInputText.getText().toString() + "@ajou.ac.kr");
-                        intent.putExtra("uPhoneNumber", Integer.parseInt(phoneNumberInputText.getText().toString()));
-                        intent.putExtra("uMajor", uMajor);
-                        intent.putExtra("uCollege", uCollege);
-                        intent.putExtra("uJender", gender);//TODO jender바꿔야댐
-                        intent.putExtra("uPW", pwInputText.getText().toString());
-                        intent.putExtra("verify_code", verify_code);
-                        startActivity(intent);
-                        return;
-                    }
+                }
+                else {
+                    Call<ResponseObject> call = emailVerifyRequest(idInputText.getText().toString() + "@ajou.ac.kr", nameInputText.getText().toString());
 
-                    @Override
-                    public void onFailure(Call<com.example.ajoudongfe.ResponseObject> call, Throwable t) {
-                        t.printStackTrace();
-                        Log.e("메일 요청 결과", "통신 실패");
-                    }
-                });
+                    call.enqueue(new Callback<ResponseObject>() {
+                        @Override
+                        public void onResponse(Call<com.example.ajoudongfe.ResponseObject> call, Response<com.example.ajoudongfe.ResponseObject> response) {
+
+                            String phoneNum = String.valueOf(phoneNumberInputText.getText());
+
+                            phoneNum = phoneNum.replace("010", "");     //전화번호 디비형식으로 변경해주기
+                            phoneNum = phoneNum.replace("-", "");
+
+                            Intent intent = new Intent(getApplicationContext(), VerifyActivity.class);
+                            intent.putExtra("uSchoolID", Integer.parseInt(schoolIDInputText.getText().toString()));
+                            intent.putExtra("uName", nameInputText.getText().toString());
+                            intent.putExtra("uID", idInputText.getText().toString() + "@ajou.ac.kr");
+                            intent.putExtra("uPhoneNumber", Integer.parseInt(phoneNum));
+                            intent.putExtra("uMajor", uMajor);
+                            intent.putExtra("uCollege", uCollege);
+                            intent.putExtra("uJender", gender);
+                            intent.putExtra("uPW", pwInputText.getText().toString());
+                            intent.putExtra("verify_code", verify_code);
+                            startActivity(intent);
+                            return;
+                        }
+
+                        @Override
+                        public void onFailure(Call<com.example.ajoudongfe.ResponseObject> call, Throwable t) {
+                            t.printStackTrace();
+                            Log.e("메일 요청 결과", "통신 실패");
+                        }
+                    });
+                }
             }
         });
 
@@ -216,16 +261,53 @@ public class SignupActivity extends AppCompatActivity {
 
     private String checkParameter()
     {
-        if(idInputText.getText() == null)
+        if(idInputText.getText().toString().length() == 0)
             return "이메일을 입력해주십시오.";
         else if(IDChecker < 0)
             return "이메일 중복확인은 필수입니다.";
+        else if(pwInputText.getText().toString().length() < 8 || pwInputText.getText().toString().length() > 16 || isWellFormed(pwInputText.getText().toString()) < 0)
+            return "비밀번호를 다시 확인해주십시오";
+        else if(pwCheckInputText.getText().toString().length() == 0)
+            return "비밀번호 확인란은 필수입니다.";
+        else if(!pwInputText.getText().toString().equals(pwCheckInputText.getText().toString())) {
+            Log.d(pwInputText.getText().toString(), pwCheckInputText.getText().toString());
+            return "비밀번호와 확인이 맞지 않습니다.";
+        }
+        else if(nameInputText.getText().toString().length() == 0)
+            return "이름을 입력해주십시요.";
+        else if(schoolIDInputText.getText().toString().length() == 0)
+            return "학번을 입력해주십시요.";
+        else if(phoneNumberInputText.getText().toString().length() == 0)
+            return "전화번호를 입력해주십시요.";
+        else if(collegeChecker < 0 || uCollege.equals("--단과대학교선택--"))
+            return "학과 정보 입력은 필수입니다.";
         else if(gender < 0)
             return "성별을 선택해 주십시오";
-        else if(pwInputText.getText().toString() != pwCheckInputText.getText().toString())
-            return "비밀번호와 확인이 맞지 않습니다.";
+
         else
             return null;
+    }
+
+    private int isWellFormed(String PW)
+    {
+        char[] chrlist = PW.toCharArray();
+        int digit = 0;
+        int chr = 0;
+
+        for(int i = 0; i < chrlist.length; i++)
+        {
+            if('a' <= chrlist[i] && chrlist[i] <= 'z')
+                chr++;
+            else if('A' <= chrlist[i] && chrlist[i] <= 'Z')
+                return -1;
+            else if('0' <= chrlist[i] && chrlist[i] <= '9')
+                digit++;
+        }
+
+        if(chr == 0 || digit == 0)
+            return -1;
+        else
+            return 1;
     }
 
     @Override

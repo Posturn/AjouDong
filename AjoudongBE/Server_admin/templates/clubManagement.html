@@ -1,15 +1,128 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
 {% load static %}
-<head>
-    <meta charset="utf-8">
-    <title>AJOUDONG 회원 관리</title>
-    <link href="{% static '/css/adminDesign.css' %}" rel="stylesheet" type="text/css">
-</head>
-<body>
-    <h1>동아리 관리 페이지 입니다.</h1>
-</body>
+{% block content %}
 
-<!-- 제공 기능 1. 동아리 등록 -->
-<!-- 제공 기능 2. 동아리 삭제 -->
-<!-- 추가 사항: 동아리 등록시 알림감 -->
-<!-- DB: 동아리 등록시 trigger로 promotion생성 -->
+<div class="container">
+  <div class="row">
+
+    <div class="col-lg-3">
+      <h1 class="my-4">동아리 관리</h1>
+        <div class="list-group">
+            <button onclick="ShowClubAccountList()" class="list-group-item">동아리 계정 조회</button>
+            <button id="add_btn" onclick="ShowAddClubAccount()" class="list-group-item">동아리 간부 계정 추가</button>
+            <button onclick="ShowDeleteClubAccount()" class="list-group-item">동아리 간부 계정 삭제</button>
+            <button onclick="ShowClubList()" class="list-group-item">동아리 조회</button>
+            <button onclick="ShowAddClub()" class="list-group-item">동아리 추가</button>
+            <button onclick="ShowDeleteClub()" class="list-group-item">동아리 삭제</button>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script>
+                $('.list-group-item').click(function(){
+                $('.list-group-item').removeClass('active');
+                $(this).addClass('active');
+              });
+              $("#add_btn").trigger("click");
+            </script>
+        </div>
+    </div>
+    <div class="col-lg-9">
+      <div class="management-menu-div">
+        <br><br><br><br>
+        <form method="POST" id="add-club-account" name="addmanageraccount" action="{% url 'addmanageraccount' %}">
+            {% csrf_token %}
+            <h2>동아리 간부 계정 추가</h2>
+            <input name="mID" type="text" value="" id="managerid" placeholder="계정 아이디"><br>
+            <input name="mPW" type="password" value="" id="managerpw" placeholder="계정 비밀번호"><br>
+            <input name="managerclubname" type="text" value="" id="managerclubname" placeholder="동아리 이름"><br>
+            <input name="managerclubid" type="text" value="" id="managerclubid" placeholder="동아리 아이디"><br>
+            <input name="image" type="text" value="" id="clubIMG" placeholder="동아리 이미지 링크"><br>
+            <input type="submit" value="Add" class="admin-color">
+        </form>
+        <form method="POST" id="delete-club-account" name="deletemanageraccount" action="{% url 'deletemanageraccount' %}">
+            {% csrf_token %}
+            <h2>동아리 간부 계정 삭제</h2>
+            <input name="managerdelete" type="text" value="" id="managerid_delete" placeholder="동아리 계정 아이디"><br>
+            <input type="submit" value="Delete" class="admin-color">
+        </form>
+        <form method="POST" id="add-club" name="addclub" action="{% url 'addclub' %}">
+            {% csrf_token %}
+            <h2>동아리 추가</h2>
+            <input name="clubname" type="text" value="" id="clubid" placeholder="동아리 이름"><br>
+            <input name="clubcategory" type="text" value="" id="clubcategory" placeholder="카테고리"><br>
+            <select name="clubmajor">
+              <option value="0">0: 중앙동아리</option>
+              <option value="1">1: 신규/창업동아리</option>
+              <option value="2">2: 소학회(공과대학)</option>
+              <option value="3">3: 소학회(정보통신대학)</option>
+              <option value="4">4: 소학회(자연과학대학)</option>
+              <option value="5">5: 소학회(경영대학)</option>
+              <option value="6">6: 소학회(인문대학)</option>
+              <option value="7">7: 소학회(사회과학대학)</option>
+              <option value="8">8: 소학회(의과대학)</option>
+              <option value="9">9: 소학회(간호대학)</option>
+              <option value="10">10: 소학회(약학대학)</option>
+              <option value="11">11: 소학회(다산학부대학)</option>
+              <option value="12">12: 소학회(국제학부)</option>
+          </select><br>
+          <input type="submit" value="Add" class="admin-color">
+        </form>
+        <form method="POST" id="delete-club" name="clubdelete" action="{% url 'clubdelete' %}">
+            {% csrf_token %}
+            <h2>동아리 삭제</h2>
+            <input name="deleteclubid" type="text" value="" id="deleteclubid" placeholder="동아리 이름"><br>
+            <input type="submit" value="Delete" class="admin-color">
+        </form>
+      </div>
+
+      <div class = "row">
+        <div id="club-account-list">
+          <h2>동아리 간부 계정 리스트</h2>
+          {% for list in manageraccount %}
+            {% if forloop.first %}<div class="row">{% endif %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                  <img class="card-img-top" src="{{list.clubIMG}}" alt="">
+                  <div class="card-body">
+                    <h4 class="card-title">
+                      <h3>{{list.clubName}}</h3>
+                    </h4>
+                    <h5>{{list.mID}}</h5>
+                    <p class="card-text">{{list.clubID}}</p>
+                  </div>
+                </div>
+              </div>
+              {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
+              {% if forloop.last %}</div>{% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      
+      <div class = "row">
+        <div id="club-list">
+          <h2>동아리 리스트</h2>
+          {% for list in clublisttable %}
+            {% if forloop.first %}<div class="row">{% endif %}
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                  <img class="card-img-top" src="{{list.clubIMG}}" alt="">
+                  <div class="card-body">
+                    <h4 class="card-title">
+                      <h3>{{list.clubName}}</h3>
+                    </h4>
+                    <p class="card-text">동아리 번호: {{list.clubID}}<br>카테고리: {{list.clubCategory}}<br>분류: {{list.clubMajor}}</p>
+                  </div>
+                </div>
+            </div>
+            {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
+            {% if forloop.last %}</div>{% endif %}
+          {% endfor %}  
+        </div>
+      </div>
+
+    </div>
+  </div>
+ </div>
+</div>
+<br><br>
+<script type="text/javascript" src="{% static '/js/clubManagement.js' %}"></script>
+</script>
+{% endblock %}

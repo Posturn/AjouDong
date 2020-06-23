@@ -184,5 +184,18 @@ public interface RetroService {
 
     @GET("/userfromdevice/{UserDeviceToken}/")
     Call<UserObject> getUserFromDevice(@Path("UserDeviceToken") String UserDeviceToken);
+
+    @POST("alarm/newclubevent/")
+    Call<ResponseObject> newClubEventAlarm();
+
+    @POST("findid/getmaskedid")
+    Call<ResponseObject> getMaskedID(@Body FindIDObject findIDObject);
+
+    @POST("findid/getentireid")
+    Call<ResponseObject> getEntireID(@Body FindIDResultObject findIDResultObject);
+
+    @POST("findpw/gettemppw")
+    Call<ResponseObject> getTempPW(@Body FindPWObject findPWObject);
+
 }
 

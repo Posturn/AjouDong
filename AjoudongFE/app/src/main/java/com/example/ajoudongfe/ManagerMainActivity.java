@@ -19,12 +19,14 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,6 +78,9 @@ public class ManagerMainActivity extends AppCompatActivity {
     private int clubID;
     private int clubMajor;
 
+    private Switch newApplyAlarm;
+    private Menu navMenu;
+
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
 
@@ -110,6 +115,11 @@ public class ManagerMainActivity extends AppCompatActivity {
         final TextView manager_name = (TextView)header.findViewById(R.id.manager_name);
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_manager_main);
+
+        navMenu = navigationView.getMenu();
+        newApplyAlarm = (Switch) navMenu.findItem(R.id.club_apply_alarm).getActionView().findViewById(R.id.switch_alarm);
+
+        newApplyAlarm.setChecked(true);
 
         final String mID = getIntent().getStringExtra("mID");       //매니저 아이디 받아오기 및 세팅
         setmID(mID);
@@ -189,9 +199,6 @@ public class ManagerMainActivity extends AppCompatActivity {
                     intent.putExtra("clubID", getClubID());
                     startActivity(intent);
                 }
-                else if(id == R.id.club_apply_alarm){
-                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
-                }
                 else if(id == R.id.club_logout){
                     editor.clear();
                     editor.commit();
@@ -227,6 +234,7 @@ public class ManagerMainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), ManagerMemberManagementActivity.class);
+                intent.putExtra("clubID", getClubID());
                 startActivity(intent);
                 return false;
             }

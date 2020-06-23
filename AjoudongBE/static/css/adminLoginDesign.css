@@ -1,0 +1,72 @@
+@font-face {
+    font-family: 'MapoDPPA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoDPPA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body{
+    margin: 0px;
+    font-family: 'MapoDPPA';
+    background-color: #91C0EB;
+}
+
+.loginDivLeft{
+    float: left;
+}
+
+.loginDivRight{
+    position: absolute;
+    top: 45%;
+    left: 70%;
+    height: 200px;
+    width: 400px;
+    transform: translate(-50%,-50%);
+}
+
+.loginImg{
+    height: 100vh;
+}
+
+h1{
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+    color: #FFF;
+}
+.login-form{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    width: 100%;
+}
+ 
+.login{
+    background: #FFF;
+    padding: 80px; 
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.4);
+}
+.login .form-control {
+    box-shadow: none;
+    padding: 20px;
+    border: 1px solid #e8e8e8;
+    background: #e8e8e8;
+    width: 190px;
+}
+ 
+.login .btn{ 
+    background: #91C0EB;
+    border: none;
+    color: #FFF; 
+    text-transform: uppercase;
+    border-radius: 0;
+    font-size: 16px;
+    height: 50px;
+    width: 230px;
+}
+
+.form-group{
+    margin: 10px;
+}
