@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -68,6 +69,10 @@ public class ApplicationResultAdapter extends RecyclerView.Adapter<ApplicationRe
                 if(holder.resStatus.getText().toString().equals("심사 중"))
                 {
                     showAlert(holder, uSchoolID);
+                }
+                else
+                {
+                    Toast.makeText(context, "심사중인 지원서만 취소가 가능합니다.", Toast.LENGTH_LONG).show();
                 }
 
             }
