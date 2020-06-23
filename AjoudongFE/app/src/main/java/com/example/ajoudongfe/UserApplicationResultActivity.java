@@ -56,7 +56,7 @@ public class UserApplicationResultActivity extends AppCompatActivity {
                 listData = data.getContent();
 
                 applicationResultRecyclerView = (RecyclerView)findViewById(R.id.applicationResultRecyclerView);
-                applicationResultAdapter = new ApplicationResultAdapter(listData, uSchoolID);
+                applicationResultAdapter = new ApplicationResultAdapter(UserApplicationResultActivity.this,listData, uSchoolID);
 
                 applicationResultRecyclerView.setLayoutManager(linearLayoutManager);
                 applicationResultRecyclerView.setAdapter(applicationResultAdapter);
