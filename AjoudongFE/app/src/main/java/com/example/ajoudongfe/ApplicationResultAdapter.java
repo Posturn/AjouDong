@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -45,8 +46,19 @@ public class ApplicationResultAdapter extends RecyclerView.Adapter<ApplicationRe
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ApplicationResultAdapter.ItemViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ApplicationResultAdapter.ItemViewHolder holder, int position) {
         holder.onBind(listData.get(position));
+
+        holder.resLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(holder.resStatus.getText().toString().equals("심사 중"))
+                {
+
+                }
+
+            }
+        });
     }
 
     @Override
@@ -60,6 +72,7 @@ public class ApplicationResultAdapter extends RecyclerView.Adapter<ApplicationRe
         private ImageView resClubIMG;
         private TextView resStatus;
         private TextView applyDate;
+        private ConstraintLayout resLayout;
 
         ItemViewHolder(View itemView) {
             super(itemView);
@@ -67,6 +80,7 @@ public class ApplicationResultAdapter extends RecyclerView.Adapter<ApplicationRe
             resClubName = itemView.findViewById(R.id.resClubName);
             resStatus = itemView.findViewById(R.id.resStauts);
             applyDate = itemView.findViewById(R.id.applyDate);
+            resLayout = itemView.findViewById(R.id.resLayout);
         }
 
         void onBind(ApplicationObject applicationObject)
@@ -76,15 +90,11 @@ public class ApplicationResultAdapter extends RecyclerView.Adapter<ApplicationRe
             setStatus(resStatus, applicationObject.getStatus());
             if(applicationObject.getClubIMG() != null && applicationObject.getClubName().length() > 0) {
                 Picasso.get().load(applicationObject.getClubIMG()).into(resClubIMG);
-//                uIMG.setBackground(new ShapeDrawable(new OvalShape()));
-//                uIMG.setClipToOutline(true);
 
             }
             else
             {
                 resClubIMG.setImageResource(R.drawable.icon);
-//                uIMG.setBackground(new ShapeDrawable(new OvalShape()));
-//                uIMG.setClipToOutline(true);
             }
             applyDate.setText(applicationObject.getApplyDate());
         }
