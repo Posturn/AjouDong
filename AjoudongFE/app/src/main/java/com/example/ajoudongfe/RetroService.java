@@ -176,6 +176,15 @@ public interface RetroService {
     @POST("alarm/unreadevent/")
     Call<ResponseObject> addUnreadEvent();
 
+    @GET("/qna/{clubID}/")
+    Call<QnAObject> getQnA(@Path("clubID") int clubID);
+
+    //@GET("/comment/{FAQID}/")
+    //Call<CommentObject> getComment(@Path("FAQID") int FAQID);
+
+    @GET("/userfromdevice/{UserDeviceToken}/")
+    Call<UserObject> getUserFromDevice(@Path("UserDeviceToken") String UserDeviceToken);
+
     @POST("alarm/newclubevent/")
     Call<ResponseObject> newClubEventAlarm();
 
@@ -187,7 +196,6 @@ public interface RetroService {
 
     @POST("findpw/gettemppw")
     Call<ResponseObject> getTempPW(@Body FindPWObject findPWObject);
-
 
 }
 

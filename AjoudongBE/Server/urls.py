@@ -55,6 +55,7 @@ urlpatterns = [
     path('event/', include('Server_app.urls')),
     path('eventlist', include('Server_app.event.urls')),
     path('ajoudongAdmin/', include('Server_admin.urls')),
+    path('userfromdevice/<str:token>/',views.UserFromDeviceViewset.as_view({"get":"retrieve"}), name="userfromdevice"),
     path('findid', include('Server_app.findID.urls')),
     path('findpw', include('Server_app.findPW.urls')),
     re_path('admin/', admin.site.urls),

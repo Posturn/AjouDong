@@ -346,6 +346,18 @@ class EventViewset(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class=EventSerializer
 
+class UserFromDeviceViewset(viewsets.ModelViewSet):
+    def retrieve(self, request, token):
+        queryset = UserAccount.objects.all()
+        user=get_object_or_404(queryset, uSchoolID=int(userFromDevice(token).name))
+        serializer=UserAccountSerializer(user)
+        return Response(serializer.data)
+
+    
+def userFromDevice(token):
+    device = FCMDevice.objects.get(registration_id=token)
+    return device
+    
 def userApplytoClubAlarm(clubID):
         queryset = ManagerAccount.objects.all()
         alarmOn = get_object_or_404(queryset, clubID_id=clubID)
