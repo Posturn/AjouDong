@@ -36,10 +36,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     private void showNotification(RemoteMessage remoteMessage) {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        if(remoteMessage.getData().get("clubID") != null)
+        {
+            intent.putExtra("clubID", Integer.parseInt(remoteMessage.getData().get("clubID")));
+            Log.d("clubID", remoteMessage.getData().get("clubID"));
+        }
+        if(remoteMessage.getData().get("uSchoolID") != null)
+        {
+            intent.putExtra("uSchoolID", Integer.parseInt(remoteMessage.getData().get("uSchoolID")));
+            Log.d("uSchoolID", remoteMessage.getData().get("uSchoolID"));
+        }
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-        String title=remoteMessage.getData().get("title");
-        String message=remoteMessage.getData().get("message");
+        String title=remoteMessage.getNotification().getTitle();
+        String message=remoteMessage.getNotification().getBody();
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -58,7 +58,12 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        clubID = getIntent().getIntExtra("clubID", 0);
+
+        clubID = Integer.parseInt(getIntent().getStringExtra("clubID"));
+        Log.d("clubID", Integer.toString(clubID));
+
+//        clubID = getIntent().getIntExtra("clubID", 0);
+//        Log.d("clubID", Integer.toString(clubID));
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         adapter = new PagerAdpater(getSupportFragmentManager(), tabLayout.getTabCount(), clubID);
