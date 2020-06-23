@@ -29,6 +29,23 @@ input{
     border: black solid 0px;
 }
 
+select{
+    height: 70px;
+    width: 260px;
+    padding: 5px 20px 5px 10px;
+    margin: 50px;
+    background-color: rgb(236, 236, 236);
+    border: black solid 0px;
+}
+
+.list-group-item.active{
+    background: rgb(118, 162, 255);
+}
+
+.list-group-item:focus {
+    outline: none;
+}
+
 .admin-color{
     background-color: rgb(157, 188, 255);
     font-size: 20px;

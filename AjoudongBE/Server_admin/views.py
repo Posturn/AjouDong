@@ -2,27 +2,31 @@ from django.shortcuts import render, redirect
 from Server_app.models import ManagerAccount, Club, Ads, UserAlarm
 from django.views import generic
 from fcm_django.models import FCMDevice
+from .keys import *
 # Create your views here.
 def login(request):
     return render(request,'adminLogin.html')
     
 def management(request):
+    manageraccounttable = ManagerAccount.objects.all()
+    clublisttable = Club.objects.all()
     if request.method == "POST":
         aID = request.POST["id"]
         aPW = request.POST["pw"]
-        manageraccounttable = ManagerAccount.objects.all()
-        clublisttable = Club.objects.all()
-        print(manageraccounttable)
-        if aID == "hello":
-            if aPW == "world":
+        if aID == keys.id:
+            if aPW == keys.pw:
                 return render(request,'clubManagement.html',{'manageraccount':manageraccounttable,'clublisttable': clublisttable})
-    return redirect('login')
+            else:
+                return render(request, 'adminLogin.html')
+        else:
+            return render(request, 'adminLogin.html')
+    return render(request,'clubManagement.html',{'manageraccount':manageraccounttable,'clublisttable': clublisttable})
 
 def advertisement(request):
+    adstable = Ads.objects.all()
     if request.method == "POST":
-        adstable = Ads.objects.all()
         return render(request,'ajoudongAds.html',{'adstable':adstable})
-    return redirect('login')
+    return render(request,'ajoudongAds.html',{'adstable':adstable})
 
 def addads(request):
     if request.method == "POST":
