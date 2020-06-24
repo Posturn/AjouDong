@@ -8,5 +8,6 @@ from . import token
 
 urlpatterns = [
     path('/getidbytoken/<str:token>', csrf_exempt(token.getIDbyToken.as_view())),
+    path('/getmid/<int:clubID>', csrf_exempt(token.getmID.as_view())),
     
 ]

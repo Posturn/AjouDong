@@ -200,5 +200,7 @@ public interface RetroService {
     @GET("token/getidbytoken/{token}")
     Call<ResponseObject> getIDbyToken(@Path("token") String token);
 
+    @GET("token/getmid/{clubID}")
+    Call<ResponseObject> getmID(@Path("clubID")int clubID);
 }
 

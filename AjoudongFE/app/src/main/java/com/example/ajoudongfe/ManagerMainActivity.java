@@ -78,7 +78,8 @@ public class ManagerMainActivity extends AppCompatActivity {
     final String folderName = "manager_profile/";
     static String imgPath4, imgName4, nowImage4 = "";
 
-    private String mID = "manager"; //테스트용 간부 아이디
+//    private String mID = "manager"; //테스트용 간부 아이디
+    private String mID;
     private int clubID;
     private int clubMajor;
 
@@ -136,15 +137,15 @@ public class ManagerMainActivity extends AppCompatActivity {
 
         newApplyAlarm.setChecked(true);
 
-        final String mID = getIntent().getStringExtra("mID");       //매니저 아이디 받아오기 및 세팅
-        setmID(mID);
+//        final String mID = getIntent().getStringExtra("mID");       //매니저 아이디 받아오기 및 세팅
+//        setmID(mID);
 
 //        final int clubID = getIntent().getIntExtra("clubID", 0);    //매니저의 동아리 받아오기 및 세팅팅
 //       final int clubID = userID;
 //        setClubID(clubID);
 
-        getmName(manager_name, mID);
-        getprofile(manager_profile);
+//        getmName(manager_name, mID);
+//        getprofile(manager_profile);
 
         // 이미지 편집 버튼 기능 구현
         final ImageButton profile_btn = (ImageButton)header.findViewById(R.id.manager_profile_edit);
@@ -254,6 +255,31 @@ public class ManagerMainActivity extends AppCompatActivity {
         });
     }
 
+    private void getmanagerID(int clubID)
+    {
+        Call<ResponseObject> call = retroService.getmID(clubID);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if(response.isSuccessful())
+                {
+                    ResponseObject data = response.body();
+                    mID = data.getMessage();
+                    getmName(manager_name, mID);
+                    getprofile(manager_profile);
+                }
+                else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
     private void getmName(final TextView manager_name, String mID) {
         Log.d(TAG,"GET");       //처음 간부 이름 정보 불러오기
         Call<ManagerAccountObject> getCall = retroService.get_manageraccount_pk(mID);
@@ -285,8 +311,7 @@ public class ManagerMainActivity extends AppCompatActivity {
                 {
                     clubID = data.getResponse();
                     Toast.makeText(getApplicationContext(), Integer.toString(clubID), Toast.LENGTH_SHORT).show();
-                    getmName(manager_name, mID);
-                    getprofile(manager_profile);
+                    getmanagerID(clubID);
 
                 }
                 else

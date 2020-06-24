@@ -27,3 +27,9 @@ class getIDbyToken(View):
                 return JsonResponse({'response' : -1}, status = 200)
         except KeyError:
             return JsonResponse({'response' : -2}, status = 400)
+
+class getmID(View):
+    def get(self, request, clubID):
+        manager = ManagerAccount.objects.get(clubID_id = clubID)
+        print(manager.mID)
+        return JsonResponse({'response' : 1, 'message' : manager.mID}, status=200)
