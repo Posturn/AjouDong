@@ -197,5 +197,8 @@ public interface RetroService {
     @POST("findpw/gettemppw")
     Call<ResponseObject> getTempPW(@Body FindPWObject findPWObject);
 
+    @GET("token/getidbytoken/{token}")
+    Call<ResponseObject> getIDbyToken(@Path("token") String token);
+
 }
 
