@@ -8,7 +8,7 @@ from django.views import View
 from django.http import HttpResponse, JsonResponse, FileResponse
 from django.views.decorators.csrf import csrf_exempt
 
-# Create your views here.
+# Create your views hereee.
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
