@@ -219,6 +219,12 @@ class ClubMemberViewset(viewsets.ModelViewSet):
         self.queryset = self.queryset.filter(uSchoolID = filteruSchoolID)
         return self.queryset
 
+class DeleteClubMember(View):
+    @csrf_exempt
+    def delete(self, request, clubID, uSchoolID):
+        ClubMember.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
+        return HttpResponse(status = 200)
+
 class PostFilter(View):
     @csrf_exempt
     def post(self, request):

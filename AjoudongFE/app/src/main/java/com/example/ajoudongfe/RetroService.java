@@ -193,5 +193,11 @@ public interface RetroService {
 
     @PATCH("ads/{adsID}/")
     Call<AdsObject> patchAdsObject(@Path("adsID") int adsID, @Body AdsObject adsObject);
+
+    @PATCH("recruittag/{clubID}/{mode}/")
+    Call<ResponseObject> patchrecruitTag(@Path("clubID") int clubID, @Path("mode") int mode);
+
+    @DELETE("/clubmember/{clubID}/{uSchoolID}/")
+    Call<ResponseObject> deleteClubMember(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
 }
 

@@ -3,13 +3,17 @@ package com.example.ajoudongfe;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -43,10 +47,10 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
 
     final  String TAG = getClass().getSimpleName();
 
-    private int uSchoolID = 201720988; //테스트용 사용자 아이디
+    private int uSchoolID; //테스트용 사용자 아이디
 
     private EditText userphone;
-    public ClubGridAdapter adapter;
+    public MyAjoudongClubGridAdapter adapter;
     private GridView mGridView;
 
     private Spinner collegeSpinner;
@@ -56,13 +60,14 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
 
     private String uCollege;
     private String uMajor;
+    private int count = 0;
 
     private List<Integer> clubs = new ArrayList<>();
     private List<ClubObject> clubObjects = new ArrayList<>();
 
-    private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit) {        //그리드 생성 함수
+    private void populateGridView(List<ClubObject> clubObjectList, List<Integer> nRecruit, int uScoolID) {        //그리드 생성 함수
         mGridView = findViewById(R.id.myajoudonggrid);
-        adapter = new ClubGridAdapter(this, clubObjectList, nRecruit, 0);
+        adapter = new MyAjoudongClubGridAdapter(this, clubObjectList, nRecruit, uScoolID);
         mGridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -184,7 +189,7 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
                             clubObjects.add(response2.body());      //리스트에 들어간 클럽들 객체로 불러오기
                             if(clubs.size() == clubObjects.size()){
                                 if(clubObjects.get(clubs.size()-1) != null){
-                                    populateGridView(clubObjects, null);
+                                    populateGridView(clubObjects, null, getuSchoolID());
                                 }
                             }
                         }
@@ -201,6 +206,11 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
+
+    }
+
+    protected void onResume(){
+        super.onResume();
 
     }
 
@@ -282,5 +292,33 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == 1){
+            adapter.onActivityResult(requestCode, data);
+            finish();
+            startActivity(getIntent());
+            /*int id = data.getIntExtra("clubID",0);
+            Log.d(TAG,"DELETE");
+            Log.d(TAG, "scholl: "+getuSchoolID());
+            Call<ResponseObject> deleteCall = retroService.deleteClubMember(id, getuSchoolID());
+            deleteCall.enqueue(new Callback<ResponseObject>() {
+                @Override
+                public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "삭제 완료");
+                        adapter.notifyDataSetChanged();
+                    } else {
+                        Log.d(TAG, "Status Code : " + response.code());
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseObject> call, Throwable t) {
+                    Log.d(TAG, "Fail msg : " + t.getMessage());
+                }
+
+            });*/
+            adapter.notifyDataSetChanged();
+        }
+    }
 
 }
