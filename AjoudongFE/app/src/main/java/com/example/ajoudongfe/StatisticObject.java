@@ -13,6 +13,7 @@ public class StatisticObject {
     private int Ratio17;
     private int Ratio18;
     private int Ratio19;
+    private int Ratio20;
     private int engineeringRatio;
     private int ITRatio;
     private int naturalscienceRatio;
@@ -20,13 +21,18 @@ public class StatisticObject {
     private int humanitiesRatio;
     private int socialscienceRatio;
     private int nurseRatio;
+    private int DasanRatio;
+    private int MedicalRatio;
+    private int PharmacyRatio;
+    private int InternationalRatio;
 
 
     public StatisticObject(int clubID, int memberNumber, int menNumber, int womenNumber,
                            int overRatio12, int Ratio13, int Ratio14, int Ratio15, int Ratio16,
-                           int Ratio17, int Ratio18, int Ratio19, int engineeringRatio,
+                           int Ratio17, int Ratio18, int Ratio19, int Ratio20, int engineeringRatio,
                            int ITRatio, int naturalscienceRatio, int managementRatio,
-                           int humanitiesRatio, int socialscienceRatio ,int nurseRatio){
+                           int humanitiesRatio, int socialscienceRatio ,int nurseRatio,
+                           int DasanRatio, int MedicalRatio, int PharmacyRatio, int InternationalRatio){
         this.clubID=clubID;
         this.memberNumber=memberNumber;
         this.menNumber=menNumber;
@@ -39,6 +45,7 @@ public class StatisticObject {
         this.Ratio17=Ratio17;
         this.Ratio18=Ratio18;
         this.Ratio19=Ratio19;
+        this.Ratio20=Ratio20;
         this.engineeringRatio=engineeringRatio;
         this.ITRatio=ITRatio;
         this.naturalscienceRatio=naturalscienceRatio;
@@ -46,6 +53,10 @@ public class StatisticObject {
         this.humanitiesRatio=humanitiesRatio;
         this.socialscienceRatio=socialscienceRatio;
         this.nurseRatio=nurseRatio;
+        this.DasanRatio=DasanRatio;
+        this.PharmacyRatio=PharmacyRatio;
+        this.MedicalRatio=MedicalRatio;
+        this.InternationalRatio=InternationalRatio;
     }
 
     public int getclubID(){
@@ -104,5 +115,29 @@ public class StatisticObject {
     }
     public int getNurseRatio(){
         return nurseRatio;
+    }
+
+    public int getClubID() {
+        return clubID;
+    }
+
+    public int getRatio20() {
+        return Ratio20;
+    }
+
+    public int getDasanRatio() {
+        return DasanRatio;
+    }
+
+    public int getMedicalRatio() {
+        return MedicalRatio;
+    }
+
+    public int getPharmacyRatio() {
+        return PharmacyRatio;
+    }
+
+    public int getInternationalRatio() {
+        return InternationalRatio;
     }
 }
