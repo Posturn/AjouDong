@@ -29,7 +29,7 @@ public class MyAjoudongClubGridAdapter extends BaseAdapter implements View.OnCli
     private List<Integer> nRecruitClub;
     private int schoolID;
     final  String TAG = getClass().getSimpleName();
-    public static String BASE_URL= "http://10.0.2.2:8000";
+    public static String BASE_URL= Keys.getServerUrl();
     private RetroService retroService;
     private List<Integer> clubIDs = new ArrayList<>();
     private int uSchoolID;

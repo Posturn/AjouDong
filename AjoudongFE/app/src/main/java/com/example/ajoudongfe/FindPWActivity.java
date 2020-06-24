@@ -30,7 +30,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class FindPWActivity extends AppCompatActivity {
 
-    private static String BASE_URL= "http://10.0.2.2:8000";
+    private static String BASE_URL= Keys.getServerUrl();
     private Retrofit retrofit;
     private RetroService retroService;
 

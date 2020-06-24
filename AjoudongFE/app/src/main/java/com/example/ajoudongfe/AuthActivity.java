@@ -15,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AuthActivity extends AppCompatActivity {
 
-    public static String BASE_URL= "http://10.0.2.2:8000";
+    public static String BASE_URL= Keys.getServerUrl();
     private Retrofit retrofit;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;

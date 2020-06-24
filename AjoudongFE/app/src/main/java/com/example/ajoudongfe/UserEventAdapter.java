@@ -24,7 +24,7 @@ import static java.lang.Integer.parseInt;
 
 public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.ItemViewHolder> {
 
-    public static String BASE_URL= "http://10.0.2.2:8000";
+    public static String BASE_URL= Keys.getServerUrl();
     private List<EventObject> listData = new ArrayList<>();
     final  String TAG = getClass().getSimpleName();
 

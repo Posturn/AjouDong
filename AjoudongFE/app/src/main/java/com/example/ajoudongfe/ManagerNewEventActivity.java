@@ -57,7 +57,7 @@ public class ManagerNewEventActivity extends AppCompatActivity {
     final String TAG = getClass().getSimpleName();
     private final int GET_GALLERY_IMAGE = 200;
 
-    final String BASE_URL = "http://10.0.2.2:8000";
+    final String BASE_URL = Keys.getServerUrl();
     final String OBJECT_URL = "https://ajoudong.s3.ap-northeast-2.amazonaws.com/events/";
     private RetroService retroService;
 

@@ -48,7 +48,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
     private boolean applyActive = false;
     private boolean applyRecord = false;
 
-    public static String BASE_URL = "http://10.0.2.2:8000";
+    public static String BASE_URL = Keys.getServerUrl();
     private Retrofit retrofit;
 
     private RetroService retroService;

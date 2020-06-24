@@ -34,7 +34,7 @@ public class ManagerClubFilterSettingActivity extends AppCompatActivity implemen
     final  String TAG = getClass().getSimpleName();
     private RetroService retroService;
 
-    final String BASE_URL = "http://10.0.2.2:8000";
+    final String BASE_URL = Keys.getServerUrl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
