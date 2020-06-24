@@ -136,11 +136,6 @@ public class UserMainActivity extends AppCompatActivity {
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_main);
 
-
-
-//        final int uSchoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
-//        setuSchoolID(uSchoolID);
-
         // 이미지 편집 버튼 기능 구현
         profile_btn = (ImageButton)header.findViewById(R.id.user_profile_edit);
         profile_btn.setClickable(true);
