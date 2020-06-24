@@ -101,7 +101,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
         actionBar.setDisplayShowTitleEnabled(false);
         initMyAPI(BASE_URL);
 
-       // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); //키보드 UI 가림 방지
+        // getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE); //키보드 UI 가림 방지
 
         final int manager_ClubID = getIntent().getIntExtra("clubID", 0);
         setManager_ClubID(manager_ClubID);
@@ -117,8 +117,14 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
                     ET_clubApply.setText(item.getClubApply());
                     ET_clubFAQ.setText(item.getClubFAQ());
                     ET_clubContact.setText(item.getClubContact());
-                    Picasso.get().load(item.getPosterIMG()).into(IV_clubPoster);
-                    nowImage = item.getPosterIMG().substring(item.getPosterIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                    if(item.getPosterIMG() != null){
+                        Picasso.get().load(item.getPosterIMG()).into(IV_clubPoster);
+                        nowImage = item.getPosterIMG().substring(item.getPosterIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                    }
+                    else{
+                        IV_clubPoster.setImageResource(R.drawable.icon);
+                    }
+
                     Log.d(TAG, nowImage);
                 }else {
                     Log.d(TAG,"Status Code : " + response.code());
@@ -141,7 +147,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
             }
         });
 
-}
+    }
     @Override
     protected void onResume() {     //재시작시에 그리드 새로고침
         super.onResume();
@@ -181,7 +187,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
     private void deleteIMG(){       //원래 이미지 버킷에서 삭제
         try {
             s3Client.deleteObject(new DeleteObjectRequest(bucketName, folderName+nowImage));
-           // Log.d(TAG,nowImage +" is deleted!");
+            // Log.d(TAG,nowImage +" is deleted!");
         } catch (AmazonServiceException ase) {
             Log.e(TAG, ase.getErrorMessage());
         }

@@ -287,36 +287,6 @@ public class UserMainActivity extends AppCompatActivity {
         final ImageView ads1 = (ImageView) findViewById(R.id.ads1);
         getUserprofile();
 
-    }
-
-    private void getUserprofile() {
-        Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
-        Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
-        getCall.enqueue(new Callback<UserObject>() {
-            @Override
-            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
-                if( response.isSuccessful()){
-                    UserObject item  = response.body();
-                    Log.d(TAG, String.valueOf(user_profile.getId()));
-                    user_name.setText(item.getuName());
-                    if(item.getuIMG() != null && item.getuIMG() == "default"){
-                        Picasso.get().load(item.getuIMG()).into(user_profile);
-                        nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
-                    }
-                    else{
-                        user_profile.setImageResource(R.drawable.ajoudong_icon);
-                    }
-//                    nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
-                    Log.d(TAG, nowImage3);
-                }else {
-                    Log.d(TAG,"Status Code : " + response.code());
-                }
-            }
-            @Override
-            public void onFailure(Call<UserObject> call, Throwable t) {
-                Log.d(TAG,"Fail msg : " + t.getMessage());
-            }
-        });
         Log.d(TAG,"GET");
         Call<AdsObject> getCall2 = retroService.getAdsObject(3);
         getCall2.enqueue(new Callback<AdsObject>() {
@@ -362,6 +332,38 @@ public class UserMainActivity extends AppCompatActivity {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
+
+    }
+
+    private void getUserprofile() {
+        Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
+        Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
+        getCall.enqueue(new Callback<UserObject>() {
+            @Override
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
+                if( response.isSuccessful()){
+                    UserObject item  = response.body();
+                    Log.d(TAG, String.valueOf(user_profile.getId()));
+                    user_name.setText(item.getuName());
+                    if(item.getuIMG() != null && item.getuIMG() == "default"){
+                        Picasso.get().load(item.getuIMG()).into(user_profile);
+                        nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                    }
+                    else{
+                        user_profile.setImageResource(R.drawable.ajoudong_icon);
+                    }
+//                    nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                    Log.d(TAG, nowImage3);
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<UserObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+
 
     }
 
