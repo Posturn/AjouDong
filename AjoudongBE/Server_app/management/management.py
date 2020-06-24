@@ -20,24 +20,26 @@ from django.shortcuts import get_object_or_404
 class memberlist(View):
     @csrf_exempt
     def get(self, request, clubID):
-        try:
-            queryset = ClubMember.objects.filter(clubID_id=clubID).order_by('-id')
-            memberList = list(queryset.values())
-            print(memberList)
-            memberInfoList = []
-            for i in memberList:
-                memberInfo = {}
-                member = UserAccount.objects.get(uSchoolID = list(i.values())[2])
-                memberInfo['uMajor'] = member.uMajor
-                memberInfo['uSchoolID'] = member.uSchoolID
-                memberInfo['uName'] = member.uName
-                memberInfo['uIMG'] = member.uIMG
-                memberInfoList.append(memberInfo)
+        # try:
+        #     queryset = ClubMember.objects.filter(clubID_id=clubID).order_by('-id')
+        #     memberList = list(queryset.values())
+        #     print(memberList)
+        #     memberInfoList = []
+        #     for i in memberList:
+        #         memberInfo = {}
+        #         member = UserAccount.objects.get(uSchoolID = list(i.values())[2])
+        #         memberInfo['uMajor'] = member.uMajor
+        #         memberInfo['uSchoolID'] = member.uSchoolID
+        #         memberInfo['uName'] = member.uName
+        #         memberInfo['uIMG'] = member.uIMG
+        #         memberInfoList.append(memberInfo)
 
-            return JsonResponse({'response' : 1, 'content' : memberInfoList}, status = 200)
+        #     return JsonResponse({'response' : 1, 'content' : memberInfoList}, status = 200)
 
-        except KeyError:
-            return JsonResponse({'response' : -2}, status = 401)
+        # except KeyError:
+        #     return JsonResponse({'response' : -2}, status = 401)
+        refreshStatistic(clubID)
+        return JsonResponse({'response' : 1}, status = 200)
 
 class applieduserlist(View):
     @csrf_exempt
@@ -216,3 +218,75 @@ def applicationStateChange(clubID, uSchoolID, applyResult):
         message = str(club.clubName) + " 동아리 지원이 거절되었습니다."
     print(message)
     device.send_message(title="동아리 지원 결과 업데이트!", body=message, icon="ic_notification",click_action="OPEN_USER_APPLY_RESULT_ACTIVITY", data={"pushed": "pushed", "message": message})
+
+def refreshStatistic(clubID):
+    queryset = ClubMember.objects.filter(clubID_id=clubID)
+    memberList = list(queryset.values())
+    # print(memberList)
+    memberNumber = 0
+    menNumber = 0
+    womenNumber = 0
+    overRatio12 = 0
+    Ratio13 = 0
+    Ratio14 = 0
+    Ratio15 = 0
+    Ratio16 = 0
+    Ratio17 = 0
+    Ratio18 = 0
+    Ratio19 = 0
+    Ratio20 = 0
+    engineeringRatio = 0
+    ITRatio = 0
+    naturalscienceRatio = 0
+    managementRatio = 0
+    humanitiesRatio = 0
+    socialscienceRatio = 0
+    nurseRatio = 0
+    for member in memberList:
+        memberNumber = memberNumber + 1
+        # print(member['uSchoolID_id'])
+        User = UserAccount.objects.get(uSchoolID = member['uSchoolID_id'])
+        #사용자 학번 체크
+        UserRatio = User.uSchoolID / 100000
+        if UserRatio < 2013 : overRatio12 = overRatio12 + 1
+        elif UserRatio > 2013 and UserRatio < 2014 : Ratio13 = Ratio13 + 1
+        elif UserRatio > 2014 and UserRatio < 2015 : Ratio14 = Ratio14 + 1
+        elif UserRatio > 2015 and UserRatio < 2016 : Ratio15 = Ratio15 + 1
+        elif UserRatio > 2016 and UserRatio < 2017 : Ratio16 = Ratio16 + 1
+        elif UserRatio > 2017 and UserRatio < 2018 : Ratio17 = Ratio17 + 1
+        elif UserRatio > 2018 and UserRatio < 2019 : Ratio18 = Ratio18 + 1
+        elif UserRatio > 2019 and UserRatio < 2020 : Ratio19 = Ratio19 + 1
+        elif UserRatio > 2020 : Ratio20 = Ratio20 + 1
+        else : print("Not ratio")
+        #사용자 성별체크
+        if(User.uJender == 0 ) : menNumber = menNumber + 1
+        else : womenNumber = womenNumber + 1
+        #사용자 단과대 체크
+        if(User.uCollege == '공과대학') : engineeringRatio = engineeringRatio + 1
+        elif(User.uCollege == '정보통신대학') : ITRatio = ITRatio + 1
+        elif(User.uCollege == '자연과학대학') : naturalscienceRatio = naturalscienceRatio + 1
+        elif(User.uCollege == '경영대학') : managementRatio = managementRatio + 1
+        elif(User.uCollege == '인문대학') : humanitiesRatio = humanitiesRatio + 1
+        elif(User.uCollege == '사회과학대학') : socialscienceRatio = socialscienceRatio + 1
+        elif(User.uCollege == '간호대학') : nurseRatio = nurseRatio + 1
+        else : print("Not college")
+    
+    print("전체 : " + str(memberNumber))
+    print("남성 : " + str(menNumber))
+    print("여성 : " + str(womenNumber))
+    print("12학번 : " + str(overRatio12))
+    print("13학번 : " + str(Ratio13))
+    print("14학번 : " + str(Ratio14))
+    print("15학번 : " + str(Ratio15))
+    print("16학번 : " + str(Ratio16))
+    print("17학번 : " + str(Ratio17))
+    print("18학번 : " + str(Ratio18))
+    print("19학번 : " + str(Ratio19))
+    print("공대 : " + str(engineeringRatio))
+    print("정통대 : " + str(ITRatio))
+    print("자연대 : " + str(naturalscienceRatio))
+    print("경영대 : " + str(managementRatio))
+    print("인문대 : " + str(humanitiesRatio))
+    print("사회대 : " + str(socialscienceRatio))
+    print("간호대 : " + str(nurseRatio))
+        
