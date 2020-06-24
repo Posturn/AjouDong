@@ -297,14 +297,15 @@ class UserClubApply(View):
                 additionalApplyContent = data["additionalApplyContent"],
             ).save()
 
-            userApplytoClubAlarm(clubID)   
             
             AppliedClubList.objects.create(
                 clubID_id = data["clubID_id"],
                 uSchoolID_id = data["uSchoolID_id"],
                 memberState = 0,
-                applyDate = "2020.06.17"
+                applyDate = "2020.06.25"
             ).save()
+
+            userApplytoClubAlarm(clubID)   
 
             return JsonResponse({'response' : 1}, status=200)
         except KeyError:
@@ -371,8 +372,6 @@ def userApplytoClubAlarm(clubID):
         device = FCMDevice.objects.get(name=clubID)
     
         message = "동아리에 지원자가 도착했습니다!"
-        #TODO
-        #intent 미사용하는 방식으로 변할시 코드 변경해야됨
         device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY", data={"pushed": "pushed", "Activity" : "OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY"})
 
 #_134

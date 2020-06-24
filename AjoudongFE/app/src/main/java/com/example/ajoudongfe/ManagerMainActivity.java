@@ -310,7 +310,6 @@ public class ManagerMainActivity extends AppCompatActivity {
                 if(data.getResponse() > 0)
                 {
                     clubID = data.getResponse();
-                    Toast.makeText(getApplicationContext(), Integer.toString(clubID), Toast.LENGTH_SHORT).show();
                     getmanagerID(clubID);
 
                 }

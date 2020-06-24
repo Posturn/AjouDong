@@ -378,7 +378,6 @@ public class UserMainActivity extends AppCompatActivity {
                 if(data.getResponse() > 0)
                 {
                     uSchoolID = data.getResponse();
-                    Toast.makeText(getApplicationContext(), Integer.toString(uSchoolID), Toast.LENGTH_SHORT).show();
                     getUserprofile();
 
                 }
