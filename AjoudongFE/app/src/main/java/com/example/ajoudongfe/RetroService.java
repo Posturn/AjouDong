@@ -170,6 +170,12 @@ public interface RetroService {
     @GET("alarm/userState/{uSchoolID}/")
     Call<AlarmStateObject> getUserAlarmState(@Path("uSchoolID") int uSchoolID);
 
+    @GET("alarm/managerState/{clubID}/")
+    Call<ResponseObject> getManagerAlarmState(@Path("clubID") int clubID);
+
+    @POST("alarm/managerchange/{clubID}/")
+    Call<ResponseObject> updateManagerAlarm(@Path("clubID") int clubID);
+
     @POST("alarm/alarmChange/{uSchoolID}/{alarmType}/")
     Call<ResponseObject> updateUserAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmType") int alarmType);
 

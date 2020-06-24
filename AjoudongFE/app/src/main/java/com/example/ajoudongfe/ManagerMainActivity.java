@@ -137,18 +137,6 @@ public class ManagerMainActivity extends AppCompatActivity {
         navMenu = navigationView.getMenu();
         newApplyAlarm = (Switch) navMenu.findItem(R.id.club_apply_alarm).getActionView().findViewById(R.id.switch_alarm);
 
-        newApplyAlarm.setChecked(true);
-
-//        final String mID = getIntent().getStringExtra("mID");       //매니저 아이디 받아오기 및 세팅
-//        setmID(mID);
-
-//        final int clubID = getIntent().getIntExtra("clubID", 0);    //매니저의 동아리 받아오기 및 세팅팅
-//       final int clubID = userID;
-//        setClubID(clubID);
-
-//        getmName(manager_name, mID);
-//        getprofile(manager_profile);
-
         // 이미지 편집 버튼 기능 구현
         final ImageButton profile_btn = (ImageButton)header.findViewById(R.id.manager_profile_edit);
         profile_btn.setClickable(true);
@@ -234,28 +222,48 @@ public class ManagerMainActivity extends AppCompatActivity {
 
         newApplyAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                //Database Server_app_manageraccount에 newbieAlarm 변경해주기
-//                userAlarm.setNewclubAlarm(isChecked);
-//                changeAlarmState(4);
-//                //newApplyAlarm.setChecked(true);
-//                if(loadingAlarm == false) return;
-//                Call<ResponseObject> alarmCall = retroService.updateUserAlarm(uSchoolID, type);
-//                alarmCall.enqueue(new Callback<ResponseObject>() {
-//                    @Override
-//                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-//                        ResponseObject data = response.body();
-//                        if(data.getResponse() == 1) Toast.makeText(getApplicationContext(), "알림 변경", Toast.LENGTH_SHORT).show();
-//                    }
-//                    @Override
-//                    public void onFailure(Call<ResponseObject> call, Throwable t) {
-//                        t.printStackTrace();
-//                        Toast.makeText(getApplicationContext(), "오류", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                });
+                if(!loadingAlarm) return;
+                Call<ResponseObject> stateChange = retroService.updateManagerAlarm(clubID);
+                stateChange.enqueue(new Callback<ResponseObject>() {
+                    @Override
+                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                        ResponseObject data = response.body();
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseObject> call, Throwable t) {
+                        t.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "오류", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
+
     }
+
+    private boolean nowAlarmCheck(){
+        loadingAlarm = true;
+        Call<ResponseObject> alarmstate = retroService.getManagerAlarmState(clubID);
+        alarmstate.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if( response.isSuccessful()){
+                    ResponseObject data = response.body();
+                    if(data.getResponse() == 0) {
+                        newApplyAlarm.setChecked(false);
+                    }else if(data.getResponse() == 1)
+                        newApplyAlarm.setChecked(true);
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+        return false;
+    }
+
 
     private void getprofile(final ImageView manager_profile) {
         Log.d(TAG,"GET");       //처음 간부(클럽) 프로필 정보 불러오기
@@ -337,7 +345,7 @@ public class ManagerMainActivity extends AppCompatActivity {
                 {
                     clubID = data.getResponse();
                     getmanagerID(clubID);
-
+                    newApplyAlarm.setChecked(nowAlarmCheck());
                 }
                 else
                 {
