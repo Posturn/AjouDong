@@ -355,10 +355,10 @@
         </androidx.gridlayout.widget.GridLayout>
 
         <ImageView
-            android:id="@+id/majorSelectAD"
+            android:id="@+id/ads3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/adv_ex1"
+            app:srcCompat="@drawable/noads"
             android:scaleType="fitXY" />
 
     </LinearLayout>

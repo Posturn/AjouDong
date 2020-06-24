@@ -19,6 +19,10 @@ from Server_app.serializers import *
 from rest_framework.response import Response
 
 
+class adsViewset(viewsets.ModelViewSet):
+    queryset = Ads.objects.all()
+    serializer_class = AdsSerializer
+
 class userAccountViewset(viewsets.ModelViewSet):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
@@ -215,6 +219,12 @@ class ClubMemberViewset(viewsets.ModelViewSet):
         filteruSchoolID = self.kwargs['uSchoolID']
         self.queryset = self.queryset.filter(uSchoolID = filteruSchoolID)
         return self.queryset
+
+class DeleteClubMember(View):
+    @csrf_exempt
+    def delete(self, request, clubID, uSchoolID):
+        ClubMember.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
+        return HttpResponse(status = 200)
 
 class PostFilter(View):
     @csrf_exempt

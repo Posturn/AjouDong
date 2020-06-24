@@ -83,6 +83,7 @@ public class ManagerMainActivity extends AppCompatActivity {
     private String mID;
     private int clubID;
     private int clubMajor;
+    private int viewCount;
 
     private boolean loadingAlarm = false;
     private Switch newApplyAlarm;
@@ -360,6 +361,64 @@ public class ManagerMainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "통신 오류", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    protected void onResume(){
+        super.onResume();
+        final ImageView ads2 = (ImageView) findViewById(R.id.ads2);
+        Log.d(TAG,"GET");
+        Call<AdsObject> getCall2 = retroService.getAdsObject(4);
+        getCall2.enqueue(new Callback<AdsObject>() {
+            @Override
+            public void onResponse(Call<AdsObject> call, Response<AdsObject> response) {
+                if( response.isSuccessful()){
+                    AdsObject item2  = response.body();
+                    int count = item2.getAdsView()-1;
+                    setViewCount(count);
+                    if(item2.getAdsIMG() != null && item2.getAdsView() != 0){
+                        Picasso.get().load(item2.getAdsIMG()).into(ads2);
+                    }
+                    else{
+                        ads2.setImageResource(R.drawable.noads);
+                    }
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+                if(getViewCount() >= 0){
+                    Log.d(TAG, "PATCH");
+                    AdsObject item3 = new AdsObject();
+                    item3.setAdsView(getViewCount());
+                    item3.setAdsSpace(2);
+                    Call<AdsObject> patchCall = retroService.patchAdsObject(4, item3);
+                    patchCall.enqueue(new Callback<AdsObject>() {
+                        @Override
+                        public void onResponse(Call<AdsObject> call, Response<AdsObject> response) {
+                            if (response.isSuccessful()) {
+                                Log.d(TAG, "patch 성공");
+                            } else {
+                                Log.d(TAG, "Status Code : " + response.code());
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<AdsObject> call, Throwable t) {
+                            Log.d(TAG, "Fail msg : " + t.getMessage());
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onFailure(Call<AdsObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 
     public int getClubMajor() {

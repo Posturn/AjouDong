@@ -30,9 +30,9 @@ public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.Item
 
     private List<Integer> eventIDs = new ArrayList<>();
     private List<Integer> clubIDs = new ArrayList<>();
+    private List<String> Dday = new ArrayList<>();
     private int dday;
-    private String Dday;
-    private int DdayColor;
+    private List<Integer> DdayColor = new ArrayList<>();
 
     public int getEventID(int position) {
         return eventIDs.get(position);
@@ -42,9 +42,9 @@ public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.Item
         this.eventIDs.add(position, eventID);
     }
 
-    public String getDday() { return Dday; }
+    public String getDday(int position) { return Dday.get(position); }
 
-    public void setDday(String dday) { Dday = dday; }
+    public void setDday(String dday, int position) { this.Dday.add(position, dday); }
 
     public int getClubID(int position) {
         return clubIDs.get(position);
@@ -54,12 +54,12 @@ public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.Item
         this.clubIDs.add(position, clubID);
     }
 
-    public int getDdayColor() {
-        return DdayColor;
+    public int getDdayColor(int position) {
+        return DdayColor.get(position);
     }
 
-    public void setDdayColor(int ddayColor) {
-        DdayColor = ddayColor;
+    public void setDdayColor(int ddayColor, int position) {
+        this.DdayColor.add(position, ddayColor);
     }
 
 
@@ -107,8 +107,8 @@ public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.Item
                     Intent intent = new Intent(itemView.getContext(), UserEventDetailActivity.class);
                     intent.putExtra("eventID", getEventID(getLayoutPosition()));
                     intent.putExtra("clubID", getClubID(getLayoutPosition()));
-                    intent.putExtra("dday",getDday());
-                    intent.putExtra("ddayColor",getDdayColor());
+                    intent.putExtra("dday",getDday(getLayoutPosition()));
+                    intent.putExtra("ddayColor",getDdayColor(getLayoutPosition()));
                     itemView.getContext().startActivity(intent);
                 }
             });
@@ -132,34 +132,35 @@ public class UserEventAdapter extends RecyclerView.Adapter<UserEventAdapter.Item
             String Dday;
             Log.d(TAG,""+parseInt(ddayArray[0]) + parseInt(ddayArray[1])+parseInt(ddayArray[2]));
             dday = countdday(parseInt(ddayArray[0]),parseInt(ddayArray[1]),parseInt(ddayArray[2]));
+            Log.d(TAG, "dday는 "+dday);
             if(dday > 7){
                 Dday = "D-"+dday;
-                setDday(Dday);
+                setDday(Dday,getLayoutPosition());
                 eventStatus.setText(Dday);
                 eventStatus.setTextColor(Color.BLUE);
-                setDdayColor(Color.BLUE);
+                setDdayColor(Color.BLUE,getLayoutPosition());
             }
             else if(dday <= 7 && dday > 0){
                 Dday = "D-"+dday;
-                setDday(Dday);
+                setDday(Dday,getLayoutPosition());
                 eventStatus.setText(Dday);
                 eventStatus.setTextColor(Color.RED);
-                setDdayColor(Color.RED);
+                setDdayColor(Color.RED,getLayoutPosition());
             }
             else if(dday == 0){
                 Dday = "D-Day";
-                setDday(Dday);
+                setDday(Dday,getLayoutPosition());
                 eventStatus.setText(Dday);
-                eventStatus.setTextColor(Color.GREEN);
-                setDdayColor(Color.GREEN);
+                eventStatus.setTextColor(Color.BLACK);
+                setDdayColor(Color.BLACK,getLayoutPosition());
             }
             else{
                 dday = Math.abs(dday);
                 Dday = "종료";
-                setDday(Dday);
+                setDday(Dday,getLayoutPosition());
                 eventStatus.setText(Dday);
                 eventStatus.setTextColor(Color.GRAY);
-                setDdayColor(Color.GRAY);
+                setDdayColor(Color.GRAY,getLayoutPosition());
             }
         }
     }

@@ -203,6 +203,10 @@ public interface RetroService {
     @POST("findpw/gettemppw")
     Call<ResponseObject> getTempPW(@Body FindPWObject findPWObject);
 
+
+    @GET("/ads/{adsID}/")
+    Call<AdsObject> getAdsObject(@Path("adsID") int adsID);
+  
     @GET("token/getidbytoken/{token}")
     Call<ResponseObject> getIDbyToken(@Path("token") String token);
 
@@ -215,5 +219,13 @@ public interface RetroService {
     @GET("application/applicationrecord/{clubID}/{uSchoolID}")
     Call<ResponseObject> getApplicationRecord(@Path("clubID")int clubID, @Path("uSchoolID") int uSchoolID);
 
+    @PATCH("ads/{adsID}/")
+    Call<AdsObject> patchAdsObject(@Path("adsID") int adsID, @Body AdsObject adsObject);
+
+    @PATCH("recruittag/{clubID}/{mode}/")
+    Call<ResponseObject> patchrecruitTag(@Path("clubID") int clubID, @Path("mode") int mode);
+
+    @DELETE("/clubmember/{clubID}/{uSchoolID}/")
+    Call<ResponseObject> deleteClubMember(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
 }
 

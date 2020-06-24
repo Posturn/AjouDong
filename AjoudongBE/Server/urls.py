@@ -20,7 +20,7 @@ router.register(r'manageraccount', views.managerAccountViewset)
 router.register(r'tags', views.TagViewSet)
 router.register(r'statistic', views.StatisticsViewSet)
 router.register(r'event',views.EventViewset)
-
+router.register(r'ads', views.adsViewset)
 
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
@@ -38,6 +38,7 @@ urlpatterns = [
     path('activities/grid/<int:clubID>/', views.clubActivityViewSet.as_view({"get": "list"}), name="activitygrid"),
     path('', include(router.urls)),
     path('clubmembers/<int:uSchoolID>/', views.ClubMemberViewset.as_view({"get": "list"}), name="clubmembergrid"),
+    path('clubmember/<int:clubID>/<int:uSchoolID>/', csrf_exempt(views.DeleteClubMember.as_view())),
     path('clubs/', include('Server_app.urls')),
     path('clublist/<int:club>/<str:category>/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
     path('clubsearch/<int:club>/<str:category>/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
@@ -53,11 +54,13 @@ urlpatterns = [
     path('statisticSearch/<int:clubID>/', views.ClubStatisticsViewSet.as_view({"get":"retrieve"}), name="statisticlist"),
     path('clubquestion/<int:pk>/',views.ClubQuestionViewSet.as_view({"get": "retrieve"}), name="clubquestion"),
     path('nrecruitclubs/',views.NRecruitViewSet.as_view({"get": "list"}), name="nrecruitclubs"),
+    path('recruittag', include('Server_app.recruitTag.urls')),
     path('event/', include('Server_app.urls')),
     path('eventlist', include('Server_app.event.urls')),
     path('ajoudongAdmin/', include('Server_admin.urls')),
     path('userfromdevice/<str:token>/',views.UserFromDeviceViewset.as_view({"get":"retrieve"}), name="userfromdevice"),
     path('findid', include('Server_app.findID.urls')),
     path('findpw', include('Server_app.findPW.urls')),
+    path('ads/',include('Server_app.urls')),
     re_path('admin/', admin.site.urls),
 ]

@@ -72,6 +72,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
     static private String imgPath3, imgName3, nowImage3 = "";
 
     private int uSchoolID = 201720988; //테스트용 사용자 아이디
+    private int viewCount;
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -319,6 +320,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
         final View header = navigationView.getHeaderView(0);
         final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
         final TextView user_name = (TextView)header.findViewById(R.id.user_name);
+        final ImageView ads3 = (ImageView) findViewById(R.id.ads3);
 
         Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
         Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
@@ -347,6 +349,60 @@ public class UserMajorSelectActivity extends AppCompatActivity {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
+
+        Log.d(TAG,"GET");
+        Call<AdsObject> getCall2 = retroService.getAdsObject(5);
+        getCall2.enqueue(new Callback<AdsObject>() {
+            @Override
+            public void onResponse(Call<AdsObject> call, Response<AdsObject> response) {
+                if( response.isSuccessful()){
+                    AdsObject item2  = response.body();
+                    int count = item2.getAdsView()-1;
+                    setViewCount(count);
+                    if(item2.getAdsIMG() != null && item2.getAdsView() != 0){
+                        Picasso.get().load(item2.getAdsIMG()).into(ads3);
+                    }
+                    else{
+                        ads3.setImageResource(R.drawable.noads);
+                    }
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+                if(getViewCount() >= 0){
+                    Log.d(TAG, "PATCH");
+                    AdsObject item3 = new AdsObject();
+                    item3.setAdsSpace(3);
+                    item3.setAdsView(getViewCount());
+                    Call<AdsObject> patchCall = retroService.patchAdsObject(5, item3);
+                    patchCall.enqueue(new Callback<AdsObject>() {
+                        @Override
+                        public void onResponse(Call<AdsObject> call, Response<AdsObject> response) {
+                            if (response.isSuccessful()) {
+                                Log.d(TAG, "patch 성공");
+                            } else {
+                                Log.d(TAG, "Status Code : " + response.code());
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<AdsObject> call, Throwable t) {
+                            Log.d(TAG, "Fail msg : " + t.getMessage());
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onFailure(Call<AdsObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 
     public int getuSchoolID() {

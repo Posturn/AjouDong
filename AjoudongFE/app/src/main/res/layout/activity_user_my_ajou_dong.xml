@@ -172,10 +172,7 @@
                         android:horizontalSpacing="10dp"
                         android:numColumns="3"
                         android:scrollbars="vertical"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="5dp"
-                        android:layout_margin="23dp"
-                        android:layout_marginTop="8dp"
+                        android:padding="10dp"
                         android:verticalSpacing="10dp"/>
                 </LinearLayout>
 

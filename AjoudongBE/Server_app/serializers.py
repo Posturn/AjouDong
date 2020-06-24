@@ -2,6 +2,11 @@ from rest_framework import serializers, viewsets
 
 from Server_app.models import *
 
+class AdsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ads
+        fields = ('adsID','advertiserID','adsSpace','adsIMG','adsView')
+
 
 
 class UserAccountSerializer(serializers.ModelSerializer):

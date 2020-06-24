@@ -77,8 +77,8 @@
 
             <Button
                 android:id="@+id/event_edit_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="36dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/new_edit_btn"
@@ -90,9 +90,9 @@
 
             <Button
                 android:id="@+id/event_delete_btn"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="16dp"
                 android:background="@drawable/new_delete_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
