@@ -219,6 +219,7 @@ public class UserMainActivity extends AppCompatActivity {
             }
         });
 
+
         majorclub.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
