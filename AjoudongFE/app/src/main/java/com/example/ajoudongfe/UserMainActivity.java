@@ -345,7 +345,7 @@ public class UserMainActivity extends AppCompatActivity {
                     UserObject item  = response.body();
                     Log.d(TAG, String.valueOf(user_profile.getId()));
                     user_name.setText(item.getuName());
-                    if(item.getuIMG() != null && item.getuIMG() == "default"){
+                    if(item.getuIMG() != null){
                         Picasso.get().load(item.getuIMG()).into(user_profile);
                         nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
                     }

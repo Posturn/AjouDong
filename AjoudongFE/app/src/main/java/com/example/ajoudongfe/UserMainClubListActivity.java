@@ -26,11 +26,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -70,6 +72,13 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
     private Retrofit retrofit;
 
+    private AlarmStateObject userAlarm;
+    private Switch stateAlarmSwitch;
+    private Switch eventAlarmSwitch;
+    private Switch newclubAlarmSwitch;
+    private Menu navMenu;
+    private boolean loadingAlarm = false;
+
     private final int GET_GALLERY_IMAGE = 200;
     final  String TAG = getClass().getSimpleName();
 
@@ -87,6 +96,8 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
+
+    private NavigationView navigationView;
 
 
     public ClubGridAdapter adapter;
@@ -175,7 +186,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_main_club_list);
+        navigationView = (NavigationView) findViewById(R.id.nav_view_user_main_club_list);
         final View header = navigationView.getHeaderView(0);
         final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
         final TextView user_name = (TextView)header.findViewById(R.id.user_name);
@@ -221,16 +232,21 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             }
         });
 
+        userAlarm = new AlarmStateObject();
+        getUserAlarmState(uSchoolID);
+
+        navMenu = navigationView.getMenu();
+        stateAlarmSwitch = (Switch) navMenu.findItem(R.id.user_apply_state_alarm).getActionView().findViewById(R.id.switch_alarm);
+        eventAlarmSwitch = (Switch) navMenu.findItem(R.id.user_new_event_alarm).getActionView().findViewById(R.id.switch_alarm);
+        newclubAlarmSwitch = (Switch) navMenu.findItem(R.id.user_new_club_alarm).getActionView().findViewById(R.id.switch_alarm);
+
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_main_club_list);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                menuItem.setChecked(true);
-                drawerlayout.closeDrawers();
-
                 int id = menuItem.getItemId();
-                String title = menuItem.getTitle().toString();
 
+                String title = menuItem.getTitle().toString();
                 if(id == R.id.user_info_edit){
                     Intent intent = new Intent(getApplicationContext(), UserMyAjouDongActivity.class);
                     intent.putExtra("uSchoolID", uSchoolID);
@@ -245,19 +261,10 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                     intent.putExtra("uSchoolID", uSchoolID);
                     startActivity(intent);
                 }
-                else if(id == R.id.user_new_club_alarm){
-                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
-                }
-                else if(id == R.id.user_apply_state_alarm){
-                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
-                }
-                else if(id == R.id.user_new_event_alarm){
-                    Toast.makeText(context, "구현필요", Toast.LENGTH_SHORT).show();
-                }
                 else if(id == R.id.user_logout){
                     editor.clear();
                     editor.commit();
-                    Toast.makeText(context, "로그아웃 완료", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "로그아웃중", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
@@ -266,7 +273,33 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                     profile_btn.callOnClick();
                 }
 
+                int size = navigationView.getMenu().size();
+                for (int i = 0; i < size; i++) {
+                    navigationView.getMenu().getItem(i).setChecked(false);
+                }
+
                 return true;
+            }
+        });
+
+        stateAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                userAlarm.setStateAlarm(isChecked);
+                changeAlarmState(1);
+            }
+        });
+
+        eventAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                userAlarm.setEventAlarm(isChecked);
+                changeAlarmState(2);
+            }
+        });
+
+        newclubAlarmSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                userAlarm.setNewclubAlarm(isChecked);
+                changeAlarmState(4);
             }
         });
 
@@ -526,6 +559,52 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             public void onFailure(Call<List<ClubObject>> call, Throwable throwable) {
               //  Toast.makeText(UserMainClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
             }
+        });
+    }
+
+    public void getUserAlarmState(int uSchoolID){
+        Call<AlarmStateObject> alarmcall = retroService.getUserAlarmState(uSchoolID);     //매니저의 동아리 아이디 받아오기 및 세팅
+        alarmcall.enqueue(new Callback<AlarmStateObject>() {
+            @Override
+            public void onResponse(Call<AlarmStateObject> call, Response<AlarmStateObject> response) {
+                if(response.isSuccessful()){
+                    AlarmStateObject alarm = response.body();
+                    userAlarm.setEventAlarm(alarm.isEventAlarm());
+                    userAlarm.setNewclubAlarm(alarm.isNewclubAlarm());
+                    userAlarm.setStateAlarm(alarm.isStateAlarm());
+                    userAlarm.setUnreadEvent(alarm.getUnreadEvent());
+
+                    stateAlarmSwitch.setChecked(userAlarm.isStateAlarm());
+                    eventAlarmSwitch.setChecked(userAlarm.isEventAlarm());
+                    newclubAlarmSwitch.setChecked(userAlarm.isNewclubAlarm());
+                    loadingAlarm = true;
+                }else {
+                    Log.d("실패","실패 Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<AlarmStateObject> call, Throwable t) {
+                Log.d("실패","실패 msg : " + t.getMessage());
+            }
+        });
+    }
+
+
+    public void changeAlarmState(int type){
+        if(loadingAlarm == false) return;
+        Call<ResponseObject> alarmCall = retroService.updateUserAlarm(uSchoolID, type);
+        alarmCall.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                ResponseObject data = response.body();
+                if(data.getResponse() == 1) Toast.makeText(getApplicationContext(), "알림 변경", Toast.LENGTH_SHORT).show();
+            }
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(getApplicationContext(), "오류", Toast.LENGTH_SHORT).show();
+            }
+
         });
     }
 
