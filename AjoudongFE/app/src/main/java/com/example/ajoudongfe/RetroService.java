@@ -2,6 +2,8 @@ package com.example.ajoudongfe;
 
 import android.util.EventLog;
 
+import org.w3c.dom.Comment;
+
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -182,8 +184,14 @@ public interface RetroService {
     @POST("alarm/unreadevent/")
     Call<ResponseObject> addUnreadEvent();
 
-    @GET("/qna/{clubID}/")
-    Call<QnAObject> getQnA(@Path("clubID") int clubID);
+    @GET("/faq/getfaq/{clubID}")
+    Call<List<QnAObject>> getfaq(@Path("clubID") int clubID);
+
+    @GET("/qna/{clubID}")
+    Call<List<QnAObject>> getqna(@Path("clubID") int clubID);
+
+    @GET("/comment/{FAQID}")
+    Call<List<CommentObject>> getcomment(@Path("FAQID") int FAQID);
 
     //@GET("/comment/{FAQID}/")
     //Call<CommentObject> getComment(@Path("FAQID") int FAQID);
@@ -203,6 +211,14 @@ public interface RetroService {
     @POST("findpw/gettemppw")
     Call<ResponseObject> getTempPW(@Body FindPWObject findPWObject);
 
+    @POST("/faq/postfaq")
+    Call<QnAObject> postfaq(@Body QnAObject qnaobject);
+
+    @POST("/faq/postfaqcomment")
+    Call<CommentObject> postcomment(@Body CommentObject commentObject);
+
+    @GET("/managerinfo/{clubID}")
+    Call<ManagerAccountObject> getManagerInformation(@Path("clubID") int clubID);
 
     @GET("/ads/{adsID}/")
     Call<AdsObject> getAdsObject(@Path("adsID") int adsID);
@@ -227,5 +243,6 @@ public interface RetroService {
 
     @DELETE("/clubmember/{clubID}/{uSchoolID}/")
     Call<ResponseObject> deleteClubMember(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
+
 }
 

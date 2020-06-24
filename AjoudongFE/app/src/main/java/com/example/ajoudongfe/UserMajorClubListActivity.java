@@ -222,6 +222,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
             @Override
             public void onResponse(Call<List<Integer>> call, Response<List<Integer>> response) {
                 nRecruitClub = response.body();
+
             }
 
             @Override
@@ -229,6 +230,8 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
               //  Toast.makeText(UserMajorClubListActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+
+
 
         Call<List<ClubObject>> call = retroService.getClubGridAll(club_num, selectedCategory, now_spin);
         CallEnqueueClubObject(call);
@@ -414,7 +417,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
             makeButtonVisible(37, 40);
         }
 
-        for(int i = 0 ; i < 40 ; i++) {
+        for(int i = 0 ; i < 41 ; i++) {
             majorButton[i].setOnClickListener(this);
 
         }

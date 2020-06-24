@@ -1,9 +1,6 @@
 package com.example.ajoudongfe;
 
-import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -12,7 +9,6 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -27,7 +23,6 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.squareup.picasso.Picasso;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,59 +32,58 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
-public class QAActivity extends AppCompatActivity implements View.OnClickListener{
+public class CommentActivity extends AppCompatActivity implements View.OnClickListener{
 
     public static String BASE_URL= "http://10.0.2.2:8000";
     private Retrofit retrofit;
-
     private RetroService retroService;
-    private String UserDeviceToken = null;
-    private UserObject userobject;
-    private QnAObject qnaobject;
-    private List<QnAObject> qnaobjectlist = new ArrayList<>();
-    private List<CommentObject> commentlist = new ArrayList<>();
-    private boolean anony;
 
+    private CommentObject commentObject;
     private ImageView profile;
     private TextView username;
-    private EditText question;
+    private TextView question;
     private CheckBox anonymous;
-    private Button upload;
+    private ImageView upload;
+    private EditText commentedit;
+    private String UserDeviceToken = null;
+    private UserObject userobject;
+    private int commenter;
 
-    private int qnanum;
-    private int maxqnanum;
+    private List<CommentObject> commentObjectList =new ArrayList<>();
 
-    private RecyclerView qnaRecyclerView;
-    private QnAExpandableAdapter qnaExpandableAdapter;
-
+    private String faqusername;
+    private String faquserimg;
+    private String faqquestion;
     private int parameterclubID;
+    private int FAQID;
+    private boolean anony;
+
+    private RecyclerView commentRecyclerView;
+    private CommentRecyclerViewAdapter commentRecyclerViewAdapter;
     InputMethodManager imm;
 
-    public void populateRecyclerView(List<QnAObject> qnaobject){
-        qnaRecyclerView=findViewById(R.id.QnARecylerView);
-        qnaExpandableAdapter = new QnAExpandableAdapter(this, qnaobject, parameterclubID);
+    public void populateRecyclerView(List<CommentObject> commentobject){
+        commentRecyclerView=findViewById(R.id.commentRecylerView);
+        commentRecyclerViewAdapter = new CommentRecyclerViewAdapter(this, commentobject, FAQID);
         LinearLayoutManager manager = new LinearLayoutManager(this);
-        qnaRecyclerView.setLayoutManager(manager);
-        qnaRecyclerView.setAdapter(qnaExpandableAdapter);
+        commentRecyclerView.setLayoutManager(manager);
+        commentRecyclerView.setAdapter(commentRecyclerViewAdapter);
     }
 
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qna);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.userbookmarktoolbar);
+    @Override
+    protected void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_comment);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.commenttoolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
         actionBar.setDisplayShowTitleEnabled(false);
-
-        parameterclubID = getIntent().getIntExtra("clubID", 0);
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -98,14 +92,31 @@ public class QAActivity extends AppCompatActivity implements View.OnClickListene
 
         retroService = retrofit.create(RetroService.class);
 
-        qnaRecyclerView=findViewById(R.id.QnARecylerView);
-        profile=findViewById(R.id.imageView);
-        username=findViewById(R.id.textView21);
-        question=findViewById(R.id.editText);
-        anonymous=findViewById(R.id.checkBoxQnaMain);
-        upload=findViewById(R.id.button3);
+        profile=findViewById(R.id.commentimageView);
+        username=findViewById(R.id.commenttextView);
+        question=findViewById(R.id.commenteditText);
+        anonymous=findViewById(R.id.commentCheckbox);
+        upload=findViewById(R.id.commentButton);
+        commentedit=findViewById(R.id.commentwriteText);
+        commentRecyclerView=findViewById(R.id.commentRecylerView);
+
+
+        FAQID=getIntent().getIntExtra("FAQID", 0);
+        faquserimg=getIntent().getStringExtra("userIMG");
+        faqusername=getIntent().getStringExtra("userName");
+        faqquestion=getIntent().getStringExtra("faqquestion");
+        parameterclubID=getIntent().getIntExtra("clubID", 0);
         upload.setOnClickListener(this);
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+
+        username.setText(faqusername);
+        if(faquserimg=="default"){
+            profile.setImageResource(R.drawable.icon);
+        }
+        else{
+            Picasso.get().load(faquserimg).into(profile);
+        }
+        question.setText(faqquestion);
 
         // Get token
         // [START retrieve_current_token]
@@ -125,19 +136,33 @@ public class QAActivity extends AppCompatActivity implements View.OnClickListene
 
                     }
                 });
-        getFaq(parameterclubID);
-        //Log.v("QnA객체", String.valueOf(qnaobject));
-        qnaExpandableAdapter = new QnAExpandableAdapter(this, qnaobjectlist, parameterclubID);
+
+        getComment(FAQID);
+        commentRecyclerViewAdapter = new CommentRecyclerViewAdapter(this, commentObjectList, FAQID);
         LinearLayoutManager manager = new LinearLayoutManager(this);
-        qnaRecyclerView.setLayoutManager(manager);
-        qnaRecyclerView.setAdapter(qnaExpandableAdapter);
+        commentRecyclerView.setLayoutManager(manager);
+        commentRecyclerView.setAdapter(commentRecyclerViewAdapter);
 
-        maxqnanum=1;
+    }
 
+    protected void getComment(int FAQID){
+        Call<List<CommentObject>> call =retroService.getcomment(FAQID);
+        call.enqueue(new Callback<List<CommentObject>>() {
+            @Override
+            public void onResponse(Call<List<CommentObject>> call, Response<List<CommentObject>> response) {
+                commentObjectList=null;
+                commentObjectList=response.body();
+                Log.v("QnA객체", String.valueOf(response.body()));
 
+                populateRecyclerView(commentObjectList);
 
+            }
 
-
+            @Override
+            public void onFailure(Call<List<CommentObject>> call, Throwable t) {
+                Log.v("실패", "실패");
+            }
+        });
     }
 
     protected void getUserFromDevice(String UserDeviceToken){
@@ -160,47 +185,20 @@ public class QAActivity extends AppCompatActivity implements View.OnClickListene
         });
     }
 
-    protected void getFaq(int clubID){
-        Call<List<QnAObject>> call =retroService.getqna(clubID);
-        call.enqueue(new Callback<List<QnAObject>>() {
+    protected void postComment(int userID, int FAQCommentID, String FAQCommentDate, boolean isAnonymous, String FAQCommentContent, int FAQID, int clubID){
+        final CommentObject commentobject = new CommentObject(userID, FAQCommentID, FAQCommentDate, isAnonymous, FAQCommentContent, FAQID, clubID);
+        Call<CommentObject> call=retroService.postcomment(commentobject);
+        call.enqueue(new Callback<CommentObject>() {
             @Override
-            public void onResponse(Call<List<QnAObject>> call, Response<List<QnAObject>> response) {
-                qnaobjectlist=null;
-                qnaobjectlist=response.body();
-                Log.v("QnA객체", String.valueOf(response.body()));
-
-                        populateRecyclerView(qnaobjectlist);
+            public void onResponse(Call<CommentObject> call, Response<CommentObject> response) {
 
             }
 
             @Override
-            public void onFailure(Call<List<QnAObject>> call, Throwable t) {
-                Log.v("실패", "실패");
-            }
-        });
-    }
-
-    private void postFAQ(int userID, int FAQID, String FAQDate, boolean isAnonymous, String FAQContent, int clubID) {
-        //Log.v("clubID", String.valueOf(parameterclubID));
-        final QnAObject qnaobject = new QnAObject(userID, FAQID, FAQDate, isAnonymous, FAQContent, clubID);
-
-        //qnaobject(userobject.getuName(), maxqnanum+1, datestr, anony, question.getText().toString(), parameterclubID);
-
-        Call<QnAObject> call = retroService.postfaq(qnaobject);
-        call.enqueue(new Callback<QnAObject>() {
-            @Override
-            public void onResponse(Call<QnAObject> call, Response<QnAObject> response) {
-
-
-            }
-
-            @Override
-            public void onFailure(Call<QnAObject> call, Throwable t) {
+            public void onFailure(Call<CommentObject> call, Throwable t) {
 
             }
         });
-
-
     }
 
     @Override
@@ -208,7 +206,7 @@ public class QAActivity extends AppCompatActivity implements View.OnClickListene
 
         switch (v.getId()){
 
-            case R.id.button3 :
+            case R.id.commentButton :
 
 
                 if(anonymous.isChecked()) {    //체크 박스가 체크 된 경우
@@ -218,19 +216,15 @@ public class QAActivity extends AppCompatActivity implements View.OnClickListene
                     anony=false;
                 }
 
-                postFAQ(userobject.getuSchoolID(), 0, "날짜", anony, question.getText().toString(), parameterclubID);
-                getFaq(parameterclubID);
+                postComment(userobject.getuSchoolID(), 0, "날짜", anony, commentedit.getText().toString(), FAQID ,parameterclubID);
+                getComment(FAQID);
 
-                imm.hideSoftInputFromWindow(question.getWindowToken(), 0);
-                populateRecyclerView(qnaobjectlist);
-                qnaExpandableAdapter.notifyDataSetChanged();
+                imm.hideSoftInputFromWindow(commentedit.getWindowToken(), 0);
+                populateRecyclerView(commentObjectList);
+                commentRecyclerViewAdapter.notifyDataSetChanged();
 
                 break;
 
         }
     }
-
-
-    // [END retrieve_current_token]
-
 }

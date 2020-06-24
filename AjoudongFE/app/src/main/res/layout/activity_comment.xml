@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/commenttoolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/BlueToolBarTheme"
+            app:contentInsetStart="0dp">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:paddingLeft="-48dp"
+                android:text="문의하기"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:ignore="HardcodedText" />
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/linearLayout7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginStart="9dp"
+                android:layout_marginEnd="9dp"
+                android:background="@drawable/qna_round"
+                android:elevation="10dp"
+                android:orientation="vertical"
+                android:paddingBottom="10dp">
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <de.hdodenhof.circleimageview.CircleImageView
+                            android:id="@+id/commentimageView"
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_marginStart="21dp"
+                            android:layout_marginTop="17dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="4dp"
+                            android:background="@drawable/image_rounding"
+                            app:layout_constraintBottom_toTopOf="@+id/commenteditText"
+                            app:layout_constraintEnd_toStartOf="@+id/commenttextView"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:srcCompat="@drawable/ic_default_round" />
+
+                        <TextView
+                            android:id="@+id/commenttextView"
+                            android:layout_width="80dp"
+                            android:layout_height="19dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginEnd="253dp"
+                            android:layout_marginBottom="15dp"
+                            android:text="사용자 이름"
+                            android:textSize="17dp"
+                            app:layout_constraintBottom_toTopOf="@+id/commenteditText"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@+id/commentimageView"
+                            app:layout_constraintTop_toTopOf="@+id/commentimageView" />
+
+
+                        <TextView
+                            android:id="@+id/commenteditText"
+                            style="@style/QnATextBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="13dp"
+                            android:layout_marginEnd="13dp"
+                            android:layout_marginBottom="6dp"
+                            android:hint="질문을 입력해주세요."
+                            android:maxLength="1000"
+                            android:textSize="13dp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/commentimageView" />
+
+                        <TextView
+                            android:id="@+id/commentdateView"
+                            android:layout_width="100dp"
+                            android:layout_height="13dp"
+                            android:layout_marginEnd="14dp"
+                            android:text="2020-06-20 22:41:08"
+                            android:textColor="@color/gray"
+                            android:textSize="10dp"
+                            app:layout_constraintBottom_toTopOf="@+id/commenteditText"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="1.0"
+                            app:layout_constraintStart_toEndOf="@+id/commentimageView"
+                            app:layout_constraintTop_toTopOf="@+id/commenteditText"
+                            app:layout_constraintVertical_bias="1.0" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </LinearLayout>
+
+                <View
+                    android:id="@+id/view2"
+                    android:layout_width="390dp"
+                    android:layout_height="1dp"
+                    android:background="@color/gray" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/commentRecylerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="10dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+
+                    <EditText
+                        android:id="@+id/commentwriteText"
+                        style="@style/QnATextBox"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginBottom="1dp"
+                        android:background="@drawable/comment_button"
+
+                        android:hint="댓글을 입력해주세요."
+                        android:maxLength="1000"
+                        android:paddingStart="60dp"
+                        android:paddingEnd="40dp"
+                        android:textSize="13dp"
+                        app:layout_constraintBottom_toBottomOf="@+id/commentButton"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <CheckBox
+                        android:id="@+id/commentCheckbox"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="292dp"
+                        android:text="익명"
+                        android:textSize="10dp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/commentwriteText"
+                        app:layout_constraintEnd_toStartOf="@+id/commentButton"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/commentButton"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/commentCheckbox"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/edit" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

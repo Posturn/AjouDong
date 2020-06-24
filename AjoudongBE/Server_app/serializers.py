@@ -90,3 +90,13 @@ class ClubAlarmSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAlarm
         fields = ('stateAlarm','eventAlarm','newclubAlarm','unreadEvent',)
+
+class FAQSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FAQ
+        fields = ('clubID','userID','FAQID','FAQDate','isAnonymous','FAQContent',)
+
+class FAQCommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=FAQComment
+        fields=('clubID','userID','FAQID','FAQCommentID','FAQCommentDate','isAnonymous','FAQCommentContent',)

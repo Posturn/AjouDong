@@ -76,6 +76,7 @@
         <activity android:name=".AuthActivity" />
         <activity android:name=".TempActivity" />
         <activity android:name=".QAActivity" />
+        <activity android:name=".CommentActivity"/>
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

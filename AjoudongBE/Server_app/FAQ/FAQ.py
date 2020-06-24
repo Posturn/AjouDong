@@ -7,7 +7,7 @@ from django.shortcuts import render
 from django.views import View
 from django.http import HttpResponse, JsonResponse, FileResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.utils import timezone
+from django.utils import timezone, dateformat
 import datetime
 
 # Create your views here.
@@ -25,7 +25,7 @@ class postFAQ(View):
             now = timezone.now()
             
             FAQ.objects.create(
-                userID = data['uID'],
+                userID = data['userID'],
                 clubID_id = data['clubID'],
                 FAQDate = now,
                 isAnonymous = data['isAnonymous'],
@@ -47,7 +47,7 @@ class postFAQComment(View):
             now = timezone.now()
             
             FAQComment.objects.create(
-                userID = data['uID'],
+                userID = data['userID'],
                 clubID_id = data['clubID'],
                 FAQID_id = data['FAQID'],
                 FAQCommentDate = now,
@@ -105,3 +105,4 @@ class getFAQ(View):
 
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
+
