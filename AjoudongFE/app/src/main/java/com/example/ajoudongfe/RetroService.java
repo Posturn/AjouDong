@@ -188,6 +188,10 @@ public interface RetroService {
     @POST("findpw/gettemppw")
     Call<ResponseObject> getTempPW(@Body FindPWObject findPWObject);
 
+    @GET("/ads/{adsID}/")
+    Call<AdsObject> getAdsObject(@Path("adsID") int adsID);
 
+    @PATCH("ads/{adsID}/")
+    Call<AdsObject> patchAdsObject(@Path("adsID") int adsID, @Body AdsObject adsObject);
 }
 
