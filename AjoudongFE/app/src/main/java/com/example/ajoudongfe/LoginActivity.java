@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
+
+import org.w3c.dom.Text;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -46,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView findID;
     private TextView findPW;
     private TextView signup;
+    private TextView kakaoPlus;
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
 
@@ -69,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
         idText = (TextInputEditText) findViewById(R.id.idInputText);
         pwText = (TextInputEditText) findViewById(R.id.pwInputText);
         autoLogin = (CheckBox) findViewById(R.id.autoLogin);
+        kakaoPlus = (TextView)findViewById(R.id.kakaoplus);
         findID = (TextView)findViewById(R.id.findID);
         findPW = (TextView)findViewById(R.id.findPW);
         signup = (TextView)findViewById(R.id.signup);
@@ -85,6 +90,7 @@ public class LoginActivity extends AppCompatActivity {
         findID.setClickable(true);
         findPW.setClickable(true);
         signup.setClickable(true);
+        kakaoPlus.setClickable(true);
 
         if(pref.getBoolean("Auto_Login_Enabled", false))//자동로그인
         {
@@ -170,7 +176,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                //Toast.makeText(getApplicationContext(), "아이디 찾기", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), FindIDActivity.class);
                 startActivity(intent);
             }
@@ -180,7 +185,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                //Toast.makeText(getApplicationContext(), "비밀번호 찾기", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), FindPWActivity.class);
                 startActivity(intent);
             }
@@ -190,8 +194,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view)
             {
-                //Toast.makeText(getApplicationContext(), "회원가입", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        kakaoPlus.setOnClickListener(new TextView.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://pf.kakao.com/_EmhHxb"));
                 startActivity(intent);
             }
         });

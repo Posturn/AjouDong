@@ -289,9 +289,8 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                 }else if(search_now == true && tag_now == false){
                     ClubSearch();
                 }else if(search_now == false && tag_now == true){
+                    mainButton[0].performClick();
                     ClubFilter();
-                }else{
-                    ClubFilterSearch();
                 }
             }
             @Override
@@ -457,7 +456,6 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
                 search_text = s;
                 search_now = true;
                 if(tag_now == false) ClubSearch();
-                else ClubFilterSearch();
                 return false;
             }
 
@@ -486,10 +484,6 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
         CallEnqueueClubObject(call);
     }
 
-    protected void ClubFilterSearch(){
-        Log.d("test", "구현 필요");
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -501,6 +495,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             }
             else{
                 tag_now = true;
+                mainButton[0].performClick();
                 ClubFilter();
             }
         }else{
