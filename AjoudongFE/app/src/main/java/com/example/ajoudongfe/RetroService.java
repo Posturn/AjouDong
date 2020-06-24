@@ -208,5 +208,12 @@ public interface RetroService {
 
     @GET("token/getmid/{clubID}")
     Call<ResponseObject> getmID(@Path("clubID")int clubID);
+
+    @GET("application/clubapplyacitve/{clubID}")
+    Call<ResponseObject> getApplyActive(@Path("clubID")int clubID);
+
+    @GET("application/applicationrecord/{clubID}/{uSchoolID}")
+    Call<ResponseObject> getApplicationRecord(@Path("clubID")int clubID, @Path("uSchoolID") int uSchoolID);
+
 }
 

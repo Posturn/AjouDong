@@ -10,7 +10,27 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from Server_app.models import Apply, ClubMember, UserAccount, AppliedClubList, Club, ClubPromotion
+from Server_app.models import Apply, ClubMember, UserAccount, AppliedClubList, Club, ClubPromotion, TaggedClubList
+
+class getClubApplyActive(viewsets.ViewSet):
+    def retrieve(self, request, clubID):
+        try:
+            queryset = TaggedClubList.objects.filter(clubID_id=clubID, clubTag_id="모집종료")
+            if queryset:
+                return JsonResponse({'response' : 0}, status = 200)
+            return JsonResponse({'response' : 1}, status = 200)
+        except KeyError:
+            return JsonResponse({'response' : -1}, status = 400)
+
+class getApplyRecord(viewsets.ViewSet):
+    def retrieve(self, request, clubID, uSchoolID):
+        try:
+            queryset = AppliedClubList.objects.filter(clubID_id=clubID, uSchoolID_id=uSchoolID)
+            if queryset:
+                return JsonResponse({'response' : 1}, status = 200)
+            return JsonResponse({'response' : 0}, status = 200)
+        except KeyError:
+            return JsonResponse({'response' : -1}, status = 400)
 
 class getApplicationResult(View):
     @csrf_exempt
