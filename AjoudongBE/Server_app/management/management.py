@@ -82,6 +82,7 @@ class deletemember(View):
     def post(self, request, clubID, uSchoolID):
         try :
             ClubMember.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
+            refreshStatistic(clubID)
             return JsonResponse({'response' : 1}, status = 200)
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
@@ -96,6 +97,7 @@ class deleteAppliedUser(View):
 
             Apply.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
             applicationStateChange(clubID,uSchoolID,False)
+            refreshStatistic(clubID)
             return JsonResponse({'reponse' : 1}, status = 200)
 
         except KeyError:
@@ -114,6 +116,7 @@ class newAppliedUser(View):
             AppliedUser.save()
             Apply.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
             applicationStateChange(clubID,uSchoolID,True)
+            refreshStatistic(clubID)
             return JsonResponse({'reponse' : 1}, status = 200)
         except KeyError:
             return JsonResponse({'response' : -2}, status = 401)
@@ -143,6 +146,7 @@ class csvupload(View):
                     clubID_id = clubID,
                     uSchoolID_id = line[1]
                 ).save
+        refreshStatistic(clubID)
 
         return JsonResponse({'reponse' : 1}, status = 200)
 
