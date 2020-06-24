@@ -352,7 +352,11 @@ class UserFromDeviceViewset(viewsets.ModelViewSet):
         user=get_object_or_404(queryset, uSchoolID=int(userFromDevice(token).name))
         serializer=UserAccountSerializer(user)
         return Response(serializer.data)
-
+        
+class IDFromDeviceViewset(viewsets.ModelViewSet):
+    def retrieve(self, request, token):
+        ID = userFromDevice(token).name
+        return JsonResponse({'response' : 1, "message" : ID})
     
 def userFromDevice(token):
     device = FCMDevice.objects.get(registration_id=token)
