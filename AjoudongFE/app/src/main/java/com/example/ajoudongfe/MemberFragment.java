@@ -85,9 +85,9 @@ public class MemberFragment extends Fragment {
 
                 //newMemberPopup.show(getFragmentManager(), "dialog");
                 Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("text/csv");
+                intent.setType("text/*");
                 startActivityForResult(Intent.createChooser(intent, "Open CSV"), ACTIVITY_CHOOSE_FILE1);
 
             }
@@ -118,7 +118,8 @@ public class MemberFragment extends Fragment {
                 }
 
                 MemberRecyclerAdapter = new MemberRecyclerAdapter(getActivity(), listData, clubID);
-                MemberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));MemberRecyclerView.setAdapter(MemberRecyclerAdapter);
+                MemberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                MemberRecyclerView.setAdapter(MemberRecyclerAdapter);
 
             }
 
@@ -230,8 +231,8 @@ public class MemberFragment extends Fragment {
 
                 final String id = DocumentsContract.getDocumentId(uri);
                 final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/my_downloads"), Long.valueOf(id));
-
+                        Uri.parse("content://downloads/all_downloads"), Long.valueOf(id));
+                Log.d("", contentUri.getPath());
                 return getDataColumn(context, contentUri, null, null);
             }
             // MediaProvider
@@ -279,10 +280,12 @@ public class MemberFragment extends Fragment {
         };
 
         try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+            cursor = context.getContentResolver().query(uri, null, selection, selectionArgs,
                     null);
+            Log.d("", "cursor");
             if (cursor != null && cursor.moveToFirst()) {
                 final int column_index = cursor.getColumnIndexOrThrow(column);
+                Log.d("", "cursor : " + cursor.getString(column_index));
                 return cursor.getString(column_index);
             }
         } finally {

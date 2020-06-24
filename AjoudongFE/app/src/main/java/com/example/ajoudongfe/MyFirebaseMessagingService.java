@@ -41,6 +41,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         else if(remoteMessage.getData().get("Activity").equals("OPEN_USER_APPLY_RESULT_ACTIVITY")) {
             intent = new Intent(this, UserApplicationResultActivity.class);
         }
+        else if(remoteMessage.getData().get("Activity").equals("OPEN_USER_MAIN_ACTIVITY"))
+        {
+            intent = new Intent(this, UserMainActivity.class);
+        }
         else
         {
             intent = new Intent(this, LoginActivity.class);

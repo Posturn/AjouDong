@@ -142,10 +142,13 @@ class csvupload(View):
                 print("학번 : " + line[1])
                 print("단과대 : " + line[2])
                 print("학과 : " + line[3])
-                ClubMember.objects.create(
-                    clubID_id = clubID,
-                    uSchoolID_id = line[1]
-                ).save
+                if ClubMember.objects.filter(clubID_id = clubID, uSchoolID_id = line[1]).exists():
+                    print("Exists")
+                else:
+                    ClubMember.objects.create(
+                        clubID_id = clubID,
+                        uSchoolID_id = line[1]
+                    ).save
         refreshStatistic(clubID)
 
         return JsonResponse({'reponse' : 1}, status = 200)
