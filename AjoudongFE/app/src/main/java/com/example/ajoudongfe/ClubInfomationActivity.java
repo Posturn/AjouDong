@@ -66,6 +66,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
     ExpandableListAdapter.Item ratio;
     ExpandableListAdapter.Item contact;
     ExpandableListAdapter.Item faq;
+    ExpandableListAdapter.Item qna;
 
 
 
@@ -107,6 +108,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
         ratio = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, parameterclubID,"회원 비율                   ");
         contact = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0,"회장단 연락처");
         faq = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0, "자주 하는 질문");
+        qna = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, parameterclubID,"문의하기                    ");
 
 
         isBookmarked(schoolID);
@@ -119,6 +121,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
         data.add(ratio);
         data.add(contact);
         data.add(faq);
+        data.add(qna);
 
 
         recyclerview.setAdapter(new ExpandableListAdapter(data));

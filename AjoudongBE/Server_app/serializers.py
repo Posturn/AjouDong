@@ -3,6 +3,7 @@ from rest_framework import serializers, viewsets
 from Server_app.models import *
 
 
+
 class UserAccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAccount
@@ -84,4 +85,3 @@ class ClubAlarmSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserAlarm
         fields = ('stateAlarm','eventAlarm','newclubAlarm','unreadEvent',)
-

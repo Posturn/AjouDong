@@ -346,6 +346,18 @@ class EventViewset(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class=EventSerializer
 
+class UserFromDeviceViewset(viewsets.ModelViewSet):
+    def retrieve(self, request, token):
+        queryset = UserAccount.objects.all()
+        user=get_object_or_404(queryset, uSchoolID=int(userFromDevice(token).name))
+        serializer=UserAccountSerializer(user)
+        return Response(serializer.data)
+
+    
+def userFromDevice(token):
+    device = FCMDevice.objects.get(registration_id=token)
+    return device
+    
 def userApplytoClubAlarm(clubID):
         queryset = ManagerAccount.objects.all()
         alarmOn = get_object_or_404(queryset, clubID_id=clubID)
@@ -354,7 +366,8 @@ def userApplytoClubAlarm(clubID):
         device = FCMDevice.objects.get(name=clubID)
     
         message = "동아리에 지원자가 도착했습니다!"
+        #TODO
+        #intent 미사용하는 방식으로 변할시 코드 변경해야됨
+        device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY", data={"clubID": "_" + str(clubID), "Activity" : "OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY"})
 
-        device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY",data={"title": "지원자 알림", "message": "동아리에 지원자가 도착했습니다!"})
-
-#
+#_134

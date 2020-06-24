@@ -34,14 +34,39 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     };
 
 
-    private void showNotification(String messageBody, String messageTitle) {
-        if (messageTitle == null){//제목이 없는 payload이면 기본제목을 적어줌
-            messageTitle = "AJOUDONG 소식 도착!";
+    private void showNotification(RemoteMessage remoteMessage) {
+        Intent intent;
+        if(remoteMessage.getData().get("Activity").equals("OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY")) {
+            intent = new Intent(this, ManagerMemberManagementActivity.class);
         }
-        Intent intent = new Intent(this, LoginActivity.class);
+        else if(remoteMessage.getData().get("Activity").equals("OPEN_USER_APPLY_RESULT_ACTIVITY")) {
+            intent = new Intent(this, UserApplicationResultActivity.class);
+        }
+        else
+        {
+            intent = new Intent(this, LoginActivity.class);
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        intent.putExtra("push", 1);
+
+        if(remoteMessage.getData().get("clubID") != null)
+        {
+            intent.putExtra("clubID", remoteMessage.getData().get("clubID"));
+            Log.d("clubID", remoteMessage.getData().get("clubID"));
+        }
+        if(remoteMessage.getData().get("uSchoolID") != null)
+        {
+            intent.putExtra("uSchoolID", Integer.parseInt(remoteMessage.getData().get("uSchoolID")));
+            Log.d("uSchoolID", remoteMessage.getData().get("uSchoolID"));
+        }
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
+      
+        String title=remoteMessage.getNotification().getTitle();
+        String message=remoteMessage.getNotification().getBody();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             String channel = "채널";

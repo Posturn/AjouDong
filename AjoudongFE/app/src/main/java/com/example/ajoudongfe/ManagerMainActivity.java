@@ -234,7 +234,7 @@ public class ManagerMainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), ManagerMemberManagementActivity.class);
-                intent.putExtra("clubID", getClubID());
+                intent.putExtra("clubID", Integer.toString(getClubID()));
                 startActivity(intent);
                 return false;
             }

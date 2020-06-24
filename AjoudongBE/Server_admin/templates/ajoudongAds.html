@@ -1,51 +1,87 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="row">
-    <div class="col-lg-3">
-    <h1 class="my-4">광고 관리</h1>
-        <div class="list-group">
-            <button onclick="ShowAdsList()" class="list-group-item">광고 조회</buttona>
-            <button onclick="ShowAddAds()" class="list-group-item">광고 추가</buttona>
-            <button onclick="ShowUpdateAds()" class="list-group-item">광고 업데이트</buttona>
-            <button onclick="ShowDeleteAds()" class="list-group-item">광고 삭제</button>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3">
+        <h1 class="my-4">광고 관리</h1>
+            <div class="list-group">
+                <button id="ads_list" onclick="ShowAdsList()" class="list-group-item">광고 조회</buttona>
+                <button onclick="ShowAddAds()" class="list-group-item">광고 추가</buttona>
+                <button onclick="ShowUpdateAds()" class="list-group-item">광고 업데이트</buttona>
+                <button onclick="ShowDeleteAds()" class="list-group-item">광고 삭제</button>
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+                <script>
+                    $('.list-group-item').click(function(){
+                    $('.list-group-item').removeClass('active');
+                    $(this).addClass('active');
+                });
+                $("#ads_list").trigger("click");
+                </script>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="management-menu-div">
+                <br><br><br><br>
+                <form method="POST" id="add-ads" name="addadvertisement" action="{% url 'addadvertisement' %}">
+                    {% csrf_token %}
+                    <h2>광고 추가</h2>
+                    <input name="advertiserID" type="text" value="" id="advertiserID" placeholder="광고주 아이디"><br>
+                    <input name="adsSpace" type="text" value="" id="adsSpace" placeholder="광고 위치"><br>
+                    <input name="adsIMG" type="text" value="" id="adsIMG" placeholder="광고 이미지 링크"><br>
+                    <input name="adsViews" type="text" value="0" id="adsViews" placeholder="누적 조회수"><br>
+                    <input type="submit" value="Add" class="admin-color">
+                </form>
+                <form method="POST" id="delete-ads" name="deleteadvertisement" action="{% url 'deleteadvertisement' %}">
+                    {% csrf_token %}
+                    <h2>광고 삭제</h2>
+                    <input name="deleteadsid" type="text" value="" id="deleteadsid" placeholder="광고 아이디"><br>
+                    <input type="submit" value="Delete" class="admin-color">
+                </form>
+                <form method="POST" id="update-ads" name="updateadvertisement" action="{% url 'updateadvertisement' %}">
+                    {% csrf_token %}
+                    <h2>광고 url 업데이트</h2>
+                    <input name="updateadsid" type="text" value="" id="updateadsid" placeholder="광고 아이디"><br>
+                    <input name="updateadsIMG" type="text" value="" id="updateadsIMG" placeholder="광고 이미지 url"><br>
+                    <input type="submit" value="Update" class="admin-color"><br>
+                </form>
+            </div>
+            <!--div id="list-ads">
+                <h2>광고 리스트</p>
+                {% for list in adstable %}
+                <p>adsID : {{list.adsID}}</p>
+                <p>advertiserID : {{list.advertiserID}}</p>
+                <p>adsSpace : {{list.adsSpace}}</p>
+                <p>adsIMG : {{list.adsIMG}}</p>
+                <p>adsView : {{list.adsView}}</p>
+                {% endfor %}
+            </div-->
+
+            <div class = "row">
+                <div id="list-ads">
+                  <h2>동아리 리스트</h2>
+                  {% for list in adstable %}
+                    {% if forloop.first %}<div class="row">{% endif %}
+                    <div class="col-lg-4 col-md-6 mb-4">
+                        <div class="card h-100">
+                          <img class="card-img-top" src="{{list.adsIMG}}" alt="">
+                          <div class="card-body">
+                            <h4 class="card-title">
+                              <h3>{{list.advertiserID}}</h3>
+                            </h4>
+                            <p class="card-text">광고 번호: {{list.adsID}}<br>광고위치: {{list.adsSpace}}<br>조회수: {{list.adsView}}</p>
+                          </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:3 %}</div><div class="row">{% endif %}
+                    {% if forloop.last %}</div>{% endif %}
+                  {% endfor %}  
+                </div>
+            </div>
+
         </div>
     </div>
-    <div class="management-menu-div">
-        <br><br><br><br>
-        <form method="POST" id="add-ads" name="addadvertisement" action="{% url 'addadvertisement' %}">
-            {% csrf_token %}
-            <h2>광고 추가</h2>
-            <input name="advertiserID" type="text" value="" id="advertiserID" placeholder="광고주 아이디"><br>
-            <input name="adsSpace" type="text" value="" id="adsSpace" placeholder="광고 위치"><br>
-            <input name="adsIMG" type="text" value="" id="adsIMG" placeholder="광고 이미지 링크"><br>
-            <input name="adsViews" type="text" value="0" id="adsViews" placeholder="누적 조회수"><br>
-            <input type="submit" value="Add" class="admin-color">
-        </form>
-        <form method="POST" id="delete-ads" name="deleteadvertisement" action="{% url 'deleteadvertisement' %}">
-            {% csrf_token %}
-            <h2>광고 삭제</h2>
-            <input name="deleteadsid" type="text" value="" id="deleteadsid" placeholder="광고 아이디"><br>
-            <input type="submit" value="Delete" class="admin-color">
-        </form>
-        <form method="POST" id="update-ads" name="updateadvertisement" action="{% url 'updateadvertisement' %}">
-            {% csrf_token %}
-            <h2>광고 url 업데이트</h2>
-            <input name="updateadsid" type="text" value="" id="updateadsid" placeholder="광고 아이디"><br>
-            <input name="updateadsIMG" type="text" value="" id="updateadsIMG" placeholder="광고 이미지 url"><br>
-            <input type="submit" value="Update" class="admin-color"><br>
-        </form>
-        <div id="list-ads">
-        <h2>광고 리스트</p>
-        {% for list in adstable %}
-        <p>adsID : {{list.adsID}}</p>
-        <p>advertiserID : {{list.advertiserID}}</p>
-        <p>adsSpace : {{list.adsSpace}}</p>
-        <p>adsIMG : {{list.adsIMG}}</p>
-        <p>adsView : {{list.adsView}}</p>
-        {% endfor %}
-        </div>
-    </div>
-</div>
+</div>    
 <script type="text/javascript" src="{% static '/js/ajoudongAds.js' %}"></script>
 {% endblock %}
