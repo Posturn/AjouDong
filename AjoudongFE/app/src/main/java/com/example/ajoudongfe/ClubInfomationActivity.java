@@ -45,6 +45,8 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
     private int clubCategory;
     private int bkmark = 0;
 
+    private boolean applyActive = false;
+    private boolean applyRecord = false;
 
     public static String BASE_URL = "http://10.0.2.2:8000";
     private Retrofit retrofit;
@@ -66,6 +68,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
     ExpandableListAdapter.Item ratio;
     ExpandableListAdapter.Item contact;
     ExpandableListAdapter.Item faq;
+    ExpandableListAdapter.Item qna;
 
 
 
@@ -87,7 +90,6 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
 
         infoback = (ImageView) findViewById((R.id.clubinfoimage));
 
-
         applybutton = (FloatingActionButton) findViewById(R.id.applybutton);
         applybutton.setOnClickListener(this);
 
@@ -107,11 +109,15 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
         ratio = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, parameterclubID,"회원 비율                   ");
         contact = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0,"회장단 연락처");
         faq = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, 0, "자주 하는 질문");
+        qna = new ExpandableListAdapter.Item(ExpandableListAdapter.HEADER, null, parameterclubID,"문의하기                    ");
 
 
         isBookmarked(schoolID);
         getClubObject(parameterclubID);
         getClubInfo(parameterclubID);
+
+        checkApply();
+        checkApplication();
 
         data.add(intro);
         data.add(apply);
@@ -119,6 +125,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
         data.add(ratio);
         data.add(contact);
         data.add(faq);
+        data.add(qna);
 
 
         recyclerview.setAdapter(new ExpandableListAdapter(data));
@@ -299,6 +306,14 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
         int id = v.getId();
         switch (id) {
             case R.id.applybutton:
+                if(applyActive == false) {
+                    Toast.makeText(ClubInfomationActivity.this, "동아리 모집기간이 아닙니다.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                if(applyRecord == true){
+                    Toast.makeText(ClubInfomationActivity.this, "중복지원할 수 없습니다.", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Intent intent = new Intent(getApplicationContext(), UserApplyActivity.class);
                 intent.putExtra("clubID", parameterclubID);
                 intent.putExtra("userSchoolID", schoolID);
@@ -306,5 +321,48 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
                 startActivity(intent);
         }
 
+    }
+
+    private void checkApplication(){
+        Call<ResponseObject> call = retroService.getApplicationRecord(parameterclubID, schoolID);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                ResponseObject data = response.body();
+                if(data.getResponse() == 1)
+                {
+                    applyRecord = true;
+                }else{
+                    applyRecord = false;
+                }
+                Log.d("APPPLY", ""+data.getResponse());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable throwable) {
+                Toast.makeText(ClubInfomationActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void checkApply(){
+        Call<ResponseObject> call = retroService.getApplyActive(parameterclubID);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                ResponseObject data = response.body();
+                if(data.getResponse() == 1)
+                {
+                    applyActive = true;
+                }else{
+                    applyActive = false;
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable throwable) {
+                Toast.makeText(ClubInfomationActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

@@ -7,6 +7,18 @@
     android:background="@color/white"
     tools:context=".LoginActivity">
 
+    <TextView
+        android:id="@+id/kakaoplus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="카카오톡 문의하기"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.04" />
+
     <Button
         android:id="@+id/loginButton"
         android:layout_width="315dp"
@@ -19,28 +31,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.52"
         app:layout_constraintStart_toStartOf="parent" />
-
-<!--    <Button-->
-<!--        android:id="@+id/userLogin"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="13dp"-->
-<!--        android:layout_marginEnd="13dp"-->
-<!--        android:text="사용자 로그인"-->
-<!--        app:layout_constraintEnd_toStartOf="@+id/managerLogin"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/findID" />-->
-
-<!--    <Button-->
-<!--        android:id="@+id/managerLogin"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="12dp"-->
-<!--        android:layout_marginEnd="2dp"-->
-<!--        android:text="간부 로그인"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/userLogin"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/signup" />-->
 
     <CheckBox
         android:id="@+id/autoLogin"
@@ -61,7 +51,10 @@
         android:contentDescription="ajoudong logo"
         app:layout_constraintBottom_toTopOf="@+id/idLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/logo_word" />
 
     <TextView
@@ -137,5 +130,16 @@
             android:hint="@string/PWTEXT"
             android:inputType="textPassword|textNoSuggestions" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="40dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="244dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.025"
+        app:srcCompat="@drawable/kakaotalk" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

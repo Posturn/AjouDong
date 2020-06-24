@@ -8,7 +8,7 @@ from rest_framework import viewsets
 from django.views import View
 from Server_app.serializers import ClubAlarmSerializer
 from rest_framework.response import Response
-from Server_app.models import UserAlarm
+from Server_app.models import UserAlarm, ManagerAccount
 from fcm_django.models import FCMDevice
 
 class UserAlarmState(viewsets.ViewSet):
@@ -63,3 +63,28 @@ class ClubNewEventAlarm(View):
         message = "새로운 행사가 등록되었어요. 어떤 행사인지 확인해보세요!"
         device.send_message(title=title, body=message, icon="ic_notification", click_action="OPEN_USER_NEWEVENT_ACTIVITY",data={"title": title, "message": message})
         return JsonResponse({'response' : 1}, status=200)
+
+class ClubManagerAlarmState(viewsets.ViewSet):
+    def retrieve(self, request, clubID):
+        queryset = ManagerAccount.objects.all()
+        alarm = get_object_or_404(queryset, clubID_id=clubID)
+        if alarm.newbieAlarm == True:
+            return JsonResponse({'response' : 1}, status=200)
+        else:
+            return JsonResponse({'response' : 0}, status=200)
+        return JsonResponse({'response' : -1}, status=400)
+
+class ClubManagerAlarmStateChange(View):
+    @csrf_exempt
+    def post(self, request, clubID):
+        try:
+            queryset = ManagerAccount.objects.all()
+            alarm = get_object_or_404(queryset, clubID_id=clubID)
+            alarm.newbieAlarm = not alarm.newbieAlarm
+            alarm.save()
+            if alarm.newbieAlarm == True:
+                return JsonResponse({'response' : 1}, status=200)
+            else:
+                return JsonResponse({'response' : 0}, status=200)
+        except KeyError:
+            return JsonResponse({'response' : -1}, status = 400)

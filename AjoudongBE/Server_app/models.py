@@ -36,6 +36,7 @@ class ClubStatistic(models.Model):
     Ratio17 = models.IntegerField()
     Ratio18 = models.IntegerField()
     Ratio19 = models.IntegerField()
+    Ratio20 = models.IntegerField()
     engineeringRatio = models.IntegerField()
     ITRatio = models.IntegerField()
     naturalscienceRatio = models.IntegerField()
@@ -43,6 +44,10 @@ class ClubStatistic(models.Model):
     humanitiesRatio = models.IntegerField()
     socialscienceRatio = models.IntegerField()
     nurseRatio = models.IntegerField()
+    InternationalRatio = models.IntegerField()#국제학부
+    DasanRatio = models.IntegerField()#다산학부
+    PharmacyRatio = models.IntegerField()#약대
+    MedicalRatio = models.IntegerField()#의대
 
 
 class Event(models.Model):

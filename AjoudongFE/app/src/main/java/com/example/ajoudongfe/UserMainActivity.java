@@ -49,6 +49,7 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 
 import org.eazegraph.lib.models.PieModel;
@@ -65,6 +66,16 @@ public class UserMainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerlayout;
     private Context context = this;
+
+    private NavigationView navigationView;
+    private View header;
+    private ImageView user_profile;
+    private TextView user_name;
+    private ImageButton eventButton;
+    private ConstraintLayout majorclub;
+    private ConstraintLayout mainclub;
+    private ConstraintLayout newclub;
+    private ImageButton profile_btn;
 
     private long backKeyPressedTime;
     private AlarmStateObject userAlarm;
@@ -96,6 +107,7 @@ public class UserMainActivity extends AppCompatActivity {
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
+    private String userDeviceToken;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,21 +127,18 @@ public class UserMainActivity extends AppCompatActivity {
         pref = getSharedPreferences("autologin", MODE_PRIVATE);
         editor = pref.edit();
 
-        ConstraintLayout majorclub = (ConstraintLayout)findViewById(R.id.majorclubLayout);
-        ConstraintLayout mainclub = (ConstraintLayout)findViewById(R.id.mainclubLayout);
-        ConstraintLayout newclub = (ConstraintLayout)findViewById(R.id.newclubLayout);
+        majorclub = (ConstraintLayout)findViewById(R.id.majorclubLayout);
+        mainclub = (ConstraintLayout)findViewById(R.id.mainclubLayout);
+        newclub = (ConstraintLayout)findViewById(R.id.newclubLayout);
 
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_main);
-        final View header = navigationView.getHeaderView(0);
-        ImageButton eventButton = (ImageButton)findViewById(R.id.usereventlist);
+        navigationView = (NavigationView) findViewById(R.id.nav_view_user_main);
+        header = navigationView.getHeaderView(0);
+        eventButton = (ImageButton)findViewById(R.id.usereventlist);
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_main);
 
-        final int uSchoolID = getIntent().getIntExtra("uSchoolID", 0);    //학번 받아오기 및 유저 아이디 세팅
-        setuSchoolID(uSchoolID);
-
         // 이미지 편집 버튼 기능 구현
-        final ImageButton profile_btn = (ImageButton)header.findViewById(R.id.user_profile_edit);
+        profile_btn = (ImageButton)header.findViewById(R.id.user_profile_edit);
         profile_btn.setClickable(true);
         profile_btn.setOnClickListener(new Button.OnClickListener(){
             @Override
@@ -211,6 +220,7 @@ public class UserMainActivity extends AppCompatActivity {
             }
         });
 
+
         majorclub.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -270,12 +280,16 @@ public class UserMainActivity extends AppCompatActivity {
 
     protected void onResume() {     //재시작시에 사용자 정보 새로고침
         super.onResume();
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_main);
-        final View header = navigationView.getHeaderView(0);
-        final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
-        final TextView user_name = (TextView)header.findViewById(R.id.user_name);
+        navigationView = (NavigationView) findViewById(R.id.nav_view_user_main);
+        header = navigationView.getHeaderView(0);
+        user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
+        user_name = (TextView)header.findViewById(R.id.user_name);
         final ImageView ads1 = (ImageView) findViewById(R.id.ads1);
+        getUserprofile();
 
+    }
+
+    private void getUserprofile() {
         Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
         Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
         getCall.enqueue(new Callback<UserObject>() {
@@ -303,7 +317,6 @@ public class UserMainActivity extends AppCompatActivity {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
-
         Log.d(TAG,"GET");
         Call<AdsObject> getCall2 = retroService.getAdsObject(3);
         getCall2.enqueue(new Callback<AdsObject>() {
@@ -349,6 +362,7 @@ public class UserMainActivity extends AppCompatActivity {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
+
     }
 
     public int getuSchoolID() {
@@ -401,6 +415,38 @@ public class UserMainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retroService = retrofit.create(RetroService.class);
+
+        userDeviceToken = FirebaseInstanceId.getInstance().getToken();
+        getIDfromToken(userDeviceToken);
+
+    }
+
+    private void getIDfromToken(String userDeviceToken) {
+        Call<ResponseObject> call = retroService.getIDbyToken(userDeviceToken);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                ResponseObject data = response.body();
+                Log.d("Response", Integer.toString(data.getResponse()));
+                if(data.getResponse() > 0)
+                {
+                    uSchoolID = data.getResponse();
+                    getUserprofile();
+
+                }
+                else
+                {
+                    uSchoolID = -1;
+                    Toast.makeText(getApplicationContext(), "등록되지않은 디바이스", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(getApplicationContext(), "통신 오류", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void deleteIMG(){       //원래 이미지 버킷에서 삭제

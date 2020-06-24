@@ -88,6 +88,19 @@ public class ExpandableListAdapter extends RecyclerView.Adapter<RecyclerView.Vie
                         }
                     });
                 }
+                //문의 하기 메뉴만 새 창으로 이동
+                if(itemController.header_title.getText()=="문의하기                    ") {
+                    itemController.btn_expand_toggle.setVisibility(View.GONE);
+                    itemController.header_title.setOnClickListener(new View.OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(mContext, QAActivity.class);
+                            intent.putExtra("clubID", item.getClubID());
+                            mContext.startActivity(intent);
+                        }
+                    });
+                }
 
                 itemController.btn_expand_toggle.setOnClickListener(new View.OnClickListener() {
 

@@ -18,6 +18,7 @@ from Server_app.serializers import *
 
 from rest_framework.response import Response
 
+
 class adsViewset(viewsets.ModelViewSet):
     queryset = Ads.objects.all()
     serializer_class = AdsSerializer
@@ -306,14 +307,15 @@ class UserClubApply(View):
                 additionalApplyContent = data["additionalApplyContent"],
             ).save()
 
-            userApplytoClubAlarm(clubID)   
             
             AppliedClubList.objects.create(
                 clubID_id = data["clubID_id"],
                 uSchoolID_id = data["uSchoolID_id"],
                 memberState = 0,
-                applyDate = "2020.06.17"
+                applyDate = "2020.06.25"
             ).save()
+
+            userApplytoClubAlarm(clubID)   
 
             return JsonResponse({'response' : 1}, status=200)
         except KeyError:
@@ -356,6 +358,22 @@ class EventViewset(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class=EventSerializer
 
+class UserFromDeviceViewset(viewsets.ModelViewSet):
+    def retrieve(self, request, token):
+        queryset = UserAccount.objects.all()
+        user=get_object_or_404(queryset, uSchoolID=int(userFromDevice(token).name))
+        serializer=UserAccountSerializer(user)
+        return Response(serializer.data)
+        
+class IDFromDeviceViewset(viewsets.ModelViewSet):
+    def retrieve(self, request, token):
+        ID = userFromDevice(token).name
+        return JsonResponse({'response' : 1, "message" : ID})
+    
+def userFromDevice(token):
+    device = FCMDevice.objects.get(registration_id=token)
+    return device
+    
 def userApplytoClubAlarm(clubID):
         queryset = ManagerAccount.objects.all()
         alarmOn = get_object_or_404(queryset, clubID_id=clubID)
@@ -364,7 +382,6 @@ def userApplytoClubAlarm(clubID):
         device = FCMDevice.objects.get(name=clubID)
     
         message = "동아리에 지원자가 도착했습니다!"
+        device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY", data={"pushed": "pushed", "Activity" : "OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY"})
 
-        device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY",data={"title": "지원자 알림", "message": "동아리에 지원자가 도착했습니다!"})
-
-#
+#_134

@@ -170,11 +170,26 @@ public interface RetroService {
     @GET("alarm/userState/{uSchoolID}/")
     Call<AlarmStateObject> getUserAlarmState(@Path("uSchoolID") int uSchoolID);
 
+    @GET("alarm/managerState/{clubID}/")
+    Call<ResponseObject> getManagerAlarmState(@Path("clubID") int clubID);
+
+    @POST("alarm/managerchange/{clubID}/")
+    Call<ResponseObject> updateManagerAlarm(@Path("clubID") int clubID);
+
     @POST("alarm/alarmChange/{uSchoolID}/{alarmType}/")
     Call<ResponseObject> updateUserAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmType") int alarmType);
 
     @POST("alarm/unreadevent/")
     Call<ResponseObject> addUnreadEvent();
+
+    @GET("/qna/{clubID}/")
+    Call<QnAObject> getQnA(@Path("clubID") int clubID);
+
+    //@GET("/comment/{FAQID}/")
+    //Call<CommentObject> getComment(@Path("FAQID") int FAQID);
+
+    @GET("/userfromdevice/{UserDeviceToken}/")
+    Call<UserObject> getUserFromDevice(@Path("UserDeviceToken") String UserDeviceToken);
 
     @POST("alarm/newclubevent/")
     Call<ResponseObject> newClubEventAlarm();
@@ -188,8 +203,21 @@ public interface RetroService {
     @POST("findpw/gettemppw")
     Call<ResponseObject> getTempPW(@Body FindPWObject findPWObject);
 
+
     @GET("/ads/{adsID}/")
     Call<AdsObject> getAdsObject(@Path("adsID") int adsID);
+  
+    @GET("token/getidbytoken/{token}")
+    Call<ResponseObject> getIDbyToken(@Path("token") String token);
+
+    @GET("token/getmid/{clubID}")
+    Call<ResponseObject> getmID(@Path("clubID")int clubID);
+
+    @GET("application/clubapplyacitve/{clubID}")
+    Call<ResponseObject> getApplyActive(@Path("clubID")int clubID);
+
+    @GET("application/applicationrecord/{clubID}/{uSchoolID}")
+    Call<ResponseObject> getApplicationRecord(@Path("clubID")int clubID, @Path("uSchoolID") int uSchoolID);
 
     @PATCH("ads/{adsID}/")
     Call<AdsObject> patchAdsObject(@Path("adsID") int adsID, @Body AdsObject adsObject);
