@@ -18,6 +18,10 @@ from Server_app.serializers import *
 
 from rest_framework.response import Response
 
+class adsViewset(viewsets.ModelViewSet):
+    queryset = Ads.objects.all()
+    serializer_class = AdsSerializer
+
 class userAccountViewset(viewsets.ModelViewSet):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer

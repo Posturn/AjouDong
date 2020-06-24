@@ -20,7 +20,7 @@ router.register(r'manageraccount', views.managerAccountViewset)
 router.register(r'tags', views.TagViewSet)
 router.register(r'statistic', views.StatisticsViewSet)
 router.register(r'event',views.EventViewset)
-
+router.register(r'ads', views.adsViewset)
 
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
@@ -57,5 +57,6 @@ urlpatterns = [
     path('ajoudongAdmin/', include('Server_admin.urls')),
     path('findid', include('Server_app.findID.urls')),
     path('findpw', include('Server_app.findPW.urls')),
+    path('ads/',include('Server_app.urls')),
     re_path('admin/', admin.site.urls),
 ]
