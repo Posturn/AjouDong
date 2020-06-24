@@ -47,18 +47,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             intent = new Intent(this, LoginActivity.class);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        intent.putExtra("push", 1);
-
-        if(remoteMessage.getData().get("clubID") != null)
+        if(remoteMessage.getData().get("pushed") != null)
         {
-            intent.putExtra("clubID", remoteMessage.getData().get("clubID"));
-            Log.d("clubID", remoteMessage.getData().get("clubID"));
-        }
-        if(remoteMessage.getData().get("uSchoolID") != null)
-        {
-            intent.putExtra("uSchoolID", Integer.parseInt(remoteMessage.getData().get("uSchoolID")));
-            Log.d("uSchoolID", remoteMessage.getData().get("uSchoolID"));
+            intent.putExtra("pushed", remoteMessage.getData().get("pushed"));
+            Log.d("pushed", remoteMessage.getData().get("pushed"));
         }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,

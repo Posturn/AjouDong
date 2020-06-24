@@ -145,35 +145,6 @@ class csvupload(View):
         return JsonResponse({'reponse' : 1}, status = 200)
 
 
-        # try:
-        #     if request.FILES.__len__() == 0:
-        #         message = "File doesn't exist."
-        #         print(message)
-        #         return JsonResponse({'response' : -3, 'message' : message}, status = 403)
-        #     uploadFile = request.FILES['file']
-        #     f = uploadFile.read().decode('utf-8-sig').splitlines()
-        #     rdr = csv.reader(f) 
-        #     lines = []
-        #     for line in rdr:
-        #         lines.append(line)
-            
-        #     lines.pop(0)
-        #     print(clubID)
-        #     for line in lines:
-        #         print("이름 : " + line[0])
-        #         print("학번 : " + line[1])
-        #         print("단과대 : " + line[2])
-        #         print("학과 : " + line[3])
-        #         # ClubMember.objects.create(
-        #         #     clubID_id = clubID,
-        #         #     uSchoolID_id = line[1]
-        #         # ).save
-
-        #     return JsonResponse({'reponse' : 1}, status = 200)
-
-        # except KeyError:
-        #     return JsonResponse({'response' : -2}, status = 400)
-
 class appliedUserCSV(View):
     @csrf_exempt
     def get(self, request, clubID):
@@ -243,5 +214,5 @@ def applicationStateChange(clubID, uSchoolID, applyResult):
     message = str(club.clubName) + " 동아리 지원이 승인되었습니다."
     if applyResult == False:
         message = str(club.clubName) + " 동아리 지원이 거절되었습니다."
-
-    device.send_message(title="동아리 지원 결과 업데이트!", body=message, icon="ic_notification",click_action="OPEN_USER_APPLY_RESULT_ACTIVITY", data={"title": "동아리 지원 결과 업데이트!", "message": message})
+    print(message)
+    device.send_message(title="동아리 지원 결과 업데이트!", body=message, icon="ic_notification",click_action="OPEN_USER_APPLY_RESULT_ACTIVITY", data={"pushed": "pushed", "message": message})
