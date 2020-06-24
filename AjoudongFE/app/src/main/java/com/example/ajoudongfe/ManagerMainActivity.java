@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -83,6 +84,7 @@ public class ManagerMainActivity extends AppCompatActivity {
     private int clubID;
     private int clubMajor;
 
+    private boolean loadingAlarm = false;
     private Switch newApplyAlarm;
     private Menu navMenu;
 
@@ -227,6 +229,30 @@ public class ManagerMainActivity extends AppCompatActivity {
                 intent.putExtra("clubID", getClubID());
                 startActivity(intent);
                 return false;
+            }
+        });
+
+        newApplyAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                //Database Server_app_manageraccount에 newbieAlarm 변경해주기
+//                userAlarm.setNewclubAlarm(isChecked);
+//                changeAlarmState(4);
+//                //newApplyAlarm.setChecked(true);
+//                if(loadingAlarm == false) return;
+//                Call<ResponseObject> alarmCall = retroService.updateUserAlarm(uSchoolID, type);
+//                alarmCall.enqueue(new Callback<ResponseObject>() {
+//                    @Override
+//                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+//                        ResponseObject data = response.body();
+//                        if(data.getResponse() == 1) Toast.makeText(getApplicationContext(), "알림 변경", Toast.LENGTH_SHORT).show();
+//                    }
+//                    @Override
+//                    public void onFailure(Call<ResponseObject> call, Throwable t) {
+//                        t.printStackTrace();
+//                        Toast.makeText(getApplicationContext(), "오류", Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                });
             }
         });
     }

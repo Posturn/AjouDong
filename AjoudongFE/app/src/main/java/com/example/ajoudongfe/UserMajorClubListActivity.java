@@ -434,9 +434,8 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
                 }else if(search_now == true && tag_now == false){
                     ClubSearch();
                 }else if(search_now == false && tag_now == true){
+                    majorButton[0].performClick();
                     ClubFilter();
-                }else{
-                    ClubFilterSearch();
                 }
             }
             @Override
@@ -634,7 +633,6 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
                 search_text = s;
                 search_now = true;
                 if(tag_now == false) ClubSearch();
-                else ClubFilterSearch();
                 return false;
             }
 
@@ -658,6 +656,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
             }
             else{
                 tag_now = true;
+                majorButton[0].performClick();
                 ClubFilter();
             }
         }else{
@@ -691,10 +690,6 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
         final ClubFilterObject clubFilterObject = new ClubFilterObject(club_num, now_spin, tags);
         Call<List<ClubObject>> call = retroService.getClubGridFilter(clubFilterObject);
         CallEnqueueClubObject(call);
-    }
-
-    protected void ClubFilterSearch(){
-        Log.d("test", "구현 필요");
     }
 
     protected void CallEnqueueClubObject(Call<List<ClubObject>> call){
