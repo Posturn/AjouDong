@@ -17,7 +17,7 @@ SECRET_KEY = get_secret("DJANGO_SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '10.0.2.2']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
