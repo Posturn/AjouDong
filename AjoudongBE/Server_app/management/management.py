@@ -124,35 +124,37 @@ class newAppliedUser(View):
 class csvupload(View):
     @csrf_exempt
     def post(self, request, clubID):
-        
-        print(type(request.FILES['members.csv']))
+        try:
+            print(type(request.FILES['members.csv']))
 
-        uploadFile = request.FILES['members.csv']
+            uploadFile = request.FILES['members.csv']
 
-        f = uploadFile.read().decode('utf-8-sig').splitlines()
-        rdr = csv.reader(f) 
-        lines = []
-        for line in rdr:
-            lines.append(line)
-            
-        lines.pop(0)
-        for line in lines:
-            if line != []:
-                print("이름 : " + line[0])
-                print("학번 : " + line[1])
-                print("단과대 : " + line[2])
-                print("학과 : " + line[3])
-                if ClubMember.objects.filter(clubID_id = clubID, uSchoolID_id = line[1]).exists():
-                    print("Exists")
-                else:
-                    ClubMember.objects.create(
-                        clubID_id = clubID,
-                        uSchoolID_id = line[1]
-                    ).save
-        refreshStatistic(clubID)
+            f = uploadFile.read().decode('utf-8-sig').splitlines()
+            rdr = csv.reader(f) 
+            lines = []
+            for line in rdr:
+                lines.append(line)
+                
+            lines.pop(0)
+            for line in lines:
+                if line != []:
+                    print("이름 : " + line[0])
+                    print("학번 : " + line[1])
+                    print("단과대 : " + line[2])
+                    print("학과 : " + line[3])
+                    if ClubMember.objects.filter(clubID_id = clubID, uSchoolID_id = line[1]).exists():
+                        print("Exists")
+                    else:
+                        ClubMember.objects.create(
+                            clubID_id = clubID,
+                            uSchoolID_id = line[1]
+                        ).save
+            refreshStatistic(clubID)
 
-        return JsonResponse({'reponse' : 1}, status = 200)
+            return JsonResponse({'reponse' : 1}, status = 200)
 
+        except KeyError:
+            return JsonResponse({'reponse' : -1}, status = 400)
 
 class appliedUserCSV(View):
     @csrf_exempt
