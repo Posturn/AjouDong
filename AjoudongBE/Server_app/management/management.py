@@ -12,7 +12,7 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework import viewsets
 from rest_framework.generics import ListAPIView
 
-from Server_app.models import Apply, ClubMember, UserAccount, AppliedClubList, UserAlarm, Club
+from Server_app.models import Apply, ClubMember, UserAccount, AppliedClubList, UserAlarm, Club, ClubStatistic
 
 from fcm_django.models import FCMDevice
 from django.shortcuts import get_object_or_404
@@ -20,24 +20,24 @@ from django.shortcuts import get_object_or_404
 class memberlist(View):
     @csrf_exempt
     def get(self, request, clubID):
-        # try:
-        #     queryset = ClubMember.objects.filter(clubID_id=clubID).order_by('-id')
-        #     memberList = list(queryset.values())
-        #     print(memberList)
-        #     memberInfoList = []
-        #     for i in memberList:
-        #         memberInfo = {}
-        #         member = UserAccount.objects.get(uSchoolID = list(i.values())[2])
-        #         memberInfo['uMajor'] = member.uMajor
-        #         memberInfo['uSchoolID'] = member.uSchoolID
-        #         memberInfo['uName'] = member.uName
-        #         memberInfo['uIMG'] = member.uIMG
-        #         memberInfoList.append(memberInfo)
+        try:
+            queryset = ClubMember.objects.filter(clubID_id=clubID).order_by('-id')
+            memberList = list(queryset.values())
+            print(memberList)
+            memberInfoList = []
+            for i in memberList:
+                memberInfo = {}
+                member = UserAccount.objects.get(uSchoolID = list(i.values())[2])
+                memberInfo['uMajor'] = member.uMajor
+                memberInfo['uSchoolID'] = member.uSchoolID
+                memberInfo['uName'] = member.uName
+                memberInfo['uIMG'] = member.uIMG
+                memberInfoList.append(memberInfo)
 
-        #     return JsonResponse({'response' : 1, 'content' : memberInfoList}, status = 200)
+            return JsonResponse({'response' : 1, 'content' : memberInfoList}, status = 200)
 
-        # except KeyError:
-        #     return JsonResponse({'response' : -2}, status = 401)
+        except KeyError:
+            return JsonResponse({'response' : -2}, status = 401)
         refreshStatistic(clubID)
         return JsonResponse({'response' : 1}, status = 200)
 
@@ -242,6 +242,11 @@ def refreshStatistic(clubID):
     humanitiesRatio = 0
     socialscienceRatio = 0
     nurseRatio = 0
+    InternationalRatio = 0#국제학부
+    DasanRatio = 0#다산학부
+    PharmacyRatio = 0#약대
+    MedicalRatio = 0#의대
+    clubStatistic = ClubStatistic.objects.get(clubID_id = clubID)
     for member in memberList:
         memberNumber = memberNumber + 1
         # print(member['uSchoolID_id'])
@@ -269,24 +274,57 @@ def refreshStatistic(clubID):
         elif(User.uCollege == '인문대학') : humanitiesRatio = humanitiesRatio + 1
         elif(User.uCollege == '사회과학대학') : socialscienceRatio = socialscienceRatio + 1
         elif(User.uCollege == '간호대학') : nurseRatio = nurseRatio + 1
+        elif(User.uCollege == '다산학부대학') : DasanRatio = DasanRatio + 1
+        elif(User.uCollege == '의과대학') : MedicalRatio = MedicalRatio + 1
+        elif(User.uCollege == '약학대학') : PharmacyRatio = PharmacyRatio + 1
+        elif(User.uCollege == '국제학부') : InternationalRatio = InternationalRatio + 1
         else : print("Not college")
     
     print("전체 : " + str(memberNumber))
+    clubStatistic.memberNumber = memberNumber
     print("남성 : " + str(menNumber))
+    clubStatistic.menNumber = menNumber
     print("여성 : " + str(womenNumber))
+    clubStatistic.womenNumber = womenNumber
     print("12학번 : " + str(overRatio12))
+    clubStatistic.overRatio12 = overRatio12
     print("13학번 : " + str(Ratio13))
+    clubStatistic.Ratio13 = Ratio13
     print("14학번 : " + str(Ratio14))
+    clubStatistic.Ratio14 = Ratio14
     print("15학번 : " + str(Ratio15))
+    clubStatistic.Ratio15 = Ratio15
     print("16학번 : " + str(Ratio16))
+    clubStatistic.Ratio16 = Ratio16
     print("17학번 : " + str(Ratio17))
+    clubStatistic.Ratio17 = Ratio17
     print("18학번 : " + str(Ratio18))
+    clubStatistic.Ratio18 = Ratio18
     print("19학번 : " + str(Ratio19))
+    clubStatistic.Ratio19 = Ratio19
+    print("20학번 : " + str(Ratio20))
+    clubStatistic.Ratio20 = Ratio20
     print("공대 : " + str(engineeringRatio))
+    clubStatistic.engineeringRatio = engineeringRatio
     print("정통대 : " + str(ITRatio))
+    clubStatistic.ITRatio = ITRatio
     print("자연대 : " + str(naturalscienceRatio))
+    clubStatistic.naturalscienceRatio = naturalscienceRatio
     print("경영대 : " + str(managementRatio))
+    clubStatistic.managementRatio = managementRatio
     print("인문대 : " + str(humanitiesRatio))
+    clubStatistic.humanitiesRatio = humanitiesRatio
     print("사회대 : " + str(socialscienceRatio))
+    clubStatistic.socialscienceRatio = socialscienceRatio
     print("간호대 : " + str(nurseRatio))
+    clubStatistic.nurseRatio = nurseRatio
+    print("다산학부 : " + str(DasanRatio))
+    clubStatistic.DasanRatio = DasanRatio
+    print("약학대학 : " + str(PharmacyRatio))
+    clubStatistic.PharmacyRatio = PharmacyRatio
+    print("의과대학 : " + str(MedicalRatio))
+    clubStatistic.MedicalRatio = MedicalRatio
+    print("국제학부 : " + str(InternationalRatio))
+    clubStatistic.InternationalRatio = InternationalRatio
+    clubStatistic.save()
         
