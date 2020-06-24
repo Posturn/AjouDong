@@ -338,9 +338,11 @@ public class ManagerNewEventActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {       //뒤로가기, 등록 버튼 기능 구현
         switch (item.getItemId()) {
             case android.R.id.home:
+                Intent intent = new Intent();
+                intent.putExtra("clubID",getClubID());
+                setResult(1, intent);
                 onBackPressed();
                 finish();
-                return true;
             case R.id.action_btn2:
                 if (getEventID()== 0) {
                     postNewEvent();
