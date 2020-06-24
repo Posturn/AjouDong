@@ -37,7 +37,7 @@ public class NewMemberFragment extends Fragment {
     private int clubID;
     private List<MemberInfoObject> listData = new ArrayList<>();
     private Retrofit retrofit;
-    public static String BASE_URL = "http://10.0.2.2:8000";
+    public static String BASE_URL = Keys.getServerUrl();
     private Button appliedUserCSVButton;
     private DownloadManager.Request request;
     private DownloadManager downloadManager;

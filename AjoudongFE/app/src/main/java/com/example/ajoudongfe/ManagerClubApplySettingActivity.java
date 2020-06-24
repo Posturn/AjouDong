@@ -34,7 +34,7 @@ public class ManagerClubApplySettingActivity extends AppCompatActivity {
 
     final  String TAG = getClass().getSimpleName();
 
-    final String BASE_URL = "http://10.0.2.2:8000";
+    final String BASE_URL = Keys.getServerUrl();
     private RetroService retroService;
 
     private int manager_ClubID = 1;

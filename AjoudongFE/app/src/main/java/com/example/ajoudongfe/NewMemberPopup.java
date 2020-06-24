@@ -28,7 +28,7 @@ public class NewMemberPopup extends DialogFragment implements View.OnClickListen
     private Button newMemberButton;
     private Retrofit retrofit;
     private int clubID;
-    public static String BASE_URL= "http://10.0.2.2:8000";
+    public static String BASE_URL= Keys.getServerUrl();
 
     public NewMemberPopup(int clubID)
     {

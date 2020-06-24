@@ -22,7 +22,7 @@ public class DeviceToken
     private String UserDeviceToken;
     private String userID;
     private Retrofit retrofit;
-    final String BASE_URL = "http://10.0.2.2:8000";
+    final String BASE_URL = Keys.getServerUrl();
     private RetroService retroService;
 
     protected void setRetrofit()

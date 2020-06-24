@@ -58,7 +58,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
     private DrawerLayout drawerlayout;
     private Context context = this;
 
-    public static String BASE_URL= "http://10.0.2.2:8000";
+    public static String BASE_URL= Keys.getServerUrl();
     private final int GET_GALLERY_IMAGE = 200;
     final  String TAG = getClass().getSimpleName();
 

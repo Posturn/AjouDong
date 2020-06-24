@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class UserBookmarkClubActivity<list> extends AppCompatActivity {
 
-    public static String BASE_URL= "http://10.0.2.2:8000";
+    public static String BASE_URL= Keys.getServerUrl();
     private Retrofit retrofit;
 
     private RetroService retroService;

@@ -81,7 +81,7 @@ class UserAlarm(models.Model):
     unreadEvent = models.IntegerField()
 
 class UserAccount(models.Model):
-    uID = models.CharField(max_length=20,)
+    uID = models.CharField(max_length=80,)
     uPW = models.CharField(max_length=20,)
     uIMG = models.CharField(max_length=128, null=True)
     uName = models.CharField(max_length=10, null=True)

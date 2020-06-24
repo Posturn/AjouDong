@@ -25,7 +25,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserEventDetailActivity extends AppCompatActivity {
     final  String TAG = getClass().getSimpleName();
 
-    final String BASE_URL = "http://10.0.2.2:8000";
+    final String BASE_URL = Keys.getServerUrl();
     private RetroService retroService;
 
     @Override

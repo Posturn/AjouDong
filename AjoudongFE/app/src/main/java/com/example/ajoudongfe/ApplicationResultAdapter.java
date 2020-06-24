@@ -32,7 +32,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApplicationResultAdapter extends RecyclerView.Adapter<ApplicationResultAdapter.ItemViewHolder> {
-    public static String BASE_URL= "http://10.0.2.2:8000";
+    public static String BASE_URL= Keys.getServerUrl();
     private Context context;
     private Retrofit retrofit;
     private List<ApplicationObject> listData = new ArrayList<>();

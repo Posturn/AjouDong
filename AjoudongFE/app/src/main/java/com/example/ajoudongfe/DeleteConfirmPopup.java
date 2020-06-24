@@ -23,7 +23,7 @@ public class DeleteConfirmPopup extends DialogFragment{
     private int clubID;
     private int mode;//0 : 신청자, 1 :기존 회원
     private int uSchoolID;
-    public static String BASE_URL= "http://10.0.2.2:8000";
+    public static String BASE_URL= Keys.getServerUrl();
     private Button deleteConfirmButton;
     private Button deleteCancelButton;
 

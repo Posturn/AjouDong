@@ -41,7 +41,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SignupActivity extends AppCompatActivity {
 
-    private static String BASE_URL= "http://10.0.2.2:8000";
+    private static String BASE_URL= Keys.getServerUrl();
     private static String VERIFY_URL = "https://mail.apigw.ntruss.com/api/v1/";
     private ArrayAdapter<CharSequence> majorAdapter;
     private Retrofit retrofit;

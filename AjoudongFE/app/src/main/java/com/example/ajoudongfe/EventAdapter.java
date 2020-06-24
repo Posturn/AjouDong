@@ -44,7 +44,7 @@ import static java.lang.Integer.parseInt;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ItemViewHolder>{
 
-    public static String BASE_URL= "http://10.0.2.2:8000";
+    public static String BASE_URL= Keys.getServerUrl();
     private RetroService retroService;
     private List<EventObject> listData = new ArrayList<>();
     private int clubID;
