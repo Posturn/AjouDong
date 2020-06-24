@@ -49,39 +49,21 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
         intent = getIntent();
 
         initAPI();
-//        checkmode = intent.getStringExtra("clubID");
-//        if(checkmode.indexOf('_') < 0) {
-//            Log.d("log", "Mode Doesn't Activated");
-//            clubID = Integer.parseInt(checkmode);
-//            mode = 0;
-//        }
-//        else
-//        {
-//            Log.d("log", "Mode Activated");
-//            clubID = Integer.parseInt(checkmode.substring(1, checkmode.length()));
-//            mode = 1;
-//        }
-
-
+        checkmode = intent.getStringExtra("clubID");
+        if(checkmode.length() > 0) {
+            Log.d("log", "Mode Activated");
+            mode = 1;
+        }
+        else
+        {
+            Log.d("log", "Mode Doesn't Activated");
+            mode = 1;
+        }
 
         Log.d("clubID", Integer.toString(clubID));
-//        Log.d("checkmode", checkmode);
-
-//        clubID = Integer.parseInt(intent.getStringExtra("clubID"));
-//        Log.d("clubID", Integer.toString(clubID));
-
-
-
-//        tabLayout = (TabLayout)findViewById(R.id.tabLayout);
-//        adapter = new PagerAdpater(getSupportFragmentManager(), tabLayout.getTabCount(), clubID);
-//        viewPager = findViewById(R.id.viewPager);
-//        viewPager.setAdapter(adapter);
-//        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         Bundle bundle = new Bundle();
         bundle.putString("your_key", "your_value");
-
-//        initTabLayout();
 
     }
 
