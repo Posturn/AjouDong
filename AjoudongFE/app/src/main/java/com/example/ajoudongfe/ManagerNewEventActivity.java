@@ -4,6 +4,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,6 +15,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -85,6 +87,7 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         }
     };
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -113,6 +116,22 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         final ImageButton calendar3 = (ImageButton)findViewById(R.id.calendar3);
         final EditText eventInfo = (EditText)findViewById(R.id.eventInfo);
 
+        eventInfo.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                view.getParent().requestDisallowInterceptTouchEvent(true);
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK){
+                    case MotionEvent.ACTION_UP:
+                        view.getParent().requestDisallowInterceptTouchEvent(false);
+                        break;
+                }
+
+                return false;
+            }
+
+        });
+
         if(eventID == 0){       //새롭게 이벤트 등록시
             eventProfile.setImageResource(R.drawable.ajoudong_icon);
         }
@@ -127,8 +146,14 @@ public class ManagerNewEventActivity extends AppCompatActivity {
                         eventTitle.setText(item.getEventName());
                         eventDay.setText(item.getEventDate());
                         eventInfo.setText(item.getEventInfo());
-                        nowImage2 = item.getEventIMG().substring(item.getEventIMG().lastIndexOf("/") + 1);   //현재 이미지 파일 이름 가져오기
-                        Picasso.get().load(item.getEventIMG()).into(eventProfile);
+                        if(item.getEventIMG() != null){
+                            nowImage2 = item.getEventIMG().substring(item.getEventIMG().lastIndexOf("/") + 1);   //현재 이미지 파일 이름 가져오기
+                            Picasso.get().load(item.getEventIMG()).into(eventProfile);
+                        }
+                        else{
+                            eventProfile.setImageResource(R.drawable.icon);
+                        }
+
                     } else {
                         Log.d(TAG, "Status Code : " + response.code());
                     }

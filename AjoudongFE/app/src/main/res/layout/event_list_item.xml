@@ -62,7 +62,7 @@
                     android:fontFamily="@font/nanumbarungothic"
                     android:text="불러오는중"
                     android:textColor="#000000"
-                    android:textSize="20dp" />
+                    android:textSize="15dp" />
 
                 <TextView
                     android:id="@+id/eventDate"
@@ -71,14 +71,14 @@
                     android:textColor="@color/darkgary"
                     android:layout_marginTop="12dp"
                     android:fontFamily="@font/nanumbarungothic"
-                    android:textSize="16dp"
+                    android:textSize="13dp"
                     android:text="불러오는중"/>
             </LinearLayout>
 
             <Button
                 android:id="@+id/event_edit_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginStart="36dp"
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/new_edit_btn"
@@ -90,8 +90,8 @@
 
             <Button
                 android:id="@+id/event_delete_btn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_marginEnd="16dp"
                 android:background="@drawable/new_delete_btn"
                 app:layout_constraintBottom_toBottomOf="parent"
