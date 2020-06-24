@@ -58,8 +58,8 @@ class ClubStatisticSerializer(serializers.ModelSerializer):
     class Meta:
         model = ClubStatistic
         fields=('clubID', 'memberNumber' ,'menNumber', 'womenNumber', 'overRatio12', 'Ratio13', 'Ratio14',
-    'Ratio15', 'Ratio16', 'Ratio17', 'Ratio18', 'Ratio19', 'engineeringRatio', 'ITRatio', 'naturalscienceRatio',
-    'managementRatio', 'humanitiesRatio', 'socialscienceRatio', 'nurseRatio')
+    'Ratio15', 'Ratio16', 'Ratio17', 'Ratio18', 'Ratio19', 'Ratio20', 'engineeringRatio', 'ITRatio', 'naturalscienceRatio',
+    'managementRatio', 'humanitiesRatio', 'socialscienceRatio', 'nurseRatio', 'InternationalRatio', 'DasanRatio', 'PharmacyRatio', 'MedicalRatio')
 
 class ClubQuestionSerializer(serializers.ModelSerializer):
     class Meta:

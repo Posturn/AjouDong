@@ -33,7 +33,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ClubInfomationActivity extends AppCompatActivity implements View.OnClickListener {
+public class ClubInfomationActivity extends AppCompatActivity {
 
     private DrawerLayout drawerlayout;
     private RecyclerView recyclerview;
@@ -84,13 +84,10 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
 
         parameterclubID = clubID;
         parameterclubName = clubName;
-        clubCategory = getIntent().getIntExtra("clubCategory", 0);
+
 
         infoback = (ImageView) findViewById((R.id.clubinfoimage));
 
-
-        applybutton = (FloatingActionButton) findViewById(R.id.applybutton);
-        applybutton.setOnClickListener(this);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -296,18 +293,4 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
     }
 
 
-
-    @Override
-    public void onClick(View v) {
-        int id = v.getId();
-        switch (id) {
-            case R.id.applybutton:
-                Intent intent = new Intent(getApplicationContext(), UserApplyActivity.class);
-                intent.putExtra("clubID", parameterclubID);
-                intent.putExtra("userSchoolID", schoolID);
-                intent.putExtra("clubCategory", clubCategory);
-                startActivity(intent);
-        }
-
-    }
 }
