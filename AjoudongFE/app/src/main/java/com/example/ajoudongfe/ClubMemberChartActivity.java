@@ -109,7 +109,11 @@ public class ClubMemberChartActivity extends AppCompatActivity {
                 majorchart.addPieSlice(new PieModel("인문대학", stat.getHumanitiesRatio(), Color.parseColor("#707070")));
                 majorchart.addPieSlice(new PieModel("사회과학대학", stat.getSocialscienceRatio(), Color.parseColor("#54B486")));
                 majorchart.addPieSlice(new PieModel("간호대학", stat.getNurseRatio(), Color.parseColor("#C9C642")));
-
+                majorchart.addPieSlice(new PieModel("약학대학", stat.getPharmacyRatio(), Color.parseColor("#278844")));
+                majorchart.addPieSlice(new PieModel("다산학부대학", stat.getDasanRatio(), Color.parseColor("#DE6EE6")));
+                majorchart.addPieSlice(new PieModel("국제학부", stat.getInternationalRatio(), Color.parseColor("#C70A0A")));
+                majorchart.addPieSlice(new PieModel("의과대학", stat.getMedicalRatio(), Color.parseColor("#F0ED8D")));
+                Log.d("약대맨들", String.valueOf(stat.getPharmacyRatio()));
                 majorchart.startAnimation();
             }
 
@@ -137,6 +141,7 @@ public class ClubMemberChartActivity extends AppCompatActivity {
                 schoolchart.addBar(new BarModel("17학번", stat.getRatio17(), 0xFF56B7F1));
                 schoolchart.addBar(new BarModel("18학번", stat.getRatio18(), 0xFF56B7F1));
                 schoolchart.addBar(new BarModel("19학번", stat.getRatio19(), 0xFF56B7F1));
+                schoolchart.addBar(new BarModel("20학번", stat.getRatio20(), 0xFF56B7F1));
 
                 majorchart.startAnimation();
             }
