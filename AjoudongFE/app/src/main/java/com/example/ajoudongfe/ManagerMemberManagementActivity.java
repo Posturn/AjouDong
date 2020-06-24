@@ -1,17 +1,7 @@
 package com.example.ajoudongfe;
 
-import android.app.DownloadManager;
-import android.app.FragmentTransaction;
-import android.content.ContentUris;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.DocumentsContract;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -23,15 +13,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
-import java.io.File;
-import java.util.Objects;
-
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -39,26 +20,50 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private PagerAdpater adapter;
     private Toolbar toolbar;
+    private Intent intent;
     private Retrofit retrofit;
     public static String BASE_URL= "http://10.0.2.2:8000";
-    int clubID;
+    private String checkmode;
+    private int clubID;
+    private int mode;//알림으로 불러왔을시 백프레스를 메인으로 연결
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temp);
-
+        mode = 0;
         toolbar = (Toolbar)findViewById(R.id.memberManagementToolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        intent = getIntent();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        clubID = getIntent().getIntExtra("clubID", 0);
+
+        checkmode = intent.getStringExtra("clubID");
+        if(checkmode.indexOf('_') < 0) {
+            Log.d("log", "Mode Doesn't Activated");
+            clubID = Integer.parseInt(checkmode);
+            mode = 0;
+        }
+        else
+        {
+            Log.d("log", "Mode Activated");
+            clubID = Integer.parseInt(checkmode.substring(1, checkmode.length()));
+            mode = 1;
+        }
+        Log.d("clubID", Integer.toString(clubID));
+        Log.d("checkmode", checkmode);
+
+//        clubID = Integer.parseInt(intent.getStringExtra("clubID"));
+//        Log.d("clubID", Integer.toString(clubID));
+
+
 
         TabLayout tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         adapter = new PagerAdpater(getSupportFragmentManager(), tabLayout.getTabCount(), clubID);
@@ -94,11 +99,38 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                return true;
+        if(mode > 0)
+        {
+            Intent modeIntent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+            modeIntent.putExtra("clubID", clubID);
+            modeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(modeIntent);
+            return true;
         }
-        return super.onOptionsItemSelected(item);
+        else {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    finish();
+                    return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mode > 0)
+        {
+            Log.d("mode", "back to main");
+            Intent modeIntent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+            modeIntent.putExtra("clubID", clubID);
+            modeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(modeIntent);
+        }
+        else
+        {
+            finish();
+        }
+
     }
 }
