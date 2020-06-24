@@ -49,8 +49,8 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
         intent = getIntent();
 
         initAPI();
-        checkmode = intent.getStringExtra("clubID");
-        if(checkmode.length() > 0) {
+        checkmode = intent.getStringExtra("pushed");
+        if(checkmode != null) {
             Log.d("log", "Mode Activated");
             mode = 1;
         }
@@ -60,7 +60,6 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
             mode = 1;
         }
 
-        Log.d("clubID", Integer.toString(clubID));
 
         Bundle bundle = new Bundle();
         bundle.putString("your_key", "your_value");

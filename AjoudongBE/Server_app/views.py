@@ -373,6 +373,6 @@ def userApplytoClubAlarm(clubID):
         message = "동아리에 지원자가 도착했습니다!"
         #TODO
         #intent 미사용하는 방식으로 변할시 코드 변경해야됨
-        device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY", data={"clubID": "_" + str(clubID), "Activity" : "OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY"})
+        device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY", data={"pushed": "pushed", "Activity" : "OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY"})
 
 #_134
