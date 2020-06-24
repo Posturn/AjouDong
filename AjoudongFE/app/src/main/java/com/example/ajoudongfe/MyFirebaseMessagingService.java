@@ -23,25 +23,25 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
-        Log.e("푸시", "포어그라운드1");
+        Log.e("푸시", "in");
 
-        if (remoteMessage != null && remoteMessage.getData().size() > 0) {
-            Log.e("푸시", "포어그라운드2");
-            Log.d(TAG, "Message data payload: " + remoteMessage.getData());
-            showNotification(remoteMessage);
+        if (remoteMessage.getNotification() != null) { //포그라운드
+            showNotification(remoteMessage.getNotification().getBody(),remoteMessage.getNotification().getTitle());
+        }
+        else if (remoteMessage.getData().size() > 0) { //백그라운드
+            showNotification(remoteMessage.getData().get("body"),remoteMessage.getData().get("title"));
         }
     };
 
 
-    private void showNotification(RemoteMessage remoteMessage) {
+    private void showNotification(String messageBody, String messageTitle) {
+        if (messageTitle == null){//제목이 없는 payload이면 기본제목을 적어줌
+            messageTitle = "AJOUDONG 소식 도착!";
+        }
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent,
                 PendingIntent.FLAG_ONE_SHOT);
-        String title=remoteMessage.getData().get("title");
-        String message=remoteMessage.getData().get("message");
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             String channel = "채널";
@@ -60,8 +60,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.drawable.ic_notification : R.mipmap.ic_launcher)
-                    .setContentTitle(title)
-                    .setContentText(message)
+                    .setContentTitle(messageTitle)
+                    .setContentText(messageBody)
                     .setColor(ContextCompat.getColor(this, R.color.ajouLogoBlue))
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)
@@ -78,8 +78,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                     .setSmallIcon(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ? R.drawable.ic_notification : R.mipmap.ic_launcher)
-                    .setContentTitle(title)
-                    .setContentText(message)
+                    .setContentTitle(messageTitle)
+                    .setContentText(messageBody)
                     .setColor(ContextCompat.getColor(this, R.color.ajouLogoBlue))
                     .setAutoCancel(true)
                     .setSound(defaultSoundUri)

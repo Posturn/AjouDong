@@ -93,6 +93,7 @@
                 <Spinner
                     android:id="@+id/collegeSpinner"
                     style="@style/AjoudongSpinner"
+                    android:layout_height="33dp"
                     android:entries="@array/단과대학교" />
 
                 <TextView
@@ -102,7 +103,8 @@
 
                 <Spinner
                     android:id="@+id/majorSpinner"
-                    style="@style/AjoudongSpinner"/>
+                    android:layout_height="33dp"
+                    style="@style/AjoudongSpinner" />
 
                 <TextView
                     android:id="@+id/userphonetitle"
@@ -172,6 +174,8 @@
                         android:scrollbars="vertical"
                         android:paddingLeft="5dp"
                         android:paddingRight="5dp"
+                        android:layout_margin="23dp"
+                        android:layout_marginTop="8dp"
                         android:verticalSpacing="10dp"/>
                 </LinearLayout>
 

@@ -22,7 +22,6 @@
         <activity android:name=".UserEventListActivity">
             <intent-filter>
                 <action android:name="OPEN_USER_NEWEVENT_ACTIVITY" />
-
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -60,7 +59,13 @@
         <activity android:name=".UserMainClubListActivity" />
         <activity android:name=".UserMajorClubListActivity" />
         <activity android:name=".ManagerMainActivity" />
-        <activity android:name=".UserMainActivity" />
+        <activity android:name=".UserMainActivity">
+            <intent-filter>
+                <action android:name="OPEN_USER_MAIN_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".UserMajorSelectActivity" />
         <activity android:name=".ClubInfomationActivity" />

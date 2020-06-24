@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".FindPWActivity">
 
     <androidx.appcompat.widget.Toolbar
@@ -18,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:backgroundTint="#00000000" >
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:src="@drawable/logo_word"
             android:layout_gravity="center"/>
@@ -34,32 +35,36 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/findPWTextLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/findPWtoolbar"
-        app:layout_constraintStart_toStartOf="parent">
+        android:layout_width="344dp"
+        android:layout_height="124dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/findPWtoolbar">
+
         <TextView
             android:id="@+id/findPWText2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="4dp"
+            android:padding="15dp"
             android:text="비밀번호 찾기"
-            android:textStyle="bold"
-            android:textSize="28dp"
             android:textColor="#000000"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="28dp"
+            android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
-            android:padding="15dp"/>
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="비밀번호를 잊으셨나요?\n이메일로 신규 비밀번호를 발급해드립니다."
-            android:textSize="12dp"
-            app:layout_constraintTop_toBottomOf="@id/findPWText2"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="293dp"
+            android:layout_height="68dp"
+            android:layout_marginStart="14dp"
             android:padding="10dp"
-            android:layout_marginStart="15dp"/>
+            android:text="비밀번호를 잊으셨나요?\n이메일로 신규 비밀번호를 발급해드립니다."
+            android:textSize="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/findPWText2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -67,49 +72,54 @@
         android:id="@+id/findPWinputLayout"
         android:layout_width="350dp"
         android:layout_height="220dp"
-        android:layout_marginTop="45dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/edittext_border"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/findPWTextLayout"
-        android:background="@drawable/edittext_border">
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/findPWTextLayout">
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/findPWNameInputText"
             android:layout_width="315dp"
             android:layout_height="50dp"
-            android:padding="10dp"
             android:layout_marginTop="10dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:hint="이름"
+            android:padding="10dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="이름"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/findPWuSchoolIDInputText"
             android:layout_width="315dp"
             android:layout_height="50dp"
+            android:hint="학번"
             android:padding="10dp"
-            app:layout_constraintTop_toBottomOf="@id/findPWNameInputText"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
 
-            android:hint="학번"/>
+            app:layout_constraintTop_toBottomOf="@id/findPWNameInputText" />
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/findPWPhoneNumberInputText"
             android:layout_width="315dp"
             android:layout_height="50dp"
+            android:hint="전화번호"
             android:padding="10dp"
-            app:layout_constraintTop_toBottomOf="@id/findPWuSchoolIDInputText"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="전화번호"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/findPWuSchoolIDInputText" />
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/findPWEmailInputText"
             android:layout_width="315dp"
             android:layout_height="50dp"
+            android:hint="아주대 이메일"
             android:padding="10dp"
-            app:layout_constraintTop_toBottomOf="@id/findPWPhoneNumberInputText"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="아주대 이메일"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/findPWPhoneNumberInputText" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
