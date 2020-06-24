@@ -369,4 +369,28 @@ def userApplytoClubAlarm(clubID):
 
         device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY",data={"title": "지원자 알림", "message": "동아리에 지원자가 도착했습니다!"})
 
-#
+class QnAViewset(viewsets.ModelViewSet):
+    queryset = FAQ.objects.all()
+    serializer_class=FAQSerializer
+
+    def get_queryset(self):
+        filterclubID = self.kwargs['clubID']
+        self.queryset = self.queryset.filter(clubID = filterclubID)
+        return self.queryset.order_by('-FAQID')
+
+class CommentViewset(viewsets.ModelViewSet):
+    queryset = FAQComment.objects.all()
+    serializer_class=FAQCommentSerializer
+
+    def get_queryset(self):
+        filterfaqID = self.kwargs['FAQID']
+        self.queryset = self.queryset.filter(FAQID_id = filterfaqID)
+        return self.queryset.order_by('FAQCommentID')
+
+class ManagerInfoViewSet(viewsets.ViewSet):
+    def retrieve(self, request, clubID):
+        queryset = ManagerAccount.objects.all()
+        user = get_object_or_404(queryset, clubID_id=clubID)
+        serializer = ManagerAccountSerializer(user)
+        print(serializer.data)
+        return Response(serializer.data)

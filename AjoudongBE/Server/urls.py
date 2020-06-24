@@ -51,6 +51,7 @@ urlpatterns = [
     path('deletefilter/<int:clubID>/', csrf_exempt(views.DeleteFilter.as_view())),
     path('statisticSearch/<int:clubID>/', views.ClubStatisticsViewSet.as_view({"get":"retrieve"}), name="statisticlist"),
     path('clubquestion/<int:pk>/',views.ClubQuestionViewSet.as_view({"get": "retrieve"}), name="clubquestion"),
+    path('managerinfo/<int:clubID>',views.ManagerInfoViewSet.as_view({"get": "retrieve"}), name="managerinfo"),
     path('nrecruitclubs/',views.NRecruitViewSet.as_view({"get": "list"}), name="nrecruitclubs"),
     path('event/', include('Server_app.urls')),
     path('eventlist', include('Server_app.event.urls')),
@@ -58,5 +59,8 @@ urlpatterns = [
     path('userfromdevice/<str:token>/',views.UserFromDeviceViewset.as_view({"get":"retrieve"}), name="userfromdevice"),
     path('findid', include('Server_app.findID.urls')),
     path('findpw', include('Server_app.findPW.urls')),
+    path('qna/<int:clubID>',views.QnAViewset.as_view({"get":"list"}), name="qna"),
+    path('comment/<int:FAQID>',views.CommentViewset.as_view({"get":"list"}), name="comment"),
+    path('faq', include('Server_app.FAQ.urls')),
     re_path('admin/', admin.site.urls),
 ]

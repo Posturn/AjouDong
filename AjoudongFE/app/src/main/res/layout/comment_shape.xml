@@ -1,48 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/commentshape"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="10dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:paddingBottom="10dp">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="36dp"
-        android:layout_height="37dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/commentchildimageview"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="13dp"
         android:background="@drawable/image_rounding"
-        app:srcCompat="@drawable/ic_default_round"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintBottom_toBottomOf="@+id/commentchildusername"
+        app:layout_constraintEnd_toStartOf="@+id/commentchildusername"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/commentchildusername"
+        app:srcCompat="@drawable/ic_default_round" />
 
     <TextView
-        android:id="@+id/textView23"
+        android:id="@+id/commentchildusername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="158dp"
+        android:layout_marginBottom="7dp"
         android:text="동아리 이름"
-        tools:layout_editor_absoluteX="65dp"
-        tools:layout_editor_absoluteY="16dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintBottom_toTopOf="@+id/commentchildquestion"
+        app:layout_constraintEnd_toStartOf="@+id/commentchilddate"
+        app:layout_constraintStart_toEndOf="@+id/commentchildimageview"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView24"
-        android:layout_width="300dp"
-        android:layout_height="14dp"
+        android:id="@+id/commentchildquestion"
+        android:layout_width="291dp"
+        android:layout_height="19dp"
+        android:layout_marginEnd="22dp"
+        android:layout_marginBottom="10dp"
         android:text="댓글 내용"
-        tools:layout_editor_absoluteX="65dp"
-        tools:layout_editor_absoluteY="39dp"
-        tools:ignore="MissingConstraints" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/commentchildimageview"
+        app:layout_constraintTop_toBottomOf="@+id/commentchildusername" />
 
     <TextView
-        android:id="@+id/textView27"
-        android:layout_width="105dp"
+        android:id="@+id/commentchilddate"
+        android:layout_width="wrap_content"
         android:layout_height="16dp"
-        android:text="2020.06.21 16:54"
+        android:layout_marginEnd="21dp"
+        android:text="2020-06-20 22:41:08"
         android:textColor="@color/gray"
-        android:textSize="12dp"
-        tools:layout_editor_absoluteX="260dp"
-        tools:layout_editor_absoluteY="16dp"
-        tools:ignore="MissingConstraints" />
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/commentchildusername"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

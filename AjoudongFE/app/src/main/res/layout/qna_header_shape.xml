@@ -4,91 +4,72 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/qnaheader"
     android:layout_width="match_parent"
-    android:layout_height="152dp"
-    android:layout_margin="10dp"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:layout_marginBottom="10dp"
     android:background="@drawable/qna_round"
     android:elevation="10dp">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="13dp"
-        android:layout_marginEnd="4dp"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/headimageView"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="4dp"
         android:background="@drawable/image_rounding"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
-        app:layout_constraintEnd_toStartOf="@+id/textView21"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintBottom_toTopOf="@+id/headeditText"
+        app:layout_constraintEnd_toStartOf="@+id/headtextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_default_round" />
 
     <TextView
-        android:id="@+id/textView21"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="6dp"
-        android:layout_marginEnd="117dp"
-        android:layout_marginBottom="6dp"
+        android:id="@+id/headtextView"
+        android:layout_width="80dp"
+        android:layout_height="19dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="253dp"
+        android:layout_marginBottom="15dp"
         android:text="사용자 이름"
         android:textSize="17dp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView"
-        app:layout_constraintEnd_toStartOf="@+id/textView22"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView" />
-
-    <TextView
-        android:id="@+id/textView22"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="13dp"
-        android:text="2020.06.21 13:20"
-        android:textSize="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/editText"
+        app:layout_constraintBottom_toTopOf="@+id/headeditText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/textView21"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/headimageView"
+        app:layout_constraintTop_toTopOf="@+id/headimageView" />
+
 
     <TextView
-        android:id="@+id/editText"
+        android:id="@+id/headeditText"
         style="@style/QnATextBox"
-        android:layout_width="394dp"
-        android:layout_height="101dp"
-        android:maxLength="1000"
-        android:text="작성된 질문입니다"
-        android:textSize="13dp"
-        app:layout_constraintBottom_toTopOf="@+id/QnaSpread"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
-
-    <ImageView
-        android:id="@+id/QnaSpread"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="7dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/textView25"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText"
-        app:srcCompat="@drawable/qnaspread" />
-
-    <TextView
-        android:id="@+id/textView25"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="333dp"
-        android:layout_marginBottom="8dp"
-        android:text="댓글"
-        android:textColor="@color/gray"
+        android:layout_marginStart="13dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="6dp"
+        android:hint="질문을 입력해주세요."
+        android:maxLength="1000"
+        android:textSize="13dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/QnaSpread" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/headimageView" />
+
+    <TextView
+        android:id="@+id/headdateView"
+        android:layout_width="wrap_content"
+        android:layout_height="13dp"
+        android:layout_marginEnd="14dp"
+        android:text="2020-06-20 22:41:08"
+        android:textColor="@color/gray"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/headeditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/headimageView"
+        app:layout_constraintTop_toTopOf="@+id/headeditText"
+        app:layout_constraintVertical_bias="1.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

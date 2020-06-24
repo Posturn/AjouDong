@@ -2,6 +2,7 @@ package com.example.ajoudongfe;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,19 +44,48 @@ public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdap
     private int userID;
     private SparseBooleanArray selectedItems = new SparseBooleanArray();
     private int prePosition = -1;
+    private int faqID;
+    private String username;
+    private String userimg;
+    private String faqquestion;
+    private String faqdate;
+
 
     public QnAExpandableAdapter(Context context, List<QnAObject> listData, int clubID) {
         this.context = context;
         this.listData = listData;
         this.clubID = clubID;
+
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
     }
 
 
     @NonNull
     @Override
-    public QnAExpandableAdapter.ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.qna_header_shape, parent, false);
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                // 데이터 리스트로부터 아이템 데이터 참조.
+                Log.v("FAQID1", String.valueOf(faqID));
+                Intent intent = new Intent(context.getApplicationContext(), CommentActivity.class);
+                intent.putExtra("FAQID", faqID);
+                intent.putExtra("userName", username);
+                intent.putExtra("userIMG", userimg);
+                intent.putExtra("faqquestion", faqquestion);
+                intent.putExtra("faqdate", faqdate);
+                intent.putExtra("clubID", clubID);
+                context.startActivity(intent);
+
+            }
+        });
         return new ItemViewHolder(view);
     }
 
@@ -65,19 +96,21 @@ public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdap
 
     @Override
     public int getItemCount() {
-        return 0;
+        return listData.size();
     }
     void addItem(QnAObject data) {
         // 외부에서 item을 추가시킬 함수입니다.
         listData.add(data);
     }
 
-    class ItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class ItemViewHolder extends RecyclerView.ViewHolder {
         //Header
         private ImageView userProfile;
         private TextView userName;
         private TextView date;
         private TextView question;
+        private CheckBox anonymous;
+        private Button upload;
         private QnAObject qnaObject;
         private ImageView spreadbutton;
         private TextView spreadtext;
@@ -89,26 +122,23 @@ public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdap
         private TextView childquestion;
 
         private ConstraintLayout qnaHeaderLayout;
-        private ConstraintLayout qnaChildLayout;
-
 
         ItemViewHolder(View itemView) {
             super(itemView);
 
-            userProfile = itemView.findViewById(R.id.imageView);
-            userName = itemView.findViewById(R.id.textView21);
-            date = itemView.findViewById(R.id.textView22);
-            question = itemView.findViewById(R.id.editText);
-            spreadbutton = itemView.findViewById(R.id.QnaSpread);
-            spreadtext = itemView.findViewById(R.id.textView25);
+            userProfile = itemView.findViewById(R.id.headimageView);
+            userName = itemView.findViewById(R.id.headtextView);
+            date = itemView.findViewById(R.id.headdateView);
+            question = itemView.findViewById(R.id.headeditText);
+            anonymous = itemView.findViewById(R.id.checkBoxQnaMain);
 
-            childuserProfile = itemView.findViewById(R.id.childimageView);
-            childuserName = itemView.findViewById(R.id.childtextView21);
-            childdate = itemView.findViewById(R.id.childtextView22);
-            childquestion = itemView.findViewById(R.id.childeditText);
+            qnaHeaderLayout = (ConstraintLayout)itemView.findViewById(R.id.qnaheader);
 
-            qnaHeaderLayout = itemView.findViewById(R.id.qnaheader);
-            qnaChildLayout = itemView.findViewById(R.id.qnachild);
+
+
+
+
+
 
         }
 
@@ -116,58 +146,36 @@ public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdap
             this.qnaObject = qnaObject;
             this.position = position;
 
+            faqID=qnaObject.getFAQID();
+
+
+            Log.v("날짜", String.valueOf(qnaObject.getFAQDate()));
+            Log.v("질문", String.valueOf(qnaObject.getFAQContent()));
             getUserInfo(qnaObject.getUserID());
 
-            Picasso.get().load(userData.getuIMG()).into(userProfile);
-            userName.setText(userData.getuName());
-            date.setText(qnaObject.getFAQDate());
+            date.setText(qnaObject.getFAQDate().substring(0, 19));
             question.setText(qnaObject.getFAQContent());
+            faqquestion=qnaObject.getFAQContent();
+            faqdate=qnaObject.getFAQDate();
+            //childdate.setText(qnaObject.getFAQDate());
+            //childquestion.setText(qnaObject.getFAQContent());
 
-            Picasso.get().load(userData.getuIMG()).into(childuserProfile);
-            childuserName.setText(userData.getuName());
-            childdate.setText(qnaObject.getFAQDate());
-            childquestion.setText(qnaObject.getFAQContent());
-
-            changeVisibility(selectedItems.get(position));
-
-            spreadbutton.setOnClickListener(this);
-            spreadtext.setOnClickListener(this);
+            getUserInfo(qnaObject.getUserID());
 
 
-        }
 
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.QnaSpread:
 
-                case R.id.textView25:
-                    if (selectedItems.get(position)) {
-                        // 펼쳐진 Item을 클릭 시
-                        selectedItems.delete(position);
-                    } else {
-                        // 직전의 클릭됐던 Item의 클릭상태를 지움
-                        selectedItems.delete(prePosition);
-                        // 클릭한 Item의 position을 저장
-                        selectedItems.put(position, true);
-                    }
-                    // 해당 포지션의 변화를 알림
-                    if (prePosition != -1) notifyItemChanged(prePosition);
-                    notifyItemChanged(position);
-                    // 클릭된 position 저장
-                    prePosition = position;
-                    break;
-                // 해당 포지션의 변화를 알림
-                // 클릭된 position 저장
-            }
+
+            //changeVisibility(selectedItems.get(position));
 
         }
+
+
 
         public void getUserInfo(int userID) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+            RetroService retroService = retrofit.create(RetroService.class);
+
+            Log.d("userID", String.valueOf(userID));
 
             Call<UserObject> call = retroService.getUserInformation(userID);
 
@@ -175,6 +183,25 @@ public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdap
                 @Override
                 public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                     userData = response.body();
+                    username=userData.getuName();
+
+
+                    if(userData.getuIMG()=="default"||userData.getuIMG()==null){
+                        userProfile.setImageResource(R.drawable.icon);
+                        userimg="default";
+                    }
+                    else{
+                        Picasso.get().load(userData.getuIMG()).into(userProfile);
+                        userimg=userData.getuIMG();
+
+                    }
+                    userName.setText(userData.getuName());
+
+                    if(qnaObject.getIsAnonymous()==true){
+                        userProfile.setImageResource(R.drawable.icon);
+                        userName.setText("익명");
+                    }
+
                 }
 
                 @Override
@@ -184,30 +211,8 @@ public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdap
             });
         }
 
-        private void changeVisibility(final boolean isExpanded) {
-            // height 값을 dp로 지정해서 넣고싶으면 아래 소스를 이용
-
-            float d = context.getResources().getDisplayMetrics().density;
-
-            // ValueAnimator.ofInt(int... values)는 View가 변할 값을 지정, 인자는 int 배열
-            ValueAnimator va = isExpanded ? ValueAnimator.ofInt(qnaHeaderLayout.getHeight(), qnaChildLayout.getHeight()) : ValueAnimator.ofInt(qnaChildLayout.getHeight(), qnaHeaderLayout.getHeight());
-            // Animation이 실행되는 시간, n/1000초
-            va.setDuration(600);
-            va.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-//                    int value = (int) animation.getAnimatedValue();
-//                    imageView2.getLayoutParams().height = value;
-//                    imageView2.requestLayout();
-//                    imageView2.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-
-                    qnaChildLayout.setVisibility(isExpanded ? View.VISIBLE : View.GONE);
-                    qnaHeaderLayout.setVisibility(isExpanded ? View.GONE : View.VISIBLE);
-                }
-            });
-            // Animation start
-            va.start();
-        }
-
     }
+
+
+
 }
