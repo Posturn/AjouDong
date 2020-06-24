@@ -206,6 +206,9 @@ public class ManagerClubFilterSettingActivity extends AppCompatActivity implemen
                     if(tags.contains(filterViews[i].getText())){
                         filterViews[i].setSelected(true);
                     }
+                    if(i == 0 || i == 1){
+                        filterViews[i].setClickable(false);
+                    }
                     if(i>=5 && i<=13 && clubMajor == 0){        //중앙 동아리 분야 수정 불가
                         filterViews[i].setClickable(false);
                         filterViews[i].setFocusable(false);

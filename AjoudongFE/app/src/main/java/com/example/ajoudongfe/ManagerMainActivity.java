@@ -24,6 +24,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Switch;
@@ -43,7 +44,11 @@ import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -74,12 +79,24 @@ public class ManagerMainActivity extends AppCompatActivity {
     final String folderName = "manager_profile/";
     static String imgPath4, imgName4, nowImage4 = "";
 
-    private String mID = "manager"; //테스트용 간부 아이디
+//    private String mID = "manager"; //테스트용 간부 아이디
+    private String mID;
     private int clubID;
     private int clubMajor;
+    private int viewCount;
 
+    private boolean loadingAlarm = false;
     private Switch newApplyAlarm;
     private Menu navMenu;
+
+    private String userDeviceToken;
+    private int userID;
+
+    private NavigationView navigationView;
+    private View header;
+    private ImageView manager_profile;
+    private TextView manager_name;
+
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
@@ -105,67 +122,21 @@ public class ManagerMainActivity extends AppCompatActivity {
         pref = getSharedPreferences("autologin", MODE_PRIVATE);
         editor = pref.edit();
 
+
+
         ConstraintLayout editclubinfo = (ConstraintLayout)findViewById(R.id.editclubinfoLayout);
         ConstraintLayout membermanagement = (ConstraintLayout)findViewById(R.id.managementclubmemberLayout);
         ConstraintLayout newevent = (ConstraintLayout)findViewById(R.id.neweventLayout);
 
-        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_manager_main);
-        final View header = navigationView.getHeaderView(0);
-        final ImageView manager_profile = (ImageView)header.findViewById(R.id.manager_default_icon);
-        final TextView manager_name = (TextView)header.findViewById(R.id.manager_name);
+        navigationView = (NavigationView) findViewById(R.id.nav_view_manager_main);
+        header = navigationView.getHeaderView(0);
+        manager_profile = (ImageView)header.findViewById(R.id.manager_default_icon);
+        manager_name = (TextView)header.findViewById(R.id.manager_name);
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_manager_main);
 
         navMenu = navigationView.getMenu();
         newApplyAlarm = (Switch) navMenu.findItem(R.id.club_apply_alarm).getActionView().findViewById(R.id.switch_alarm);
-
-        newApplyAlarm.setChecked(true);
-
-        final String mID = getIntent().getStringExtra("mID");       //매니저 아이디 받아오기 및 세팅
-        setmID(mID);
-
-        final int clubID = getIntent().getIntExtra("clubID", 0);    //매니저의 동아리 받아오기 및 세팅팅
-       setClubID(clubID);
-
-        Log.d(TAG,"GET");       //처음 간부 이름 정보 불러오기
-        Call<ManagerAccountObject> getCall = retroService.get_manageraccount_pk(mID);
-        getCall.enqueue(new Callback<ManagerAccountObject>() {
-            @Override
-            public void onResponse(Call<ManagerAccountObject> call, Response<ManagerAccountObject> response) {
-                if( response.isSuccessful()){
-                    ManagerAccountObject item  = response.body();
-                    manager_name.setText(item.getClubName());
-                }else {
-                    Log.d(TAG,"Status Code : " + response.code());
-                }
-            }
-            @Override
-            public void onFailure(Call<ManagerAccountObject> call, Throwable t) {
-                Log.d(TAG,"Fail msg : " + t.getMessage());
-            }
-        });
-
-        Log.d(TAG,"GET");       //처음 간부(클럽) 프로필 정보 불러오기
-        Call<ClubObject> getCall2 = retroService.getClubGrid(clubID);
-        getCall2.enqueue(new Callback<ClubObject>() {
-            @Override
-            public void onResponse(Call<ClubObject> call, Response<ClubObject> response) {
-                if( response.isSuccessful()){
-                    ClubObject item3  = response.body();
-                    Log.d(TAG, String.valueOf(manager_profile.getId()));
-                    setClubMajor(item3.getClubMajor());
-                    Picasso.get().load(item3.getIMG()).into(manager_profile);
-                    nowImage4 = item3.getIMG().substring(item3.getIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
-                     Log.d(TAG, nowImage4);
-                }else {
-                    Log.d(TAG,"Status Code : " + response.code());
-                }
-            }
-            @Override
-            public void onFailure(Call<ClubObject> call, Throwable t) {
-                Log.d(TAG,"Fail msg : " + t.getMessage());
-            }
-        });
 
         // 이미지 편집 버튼 기능 구현
         final ImageButton profile_btn = (ImageButton)header.findViewById(R.id.manager_profile_edit);
@@ -234,7 +205,7 @@ public class ManagerMainActivity extends AppCompatActivity {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 Intent intent = new Intent(getApplicationContext(), ManagerMemberManagementActivity.class);
-                intent.putExtra("clubID", getClubID());
+                intent.putExtra("clubID", Integer.toString(getClubID()));
                 startActivity(intent);
                 return false;
             }
@@ -249,6 +220,205 @@ public class ManagerMainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        newApplyAlarm.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(!loadingAlarm) return;
+                Call<ResponseObject> stateChange = retroService.updateManagerAlarm(clubID);
+                stateChange.enqueue(new Callback<ResponseObject>() {
+                    @Override
+                    public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                        ResponseObject data = response.body();
+                    }
+                    @Override
+                    public void onFailure(Call<ResponseObject> call, Throwable t) {
+                        t.printStackTrace();
+                        Toast.makeText(getApplicationContext(), "오류", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+
+    }
+
+    private boolean nowAlarmCheck(){
+        loadingAlarm = true;
+        Call<ResponseObject> alarmstate = retroService.getManagerAlarmState(clubID);
+        alarmstate.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if( response.isSuccessful()){
+                    ResponseObject data = response.body();
+                    if(data.getResponse() == 0) {
+                        newApplyAlarm.setChecked(false);
+                    }else if(data.getResponse() == 1)
+                        newApplyAlarm.setChecked(true);
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+        return false;
+    }
+
+
+    private void getprofile(final ImageView manager_profile) {
+        Log.d(TAG,"GET");       //처음 간부(클럽) 프로필 정보 불러오기
+        Call<ClubObject> getCall2 = retroService.getClubGrid(clubID);
+        getCall2.enqueue(new Callback<ClubObject>() {
+            @Override
+            public void onResponse(Call<ClubObject> call, Response<ClubObject> response) {
+                if( response.isSuccessful()){
+                    ClubObject item3  = response.body();
+                    Log.d(TAG, String.valueOf(manager_profile.getId()));
+                    setClubMajor(item3.getClubMajor());
+                    Picasso.get().load(item3.getIMG()).into(manager_profile);
+                    nowImage4 = item3.getIMG().substring(item3.getIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                     Log.d(TAG, nowImage4);
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<ClubObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+    }
+
+    private void getmanagerID(int clubID)
+    {
+        Call<ResponseObject> call = retroService.getmID(clubID);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                if(response.isSuccessful())
+                {
+                    ResponseObject data = response.body();
+                    mID = data.getMessage();
+                    getmName(manager_name, mID);
+                    getprofile(manager_profile);
+                }
+                else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
+    private void getmName(final TextView manager_name, String mID) {
+        Log.d(TAG,"GET");       //처음 간부 이름 정보 불러오기
+        Call<ManagerAccountObject> getCall = retroService.get_manageraccount_pk(mID);
+        getCall.enqueue(new Callback<ManagerAccountObject>() {
+            @Override
+            public void onResponse(Call<ManagerAccountObject> call, Response<ManagerAccountObject> response) {
+                if( response.isSuccessful()){
+                    ManagerAccountObject item  = response.body();
+                    manager_name.setText(item.getClubName());
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<ManagerAccountObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+    }
+
+    private void getIDfromToken(String userDeviceToken) {
+        Call<ResponseObject> call = retroService.getIDbyToken(userDeviceToken);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                ResponseObject data = response.body();
+                Log.d("Response", Integer.toString(data.getResponse()));
+                if(data.getResponse() > 0)
+                {
+                    clubID = data.getResponse();
+                    getmanagerID(clubID);
+                    newApplyAlarm.setChecked(nowAlarmCheck());
+                }
+                else
+                {
+                    clubID = -1;
+                    Toast.makeText(getApplicationContext(), "등록되지않은 디바이스", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(getApplicationContext(), "통신 오류", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    protected void onResume(){
+        super.onResume();
+        final ImageView ads2 = (ImageView) findViewById(R.id.ads2);
+        Log.d(TAG,"GET");
+        Call<AdsObject> getCall2 = retroService.getAdsObject(4);
+        getCall2.enqueue(new Callback<AdsObject>() {
+            @Override
+            public void onResponse(Call<AdsObject> call, Response<AdsObject> response) {
+                if( response.isSuccessful()){
+                    AdsObject item2  = response.body();
+                    int count = item2.getAdsView()-1;
+                    setViewCount(count);
+                    if(item2.getAdsIMG() != null && item2.getAdsView() != 0){
+                        Picasso.get().load(item2.getAdsIMG()).into(ads2);
+                    }
+                    else{
+                        ads2.setImageResource(R.drawable.noads);
+                    }
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+                if(getViewCount() >= 0){
+                    Log.d(TAG, "PATCH");
+                    AdsObject item3 = new AdsObject();
+                    item3.setAdsView(getViewCount());
+                    item3.setAdsSpace(2);
+                    Call<AdsObject> patchCall = retroService.patchAdsObject(4, item3);
+                    patchCall.enqueue(new Callback<AdsObject>() {
+                        @Override
+                        public void onResponse(Call<AdsObject> call, Response<AdsObject> response) {
+                            if (response.isSuccessful()) {
+                                Log.d(TAG, "patch 성공");
+                            } else {
+                                Log.d(TAG, "Status Code : " + response.code());
+                            }
+                        }
+                        @Override
+                        public void onFailure(Call<AdsObject> call, Throwable t) {
+                            Log.d(TAG, "Fail msg : " + t.getMessage());
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onFailure(Call<AdsObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+    }
+
+    public int getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(int viewCount) {
+        this.viewCount = viewCount;
     }
 
     public int getClubMajor() {
@@ -309,6 +479,9 @@ public class ManagerMainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retroService = retrofit.create(RetroService.class);
+
+        userDeviceToken = FirebaseInstanceId.getInstance().getToken();
+        getIDfromToken(userDeviceToken);
     }
 
     private void deleteIMG(){       //원래 이미지 버킷에서 삭제

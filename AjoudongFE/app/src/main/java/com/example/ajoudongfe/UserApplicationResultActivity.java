@@ -6,9 +6,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,22 +26,26 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class UserApplicationResultActivity extends AppCompatActivity {
     public static String BASE_URL= "http://10.0.2.2:8000";
     private Retrofit retrofit;
+    private RetroService retroService;
     private RecyclerView applicationResultRecyclerView;
     private ApplicationResultAdapter applicationResultAdapter;
     private int uSchoolID;
+    private Intent intent;
+    private int mode;
+    private LinearLayoutManager linearLayoutManager;
     private List<ApplicationObject> listData = new ArrayList<>();
     private Toolbar toolbar;
+    private String userDeviceToken;
+    private String checkmode;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_application_result);
-        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        linearLayoutManager = new LinearLayoutManager(this);
+
+        intent = getIntent();
 
         toolbar = (Toolbar)findViewById(R.id.applicationtoolbar);
         setSupportActionBar(toolbar);
@@ -45,7 +53,64 @@ public class UserApplicationResultActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        uSchoolID = 201720988;
+        initAPI();
+        checkmode = intent.getStringExtra("pushed");
+        if(checkmode != null) {
+            Log.d("log", "Mode Activated");
+            mode = 1;
+        }
+        else
+        {
+            Log.d("log", "Mode Doesn't Activated");
+            mode = 0;
+        }
+//        uSchoolID = 201720988;
+//        getList();
+
+
+    }
+
+    private void initAPI() {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retroService = retrofit.create(RetroService.class);
+
+        userDeviceToken = FirebaseInstanceId.getInstance().getToken();
+        getIDfromToken(userDeviceToken);
+
+    }
+
+    private void getIDfromToken(String userDeviceToken) {
+        Call<ResponseObject> call = retroService.getIDbyToken(userDeviceToken);
+        call.enqueue(new Callback<ResponseObject>() {
+            @Override
+            public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                ResponseObject data = response.body();
+                Log.d("Response", Integer.toString(data.getResponse()));
+                if(data.getResponse() > 0)
+                {
+                    uSchoolID = data.getResponse();
+                    getList();
+
+                }
+                else
+                {
+                    uSchoolID = -1;
+                    Toast.makeText(getApplicationContext(), "등록되지않은 디바이스", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseObject> call, Throwable t) {
+                t.printStackTrace();
+                Toast.makeText(getApplicationContext(), "통신 오류", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void getList() {
         Call<ApplicationListObject> call = getApplicationResultList(uSchoolID);
         Log.d("Call", "Start");
 
@@ -69,8 +134,6 @@ public class UserApplicationResultActivity extends AppCompatActivity {
                 Log.e("연결실패", "실패");
             }
         });
-
-
     }
 
     private Call<ApplicationListObject> getApplicationResultList(int uSchoolID) {
@@ -81,11 +144,45 @@ public class UserApplicationResultActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item)
     {
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                return true;
+        if(mode > 0)
+        {
+            Intent modeIntent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+            modeIntent.putExtra("uSchoolID", uSchoolID);
+            modeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(modeIntent);
+            return true;
         }
-        return super.onOptionsItemSelected(item);
+        else {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    finish();
+                    return true;
+            }
+            return super.onOptionsItemSelected(item);
+        }
+
+//        switch (item.getItemId()){
+//            case android.R.id.home:
+//                finish();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(mode > 0)
+        {
+            Log.d("mode", "back to main");
+            Intent modeIntent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+            modeIntent.putExtra("uSchoolID", uSchoolID);
+            modeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(modeIntent);
+        }
+        else
+        {
+            finish();
+        }
+
     }
 }

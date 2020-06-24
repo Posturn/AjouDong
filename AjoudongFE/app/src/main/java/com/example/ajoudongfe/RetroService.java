@@ -172,6 +172,12 @@ public interface RetroService {
     @GET("alarm/userState/{uSchoolID}/")
     Call<AlarmStateObject> getUserAlarmState(@Path("uSchoolID") int uSchoolID);
 
+    @GET("alarm/managerState/{clubID}/")
+    Call<ResponseObject> getManagerAlarmState(@Path("clubID") int clubID);
+
+    @POST("alarm/managerchange/{clubID}/")
+    Call<ResponseObject> updateManagerAlarm(@Path("clubID") int clubID);
+
     @POST("alarm/alarmChange/{uSchoolID}/{alarmType}/")
     Call<ResponseObject> updateUserAlarm(@Path("uSchoolID") int uSchoolID, @Path("alarmType") int alarmType);
 
@@ -213,6 +219,30 @@ public interface RetroService {
 
     @GET("/managerinfo/{clubID}")
     Call<ManagerAccountObject> getManagerInformation(@Path("clubID") int clubID);
+
+    @GET("/ads/{adsID}/")
+    Call<AdsObject> getAdsObject(@Path("adsID") int adsID);
+  
+    @GET("token/getidbytoken/{token}")
+    Call<ResponseObject> getIDbyToken(@Path("token") String token);
+
+    @GET("token/getmid/{clubID}")
+    Call<ResponseObject> getmID(@Path("clubID")int clubID);
+
+    @GET("application/clubapplyacitve/{clubID}")
+    Call<ResponseObject> getApplyActive(@Path("clubID")int clubID);
+
+    @GET("application/applicationrecord/{clubID}/{uSchoolID}")
+    Call<ResponseObject> getApplicationRecord(@Path("clubID")int clubID, @Path("uSchoolID") int uSchoolID);
+
+    @PATCH("ads/{adsID}/")
+    Call<AdsObject> patchAdsObject(@Path("adsID") int adsID, @Body AdsObject adsObject);
+
+    @PATCH("recruittag/{clubID}/{mode}/")
+    Call<ResponseObject> patchrecruitTag(@Path("clubID") int clubID, @Path("mode") int mode);
+
+    @DELETE("/clubmember/{clubID}/{uSchoolID}/")
+    Call<ResponseObject> deleteClubMember(@Path("clubID") int clubID, @Path("uSchoolID") int uSchoolID);
 
 }
 

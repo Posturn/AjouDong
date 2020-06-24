@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class MemberFragment extends Fragment {
 
                 //newMemberPopup.show(getFragmentManager(), "dialog");
                 Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setType("text/csv");
                 startActivityForResult(Intent.createChooser(intent, "Open CSV"), ACTIVITY_CHOOSE_FILE1);
@@ -118,7 +119,8 @@ public class MemberFragment extends Fragment {
                 }
 
                 MemberRecyclerAdapter = new MemberRecyclerAdapter(getActivity(), listData, clubID);
-                MemberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));MemberRecyclerView.setAdapter(MemberRecyclerAdapter);
+                MemberRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                MemberRecyclerView.setAdapter(MemberRecyclerAdapter);
 
             }
 
@@ -156,7 +158,15 @@ public class MemberFragment extends Fragment {
             call.enqueue(new Callback<ResponseObject>() {
                 @Override
                 public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
-                    Log.d("결과", "성공");
+                    if(response.isSuccessful())
+                    {
+
+                        Log.e("결과", "성공");
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), "잘못된 파일입니다.", Toast.LENGTH_LONG).show();
+                    }
                 }
 
                 @Override
@@ -230,8 +240,8 @@ public class MemberFragment extends Fragment {
 
                 final String id = DocumentsContract.getDocumentId(uri);
                 final Uri contentUri = ContentUris.withAppendedId(
-                        Uri.parse("content://downloads/my_downloads"), Long.valueOf(id));
-
+                        Uri.parse("content://downloads/all_downloads"), Long.valueOf(id));
+                Log.d("", contentUri.getPath());
                 return getDataColumn(context, contentUri, null, null);
             }
             // MediaProvider
@@ -279,10 +289,12 @@ public class MemberFragment extends Fragment {
         };
 
         try {
-            cursor = context.getContentResolver().query(uri, projection, selection, selectionArgs,
+            cursor = context.getContentResolver().query(uri, null, selection, selectionArgs,
                     null);
+            Log.d("", "cursor");
             if (cursor != null && cursor.moveToFirst()) {
                 final int column_index = cursor.getColumnIndexOrThrow(column);
+                Log.d("", "cursor : " + cursor.getString(column_index));
                 return cursor.getString(column_index);
             }
         } finally {

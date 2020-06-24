@@ -152,6 +152,45 @@ public class ManagerClubApplySettingActivity extends AppCompatActivity {
         final EditText ET_additionQ = (EditText)findViewById(R.id.plusQuestion);
         final EditText ET_startDate = (EditText) findViewById(R.id.recruitDate1);
         final EditText ET_EndDate = (EditText) findViewById(R.id.recruitDate2);
+        String myFormat = "yyyy-MM-dd";    // 출력형식   2018-11-28
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.KOREA);
+        Calendar cal = Calendar.getInstance();
+        if(sdf.format(cal.getTime()).compareTo(String.valueOf(ET_startDate.getText())) >= 0 && sdf.format(cal.getTime()).compareTo(String.valueOf(ET_EndDate.getText())) <= 0){
+            Log.d(TAG, "PATCH");
+            Call<ResponseObject> patchCall = retroService.patchrecruitTag(manager_ClubID, 1);
+            patchCall.enqueue(new Callback<ResponseObject>() {
+                @Override
+                public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "패치 완료");
+                    } else {
+                        Log.d(TAG, "Status Code : " + response.code());
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseObject> call, Throwable t) {
+                    Log.d(TAG, "Fail msg : " + t.getMessage());
+                }
+            });
+        }
+        else{
+            Log.d(TAG, "PATCH");
+            Call<ResponseObject> patchCall = retroService.patchrecruitTag(manager_ClubID, 0);
+            patchCall.enqueue(new Callback<ResponseObject>() {
+                @Override
+                public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
+                    if (response.isSuccessful()) {
+                        Log.d(TAG, "패치 완료");
+                    } else {
+                        Log.d(TAG, "Status Code : " + response.code());
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResponseObject> call, Throwable t) {
+                    Log.d(TAG, "Fail msg : " + t.getMessage());
+                }
+            });
+        }
         Log.d(TAG,"PATCH");
         PromotionObject item2 = new PromotionObject();
         item2.setAdditionalApply(String.valueOf(ET_additionQ.getText()));
@@ -208,10 +247,20 @@ public class ManagerClubApplySettingActivity extends AppCompatActivity {
         EditText ET_startDate = (EditText) findViewById(R.id.recruitDate1);
         EditText ET_EndDate = (EditText) findViewById(R.id.recruitDate2);
         if(selection == 1){
-            ET_startDate.setText(sdf.format(myCalendar.getTime()));
+            if(sdf.format(myCalendar.getTime()).compareTo(String.valueOf(ET_EndDate.getText())) > 0){
+                Toast.makeText(getApplicationContext(), "종료날짜를 변경해주세요!", Toast.LENGTH_LONG).show();
+            }
+            else{
+                ET_startDate.setText(sdf.format(myCalendar.getTime()));
+            }
         }
         else{
-            ET_EndDate.setText(sdf.format(myCalendar.getTime()));
+            if(sdf.format(myCalendar.getTime()).compareTo(String.valueOf(ET_startDate.getText())) < 0){
+                Toast.makeText(getApplicationContext(), "시작날짜를 변경해주세요!", Toast.LENGTH_LONG).show();
+            }
+            else{
+                ET_EndDate.setText(sdf.format(myCalendar.getTime()));
+            }
         }
     }
 

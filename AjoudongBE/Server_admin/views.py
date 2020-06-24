@@ -93,7 +93,7 @@ def addclub(request):
 
         title = "신규 동아리 등록!"
         message = clubName+ " 동아리 신규 등록! 새로운 동아리를 만나보세요."
-        device.send_message(title=title, body=message, icon="ic_notification", data={"title": title, "message": message})
+        device.send_message(title=title, body=message, icon="ic_notification", click_action="OPEN_USER_MAIN_ACTIVITY", data={"pushed": "pushed", "message": message, "Activity" : "OPEN_USER_MAIN_ACTIVITY"})
 
         manageraccounttable = ManagerAccount.objects.all()
         clublisttable = Club.objects.all()

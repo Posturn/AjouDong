@@ -16,7 +16,7 @@ class getEvent(View):
     @csrf_exempt
     def get(self, request, clubID):
         try:
-            queryset = Event.objects.filter(clubID_id=clubID).order_by('-eventID')
+            queryset = Event.objects.filter(clubID_id=clubID).order_by('-eventDate')
             List = list(queryset.values())
             eventList = []
             for i in List:
@@ -40,7 +40,7 @@ class getEventAll(View):
     @csrf_exempt
     def get(self, request):
         try:
-            queryset = Event.objects.all().order_by('-eventID')
+            queryset = Event.objects.all().order_by('-eventDate')
             List = list(queryset.values())
             eventList = []
             for i in List:

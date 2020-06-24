@@ -143,6 +143,7 @@
                         android:background="@drawable/textbox"
                         android:fontFamily="@font/nanumbarungothic"
                         android:gravity="top"
+                        android:scrollbars="vertical"
                         android:hint="행사 소개를 입력해주세요."
                         android:inputType="textMultiLine"
                         android:maxLength="1000"

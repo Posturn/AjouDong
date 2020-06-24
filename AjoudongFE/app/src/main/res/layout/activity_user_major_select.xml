@@ -17,21 +17,12 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/LightToolBarTheme"/>
 
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="23dp"
-            android:textSize="24dp"
-            android:text="  단과대학" />
-
         <androidx.gridlayout.widget.GridLayout
             android:layout_width="match_parent"
             android:layout_height="480dp"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
+            android:layout_marginTop="15dp"
             app:columnCount="3">
 
             <LinearLayout
@@ -364,10 +355,10 @@
         </androidx.gridlayout.widget.GridLayout>
 
         <ImageView
-            android:id="@+id/majorSelectAD"
+            android:id="@+id/ads3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:srcCompat="@drawable/adv_ex1"
+            app:srcCompat="@drawable/noads"
             android:scaleType="fitXY" />
 
     </LinearLayout>

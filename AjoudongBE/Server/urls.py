@@ -20,7 +20,7 @@ router.register(r'manageraccount', views.managerAccountViewset)
 router.register(r'tags', views.TagViewSet)
 router.register(r'statistic', views.StatisticsViewSet)
 router.register(r'event',views.EventViewset)
-
+router.register(r'ads', views.adsViewset)
 
 urlpatterns = [
     path('login', include('Server_app.login.urls')),
@@ -29,14 +29,17 @@ urlpatterns = [
     #path('useraccount/', include('Server_app.urls')),
     path('manageraccount/', include('Server_app.urls')),
     path('management', include('Server_app.management.urls')),
-    path('faq', include('Server_app.FAQ.urls')),
+    path('token', include('Server_app.token.urls')),
+    path('faq', include('Server_app.FAQ.urls')), 
     path('application', include('Server_app.application.urls')),
     path('promotions/', include('Server_app.urls')),
     path('activities/', include('Server_app.urls')),
     path('tags/', include('Server_app.urls')),
+    path('club', include('Server_app.club.urls')),
     path('activities/grid/<int:clubID>/', views.clubActivityViewSet.as_view({"get": "list"}), name="activitygrid"),
     path('', include(router.urls)),
     path('clubmembers/<int:uSchoolID>/', views.ClubMemberViewset.as_view({"get": "list"}), name="clubmembergrid"),
+    path('clubmember/<int:clubID>/<int:uSchoolID>/', csrf_exempt(views.DeleteClubMember.as_view())),
     path('clubs/', include('Server_app.urls')),
     path('clublist/<int:club>/<str:category>/<int:sort>/', views.ClubViewSet.as_view({"get": "list"}), name="clublist"),
     path('clubsearch/<int:club>/<str:category>/<int:sort>/<str:search>/', views.ClubSearchViewSet.as_view({"get": "list"}), name="clublistsearch"),
@@ -53,6 +56,7 @@ urlpatterns = [
     path('clubquestion/<int:pk>/',views.ClubQuestionViewSet.as_view({"get": "retrieve"}), name="clubquestion"),
     path('managerinfo/<int:clubID>',views.ManagerInfoViewSet.as_view({"get": "retrieve"}), name="managerinfo"),
     path('nrecruitclubs/',views.NRecruitViewSet.as_view({"get": "list"}), name="nrecruitclubs"),
+    path('recruittag', include('Server_app.recruitTag.urls')),
     path('event/', include('Server_app.urls')),
     path('eventlist', include('Server_app.event.urls')),
     path('ajoudongAdmin/', include('Server_admin.urls')),
@@ -62,5 +66,6 @@ urlpatterns = [
     path('qna/<int:clubID>',views.QnAViewset.as_view({"get":"list"}), name="qna"),
     path('comment/<int:FAQID>',views.CommentViewset.as_view({"get":"list"}), name="comment"),
     path('faq', include('Server_app.FAQ.urls')),
+    path('ads/',include('Server_app.urls')),
     re_path('admin/', admin.site.urls),
 ]

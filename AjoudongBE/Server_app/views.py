@@ -18,6 +18,11 @@ from Server_app.serializers import *
 
 from rest_framework.response import Response
 
+
+class adsViewset(viewsets.ModelViewSet):
+    queryset = Ads.objects.all()
+    serializer_class = AdsSerializer
+
 class userAccountViewset(viewsets.ModelViewSet):
     queryset = UserAccount.objects.all()
     serializer_class = UserAccountSerializer
@@ -215,6 +220,12 @@ class ClubMemberViewset(viewsets.ModelViewSet):
         self.queryset = self.queryset.filter(uSchoolID = filteruSchoolID)
         return self.queryset
 
+class DeleteClubMember(View):
+    @csrf_exempt
+    def delete(self, request, clubID, uSchoolID):
+        ClubMember.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
+        return HttpResponse(status = 200)
+
 class PostFilter(View):
     @csrf_exempt
     def post(self, request):
@@ -296,14 +307,15 @@ class UserClubApply(View):
                 additionalApplyContent = data["additionalApplyContent"],
             ).save()
 
-            userApplytoClubAlarm(clubID)   
             
             AppliedClubList.objects.create(
                 clubID_id = data["clubID_id"],
                 uSchoolID_id = data["uSchoolID_id"],
                 memberState = 0,
-                applyDate = "2020.06.17"
+                applyDate = "2020.06.25"
             ).save()
+
+            userApplytoClubAlarm(clubID)   
 
             return JsonResponse({'response' : 1}, status=200)
         except KeyError:
@@ -352,7 +364,11 @@ class UserFromDeviceViewset(viewsets.ModelViewSet):
         user=get_object_or_404(queryset, uSchoolID=int(userFromDevice(token).name))
         serializer=UserAccountSerializer(user)
         return Response(serializer.data)
-
+        
+class IDFromDeviceViewset(viewsets.ModelViewSet):
+    def retrieve(self, request, token):
+        ID = userFromDevice(token).name
+        return JsonResponse({'response' : 1, "message" : ID})
     
 def userFromDevice(token):
     device = FCMDevice.objects.get(registration_id=token)
@@ -366,8 +382,8 @@ def userApplytoClubAlarm(clubID):
         device = FCMDevice.objects.get(name=clubID)
     
         message = "동아리에 지원자가 도착했습니다!"
+        device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY", data={"pushed": "pushed", "Activity" : "OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY"})
 
-        device.send_message(title="지원자 알림", body=message, icon="ic_notification",  click_action="OPEN_MANAGER_MEMBER_MANAGEMENT_ACTIVITY",data={"title": "지원자 알림", "message": "동아리에 지원자가 도착했습니다!"})
 
 class QnAViewset(viewsets.ModelViewSet):
     queryset = FAQ.objects.all()
@@ -394,3 +410,4 @@ class ManagerInfoViewSet(viewsets.ViewSet):
         serializer = ManagerAccountSerializer(user)
         print(serializer.data)
         return Response(serializer.data)
+
