@@ -113,6 +113,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
     private ArrayList<String> tags = new ArrayList<String>();
     private List<Integer> nRecruitClub = new ArrayList<>();
+    private ImageView user_profile;
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -433,6 +434,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
             @Override
             public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 if(response.isSuccessful()){
+                    Picasso.get().load(OBJECT_URL + imgName3).into(user_profile);
                     Log.d(TAG,"patch 성공");
                 }else{
                     Log.d(TAG,"Status Code : " + response.code());
@@ -576,7 +578,7 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_main_club_list);       //갤러리에서 이미지 고르기
         final View header = navigationView.getHeaderView(0);
-        ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
+        user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
         if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             String profilePath = getImageNameToUri(data.getData());
             imgName3 = profilePath.substring(profilePath.lastIndexOf("/") + 1);
@@ -602,7 +604,11 @@ public class UserMainClubListActivity extends AppCompatActivity implements View.
     }
 
     public void getUserAlarmState(int uSchoolID){
+
+        Log.d("동아리그리드학번", ""+uSchoolID);
+
         Log.d("학번", ""+uSchoolID);
+
         Call<AlarmStateObject> alarmcall = retroService.getUserAlarmState(uSchoolID);     //매니저의 동아리 아이디 받아오기 및 세팅
         alarmcall.enqueue(new Callback<AlarmStateObject>() {
             @Override

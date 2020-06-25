@@ -72,7 +72,7 @@ public class ManagerNewEventActivity extends AppCompatActivity {
 
     private int eventID;
     private int clubID;
-    static private String imgPath2, imgName2, nowImage2 = "";
+    static private String imgPath2, imgName2, nowImage2, imgPath3 = "";
 
 
     Calendar myCalendar = Calendar.getInstance();
@@ -268,6 +268,7 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         item3.setEventInfo(String.valueOf(eventInfo.getText()));
         item3.setEventDate(eventDay.getText().toString());
         item3.setEventIMG(OBJECT_URL + imgName2); //여기에 바뀐 포스터 이미지 링크 삽입
+        imgPath3 = imgPath2;
         Call<EventObject> postCall = retroService.postEventObject(item3);
         postCall.enqueue(new Callback<EventObject>() {
             @Override
@@ -329,7 +330,7 @@ public class ManagerNewEventActivity extends AppCompatActivity {
         item2.setEventName(String.valueOf(eventTitle.getText()));
         item2.setEventInfo(String.valueOf(eventInfo.getText()));
         item2.setEventDate(eventDay.getText().toString());
-        if(imgPath2 != null){
+        if(imgPath2 != null && imgPath2 != imgPath3){
             item2.setEventIMG(OBJECT_URL + imgName2); //여기에 바뀐 포스터 이미지 링크 삽입
         }
         Call<EventObject> patchCall = retroService.patchEventObject(eventID, item2);

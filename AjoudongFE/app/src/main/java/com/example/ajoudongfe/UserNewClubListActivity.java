@@ -112,6 +112,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
     private Switch newclubAlarmSwitch;
     private Menu navMenu;
     private boolean loadingAlarm = false;
+    private ImageView user_profile;
 
     private NavigationView navigationView;
 
@@ -176,7 +177,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
 
         navigationView = (NavigationView) findViewById(R.id.nav_view_user_new_club_list);
         final View header = navigationView.getHeaderView(0);
-        final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
+        user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
         final TextView user_name = (TextView)header.findViewById(R.id.user_name);
 
         Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
@@ -421,6 +422,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
             @Override
             public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 if(response.isSuccessful()){
+                    Picasso.get().load(OBJECT_URL + imgName3).into(user_profile);
                     Log.d(TAG,"patch 성공");
                 }else{
                     Log.d(TAG,"Status Code : " + response.code());

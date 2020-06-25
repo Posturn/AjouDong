@@ -496,6 +496,7 @@ public class UserMainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 if(response.isSuccessful()){
+                    Picasso.get().load(OBJECT_URL + imgName3).into(user_profile);
                     Log.d(TAG,"patch 성공");
                 }else{
                     Log.d(TAG,"Status Code : " + response.code());
