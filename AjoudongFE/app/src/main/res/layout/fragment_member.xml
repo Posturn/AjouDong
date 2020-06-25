@@ -25,25 +25,32 @@
         app:layout_constraintEnd_toEndOf="parent">
     </Button>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/relayout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/memberCSVButton"
-        app:layout_constraintTop_toBottomOf="@id/addNewMemberButton">
+        app:layout_constraintTop_toBottomOf="@id/addNewMemberButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/memberRecyclerView"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="62dp"
-            android:visibility="visible"
-            android:padding="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="8dp"></androidx.recyclerview.widget.RecyclerView>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/memberRecyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:padding="10dp"
+                android:visibility="visible"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <Button
         android:id="@+id/memberCSVButton"
