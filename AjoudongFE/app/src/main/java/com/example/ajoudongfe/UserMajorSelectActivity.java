@@ -73,7 +73,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
     final String folderName = "user_profile/";
     static private String imgPath3, imgName3, nowImage3 = "";
 
-    private int uSchoolID = 201720988; //테스트용 사용자 아이디
+    private int uSchoolID;
     private int viewCount;
 
     private AlarmStateObject userAlarm;
@@ -163,7 +163,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_major_select_xml);
         userAlarm = new AlarmStateObject();
-        getUserAlarmState(uSchoolID);
+        //getUserAlarmState(uSchoolID);
 
         navMenu = navigationView.getMenu();
         stateAlarmSwitch = (Switch) navMenu.findItem(R.id.user_apply_state_alarm).getActionView().findViewById(R.id.switch_alarm);
@@ -387,6 +387,8 @@ public class UserMajorSelectActivity extends AppCompatActivity {
         final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
         final TextView user_name = (TextView)header.findViewById(R.id.user_name);
         final ImageView ads3 = (ImageView) findViewById(R.id.ads3);
+
+        getUserAlarmState(uSchoolID);
 
         Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
         Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
@@ -626,7 +628,6 @@ public class UserMajorSelectActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 ResponseObject data = response.body();
-                if(data.getResponse() == 1) Toast.makeText(getApplicationContext(), "알림 변경", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {

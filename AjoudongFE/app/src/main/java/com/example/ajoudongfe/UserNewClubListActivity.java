@@ -82,7 +82,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
     final String folderName = "user_profile/";
     static private String imgPath3, imgName3, nowImage3 = "";
 
-    private int uSchoolID = 201720988; //테스트용 사용자 아이디
+    private int uSchoolID;
 
     AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);      //aws s3 클라이언트 객체 생성
     AmazonS3 s3Client = new AmazonS3Client(awsCredentials);
@@ -625,7 +625,6 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 ResponseObject data = response.body();
-                if(data.getResponse() == 1) Toast.makeText(getApplicationContext(), "알림 변경", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {

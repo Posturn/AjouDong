@@ -117,7 +117,6 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
         getClubInfo(parameterclubID);
 
         checkApply();
-        checkApplication();
 
         data.add(intro);
         data.add(apply);
@@ -310,6 +309,7 @@ public class ClubInfomationActivity extends AppCompatActivity implements View.On
                     Toast.makeText(ClubInfomationActivity.this, "동아리 모집기간이 아닙니다.", Toast.LENGTH_LONG).show();
                     return;
                 }
+                checkApplication();
                 if(applyRecord == true){
                     Toast.makeText(ClubInfomationActivity.this, "중복지원할 수 없습니다.", Toast.LENGTH_LONG).show();
                     return;

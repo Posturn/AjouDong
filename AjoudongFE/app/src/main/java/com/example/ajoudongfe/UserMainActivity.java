@@ -101,7 +101,7 @@ public class UserMainActivity extends AppCompatActivity {
     final String folderName = "user_profile/";
     static private String imgPath3, imgName3, nowImage3 = "";
 
-    private int uSchoolID = 201720988; //테스트용 사용자 아이디
+    private int uSchoolID;
     private int unread;
     private int viewCount;
 
@@ -151,7 +151,6 @@ public class UserMainActivity extends AppCompatActivity {
         });
 
         userAlarm = new AlarmStateObject();
-        getUserAlarmState(uSchoolID);
 
         navMenu = navigationView.getMenu();
         stateAlarmSwitch = (Switch) navMenu.findItem(R.id.user_apply_state_alarm).getActionView().findViewById(R.id.switch_alarm);
@@ -285,6 +284,8 @@ public class UserMainActivity extends AppCompatActivity {
         user_name = (TextView)header.findViewById(R.id.user_name);
         final ImageView ads1 = (ImageView) findViewById(R.id.ads1);
         getUserprofile();
+
+        getUserAlarmState(uSchoolID);
 
         Log.d(TAG,"GET");
         Call<AdsObject> getCall2 = retroService.getAdsObject(3);
@@ -433,7 +434,7 @@ public class UserMainActivity extends AppCompatActivity {
                 {
                     uSchoolID = data.getResponse();
                     getUserprofile();
-
+                    getUserAlarmState(uSchoolID);
                 }
                 else
                 {
