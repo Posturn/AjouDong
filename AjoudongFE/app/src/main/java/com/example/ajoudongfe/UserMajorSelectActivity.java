@@ -163,7 +163,6 @@ public class UserMajorSelectActivity extends AppCompatActivity {
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_major_select_xml);
         userAlarm = new AlarmStateObject();
-        //getUserAlarmState(uSchoolID);
 
         navMenu = navigationView.getMenu();
         stateAlarmSwitch = (Switch) navMenu.findItem(R.id.user_apply_state_alarm).getActionView().findViewById(R.id.switch_alarm);
@@ -388,6 +387,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
         final TextView user_name = (TextView)header.findViewById(R.id.user_name);
         final ImageView ads3 = (ImageView) findViewById(R.id.ads3);
 
+        loadingAlarm = false;
         getUserAlarmState(uSchoolID);
 
         Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
@@ -594,6 +594,7 @@ public class UserMajorSelectActivity extends AppCompatActivity {
     }
 
     public void getUserAlarmState(int uSchoolID){
+        Log.d("학번", ""+uSchoolID);
         Call<AlarmStateObject> alarmcall = retroService.getUserAlarmState(uSchoolID);     //매니저의 동아리 아이디 받아오기 및 세팅
         alarmcall.enqueue(new Callback<AlarmStateObject>() {
             @Override

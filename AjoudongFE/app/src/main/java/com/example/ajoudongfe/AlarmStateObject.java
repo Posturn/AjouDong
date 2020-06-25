@@ -1,9 +1,9 @@
 package com.example.ajoudongfe;
 
 public class AlarmStateObject {
-    boolean stateAlarm = false;
-    boolean eventAlarm = false;
-    boolean newclubAlarm = false;
+    boolean stateAlarm;
+    boolean eventAlarm;
+    boolean newclubAlarm;
     int unreadEvent;
 
     public boolean isStateAlarm() {
