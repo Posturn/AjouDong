@@ -146,7 +146,6 @@ public class ManagerMemberManagementActivity extends AppCompatActivity {
                 if(data.getResponse() > 0)
                 {
                     clubID = data.getResponse();
-                    Toast.makeText(getApplicationContext(), Integer.toString(clubID), Toast.LENGTH_SHORT).show();
                     tabLayout = (TabLayout)findViewById(R.id.tabLayout);
                     adapter = new PagerAdpater(getSupportFragmentManager(), tabLayout.getTabCount(), clubID);
                     viewPager = findViewById(R.id.viewPager);
