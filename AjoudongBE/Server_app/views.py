@@ -224,6 +224,8 @@ class DeleteClubMember(View):
     @csrf_exempt
     def delete(self, request, clubID, uSchoolID):
         ClubMember.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
+        if AppliedClubList.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).exists():
+            AppliedClubList.objects.filter(clubID_id = clubID, uSchoolID_id = uSchoolID).delete()
         return HttpResponse(status = 200)
 
 class PostFilter(View):

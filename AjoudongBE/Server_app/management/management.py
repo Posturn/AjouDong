@@ -149,6 +149,14 @@ class csvupload(View):
                             clubID_id = clubID,
                             uSchoolID_id = line[1]
                         ).save
+                        if AppliedClubList.objects.filter(clubID_id = clubID, uSchoolID_id = line[1], memberState = 0).exists():
+                            #수동 등록하는데 그중에 신청자가 있을경우
+                            applied = AppliedClubList.objects.get(clubID_id = clubID, uSchoolID_id = line[1])
+                            applied.memberState = 1
+                            applied.save()
+                            Apply.objects.get(clubID_id = clubID, uSchoolID_id = line[1]).delete()
+                            
+
             refreshStatistic(clubID)
 
             return JsonResponse({'reponse' : 1}, status = 200)

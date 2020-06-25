@@ -151,7 +151,8 @@ public class MemberRecyclerAdapter extends RecyclerView.Adapter<MemberRecyclerAd
                 uIMG.setImageResource(R.drawable.icon);
             }
             else if(memberInfoObject.getuIMG() != null && memberInfoObject.getuName().length() > 0) {
-                Picasso.get().load(memberInfoObject.getuIMG()).into(uIMG);
+                    Picasso.get().load(memberInfoObject.getuIMG()).into(uIMG);
+
                 //uIMG.setBackground(new ShapeDrawable(new OvalShape()));
                 //uIMG.setClipToOutline(true);
             }

@@ -84,7 +84,6 @@ public class UserMainActivity extends AppCompatActivity {
     private Switch newclubAlarmSwitch;
     private Menu navMenu;
     private boolean loadingAlarm = false;
-
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
 
