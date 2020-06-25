@@ -284,6 +284,7 @@ public class UserMainActivity extends AppCompatActivity {
         final ImageView ads1 = (ImageView) findViewById(R.id.ads1);
         getUserprofile();
 
+        loadingAlarm = false;
         getUserAlarmState(uSchoolID);
 
         Log.d(TAG,"GET");
@@ -331,6 +332,7 @@ public class UserMainActivity extends AppCompatActivity {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
+        loadingAlarm = false;
         getUserAlarmState(uSchoolID);
     }
 
@@ -433,6 +435,7 @@ public class UserMainActivity extends AppCompatActivity {
                 {
                     uSchoolID = data.getResponse();
                     getUserprofile();
+                    loadingAlarm = false;
                     getUserAlarmState(uSchoolID);
                 }
                 else
@@ -544,6 +547,8 @@ public class UserMainActivity extends AppCompatActivity {
     }
 
     public void getUserAlarmState(int uSchoolID){
+
+        Log.d("학번", ""+uSchoolID);
         Call<AlarmStateObject> alarmcall = retroService.getUserAlarmState(uSchoolID);     //매니저의 동아리 아이디 받아오기 및 세팅
         alarmcall.enqueue(new Callback<AlarmStateObject>() {
             @Override
