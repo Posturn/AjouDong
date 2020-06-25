@@ -1,7 +1,9 @@
 package com.example.ajoudongfe;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -84,6 +86,8 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
         actionBar.setDisplayShowTitleEnabled(false);
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("문의하기");
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -108,10 +112,11 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
         parameterclubID=getIntent().getIntExtra("clubID", 0);
         upload.setOnClickListener(this);
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        //profile.setImageResource(R.drawable.icon);
 
         username.setText(faqusername);
         if(faquserimg=="default"){
-            profile.setImageResource(R.drawable.icon);
+            //profile.setImageResource(R.drawable.icon);
         }
         else{
             Picasso.get().load(faquserimg).into(profile);
@@ -172,8 +177,7 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
             public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 userobject=response.body();
                 Log.v("디바이스객체", String.valueOf(response.body()));
-                Picasso.get().load(userobject.getuIMG()).into(profile);
-                username.setText(userobject.getuName());
+
 
             }
 
@@ -220,11 +224,24 @@ public class CommentActivity extends AppCompatActivity implements View.OnClickLi
                 getComment(FAQID);
 
                 imm.hideSoftInputFromWindow(commentedit.getWindowToken(), 0);
-                populateRecyclerView(commentObjectList);
-                commentRecyclerViewAdapter.notifyDataSetChanged();
+                
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
 
                 break;
 
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{//뒤로가기
+                finish();
+                return true;
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

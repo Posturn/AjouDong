@@ -5,6 +5,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -81,13 +82,15 @@ public class QAActivity extends AppCompatActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qna);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.userbookmarktoolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.faqtoolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back);
         actionBar.setDisplayShowTitleEnabled(false);
+        TextView toolbarTitle = (TextView) findViewById(R.id.toolbar_title);
+        toolbarTitle.setText("문의하기");
 
         parameterclubID = getIntent().getIntExtra("clubID", 0);
 
@@ -222,15 +225,25 @@ public class QAActivity extends AppCompatActivity implements View.OnClickListene
                 getFaq(parameterclubID);
 
                 imm.hideSoftInputFromWindow(question.getWindowToken(), 0);
-                populateRecyclerView(qnaobjectlist);
-                qnaExpandableAdapter.notifyDataSetChanged();
+
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
 
                 break;
 
         }
     }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case android.R.id.home:{//뒤로가기
+                finish();
+                return true;
+            }
 
-
-    // [END retrieve_current_token]
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
 }
