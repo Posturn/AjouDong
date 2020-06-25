@@ -34,7 +34,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdapter.ItemViewHolder> {
-    private static String BASE_URL = Keys.getServerUrl();
+    private static String BASE_URL = "http://10.0.2.2:8000";
     private Context context;
     private List<QnAObject> listData = new ArrayList<>();
     private UserObject userData= new UserObject();
@@ -68,7 +68,7 @@ public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdap
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         context = parent.getContext();
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.qna_header_shape, parent, false);
-
+/*
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,7 +85,7 @@ public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdap
                 context.startActivity(intent);
 
             }
-        });
+        });*/
         return new ItemViewHolder(view);
     }
 
@@ -123,7 +123,7 @@ public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdap
 
         private ConstraintLayout qnaHeaderLayout;
 
-        ItemViewHolder(View itemView) {
+        ItemViewHolder(final View itemView) {
             super(itemView);
 
             userProfile = itemView.findViewById(R.id.headimageView);
@@ -134,12 +134,37 @@ public class QnAExpandableAdapter extends RecyclerView.Adapter<QnAExpandableAdap
 
             qnaHeaderLayout = (ConstraintLayout)itemView.findViewById(R.id.qnaheader);
 
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int pos = getAdapterPosition() ;
+                    if (pos != RecyclerView.NO_POSITION) {
+                        Log.v("유저학번", String.valueOf(listData.get(position).getUserID()));
+                        getUserInfo(listData.get(position).getUserID());
+                        Context context = v.getContext();
+
+                        Log.v("유저이름", String.valueOf(username));
+                        Log.v("유저이미지", String.valueOf(userimg));
+
+                        Intent intent = new Intent(v.getContext(), CommentActivity.class);
+                        intent.putExtra("FAQID", listData.get(position).getFAQID());
+                        if(listData.get(position).getIsAnonymous()==false) {
+                            intent.putExtra("userName", username);
+                            intent.putExtra("userIMG", userimg);
+                        }
+                        else{
+                            intent.putExtra("userName", "익명");
+                            intent.putExtra("userIMG", "default");
+                        }
+                        intent.putExtra("faqquestion", listData.get(position).getFAQContent());
+                        intent.putExtra("faqdate", listData.get(position).getFAQDate());
+                        intent.putExtra("clubID", clubID);
+                        context.startActivity(intent);
 
 
-
-
-
-
+                    }
+                }
+            });
         }
 
         public void onBind(QnAObject qnaObject, int position) {
