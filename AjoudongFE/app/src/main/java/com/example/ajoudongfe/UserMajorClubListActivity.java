@@ -73,6 +73,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
     private Switch newclubAlarmSwitch;
     private Menu navMenu;
     private boolean loadingAlarm = false;
+    private ImageView user_profile;
 
     private SharedPreferences pref;
     private SharedPreferences.Editor editor;
@@ -132,9 +133,10 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
         uSchoolID = schoolID;
         setuSchoolID(schoolID);
 
+
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_major_club_list);
         final View header = navigationView.getHeaderView(0);
-        final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
+        user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
         final TextView user_name = (TextView)header.findViewById(R.id.user_name);
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_major_club_list);
@@ -563,6 +565,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
             @Override
             public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 if(response.isSuccessful()){
+                    Picasso.get().load(OBJECT_URL + imgName3).into(user_profile);
                     Log.d(TAG,"patch 성공");
                 }else{
                     Log.d(TAG,"Status Code : " + response.code());
@@ -747,6 +750,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
     }
 
     public void getUserAlarmState(int uSchoolID){
+
         Call<AlarmStateObject> alarmcall = retroService.getUserAlarmState(uSchoolID);     //매니저의 동아리 아이디 받아오기 및 세팅
         alarmcall.enqueue(new Callback<AlarmStateObject>() {
             @Override

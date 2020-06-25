@@ -143,7 +143,7 @@ public class UserApplicationResultActivity extends AppCompatActivity {
     {
         if(mode > 0)
         {
-            Intent modeIntent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+            Intent modeIntent = new Intent(getApplicationContext(), UserMainActivity.class);
             modeIntent.putExtra("uSchoolID", uSchoolID);
             modeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(modeIntent);
@@ -171,7 +171,7 @@ public class UserApplicationResultActivity extends AppCompatActivity {
         if(mode > 0)
         {
             Log.d("mode", "back to main");
-            Intent modeIntent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+            Intent modeIntent = new Intent(getApplicationContext(), UserMainActivity.class);
             modeIntent.putExtra("uSchoolID", uSchoolID);
             modeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(modeIntent);

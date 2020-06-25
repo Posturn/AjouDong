@@ -494,6 +494,7 @@ public class UserMainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<UserObject> call, Response<UserObject> response) {
                 if(response.isSuccessful()){
+                    Picasso.get().load(OBJECT_URL + imgName3).into(user_profile);
                     Log.d(TAG,"patch 성공");
                 }else{
                     Log.d(TAG,"Status Code : " + response.code());
@@ -545,6 +546,7 @@ public class UserMainActivity extends AppCompatActivity {
     }
 
     public void getUserAlarmState(int uSchoolID){
+        Log.d("학번", ""+uSchoolID);
         Call<AlarmStateObject> alarmcall = retroService.getUserAlarmState(uSchoolID);     //매니저의 동아리 아이디 받아오기 및 세팅
         alarmcall.enqueue(new Callback<AlarmStateObject>() {
             @Override

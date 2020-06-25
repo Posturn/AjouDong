@@ -228,6 +228,7 @@ public class ManagerClubInfoEditActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<PromotionObject> call, Response<PromotionObject> response) {
                 if(response.isSuccessful()){
+
                     Log.d(TAG,"patch 성공");
                 }else{
                     Log.d(TAG,"Status Code : " + response.code());
