@@ -267,7 +267,6 @@ public class UserMainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 ResponseObject data = response.body();
-                if(data.getResponse() == 1) Toast.makeText(getApplicationContext(), "알림 변경", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {
@@ -332,7 +331,7 @@ public class UserMainActivity extends AppCompatActivity {
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
-
+        getUserAlarmState(uSchoolID);
     }
 
     private void getUserprofile() {

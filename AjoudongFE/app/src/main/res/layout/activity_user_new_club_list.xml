@@ -75,15 +75,15 @@
 
                 <Spinner
                     android:id="@+id/newClubSpinner"
-                    android:layout_width="135dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:entries="@array/clubsort"
-                    android:textSize="4sp"
                     android:gravity="right"
-                    app:layout_constraintHorizontal_bias="1"
+                    android:textSize="4sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>

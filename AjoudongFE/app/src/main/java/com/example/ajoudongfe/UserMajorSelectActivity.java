@@ -115,6 +115,36 @@ public class UserMajorSelectActivity extends AppCompatActivity {
 
         navigationView = (NavigationView) findViewById(R.id.nav_view_user_major_select);
         final View header = navigationView.getHeaderView(0);
+        final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
+        final TextView user_name = (TextView)header.findViewById(R.id.user_name);
+
+        Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
+        Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
+        getCall.enqueue(new Callback<UserObject>() {
+            @Override
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
+                if( response.isSuccessful()){
+                    UserObject item  = response.body();
+                    Log.d(TAG, String.valueOf(user_profile.getId()));
+                    user_name.setText(item.getuName());
+                    if(item.getuIMG() != null){
+                        Picasso.get().load(item.getuIMG()).into(user_profile);
+                        nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                    }
+                    else{
+                        user_profile.setImageResource(R.drawable.ajoudong_icon);
+                    }
+//                    nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                    Log.d(TAG, nowImage3);
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<UserObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
 
         // 이미지 편집 버튼 기능 구현
         final ImageButton profile_btn = (ImageButton)header.findViewById(R.id.user_profile_edit);
@@ -128,6 +158,8 @@ public class UserMajorSelectActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "프로필 수정", Toast.LENGTH_LONG).show();
             }
         });
+
+
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_major_select_xml);
         userAlarm = new AlarmStateObject();
