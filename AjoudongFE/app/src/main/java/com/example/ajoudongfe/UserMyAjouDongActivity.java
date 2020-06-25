@@ -293,7 +293,7 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 1){
+        if(data.getIntExtra("result",3) == 0){
             adapter.onActivityResult(requestCode, data);
             finish();
             startActivity(getIntent());
@@ -318,6 +318,9 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
 
             });*/
             adapter.notifyDataSetChanged();
+        }
+        else{
+            adapter.onActivityResult(requestCode, data);
         }
     }
 

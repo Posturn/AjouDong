@@ -448,6 +448,44 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
         });
     }
 
+    protected void onResume(){
+        super.onResume();
+        final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view_user_major_club_list);
+        final View header = navigationView.getHeaderView(0);
+        final ImageView user_profile = (ImageView)header.findViewById(R.id.user_default_icon);
+        final TextView user_name = (TextView)header.findViewById(R.id.user_name);
+
+        Log.d(TAG,"GET");       //처음 사용자 정보 불러오기
+        Call<UserObject> getCall = retroService.getUserInformation(uSchoolID);
+        getCall.enqueue(new Callback<UserObject>() {
+            @Override
+            public void onResponse(Call<UserObject> call, Response<UserObject> response) {
+                if( response.isSuccessful()){
+                    UserObject item  = response.body();
+                    Log.d(TAG, String.valueOf(user_profile.getId()));
+                    user_name.setText(item.getuName());
+                    if(item.getuIMG() != null){
+                        Picasso.get().load(item.getuIMG()).into(user_profile);
+                        nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                    }
+                    else{
+                        user_profile.setImageResource(R.drawable.ajoudong_icon);
+                    }
+//                    nowImage3 = item.getuIMG().substring(item.getuIMG().lastIndexOf("/")+1);   //현재 이미지 파일 이름 가져오기
+                    Log.d(TAG, nowImage3);
+                }else {
+                    Log.d(TAG,"Status Code : " + response.code());
+                }
+            }
+            @Override
+            public void onFailure(Call<UserObject> call, Throwable t) {
+                Log.d(TAG,"Fail msg : " + t.getMessage());
+            }
+        });
+        getUserAlarmState(uSchoolID);
+
+    }
+
     public void changeAlarmState(int type){
         if(loadingAlarm == false) return;
         Call<ResponseObject> alarmCall = retroService.updateUserAlarm(uSchoolID, type);
