@@ -64,9 +64,6 @@ public class UserApplicationResultActivity extends AppCompatActivity {
             Log.d("log", "Mode Doesn't Activated");
             mode = 0;
         }
-//        uSchoolID = 201720988;
-//        getList();
-
 
     }
 

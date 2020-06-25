@@ -106,7 +106,7 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
     private String selectedCategory = "전체";
     private boolean tag_now = false;
 
-    private int uSchoolID = 201720988; //테스트용 사용자 아이디
+    private int uSchoolID;
 
     private ArrayList<String> tags = new ArrayList<String>();
     private List<Integer> nRecruitClub = new ArrayList<>();
@@ -455,7 +455,6 @@ public class UserMajorClubListActivity extends AppCompatActivity implements View
             @Override
             public void onResponse(Call<ResponseObject> call, Response<ResponseObject> response) {
                 ResponseObject data = response.body();
-                if(data.getResponse() == 1) Toast.makeText(getApplicationContext(), "알림 변경", Toast.LENGTH_SHORT).show();
             }
             @Override
             public void onFailure(Call<ResponseObject> call, Throwable t) {

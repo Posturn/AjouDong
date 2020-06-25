@@ -47,7 +47,7 @@ public class UserMyAjouDongActivity extends AppCompatActivity {
 
     final  String TAG = getClass().getSimpleName();
 
-    private int uSchoolID; //테스트용 사용자 아이디
+    private int uSchoolID;
 
     private EditText userphone;
     public MyAjoudongClubGridAdapter adapter;
