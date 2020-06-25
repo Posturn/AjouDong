@@ -223,6 +223,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
 
         drawerlayout = (DrawerLayout) findViewById(R.id.drawer_layout_user_new_club_list);
         userAlarm = new AlarmStateObject();
+        loadingAlarm = false;
         getUserAlarmState(uSchoolID);
 
         navMenu = navigationView.getMenu();
@@ -355,6 +356,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
                 Log.d(TAG,"Fail msg : " + t.getMessage());
             }
         });
+        loadingAlarm = false;
         getUserAlarmState(uSchoolID);
     }
 
@@ -593,6 +595,7 @@ public class UserNewClubListActivity extends AppCompatActivity implements View.O
     }
 
     public void getUserAlarmState(int uSchoolID){
+        Log.d("학번", ""+uSchoolID);
         Call<AlarmStateObject> alarmcall = retroService.getUserAlarmState(uSchoolID);     //매니저의 동아리 아이디 받아오기 및 세팅
         alarmcall.enqueue(new Callback<AlarmStateObject>() {
             @Override

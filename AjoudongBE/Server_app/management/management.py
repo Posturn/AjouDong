@@ -149,6 +149,8 @@ class csvupload(View):
                             clubID_id = clubID,
                             uSchoolID_id = line[1]
                         ).save
+                            
+
             refreshStatistic(clubID)
 
             return JsonResponse({'reponse' : 1}, status = 200)

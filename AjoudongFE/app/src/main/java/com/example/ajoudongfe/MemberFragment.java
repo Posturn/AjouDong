@@ -88,7 +88,7 @@ public class MemberFragment extends Fragment {
                 Intent intent = new Intent();
                 intent.setAction(Intent.ACTION_OPEN_DOCUMENT);
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setType("text/csv");
+                intent.setType("text/*");
                 startActivityForResult(Intent.createChooser(intent, "Open CSV"), ACTIVITY_CHOOSE_FILE1);
 
             }
